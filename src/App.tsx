@@ -1,16 +1,28 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 import MapComponent from './MapComponent.tsx';
+import TopComponent from './TopComponent.tsx';
 import LyricComponent from './LyricComponent';
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 
 function App() {
   return (
-    <>
-      <LyricComponent />
-      <MapComponent />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' Component={TopComponent} />
+        <Route path='/lyric' Component={LyricComponent} />
+        <Route path='/map' Component={MapComponent} />
+      </Routes>
+      <p>
+      <Link to='/'>Back To Top</Link>
+      </p>
+      <p>
+      <Link to='/lyric'>Lyric</Link>
+      </p>
+      <p>
+      <Link to='/map'>Map</Link>
+      </p>
+      
+    </BrowserRouter>
   );
 }
 
