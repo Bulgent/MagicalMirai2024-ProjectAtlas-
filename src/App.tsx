@@ -12,7 +12,16 @@ function App() {
         <Route path='/lyric' Component={LyricComponent} />
         <Route path='/map' Component={MapComponent} />
       </Routes>
+      <p>
       <Link to='/'>Back To Top</Link>
+      </p>
+      <p>
+      <Link to='/lyric'>Lyric</Link>
+      </p>
+      <p>
+      <Link to='/map'>Map</Link>
+      </p>
+      
     </BrowserRouter>
   );
 }
