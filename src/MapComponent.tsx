@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   MapContainer,
-  TileLayer,
   GeoJSON,
   Circle,
   Tooltip,
   useMap,
 } from 'react-leaflet';
+import {PathOptions, StyleFunction} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import fantasyGeoJson from './maps/CreatedMap.tsx';
 import './App.css';
-
+import { Feature, Geometry } from 'geojson';
 interface FantasyGeoJsonFeature extends GeoJSON.GeoJsonObject {
   properties: {
     name: string;
@@ -21,14 +21,14 @@ interface FantasyGeoJsonFeature extends GeoJSON.GeoJsonObject {
   };
 }
 
-interface GeoJSONProps {
-  fillColor?: string;
-  weight?: number;
-  opacity?: number;
-  color?: string;
-  fillOpacity?: number;
-  radius?: number;
-}
+// interface GeoJSONProps {
+//   fillColor?: string;
+//   weight?: number;
+//   opacity?: number;
+//   color?: string;
+//   fillOpacity?: number;
+//   radius?: number;
+// }
 
 const MapComponent: React.FC = () => {
   const position: [number, number] = [37.776554, -122.475891];
@@ -40,8 +40,9 @@ const MapComponent: React.FC = () => {
   const [clickedCount, setClickedCount] = useState(0);
 
   // 読み込んだgeojsonのスタイルを決定
-  const geoJsonStyle = (feature: FantasyGeoJsonFeature): GeoJSONProps => {
-    switch (feature.geometry.type) {
+  const geoJsonStyle: StyleFunction = (feature) => {
+    // プロパティにアクセスする前に、そのプロパティが存在するかを確認
+    switch (feature?.geometry?.type) {
       case 'Polygon':
         return {
           fillColor: 'green',
@@ -69,13 +70,6 @@ const MapComponent: React.FC = () => {
     }
   };
 
-  // GeoJSON レイヤーに追加する前に各フィーチャで呼び出される関数
-  // フィーチャをクリックしたときにポップアップをアタッチ（だから不必要な機能ではある）
-  const onEachFeature = (feature: FantasyGeoJsonFeature, layer: L.Layer) => {
-    if (feature.properties.name) {
-      layer.bindPopup(feature.properties.name);
-    }
-  };
 
   // 地図を自動で動かす
   const MoveMap: React.FC = () => {
@@ -121,6 +115,7 @@ const MapComponent: React.FC = () => {
     setIsMoving((prevIsMoving) => !prevIsMoving);
   };
 
+  // クリックしたらサイドに表示
   const handleCircleClick = useCallback(() => {
     setClickedCount((count) => count + 1);
     setCirclePosition([
@@ -143,20 +138,18 @@ const MapComponent: React.FC = () => {
         <GeoJSON
           data={fantasyGeoJson as GeoJSON.GeoJsonObject}
           style={geoJsonStyle}
-          onEachFeature={onEachFeature}
         />
         <Circle
-          center={circlePosition}
-          eventHandlers={{
-            click: handleCircleClick,
-          }}
-          pathOptions={{ fillColor: 'blue' }}
-          radius={200}
+        center={circlePosition}
+        eventHandlers={{
+          click: handleCircleClick,
+        }}
+        pathOptions={{ fillColor: 'blue' }}
+        radius={200}
         >
-          <Tooltip>{clickedText}</Tooltip>
+        <Tooltip>{clickedText}</Tooltip>
         </Circle>
-        {/*  空白のエンティティ */}
-        <MoveMap />　
+        <MoveMap />
       </MapContainer>
     </div>
   );
