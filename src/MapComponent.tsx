@@ -10,16 +10,6 @@ import {PathOptions, StyleFunction} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import fantasyGeoJson from './maps/CreatedMap.tsx';
 import './App.css';
-import { Feature, Geometry } from 'geojson';
-interface FantasyGeoJsonFeature extends GeoJSON.GeoJsonObject {
-  properties: {
-    name: string;
-  };
-  geometry: {
-    type: string;
-    coordinates: [number, number];
-  };
-}
 
 // interface GeoJSONProps {
 //   fillColor?: string;
