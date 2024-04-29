@@ -61,43 +61,27 @@ const MapComponent: React.FC = () => {
   };
 
 
-  // 地図を自動で動かす
-  const MoveMap: React.FC = () => {
+  // isMovingの値が変わったら実行
+  // コンポーネントとして実行しないと動かない?
+  const MoveMap = () => {
     const map = useMap();
-    // useInterval
     useEffect(() => {
-      let interval: ReturnType<typeof setInterval> | null = null;
-
-      // もし止まっている時にボタンをおしたら
-      if (isMoving) {
-        // ms秒毎に平行移動を実行
-        interval = setInterval(() => {
-          setCenter((prevCenter) => [prevCenter[0], prevCenter[1] + 0.001]);
-        }, 50);
-
-        // 10秒後に移動を停止する(setTimeoutはsetIntervalと違い一回だけ実行)
-        // isMovingをfalseにする
-        setTimeout(() => {
-          setIsMoving(false);
-          if (interval) {
-            // timerの停止
-            clearInterval(interval);
-          }
-        }, 10000);
+      // falseの場合動かない
+      if (!isMoving){
+        return;
       }
-
-      // マップを中心に移動させる
-      // centerの値が変更される度に実行
-      map.setView(center, 13);
-
+      // trueの場合
+      // 50ms毎に平行移動
+      const timerId = setInterval(() => {
+        setCenter((prevCenter) => [prevCenter[0], prevCenter[1] + 0.001]);
+        map.setView(center, 13);
+      }, 50);
+      // falseのreturnの跡にintervalの値をclearにリセット
       return () => {
-        if (interval) {
-          // コンポーネントがアンマウントされた後に実行されないように、インターバルをクリアする役割（よくわからん）
-          clearInterval(interval);
-        }
+          clearInterval(timerId);
       };
-    }, [center, isMoving]);
-
+    },  [isMoving]);
+    // コンポーネントとしての利用のために
     return null;
   };
 
@@ -124,7 +108,7 @@ const MapComponent: React.FC = () => {
       <button onClick={handleMapMove}>
         {isMoving ? '停止' : '地図を移動'}
       </button>
-      <MapContainer center={center} zoom={13} style={{ height: '500px' }}>
+      <MapContainer center={center} zoom={13} style={{ height: '500px', width:'500px'}} dragging={false} attributionControl={false}>
         <GeoJSON
           data={fantasyGeoJson as GeoJSON.GeoJsonObject}
           style={geoJsonStyle}
