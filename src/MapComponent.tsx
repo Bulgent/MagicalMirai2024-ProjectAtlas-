@@ -5,6 +5,7 @@ import {
   Circle,
   Tooltip,
   useMap,
+  Marker,
 } from 'react-leaflet';
 import {PathOptions, StyleFunction} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -28,6 +29,7 @@ const MapComponent: React.FC = () => {
     37.776554, -122.455891,
   ]);
   const [clickedCount, setClickedCount] = useState(0);
+  const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
 
   // 読み込んだgeojsonのスタイルを決定
   const geoJsonStyle: StyleFunction = (feature) => {
@@ -89,7 +91,15 @@ const MapComponent: React.FC = () => {
     setIsMoving((prevIsMoving) => !prevIsMoving);
   };
 
-  // クリックしたらサイドに表示
+  const addPoint = () => {
+    const newPoint: [number, number] = [
+      center[0] + Math.random() * 0.01,
+      center[1] + Math.random() * 0.01,
+    ];
+    setPointPositions((prevPositions) => [...prevPositions, newPoint]);
+  };
+
+
   const handleCircleClick = useCallback(() => {
     setClickedCount((count) => count + 1);
     setCirclePosition([
@@ -108,6 +118,9 @@ const MapComponent: React.FC = () => {
       <button onClick={handleMapMove}>
         {isMoving ? '停止' : '地図を移動'}
       </button>
+      <button onClick={addPoint}>
+        Add Point
+      </button>
       <MapContainer center={center} zoom={13} style={{ height: '500px', width:'500px'}} dragging={false} attributionControl={false}>
         <GeoJSON
           data={fantasyGeoJson as GeoJSON.GeoJsonObject}
@@ -123,6 +136,9 @@ const MapComponent: React.FC = () => {
         >
         <Tooltip>{clickedText}</Tooltip>
         </Circle>
+        {pointPositions.map((position, index) => (
+          <Marker key={index} position={position} />
+        ))}
         <MoveMap />
       </MapContainer>
     </div>
