@@ -30,6 +30,7 @@ const MapComponent: React.FC = () => {
   ]);
   const [clickedCount, setClickedCount] = useState(0);
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
+  const [panels, setPanels] = useState<string[]>([]);
 
   // 読み込んだgeojsonのスタイルを決定
   const geoJsonStyle: StyleFunction = (feature) => {
@@ -108,6 +109,14 @@ const MapComponent: React.FC = () => {
     ]);
   }, []);
 
+  const addSomePanels = (index, key) => {
+    const newPanel: string = `clicked ${key}`;
+    setPanels((prevPanels) => [...prevPanels, newPanel]);
+    setPointPositions((prevPositions) =>
+      prevPositions.filter((_, i) => i !== index)
+    );
+  };
+
   const clickedText =
     clickedCount === 0
       ? 'Click this Circle to change the Tooltip text'
@@ -136,11 +145,24 @@ const MapComponent: React.FC = () => {
         >
         <Tooltip>{clickedText}</Tooltip>
         </Circle>
-        {pointPositions.map((position, index) => (
-          <Marker key={index} position={position} />
-        ))}
+        {
+          pointPositions.map((position) => (
+            <Marker
+              key={`${position[0]}-${position[1]}`}
+              position={position}
+              eventHandlers={{
+                click: () => addSomePanels(pointPositions.indexOf(position), `${position[0]}-${position[1]}`),
+              }}
+            />
+          ))
+        }
         <MoveMap />
       </MapContainer>
+      {
+        panels.map((label)=>(
+          <p>{label}</p>
+        ))
+      }
     </div>
   );
 };
