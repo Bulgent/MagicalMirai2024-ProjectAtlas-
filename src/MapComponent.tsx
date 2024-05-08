@@ -11,17 +11,12 @@ import {PathOptions, StyleFunction} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import fantasyGeoJson from './maps/CreatedMap.tsx';
 import './App.css';
+import roads from './map_data/roads.json'
+import points from './map_data/points.json'
 
-// interface GeoJSONProps {
-//   fillColor?: string;
-//   weight?: number;
-//   opacity?: number;
-//   color?: string;
-//   fillOpacity?: number;
-//   radius?: number;
-// }
 
 const MapComponent: React.FC = () => {
+
   const position: [number, number] = [37.776554, -122.475891];
   const [center, setCenter] = useState<[number, number]>(position);
   const [isMoving, setIsMoving] = useState(false);
@@ -31,6 +26,8 @@ const MapComponent: React.FC = () => {
   const [clickedCount, setClickedCount] = useState(0);
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
+
+
 
   // 読み込んだgeojsonのスタイルを決定
   const geoJsonStyle: StyleFunction = (feature) => {
