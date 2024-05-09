@@ -12,6 +12,7 @@ import 'leaflet/dist/leaflet.css';
 import './App.css';
 import roads from './map_data/roads.json'
 import points from './map_data/points.json'
+import L from 'leaflet';
 
 
 const MapComponent: React.FC = () => {
@@ -26,27 +27,37 @@ const MapComponent: React.FC = () => {
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
 
+  const pointToLayer = (feature, latlng) => {
+    const circleMarkerOptions = {
+      radius: 6,
+      fillColor: 'red',
+      color: 'red',
+      weight: 2,
+      fillOpacity: 0.5,
+    };
+    return L.circleMarker(latlng, circleMarkerOptions);
+  };
 
   const mapStyle: StyleFunction = (feature) => {
     switch (feature?.geometry?.type) {
       case 'MultiLineString':
         return {
           color: 'blue',
-          weight: 2,
+          weight: 5,
         };
       case 'Point':
         return {
-          fillColor: 'red',
-          weight: 2,
-          opacity: 1,
-          color: 'red',
-          fillOpacity: 0.5,
-          radius: 100,
+          renderer: L.circleMarker,
+          radius: 6, // CircleMarkerの半径を指定
+          fillColor: 'red', // CircleMarkerの塗りつぶし色を指定
+          color: 'red', // CircleMarkerの線の色を指定
+          weight: 2, // CircleMarkerの線の太さを指定
+          fillOpacity: 0.5, // CircleMarkerの塗りつぶしの不透明度を指定
         };
       default:
         return {};
     }
-  }
+  };
 
   // isMovingの値が変わったら実行
   // コンポーネントとして実行しないと動かない?
@@ -121,7 +132,7 @@ const MapComponent: React.FC = () => {
         />
         <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
-          style={mapStyle}
+          pointToLayer={pointToLayer}
         />
         <Circle
         center={circlePosition}
@@ -129,7 +140,7 @@ const MapComponent: React.FC = () => {
           click: handleCircleClick,
         }}
         pathOptions={{ fillColor: 'blue' }}
-        radius={200}
+        radius={6}
         >
         <Tooltip>{clickedText}</Tooltip>
         </Circle>
