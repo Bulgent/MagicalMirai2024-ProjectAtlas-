@@ -17,11 +17,17 @@ declare module '*/map_data/*.json' {
       name: string;
     }
   
-    type Data = {
+    type Feature = {
+      type: "Feature";
       properties: Properties;
       geometry: Geometry;
     }
+
+    type Data = {
+      type: "FeatureCollection";
+      features: Feature[];
+    }
   
-    const value: Data[];
+    const value: Data;
     export = value;
   }

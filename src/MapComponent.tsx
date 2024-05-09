@@ -7,9 +7,8 @@ import {
   useMap,
   Marker,
 } from 'react-leaflet';
-import {PathOptions, StyleFunction} from 'leaflet';
+import { StyleFunction} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import fantasyGeoJson from './maps/CreatedMap.tsx';
 import './App.css';
 import roads from './map_data/roads.json'
 import points from './map_data/points.json'
@@ -17,31 +16,20 @@ import points from './map_data/points.json'
 
 const MapComponent: React.FC = () => {
 
-  const position: [number, number] = [37.776554, -122.475891];
+  const position: [number, number] = [34.70, 135.49];
   const [center, setCenter] = useState<[number, number]>(position);
   const [isMoving, setIsMoving] = useState(false);
   const [circlePosition, setCirclePosition] = useState<[number, number]>([
-    37.776554, -122.455891,
+    34.70, 135.49
   ]);
   const [clickedCount, setClickedCount] = useState(0);
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
 
 
-
-  // 読み込んだgeojsonのスタイルを決定
-  const geoJsonStyle: StyleFunction = (feature) => {
-    // プロパティにアクセスする前に、そのプロパティが存在するかを確認
+  const mapStyle: StyleFunction = (feature) => {
     switch (feature?.geometry?.type) {
-      case 'Polygon':
-        return {
-          fillColor: 'green',
-          weight: 2,
-          opacity: 1,
-          color: 'green',
-          fillOpacity: 0.5,
-        };
-      case 'LineString':
+      case 'MultiLineString':
         return {
           color: 'blue',
           weight: 2,
@@ -58,8 +46,7 @@ const MapComponent: React.FC = () => {
       default:
         return {};
     }
-  };
-
+  }
 
   // isMovingの値が変わったら実行
   // コンポーネントとして実行しないと動かない?
@@ -97,12 +84,11 @@ const MapComponent: React.FC = () => {
     setPointPositions((prevPositions) => [...prevPositions, newPoint]);
   };
 
-
   const handleCircleClick = useCallback(() => {
     setClickedCount((count) => count + 1);
     setCirclePosition([
-      37.776554 + Math.random() * 0.01,
-      -122.455891 + Math.random() * 0.01,
+      center[0] + Math.random() * 0.01,
+      center[1] + Math.random() * 0.01,
     ]);
   }, []);
 
@@ -127,10 +113,15 @@ const MapComponent: React.FC = () => {
       <button onClick={addPoint}>
         Add Point
       </button>
-      <MapContainer center={center} zoom={13} style={{ height: '500px', width:'500px'}} dragging={false} attributionControl={false}>
+      {/* centerは[緯度, 経度] */}
+      <MapContainer center={center} zoom={16} style={{ height: '500px', width:'500px'}} dragging={false} attributionControl={false}>
         <GeoJSON
-          data={fantasyGeoJson as GeoJSON.GeoJsonObject}
-          style={geoJsonStyle}
+          data={roads as GeoJSON.GeoJsonObject}
+          style={mapStyle}
+        />
+        <GeoJSON
+          data={points as GeoJSON.GeoJsonObject}
+          style={mapStyle}
         />
         <Circle
         center={circlePosition}

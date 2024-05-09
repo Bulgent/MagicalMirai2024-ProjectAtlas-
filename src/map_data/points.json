@@ -1,5 +1,8 @@
-[
+{
+  "type": "FeatureCollection",
+  "features": [
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "ＴＯＨＯシネマズ 梅田"
@@ -13,6 +16,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "梅田ブルク７"
@@ -26,6 +30,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "テアトル梅田"
@@ -39,6 +44,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "シネ・リーブル梅田"
@@ -52,6 +58,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "ＰＬＡＮＥＴ　ｓｔｕｄｙｏ＋１"
@@ -65,6 +72,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "大阪ステーションシティシネマ"
@@ -78,6 +86,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "シネ・ヌーヴォ"
@@ -91,6 +100,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "シネ・ヌーヴォＸ"
@@ -104,6 +114,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "シネマート心斎橋"
@@ -117,6 +128,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "ＴＯＨＯシネマズ なんば・本館"
@@ -130,6 +142,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "なんばパークスシネマ"
@@ -143,6 +156,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "ＴＯＨＯシネマズ なんば・別館"
@@ -156,6 +170,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "あべのアポロシネマ"
@@ -169,6 +184,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "新世界東映"
@@ -182,6 +198,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "新世界国際劇場"
@@ -195,6 +212,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "トビタ東映"
@@ -208,6 +226,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "トビタシネマ"
@@ -221,6 +240,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "布施ラインシネマ"
@@ -234,6 +254,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "ＴＯＨＯシネマズ 泉北"
@@ -247,6 +268,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "ユナイテッド・シネマ岸和田"
@@ -260,6 +282,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "第七藝術劇場"
@@ -273,6 +296,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "ＮＰＯ法人淀川文化創造館シアターセブン"
@@ -286,6 +310,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "淡路東宝"
@@ -299,6 +324,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "イオンシネマ茨木"
@@ -312,6 +338,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "高槻アレックスシネマ"
@@ -325,6 +352,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "千里セルシーシアター"
@@ -338,6 +366,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "１０９シネマズ箕面"
@@ -351,6 +380,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "イオンシネマりんくう泉南"
@@ -364,6 +394,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "大阪市立科学館全天周映像"
@@ -377,6 +408,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "ＭＯＶＩＸ堺"
@@ -390,6 +422,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "イオンシネマ大日"
@@ -403,6 +436,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "ＭＯＶＩＸ八尾"
@@ -416,6 +450,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "シネプレックス枚方"
@@ -429,6 +464,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 1,
         "name": "ＴＯＨＯシネマズ 鳳"
@@ -442,6 +478,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "京セラドーム 大阪"
@@ -455,6 +492,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "大阪城ホール"
@@ -468,6 +506,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "なみはやドーム（大阪府立門真スポーツセンター）"
@@ -481,6 +520,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "国立民族学博物館"
@@ -494,6 +534,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "みさき公園"
@@ -507,6 +548,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "ひらかたパーク"
@@ -520,6 +562,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "大阪市立長居植物園"
@@ -533,6 +576,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "国立国際美術館"
@@ -546,6 +590,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "天王寺動物園"
@@ -559,6 +604,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "大阪歴史博物館"
@@ -572,6 +618,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立旭地区公民館"
@@ -585,6 +632,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立葛城上地区公民館"
@@ -598,6 +646,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立葛城地区公民館"
@@ -611,6 +660,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "岸和田市立久米田青少年会館"
@@ -624,6 +674,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立光明地区公民館"
@@ -637,6 +688,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立光陽地区公民館"
@@ -650,6 +702,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立公民館・中央地区公民館"
@@ -663,6 +716,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立公民館分館"
@@ -676,6 +730,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立山滝地区公民館"
@@ -689,6 +744,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立山直地区公民館"
@@ -702,6 +758,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立春木地区公民館・春木青少年会館"
@@ -715,6 +772,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立城北地区公民館"
@@ -728,6 +786,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立常盤青少年会館"
@@ -741,6 +800,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立新条地区公民館"
@@ -754,6 +814,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立青年の家"
@@ -767,6 +828,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立大宮青少年会館"
@@ -780,6 +842,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立大芝地区公民館"
@@ -793,6 +856,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立天神山地区公民館"
@@ -806,6 +870,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立箕土路青少年会館"
@@ -819,6 +884,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "中央公民館"
@@ -832,6 +898,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "江坂大池地区公民館"
@@ -845,6 +912,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "片山地区公民館"
@@ -858,6 +926,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "岸一地区公民館"
@@ -871,6 +940,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "岸二地区公民館"
@@ -884,6 +954,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "北千里地区公民館"
@@ -897,6 +968,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "北山田地区公民館"
@@ -910,6 +982,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "佐井寺地区公民館"
@@ -923,6 +996,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "山一地区公民館"
@@ -936,6 +1010,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "山二地区公民館"
@@ -949,6 +1024,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "吹二地区公民館"
@@ -962,6 +1038,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "吹三地区公民館"
@@ -975,6 +1052,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "吹六地区公民館"
@@ -988,6 +1066,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "吹一地区公民館さんすくぶんかん"
@@ -1001,6 +1080,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "吹一地区公民館"
@@ -1014,6 +1094,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "吹田東地区公民館"
@@ -1027,6 +1108,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "千一地区公民館"
@@ -1040,6 +1122,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "千三地区公民館"
@@ -1053,6 +1136,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "千二地区公民館"
@@ -1066,6 +1150,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "千里新田地区公民館"
@@ -1079,6 +1164,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "豊一地区公民館"
@@ -1092,6 +1178,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "豊二地区公民館"
@@ -1105,6 +1192,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "西山田地区公民館"
@@ -1118,6 +1206,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "東佐井寺地区公民館"
@@ -1131,6 +1220,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "東山田地区公民館"
@@ -1144,6 +1234,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "南吹田地区公民館"
@@ -1157,6 +1248,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "南千里地区公民館"
@@ -1170,6 +1262,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "南山田地区公民館"
@@ -1183,6 +1276,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "山三地区公民館"
@@ -1196,6 +1290,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "山五地区公民館"
@@ -1209,6 +1304,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "山手地区公民館"
@@ -1222,6 +1318,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "南公民館"
@@ -1235,6 +1332,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "北公民館"
@@ -1248,6 +1346,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "阿武山公民館"
@@ -1261,6 +1360,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "芥川公民館"
@@ -1274,6 +1374,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "五領公民館"
@@ -1287,6 +1388,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "今城塚公民館"
@@ -1300,6 +1402,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "三箇牧公民館"
@@ -1313,6 +1416,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "城内公民館"
@@ -1326,6 +1430,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "真上公民館"
@@ -1339,6 +1444,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "南大冠公民館"
@@ -1352,6 +1458,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "日吉台公民館"
@@ -1365,6 +1472,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "如是公民館"
@@ -1378,6 +1486,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "磐手公民館"
@@ -1391,6 +1500,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "富田公民館"
@@ -1404,6 +1514,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "北清水公民館"
@@ -1417,6 +1528,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立浜手地区公民館"
@@ -1430,6 +1542,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立山手地区公民館"
@@ -1443,6 +1556,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立安威公民館"
@@ -1456,6 +1570,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立石河公民館"
@@ -1469,6 +1584,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立太田公民館分室"
@@ -1482,6 +1598,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立太田地区公民館"
@@ -1495,6 +1612,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立春日丘公民館"
@@ -1508,6 +1626,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立郡山公民館"
@@ -1521,6 +1640,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立沢池公民館"
@@ -1534,6 +1654,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立清渓公民館"
@@ -1547,6 +1668,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立中条公民館"
@@ -1560,6 +1682,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立天王地区公民館"
@@ -1573,6 +1696,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立西公民館"
@@ -1586,6 +1710,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立春日公民館"
@@ -1599,6 +1724,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立白川公民館"
@@ -1612,6 +1738,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立大池公民館"
@@ -1625,6 +1752,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立東奈良公民館"
@@ -1638,6 +1766,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立玉島公民館"
@@ -1651,6 +1780,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立福井公民館"
@@ -1664,6 +1794,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立三島地区公民館"
@@ -1677,6 +1808,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立玉櫛公民館"
@@ -1690,6 +1822,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立耳原公民館"
@@ -1703,6 +1836,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立見山公民館"
@@ -1716,6 +1850,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立山手台公民館"
@@ -1729,6 +1864,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立養精地区公民館"
@@ -1742,6 +1878,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立金剛公民館"
@@ -1755,6 +1892,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立中央公民館"
@@ -1768,6 +1906,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立中央公民館喜志分館"
@@ -1781,6 +1920,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立東公民館"
@@ -1794,6 +1934,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立天野公民館"
@@ -1807,6 +1948,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立南花台公民館"
@@ -1820,6 +1962,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立加賀田公民館"
@@ -1833,6 +1976,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立高向公民館"
@@ -1846,6 +1990,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立三日市公民館"
@@ -1859,6 +2004,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立千代田公民館"
@@ -1872,6 +2018,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立川上公民館"
@@ -1885,6 +2032,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立天見公民館"
@@ -1898,6 +2046,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立三宅公民館"
@@ -1911,6 +2060,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立松原公民館"
@@ -1924,6 +2074,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立新町公民館"
@@ -1937,6 +2088,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立中央公民館"
@@ -1950,6 +2102,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立天美公民館"
@@ -1963,6 +2116,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立公民館"
@@ -1976,6 +2130,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "西南公民館"
@@ -1989,6 +2144,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立中央生涯学習センター"
@@ -2002,6 +2158,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立東生涯学習センター"
@@ -2015,6 +2172,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立陵南の森公民館"
@@ -2028,6 +2186,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "清高公民館"
@@ -2041,6 +2200,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "高師浜公民館"
@@ -2054,6 +2214,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "中央公民館"
@@ -2067,6 +2228,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "千代田公民館"
@@ -2080,6 +2242,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "取石公民館"
@@ -2093,6 +2256,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "羽衣公民館"
@@ -2106,6 +2270,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "東羽衣公民館"
@@ -2119,6 +2284,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立公民館"
@@ -2132,6 +2298,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立新家公民館"
@@ -2145,6 +2312,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立信達公民館"
@@ -2158,6 +2326,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立樽井公民館"
@@ -2171,6 +2340,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立西信達公民館"
@@ -2184,6 +2354,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "大阪狭山市立公民館"
@@ -2197,6 +2368,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立尾崎公民館"
@@ -2210,6 +2382,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立西鳥取公民館"
@@ -2223,6 +2396,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "市立東鳥取公民館"
@@ -2236,6 +2410,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "町立中央公民館"
@@ -2249,6 +2424,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "町立西公民館"
@@ -2262,6 +2438,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "町立吉川公民館"
@@ -2275,6 +2452,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "忠岡町公民館"
@@ -2288,6 +2466,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "熊取町公民館・町民会館"
@@ -2301,6 +2480,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "町立公民館"
@@ -2314,6 +2494,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "町立公民館"
@@ -2327,6 +2508,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "町立大宝地区公民館"
@@ -2340,6 +2522,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "町立中央公民館"
@@ -2353,6 +2536,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "堺・緑のミュージアム ハーベストの丘"
@@ -2366,6 +2550,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "なんばグランド花月"
@@ -2379,6 +2564,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "大阪四季劇場"
@@ -2392,6 +2578,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "大阪府立上方演芸資料館（ワッハ上方）"
@@ -2405,6 +2592,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "大阪ガス　ガス科学館"
@@ -2418,6 +2606,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "大阪市立自然史博物館"
@@ -2431,6 +2620,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "キッズプラザ大阪"
@@ -2444,6 +2634,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "近つ飛鳥博物館"
@@ -2457,6 +2648,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "堺市立文化館アルフォンス・ミュシャ館"
@@ -2470,6 +2662,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "咲くやこの花館"
@@ -2483,6 +2676,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "司馬遼太郎記念館"
@@ -2496,6 +2690,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "ドリーム２１（東大阪市立児童文化スポーツセンター）"
@@ -2509,6 +2704,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "なにわの海の時空館"
@@ -2522,6 +2718,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "服部緑地ウォーターランド"
@@ -2535,6 +2732,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "パナソニックミュージアム　松下幸之助歴史館"
@@ -2548,6 +2746,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "ヒューモビリティワールド"
@@ -2561,6 +2760,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "山崎ウイスキー館"
@@ -2574,6 +2774,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "関西サイクルスポーツセンター"
@@ -2587,6 +2788,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "大阪市立科学館"
@@ -2600,6 +2802,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "大阪市立住まいのミュージアム"
@@ -2613,6 +2816,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "大阪市立美術館"
@@ -2626,6 +2830,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "梅田スカイビル・空中庭園展望台"
@@ -2639,6 +2844,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "大阪ステーションシティ 天空の農園"
@@ -2652,6 +2858,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "大阪府立大型児童館ビッグバン"
@@ -2665,6 +2872,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "海遊館"
@@ -2678,6 +2886,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "スパワールド世界の大温泉"
@@ -2691,6 +2900,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "交通科学博物館"
@@ -2704,6 +2914,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "淀川河川公園"
@@ -2717,6 +2928,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "インスタントラーメン発明記念館"
@@ -2730,6 +2942,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "スパスミノエ"
@@ -2743,6 +2956,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "スパバレイ枚方南"
@@ -2756,6 +2970,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "高槻 天然温泉 天神の湯"
@@ -2769,6 +2984,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "鶴見緑地プール"
@@ -2782,6 +2998,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "天然温泉　延羽の湯　鶴橋"
@@ -2795,6 +3012,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "とっとパーク小島　海釣り公園"
@@ -2808,6 +3026,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "富田林市農業公園サバーファーム"
@@ -2821,6 +3040,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "農園 杉・五兵衛"
@@ -2834,6 +3054,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "箕面湯元 水春"
@@ -2847,6 +3068,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "ユニバーサル・スタジオ・ジャパン"
@@ -2860,6 +3082,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "ワールド牧場"
@@ -2873,6 +3096,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "延羽の湯"
@@ -2886,6 +3110,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "楽天風呂 祥福の湯"
@@ -2899,6 +3124,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "高槻森林観光センター"
@@ -2912,6 +3138,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "堺浜楽天温泉 祥福"
@@ -2925,6 +3152,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "大阪城天守閣"
@@ -2938,6 +3166,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "大阪府営服部緑地"
@@ -2951,6 +3180,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "大阪府浜寺公園交通遊園"
@@ -2964,6 +3194,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "滝畑レイクパーク"
@@ -2977,6 +3208,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "池田市五月山動物園"
@@ -2990,6 +3222,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "通天閣"
@@ -3003,6 +3236,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "東香里湯元 水春 長者の湯"
@@ -3016,6 +3250,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "能勢の郷野外活動センター"
@@ -3029,6 +3264,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 6,
         "name": "和泉橋本温泉 美笹のゆ"
@@ -3042,6 +3278,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "吹田市文化会館（メイシアター）"
@@ -3055,6 +3292,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "大阪市中央公会堂"
@@ -3068,6 +3306,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "堺市民会館"
@@ -3081,6 +3320,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "高槻市立文化会館（高槻現代劇場）"
@@ -3094,6 +3334,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "摂津市民文化ホール"
@@ -3107,6 +3348,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "藤井寺市立市民総合会館本館（パープルホール）"
@@ -3120,6 +3362,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "藤井寺市立市民総合会館別館"
@@ -3133,6 +3376,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "池田市民文化会館（アゼリアホール）"
@@ -3146,6 +3390,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "松原市文化会館"
@@ -3159,6 +3404,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "東大阪市立市民会館"
@@ -3172,6 +3418,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "大阪市立大阪城音楽堂"
@@ -3185,6 +3432,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "岸和田市立文化会館（マドカホール）"
@@ -3198,6 +3446,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 4,
         "name": "エル・おおさか（大阪府立労働センター）"
@@ -3211,6 +3460,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "八尾市文化会館（プリズムホール）"
@@ -3224,6 +3474,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "豊能町立ユーベルホール"
@@ -3237,6 +3488,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "河内長野市立文化会館（ラブリーホール）"
@@ -3250,6 +3502,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "大阪市立こども文化センター"
@@ -3263,6 +3516,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "貝塚市民文化会館（コスモスシアター）"
@@ -3276,6 +3530,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "守口文化センター（エナジーホール）"
@@ -3289,6 +3544,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "浄るりシアター"
@@ -3302,6 +3558,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "門真市民文化会館（ルミエールホール）"
@@ -3315,6 +3572,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "泉佐野市立文化会館（エブノ泉の森ホール）"
@@ -3328,6 +3586,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "枚方市市民会館"
@@ -3341,6 +3600,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "柏原市民文化会館（リビエールホール）"
@@ -3354,6 +3614,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "岸和田市立浪切ホール"
@@ -3367,6 +3628,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "和泉氏生涯学習センター（和泉シティプラザ）"
@@ -3380,6 +3642,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "たかいし市民文化会館（アプラホール）"
@@ -3393,6 +3656,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "富田林市市民会館（レインボーホール）"
@@ -3406,6 +3670,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "和泉市立人権文化センター／和泉市立市民文化ホール（ゆう・ゆうプラザ）"
@@ -3419,6 +3684,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "堺市教育文化センター中文化会館（ソフィア・堺）"
@@ -3432,6 +3698,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "大阪府立中央図書館ホール（ライティホール）"
@@ -3445,6 +3712,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "阪南市立文化センター（サラダホール）"
@@ -3458,6 +3726,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "和泉市南部リージョンセンター"
@@ -3471,6 +3740,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "堺市立美原文化会館（アルテベル）"
@@ -3484,6 +3754,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "豊中市アクア文化ホール（アクア）"
@@ -3497,6 +3768,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "寝屋川市立地域交流センター（アスカスホール）"
@@ -3510,6 +3782,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "大阪府立中之島図書館文芸ホール"
@@ -3523,6 +3796,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "泉大津市民会館"
@@ -3536,6 +3810,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "寝屋川市立市民会館"
@@ -3549,6 +3824,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "大東市立文化ホール（サーティーホール）"
@@ -3562,6 +3838,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "堺市立勤労者総合福祉センター（サンスクエア堺）"
@@ -3575,6 +3852,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "四条畷市市民総合センター（市民ホール）"
@@ -3588,6 +3866,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "箕面市立メイプルホール（メイプルホール）"
@@ -3601,6 +3880,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "茨木市市民会館（ユーアイホール）"
@@ -3614,6 +3894,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "ドリーム２１（東大阪市立児童文化スポーツセンター）"
@@ -3627,6 +3908,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "すばるホール"
@@ -3640,6 +3922,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "大阪狭山市文化会館（ＳＡＹＡＫＡホール）"
@@ -3653,6 +3936,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "羽曳野市立生活文化情報センター（ＬＩＣはびきの）"
@@ -3666,6 +3950,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "国立文楽劇場"
@@ -3679,6 +3964,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "茨木市福祉文化会館（オークシアター）"
@@ -3692,6 +3978,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "堺市立栂文化会館"
@@ -3705,6 +3992,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "メルパルクホール"
@@ -3718,6 +4006,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "大阪府立男女共同参画・青少年センター（ドーンセンター）"
@@ -3731,6 +4020,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "東大阪市立文化会館"
@@ -3744,6 +4034,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "服部緑地野外音楽堂"
@@ -3757,6 +4048,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "島本町ふれあいセンター"
@@ -3770,6 +4062,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "堺市立西文化会館（ウエスティ）"
@@ -3783,6 +4076,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "茨木市市民総合センター（クリエイトセンター）"
@@ -3796,6 +4090,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "豊中市立ローズ文化ホール"
@@ -3809,6 +4104,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 4,
         "name": "大阪国際会議場（グランキューブ大阪）"
@@ -3822,6 +4118,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "大阪国際交流センター（アイハウス）"
@@ -3835,6 +4132,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "忠岡町ふれあいホール"
@@ -3848,6 +4146,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "羽曳野市市民会館"
@@ -3861,6 +4160,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "箕面市立市民会館（グリーンホール）"
@@ -3874,6 +4174,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "堺市立東文化会館（北野田フェスティバル）"
@@ -3887,6 +4188,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "泉南市立文化ホール"
@@ -3900,6 +4202,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "大阪府立江之子島文化芸術創造センター（ｅｎｏｃｏ）"
@@ -3913,6 +4216,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "梅田芸術劇場　メインホール"
@@ -3926,6 +4230,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "梅田芸術劇場　シアター・ドラマシティ"
@@ -3939,6 +4244,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "シアターＢＲＡＶＡ！（シアターブラヴァ！）"
@@ -3952,6 +4258,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "クラシック音楽専用ホール　いずみホール"
@@ -3965,6 +4272,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＮＨＫ大阪ホール（エヌエイチケイおおさかホール）"
@@ -3978,6 +4286,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ザ・シンフォニーホール"
@@ -3991,6 +4300,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "サンケイホールブリーゼ"
@@ -4004,6 +4314,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "新歌舞伎座"
@@ -4017,6 +4328,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "なんばＨａｔｃｈ（なんばハッチ）"
@@ -4030,6 +4342,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "大阪ビジネスパーク円形ホール"
@@ -4043,6 +4356,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ザ・フェニックスホール"
@@ -4056,6 +4370,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＤＯＪＩＭＡ　ＲＩＶＥＲ　ＦＯＲＵＭ（堂島リバーフォーラム）"
@@ -4069,6 +4384,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "５ｕｐよしもと（ファイブアップよしもと）"
@@ -4082,6 +4398,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "松下ＩＭＰホール（まつしたアイエムピーホール）"
@@ -4095,6 +4412,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "御堂会館"
@@ -4108,6 +4426,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "大阪松竹座"
@@ -4121,6 +4440,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "大阪能楽会館"
@@ -4134,6 +4454,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "天満天神繁昌亭"
@@ -4147,6 +4468,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "Ｚｅｐｐ　ＮａｎｎｂａＯｓａｋａ（ゼップナンバオオサカ）"
@@ -4160,6 +4482,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "梅田クラブクアトロ"
@@ -4173,6 +4496,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "大阪市中央体育館"
@@ -4186,6 +4510,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "ＢＯＤＹ　ＭＡＫＥＲコロシアム（大阪府立体育館）（ボディーメーカーコロシアム）"
@@ -4199,6 +4524,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "キンチョウスタジアム（長居球技場）"
@@ -4212,6 +4538,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "近鉄花園ラクビー場"
@@ -4225,6 +4552,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "ヤンマースタジアム長居"
@@ -4238,6 +4566,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "万博記念競技場"
@@ -4251,6 +4580,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "舞洲アリーナ"
@@ -4264,6 +4594,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "朝日劇場"
@@ -4277,6 +4608,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "朝日生命ホール"
@@ -4290,6 +4622,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＡｔｌａｎｔｉＱｓ（アトランティク）"
@@ -4303,6 +4636,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ａｍ　ＨＡＬＬ（アムホール）"
@@ -4316,6 +4650,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "和泉シティプラザ弥生の風ホール"
@@ -4329,6 +4664,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "一心寺シアター倶楽"
@@ -4342,6 +4678,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "インディペンデントシアター２ｎｄ"
@@ -4355,6 +4692,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "インディペンデントシアター１ｎｄ"
@@ -4368,6 +4706,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "インテックス大阪"
@@ -4381,6 +4720,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ウイングフィールド"
@@ -4394,6 +4734,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "靭テニスセンターセンターコート"
@@ -4407,6 +4748,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 4,
         "name": "梅田アウラホール"
@@ -4420,6 +4762,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 4,
         "name": "梅田センタービル"
@@ -4433,6 +4776,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 4,
         "name": "梅田ステラホール"
@@ -4446,6 +4790,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "Ａ＆Ｈホール（エーアンドエイチホール）"
@@ -4459,6 +4804,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "ＥＸＰＯ　ＦＬＡＳＨ　ＦＩＥＬＤ（エキスポフラッシュフィールド）"
@@ -4472,6 +4818,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＥＳＡＫＡ　ＭＵＳＥ（エサカミューズ）"
@@ -4485,6 +4832,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "エル・シアター（大阪府立労働センター）"
@@ -4498,6 +4846,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "大阪市立芸術創造館"
@@ -4511,6 +4860,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "大阪フィルハーモニー会館"
@@ -4524,6 +4874,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "大阪府立障がい者交流促進センター（ファインプラザ大阪）"
@@ -4537,6 +4888,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "大阪ミナミムーブオンアリーナ"
@@ -4550,6 +4902,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＯＳＡＫＡ　ＭＵＳＥ（オオサカミューズ）"
@@ -4563,6 +4916,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "大阪ＲＵＩＤＯ（おおさかルイード）"
@@ -4576,6 +4930,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "大槻能楽堂"
@@ -4589,6 +4944,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "Ｊａｚｚ　Ｃｌｕｂ　ＯｖｅｒＳｅａｓ（オーバーシーズ）"
@@ -4602,6 +4958,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "オーバルホール"
@@ -4615,6 +4972,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "オスカーホール"
@@ -4628,6 +4986,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "グラナダ"
@@ -4641,6 +5000,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ｃｌｕｂ　ｖｉｊｏｎ（クラブビジョン）"
@@ -4654,6 +5014,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ｃｌｕｂ　ｍａｓｓｉｖｅ（クラブマッシブ）"
@@ -4667,6 +5028,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＧＲＡＮＤ　Ｃａｆｅ（グランカフェ）"
@@ -4680,6 +5042,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "大阪市立男女共同参画センター北部館（クレオ大阪北）"
@@ -4693,6 +5056,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "大阪市立男女共同参画センター中央館（クレオ大阪中央）"
@@ -4706,6 +5070,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "大阪市立男女共同参画センター西部館（クレオ大阪西）"
@@ -4719,6 +5084,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "大阪市立男女共同参画センター東部館（クレオ大阪東）"
@@ -4732,6 +5098,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "大阪市立男女共同参画センター南部館（クレオ大阪南）"
@@ -4745,6 +5112,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 4,
         "name": "サムティフェイム新大阪"
@@ -4758,6 +5126,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "サンホール"
@@ -4771,6 +5140,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "シアトリカル應典院"
@@ -4784,6 +5154,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ジャズクラブ　セントジェームス"
@@ -4797,6 +5168,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "シャンソニエ・ジンベール・ベコー"
@@ -4810,6 +5182,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＳＩＬＫＹ　ＨＡＬＬ（シルキーホール）"
@@ -4823,6 +5196,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "心斎橋ＣＬＵＢ　ＤＲＯＰ（しんさいばしクラブドロップ）"
@@ -4836,6 +5210,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "心斎橋ｓｏｍａ（しんさいばしソーマ）"
@@ -4849,6 +5224,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "心斎橋ＦＡＮＪ"
@@ -4862,6 +5238,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "吹田市立千里市民センター"
@@ -4875,6 +5252,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "Ｓｔｕｄｉｏ　Ｒ’ｓ（スタジオ・アールズ）"
@@ -4888,6 +5266,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＳＴＵＤＩＯ７３（スタジオ７３）"
@@ -4901,6 +5280,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＳＴＡＧＥ（ステージ）"
@@ -4914,6 +5294,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "住之江競艇場"
@@ -4927,6 +5308,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "大丸心斎橋劇場"
@@ -4940,6 +5322,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "太融寺本坊"
@@ -4953,6 +5336,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "テイジンホール"
@@ -4966,6 +5350,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "豊中ＬＩＰ　２ｎｄ（とよなかリップセカンド）"
@@ -4979,6 +5364,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＴＯＲＩＩ　ＨＡＬｌ（トリイホール）"
@@ -4992,6 +5378,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 5,
         "name": "長居第二陸上競技場"
@@ -5005,6 +5392,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "難波ＲＯＣＫＥＴＳ（なんばロケッツ）"
@@ -5018,6 +5406,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ニューサントリー５"
@@ -5031,6 +5420,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＨＡＲＤ　ＲＡＩＮ（ハードレイン）"
@@ -5044,6 +5434,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "パンセホール"
@@ -5057,6 +5448,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＢＩＧＣＡＴ（ビッグキャット）"
@@ -5070,6 +5462,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ｈｉｌｌｓパン工場ライブハウス（ヒルズ　オアンこうじょうライブハウス）"
@@ -5083,6 +5476,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ビルボードライブ大阪"
@@ -5096,6 +5490,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＦＡＮＪ　ｔｗｉｃｅ（ファンジェイトワイス）"
@@ -5109,6 +5504,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "Ｆａｎｄａｎｇｏ（ファンダンゴ）"
@@ -5122,6 +5518,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ｂｌａｃｋ　ｃｈａｍｂｅｒ（ブラックチェンバー）"
@@ -5135,6 +5532,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＢＲＡＮＤ　ＮＥＷ（ブランニュー）"
@@ -5148,6 +5546,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＢＥＡＲＳ（ベアーズ）"
@@ -5161,6 +5560,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＨＥＰ　ＨＡＬＬ（ヘップホール）"
@@ -5174,6 +5574,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＨＯＬＩＤＡＹ　ＯＳＡＫＡ（ホリデーオオサカ）"
@@ -5187,6 +5588,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "三木楽器開成館サロン"
@@ -5200,6 +5602,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "Ｍｉｓｔｅｒ　Ｋｅｌｌｙ’ｓ（ミスターケリーズ）"
@@ -5213,6 +5616,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ミノヤホール"
@@ -5226,6 +5630,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "守口文化センターエナジーホール"
@@ -5239,6 +5644,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "森ノ宮ピロティホール"
@@ -5252,6 +5658,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ｍｏｎｔａｇｅ　ｌｉｖｅ　ｓｔｕｄｉｏ（モンタージュスタジオ）"
@@ -5265,6 +5672,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 2,
         "name": "よみうり文化センター"
@@ -5278,6 +5686,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "Ｌｉｖｅ　Ｓｐａｃｅ　Ｖｉ－ｃｏｄｅ（ライブスペース　ヴィーコード）"
@@ -5291,6 +5700,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＬＩＶＥ　ＨＯＵＳＥ　ＡＮＯＴＨＥＲ　ＤＲＥＡＭ（ライブハウスアナザードリーム）"
@@ -5304,6 +5714,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "三国ヶ丘ＦＵＺＺ（ファズ）"
@@ -5317,6 +5728,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ラグタイム"
@@ -5330,6 +5742,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ＲＡＩＮ　ＤＯＧＳ"
@@ -5343,6 +5756,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "レッドハウスＳＴＵＤＩＯ（レッドハウススタジオ）"
@@ -5356,6 +5770,7 @@
       }
     },
     {
+      "type": "Feature",
       "properties": {
         "type": 3,
         "name": "ロイヤルホース"
@@ -5369,3 +5784,4 @@
       }
     }
   ]
+}
