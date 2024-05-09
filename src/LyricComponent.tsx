@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import './App.css';
 import { Player } from 'textalive-app-api';
-
+import songRead from './data/Song';
 import { PlayerControl } from './PlayerControl';
 
 // player.addListener({
@@ -17,6 +17,8 @@ import { PlayerControl } from './PlayerControl';
 // });
 
 function LyricComponent() {
+  console.log(songRead[0])
+  const [songNum, setSong] = useState(2);
   const [player, setPlayer] = useState(null);
   const [app, setApp] = useState(null); //
   const [char, setChar] = useState(''); // 歌詞情報
@@ -55,17 +57,28 @@ function LyricComponent() {
         console.log('host:', app.host);
         console.log('song url:', app.songUrl);
         if (!app.songUrl) {
-          p.createFromSongUrl('https://piapro.jp/t/hZ35/20240130103028', {
+          p.createFromSongUrl(songRead[songNum].songURL, {
             video: {
               // 音楽地図訂正履歴
-              beatId: 4592293,
-              chordId: 2727635,
-              repetitiveSegmentId: 2824326,
+              beatId: songRead[songNum].video.beatId,
+              chordId: songRead[songNum].video.chordId,
+              repetitiveSegmentId: songRead[songNum].video.repetitiveSegmentId,
               // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FhZ35%2F20240130103028
-              lyricId: 59415,
-              lyricDiffId: 13962,
+              lyricId: songRead[songNum].video.lyricId,
+              lyricDiffId: songRead[songNum].video.lyricDiffId,
             },
           });
+          // p.createFromSongUrl('https://piapro.jp/t/hZ35/20240130103028', {
+          //   video: {
+          //     // 音楽地図訂正履歴
+          //     beatId: 4592293,
+          //     chordId: 2727635,
+          //     repetitiveSegmentId: 2824326,
+          //     // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FhZ35%2F20240130103028
+          //     lyricId: 59415,
+          //     lyricDiffId: 13962,
+          //   },
+          // });
         }
         setApp(app);
       },
