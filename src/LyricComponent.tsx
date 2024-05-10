@@ -16,12 +16,39 @@ import { PlayerControl } from './PlayerControl';
 //   onAppMediaChange, // 楽曲変更時
 // });
 
-function LyricComponent() {
-  console.log(songRead[0])
-  const [songNum, setSong] = useState(2);
+// TO DO
+// 曲選択のボタン表示       ☑
+// 押されるまで待機         ☑
+// 押された曲データ読み込み ☒ Invalid hookエラーが出る
+// 再生                     ☑
+
+export function SelectSongConponent() {
+
+  const handleChangeSong = (readSongNum: number) => {
+
+      console.log(readSongNum);
+      LyricComponent(readSongNum)
+  };
+
+  return (
+      <>
+          <button type="button" onClick={() => handleChangeSong(0)}>SUPERHERO</button>
+          <button type="button" onClick={() => handleChangeSong(1)}>いつか君と話したミライは</button>
+          <button type="button" onClick={() => handleChangeSong(2)}>フューチャーノーツ</button>
+          <button type="button" onClick={() => handleChangeSong(3)}>未来交響曲</button>
+          <button type="button" onClick={() => handleChangeSong(4)}>リアリティ</button>
+          <button type="button" onClick={() => handleChangeSong(5)}>The Marks</button>
+      </>
+  );
+}
+
+function LyricComponent(songNum : number) {
   const [player, setPlayer] = useState(null);
   const [app, setApp] = useState(null); //
   const [char, setChar] = useState(''); // 歌詞情報
+  const [chord, setChord] = useState(''); // 歌詞情報
+  //const [songNum, setSong] = useState(songNum);
+
   // const [fontFamily, setFontFamily] = useState(sansSerif);
   // const [fontSize, setFontSize] = useState(defaultFontSize);
   // const [color, setColor] = useState(defaultColor);
@@ -68,17 +95,6 @@ function LyricComponent() {
               lyricDiffId: songRead[songNum].video.lyricDiffId,
             },
           });
-          // p.createFromSongUrl('https://piapro.jp/t/hZ35/20240130103028', {
-          //   video: {
-          //     // 音楽地図訂正履歴
-          //     beatId: 4592293,
-          //     chordId: 2727635,
-          //     repetitiveSegmentId: 2824326,
-          //     // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FhZ35%2F20240130103028
-          //     lyricId: 59415,
-          //     lyricDiffId: 13962,
-          //   },
-          // });
         }
         setApp(app);
       },
@@ -110,13 +126,20 @@ function LyricComponent() {
           c.animate = (now, u) => {
             if (u.startTime <= now && u.endTime > now) {
               setChar(u.text);
+              console.log(p.findChord(p.timer.position).name)
+              setChord(p.findChord(p.timer.position).name + " → " + p.findChord(p.timer.position).next.name);
             }
           };
           c = c.next;
         }
       },
+      onAppMediaChange: (mediaUrl:string) => {
+        console.log("新しい再生楽曲が指定されました:", mediaUrl);
+      },
     };
     p.addListener(playerListener);
+
+
 
     setPlayer(p);
     return () => {
@@ -124,6 +147,8 @@ function LyricComponent() {
       p.removeListener(playerListener);
       p.dispose();
     };
+
+
   }, [mediaElement]);
 
   return (
@@ -140,7 +165,14 @@ function LyricComponent() {
         }}
       >
         <div className="char">{char}</div>
+        <div className="chord">{chord}</div>
       </div>
+      {/* <button type="button" onClick={() => handleChangeSong(0)}>SUPERHERO</button>
+      <button type="button" onClick={() => handleChangeSong(1)}>いつか君と話したミライは</button>
+      <button type="button" onClick={() => handleChangeSong(2)}>フューチャーノーツ</button>
+      <button type="button" onClick={() => handleChangeSong(3)}>未来交響曲</button>
+      <button type="button" onClick={() => handleChangeSong(4)}>リアリティ</button>
+      <button type="button" onClick={() => handleChangeSong(5)}>The Marks</button> */}
       {div}
     </>
   );
@@ -173,4 +205,5 @@ function LyricComponent() {
   //   </>
   // );
 }
-export default LyricComponent;
+// export default LyricComponent;
+export default SelectSongConponent;

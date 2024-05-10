@@ -2,8 +2,9 @@ import { useCallback, useState, useEffect } from 'react';
 import { Button } from 'semantic-ui-react';
 import { PlayerSeekbar } from 'textalive-react-api';
 
-export const PlayerControl = ({ disabled, player }) => {
+export const PlayerControl = ({ disabled, player}) => {
   const [status, setStatus] = useState('stop');
+  // console.log(player.data.songMap)
 
   useEffect(() => {
     const listener = {
