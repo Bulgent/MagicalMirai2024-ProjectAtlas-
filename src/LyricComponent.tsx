@@ -22,6 +22,7 @@ function LyricComponent() {
   const [player, setPlayer] = useState(null);
   const [app, setApp] = useState(null); //
   const [playTime, setPlayTime] = useState(0)
+  const [songLength, setSongLength] = useState(0)
   const [char, setChar] = useState(''); // 歌詞情報
   const [chord, setChord] = useState(''); // コード情報
   const [songNum, setSongNum] = useState(isDevelopment ? 3 : -1) //選択曲 -1:未選択 開発環境なら曲選択をすっ飛ばしてマップ画面に行く
@@ -75,9 +76,12 @@ function LyricComponent() {
         console.log('player.data.song:', p.data.song);
         console.log('読込曲:', p.data.song.name, " / ", p.data.song.artist.name);
         console.log('player.data.songMap:', p.data.songMap);
+        setSongLength(p.data.song.length)
         // 一番最初の文字
         let c = p.video.firstChar;
         // 前の歌詞と次の歌詞が同じ時はずっと繰り返す
+        // setPlayTime(now)
+
         while (c && c.next) {
           c.animate = (now, u) => {
             // 文字が時間内の時
@@ -85,13 +89,15 @@ function LyricComponent() {
               // 歌詞の更新
               setChar(u.text);
               setChord(p.findChord(p.timer.position).name + " → " + p.findChord(p.timer.position).next.name);
-              setPlayTime(now)
             }
           };
           // 次の文字
           c = c.next;
         }
       },
+      onTimeUpdate: (position: number) => {
+        setPlayTime(position)
+      }
     };
     // イベント登録
     p.addListener(playerListener);
@@ -139,7 +145,7 @@ function LyricComponent() {
           <div className="chord">{chord}</div>
         </div>
         <div>
-          <div className="time">{playTime}</div>
+          <div className="time">{('00' + Math.floor((playTime / 1000) / 60)).slice(-2)}:{('00' + Math.floor((playTime / 1000) % 60)).slice(-2)} / {('00' + Math.floor(songLength / 60)).slice(-2)}:{('00' + Math.floor(songLength % 60)).slice(-2)}</div>
         </div>
         {div}
       </>
