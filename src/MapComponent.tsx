@@ -7,7 +7,7 @@ import {
   useMap,
   Marker,
 } from 'react-leaflet';
-import { StyleFunction} from 'leaflet';
+import { StyleFunction } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
@@ -71,7 +71,7 @@ const MapComponent: React.FC = () => {
     const map = useMap();
     useEffect(() => {
       // falseの場合動かない
-      if (!isMoving){
+      if (!isMoving) {
         return;
       }
       // trueの場合
@@ -82,9 +82,9 @@ const MapComponent: React.FC = () => {
       }, 50);
       // falseのreturnの跡にintervalの値をclearにリセット
       return () => {
-          clearInterval(timerId);
+        clearInterval(timerId);
       };
-    },  [isMoving]);
+    }, [isMoving]);
     // コンポーネントとしての利用のために
     return null;
   };
@@ -118,7 +118,7 @@ const MapComponent: React.FC = () => {
 
   // 機能テスト用
   // 描画する文字を追加する
-  const addSomePanels = (index:number, key:string) => {
+  const addSomePanels = (index: number, key: string) => {
     const newPanel: string = `clicked ${key}`;
     setPanels((prevPanels) => [...prevPanels, newPanel]);
     setPointPositions((prevPositions) =>
@@ -142,7 +142,7 @@ const MapComponent: React.FC = () => {
       </button>
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
-      <MapContainer center={center} zoom={10} style={{ height: '500px', width:'500px',  backgroundColor: '#90dbee'}} dragging={false} attributionControl={false}>
+      <MapContainer center={center} zoom={10} style={{ height: '500px', width: '500px', backgroundColor: '#90dbee' }} dragging={false} attributionControl={false}>
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
@@ -162,7 +162,7 @@ const MapComponent: React.FC = () => {
           }}
           pathOptions={{ fillColor: 'blue' }}
           radius={6}
-          >
+        >
           <Tooltip>{clickedText}</Tooltip>
         </Circle>
         {
@@ -179,7 +179,7 @@ const MapComponent: React.FC = () => {
         <MoveMap />
       </MapContainer>
       {
-        panels.map((label)=>(
+        panels.map((label) => (
           <p>{label}</p>
         ))
       }

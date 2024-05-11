@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
-import './App.css';
 import { Player } from 'textalive-app-api';
-import songRead from './data/Song';
 import { PlayerControl } from './PlayerControl';
+import MapComponent from './MapComponent';
+import songRead from './song_data/Song';
+import './App.css';
 
 //   onAppReady, // APIの準備完了
 //   onVideoReady, // 楽曲情報取得完了
@@ -15,16 +16,17 @@ import { PlayerControl } from './PlayerControl';
 //   onAppMediaChange, // 楽曲変更時
 
 function LyricComponent() {
+  // 開発環境稼働か?
+  const isDevelopment: boolean = process.env.NODE_ENV === 'development';
+
   const [player, setPlayer] = useState(null);
   const [app, setApp] = useState(null); //
+  const [playTime, setPlayTime] = useState(0)
   const [char, setChar] = useState(''); // 歌詞情報
   const [chord, setChord] = useState(''); // コード情報
-  const [songNum, setSongNum] = useState(-1)
-  // const [fontFamily, setFontFamily] = useState(sansSerif);
-  // const [fontSize, setFontSize] = useState(defaultFontSize);
-  // const [color, setColor] = useState(defaultColor);
-  // const [darkMode, setDarkMode] = useState(false);
+  const [songNum, setSongNum] = useState(isDevelopment ? 3 : -1) //選択曲 -1:未選択 開発環境なら曲選択をすっ飛ばしてマップ画面に行く
   const [mediaElement, setMediaElement] = useState(null);
+
 
   // 同じ値のときは再計算せずにいいヤツ
   const div = useMemo(
@@ -46,11 +48,14 @@ function LyricComponent() {
       mediaElement,
     });
 
+    // 曲イベント
     const playerListener = {
       onAppReady: (app) => {
         console.log('--- [app] initialized as TextAlive app ---');
         console.log('managed:', app.managed);
         // 選ばれた曲を読み込み
+        console.log(isDevelopment ? "曲選択すっ飛ばし" : "曲選択画面")
+
         p.createFromSongUrl(songRead[songNum].songURL, {
           video: {
             // 音楽地図訂正履歴
@@ -64,22 +69,6 @@ function LyricComponent() {
         });
         setApp(app);
       },
-      // onAppParameterUpdate: (name, value) => {
-      //   console.log(`[app] parameters.${name} update:`, value);
-      //   if (name === 'fontFamily') {
-      //     setFontFamily(value);
-      //   }
-      //   if (name === 'fontSize') {
-      //     setFontSize(value);
-      //   }
-      //   if (name === 'color') {
-      //     const color = value;
-      //     setColor(`rgb(${color.r}, ${color.g}, ${color.b})`);
-      //   }
-      //   if (name === 'darkMode') {
-      //     setDarkMode(!!value);
-      //   }
-      // },
       onVideoReady: () => {
         console.log('--- [app] video is ready ---');
         console.log('player:', p);
@@ -91,12 +80,12 @@ function LyricComponent() {
         // 前の歌詞と次の歌詞が同じ時はずっと繰り返す
         while (c && c.next) {
           c.animate = (now, u) => {
-            // 再生時間内の時
+            // 文字が時間内の時
             if (u.startTime <= now && u.endTime > now) {
               // 歌詞の更新
               setChar(u.text);
-              console.log(p.findChord(p.timer.position).name)
               setChord(p.findChord(p.timer.position).name + " → " + p.findChord(p.timer.position).next.name);
+              setPlayTime(now)
             }
           };
           // 次の文字
@@ -104,9 +93,13 @@ function LyricComponent() {
         }
       },
     };
+    // イベント登録
     p.addListener(playerListener);
 
+    // プレイヤー準備完了
     setPlayer(p);
+
+    // 再生終了時
     return () => {
       console.log('--- [app] shutdown ---');
       p.removeListener(playerListener);
@@ -133,56 +126,24 @@ function LyricComponent() {
       <>
         {player && app && (
           <div className="controls">
+            <MapComponent disabled={app.managed} />
+          </div>
+        )}
+        {player && app && (
+          <div className="controls">
             <PlayerControl disabled={app.managed} player={player} />
           </div>
         )}
-        <div
-          className="wrapper"
-          style={{
-            background: '#fff',
-          }}
-        >
+        <div>
           <div className="char">{char}</div>
           <div className="chord">{chord}</div>
         </div>
-        {/* <button type="button" onClick={() => handleChangeSong(0)}>SUPERHERO</button>
-      <button type="button" onClick={() => handleChangeSong(1)}>いつか君と話したミライは</button>
-      <button type="button" onClick={() => handleChangeSong(2)}>フューチャーノーツ</button>
-      <button type="button" onClick={() => handleChangeSong(3)}>未来交響曲</button>
-      <button type="button" onClick={() => handleChangeSong(4)}>リアリティ</button>
-      <button type="button" onClick={() => handleChangeSong(5)}>The Marks</button> */}
+        <div>
+          <div className="time">{playTime}</div>
+        </div>
         {div}
       </>
     );
-
-    // return (
-    //   <>
-    //     {player && app && (
-    //       <div className="controls">
-    //         <PlayerControl disabled={app.managed} player={player} />
-    //       </div>
-    //     )}
-    //     <div
-    //       className="wrapper"
-    //       style={{
-    //         background: darkMode ? '#333' : '#fff',
-    //       }}
-    //     >
-    //       <div
-    //         className="char"
-    //         style={{
-    //           fontFamily,
-    //           fontSize: `${fontSize}vh`,
-    //           color,
-    //         }}
-    //       >
-    //         {char}
-    //       </div>
-    //     </div>
-    //     {div}
-    //   </>
-    // );
   }
 }
 export default LyricComponent;
-// export default SelectSongConponent;
