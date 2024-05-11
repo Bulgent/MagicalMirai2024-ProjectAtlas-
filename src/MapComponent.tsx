@@ -48,12 +48,12 @@ const MapComponent: React.FC = () => {
     switch (feature?.geometry?.type) {
       case 'MultiLineString':
         return {
-          color: 'blue',
+          color: '#99abc2',
           weight: 5,
         };
       case 'MultiPolygon':
         return {
-          fillColor: 'green',
+          fillColor: '#f6f6f6',
           weight: 2,
           opacity: 1,
           color: 'green',
@@ -142,7 +142,7 @@ const MapComponent: React.FC = () => {
       </button>
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
-      <MapContainer center={center} zoom={10} style={{ height: '500px', width:'500px',  backgroundColor: '#cbddf7'}} dragging={false} attributionControl={false}>
+      <MapContainer center={center} zoom={10} style={{ height: '500px', width:'500px',  backgroundColor: '#90dbee'}} dragging={false} attributionControl={false}>
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
