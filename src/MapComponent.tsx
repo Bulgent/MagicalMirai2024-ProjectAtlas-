@@ -9,28 +9,33 @@ import {
 } from 'react-leaflet';
 import { StyleFunction} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 import './App.css';
+
+// 地図データの導入
 import roads from './map_data/roads.json'
 import points from './map_data/points.json'
-import L from 'leaflet';
+import areas from './map_data/areas.json'
+
 
 
 const MapComponent: React.FC = () => {
 
-  const position: [number, number] = [34.70, 135.49];
+  const position: [number, number] = [34.6937, 135.5021];
   const [center, setCenter] = useState<[number, number]>(position);
   const [isMoving, setIsMoving] = useState(false);
   const [circlePosition, setCirclePosition] = useState<[number, number]>([
-    34.70, 135.49
+    34.3395651, 135.18270817
   ]);
   const [clickedCount, setClickedCount] = useState(0);
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
 
+  // pointデータを図形として表現
   const pointToLayer = (feature, latlng) => {
     const circleMarkerOptions = {
       radius: 6,
-      fillColor: 'red',
+      fillColor: 'white',
       color: 'red',
       weight: 2,
       fillOpacity: 0.5,
@@ -38,6 +43,7 @@ const MapComponent: React.FC = () => {
     return L.circleMarker(latlng, circleMarkerOptions);
   };
 
+  // line, polygonデータを図形として表現
   const mapStyle: StyleFunction = (feature) => {
     switch (feature?.geometry?.type) {
       case 'MultiLineString':
@@ -45,20 +51,20 @@ const MapComponent: React.FC = () => {
           color: 'blue',
           weight: 5,
         };
-      case 'Point':
+      case 'MultiPolygon':
         return {
-          renderer: L.circleMarker,
-          radius: 6, // CircleMarkerの半径を指定
-          fillColor: 'red', // CircleMarkerの塗りつぶし色を指定
-          color: 'red', // CircleMarkerの線の色を指定
-          weight: 2, // CircleMarkerの線の太さを指定
-          fillOpacity: 0.5, // CircleMarkerの塗りつぶしの不透明度を指定
+          fillColor: 'green',
+          weight: 2,
+          opacity: 1,
+          color: 'green',
+          fillOpacity: 1,
         };
       default:
         return {};
     }
   };
 
+  // 機能テスト用
   // isMovingの値が変わったら実行
   // コンポーネントとして実行しないと動かない?
   const MoveMap = () => {
@@ -83,10 +89,14 @@ const MapComponent: React.FC = () => {
     return null;
   };
 
+  // 機能テスト用
+  // isMovingを切り替える（地図移動の発火点）
   const handleMapMove = () => {
     setIsMoving((prevIsMoving) => !prevIsMoving);
   };
 
+  // 機能テスト用
+  // 描画するpointを追加する
   const addPoint = () => {
     const newPoint: [number, number] = [
       center[0] + Math.random() * 0.01,
@@ -95,6 +105,9 @@ const MapComponent: React.FC = () => {
     setPointPositions((prevPositions) => [...prevPositions, newPoint]);
   };
 
+  // 機能テスト用
+  // カウントを増やして描画する位置を変更
+  // useCallbackを使う理由が分からない
   const handleCircleClick = useCallback(() => {
     setClickedCount((count) => count + 1);
     setCirclePosition([
@@ -103,7 +116,9 @@ const MapComponent: React.FC = () => {
     ]);
   }, []);
 
-  const addSomePanels = (index, key) => {
+  // 機能テスト用
+  // 描画する文字を追加する
+  const addSomePanels = (index:number, key:string) => {
     const newPanel: string = `clicked ${key}`;
     setPanels((prevPanels) => [...prevPanels, newPanel]);
     setPointPositions((prevPositions) =>
@@ -111,6 +126,7 @@ const MapComponent: React.FC = () => {
     );
   };
 
+  // ?と:でif文を書いている:がelse 
   const clickedText =
     clickedCount === 0
       ? 'Click this Circle to change the Tooltip text'
@@ -125,7 +141,12 @@ const MapComponent: React.FC = () => {
         Add Point
       </button>
       {/* centerは[緯度, 経度] */}
-      <MapContainer center={center} zoom={16} style={{ height: '500px', width:'500px'}} dragging={false} attributionControl={false}>
+      {/* zoomは16くらいがgood */}
+      <MapContainer center={center} zoom={10} style={{ height: '500px', width:'500px',  backgroundColor: '#cbddf7'}} dragging={false} attributionControl={false}>
+        <GeoJSON
+          data={areas as GeoJSON.GeoJsonObject}
+          style={mapStyle}
+        />
         <GeoJSON
           data={roads as GeoJSON.GeoJsonObject}
           style={mapStyle}
@@ -135,14 +156,14 @@ const MapComponent: React.FC = () => {
           pointToLayer={pointToLayer}
         />
         <Circle
-        center={circlePosition}
-        eventHandlers={{
-          click: handleCircleClick,
-        }}
-        pathOptions={{ fillColor: 'blue' }}
-        radius={6}
-        >
-        <Tooltip>{clickedText}</Tooltip>
+          center={circlePosition}
+          eventHandlers={{
+            click: handleCircleClick,
+          }}
+          pathOptions={{ fillColor: 'blue' }}
+          radius={6}
+          >
+          <Tooltip>{clickedText}</Tooltip>
         </Circle>
         {
           pointPositions.map((position) => (
