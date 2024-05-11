@@ -10,15 +10,16 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' Component={TopComponent} />
-        <Route path='/lyric' Component={LyricComponent} />
+        <Route path='/map' Component={LyricComponent} />
+        {/* <Route path='/lyric' Component={LyricComponent} /> */}
         {/* <Route path='/lyric' Component={SelectSongConponent} /> */}
-        <Route path='/map' Component={MapComponent} />
+        {/* <Route path='/map' Component={MapComponent} /> */}
       </Routes>
       <p>
       <Link to='/'>Back To Top</Link>
       </p>
       <p>
-      <Link to='/lyric'>Lyric</Link>
+      {/* <Link to='/lyric'>Lyric</Link> */}
       </p>
       <p>
       <Link to='/map'>Map</Link>
