@@ -11,7 +11,8 @@ const PbfLayer = createTileLayerComponent<LeafletTileLayer, PbfLayerProps>(
   function createPbfLayer({ url, vectorTileLayerStyles, ...options }, context) {
     return {
       instance: new (L as any).vectorGrid.protobuf(url, {
-        rendererFactory: L.canvas.tile,
+        // rendererFactory: L.canvas.tile,
+        rendererFactory: L.svg.tile,
         vectorTileLayerStyles,
         ...options,
       }),

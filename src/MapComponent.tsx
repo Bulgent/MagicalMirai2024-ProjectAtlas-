@@ -80,7 +80,7 @@ export const MapComponent: React.FC = (kashi) => {
       // 50ms毎に平行移動
       const timerId = setInterval(() => {
         setCenter((prevCenter) => [prevCenter[0], prevCenter[1] + 0.001]);
-        map.setView(center, 13);
+        map.setView(center, 16);
       }, 50);
       // falseのreturnの跡にintervalの値をclearにリセット
       return () => {
@@ -133,7 +133,7 @@ export const MapComponent: React.FC = (kashi) => {
     clickedCount === 0
       ? 'Click this Circle to change the Tooltip text'
       : `Circle click: ${clickedCount}`;
-
+  const weight_pbf = 0.1
   return (
     <div className="App">
       <button onClick={handleMapMove}>
@@ -144,35 +144,118 @@ export const MapComponent: React.FC = (kashi) => {
       </button>
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
-      <MapContainer center={center} zoom={10} style={{ height: '500px', width: '500px', backgroundColor: '#90dbee' }} dragging={false} attributionControl={false}>
+      <MapContainer center={center} zoom={16} style={{ height: '500px', width: '800px', backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
         {/* <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
         /> */}
-        <GeoJSON
+        {/* <GeoJSON
           data={roads as GeoJSON.GeoJsonObject}
           style={mapStyle}
         />
         <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
           pointToLayer={pointToLayer}
-        />
+        /> */}
         <PbfLayer
           url="https://cyberjapandata.gsi.go.jp/xyz/experimental_bvmap/{z}/{x}/{y}.pbf"
           maxNativeZoom={16} // 解像度を調整（値が小さい程データ量が小さい）
           vectorTileLayerStyles={{
-            "Polygon": {
+            "railway": {
               color: "red",
-              weight: 2
+              opacity: 0,
+              weight: weight_pbf
             },
-            "line": {
+            "waterarea": {
+              color: "#83afe9",
+              opacity: 1,
+              fill:true,
+              fillColor: "#83afe9",
+              weight: weight_pbf
+            },
+            "river": {
+              color: "#83afe9",
+              opacity: 1,
+              weight: weight_pbf,
+            },
+            "road": {
               color: "red",
-              weight: 2
+              opacity: 0,
+              weight: weight_pbf
             },
-            "Point": {
+            "elevation": {
               color: "red",
-              weight: 2
+              weight: weight_pbf
             },
+            "symbol": {
+              color: "red",
+              opacity: 0,
+              weight: weight_pbf
+            },
+            "coastline": {
+              color: "red",
+              opacity: 0,
+              weight: weight_pbf
+            },
+            "label": {
+              color: "red",
+              opacity: 0,
+              weight: weight_pbf
+            },
+            "searoute": {
+              color: "red",
+              opacity: 0,
+              weight: weight_pbf
+            },
+            "boundary":{
+              color: "red",
+              opacity: 0,
+              weight: weight_pbf
+            },
+            // 必要
+            "building":{
+              color: "black",
+              opacity: 1,
+              fill:true,
+              fillColor:"#e8e9ed",
+              fillOpacity:1,
+              weight: weight_pbf
+            },
+            "transp":{
+              color: "red",
+              opacity: 0,
+              weight: weight_pbf
+            },
+            "structurel":{
+              color: "red",
+              opacity: 0,
+              weight: weight_pbf
+            },
+            "structurea":{
+              color: "red",
+              opacity: 0,
+              weight: weight_pbf
+            },
+            "lake":{
+              color: "red",
+              opacity: 0,
+              weight: weight_pbf
+            },
+            "contour":{
+              color: "red",
+              opacity: 0,
+              weight: weight_pbf
+            },
+            "landforma":{
+              color: "red",
+              opacity: 0,
+              weight: weight_pbf
+            },
+            "wstructurea":{
+              color: "red",
+              opacity: 0,
+              weight: weight_pbf
+            }
           }}
         />
 
