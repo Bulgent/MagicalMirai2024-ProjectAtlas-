@@ -19,7 +19,7 @@ import areas from './map_data/areas.json'
 
 
 
-const MapComponent: React.FC = () => {
+export const MapComponent: React.FC = (kashi) => {
 
   const position: [number, number] = [34.6937, 135.5021];
   const [center, setCenter] = useState<[number, number]>(position);
@@ -30,7 +30,8 @@ const MapComponent: React.FC = () => {
   const [clickedCount, setClickedCount] = useState(0);
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
-
+  const [songKashi, setKashi] = useState(kashi)
+  console.log(kashi);
   // pointデータを図形として表現
   const pointToLayer = (feature, latlng) => {
     const circleMarkerOptions = {
@@ -187,4 +188,4 @@ const MapComponent: React.FC = () => {
   );
 };
 
-export default MapComponent;
+// export default MapComponent;
