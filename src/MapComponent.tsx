@@ -11,13 +11,16 @@ import { StyleFunction } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
-import PbfLayer from './PbfComponentSetting';
+// import PbfLayer from './PbfComponentSetting';
 
 // 地図データの導入
 import roads from './map_data/roads.json'
 import points from './map_data/points.json'
 import areas from './map_data/areas.json'
 
+// Pbf関連データの導入
+import PbfLayer from './pbf/PbfComponentSetting';
+import pbfStyle from './pbf/PbfLayerStyle.json'
 
 
 export const MapComponent: React.FC = (kashi) => {
@@ -40,7 +43,7 @@ export const MapComponent: React.FC = (kashi) => {
       fillColor: 'white',
       color: 'red',
       weight: 2,
-      fillOpacity: 0.5,
+      fillOpacity: 1.5,
     };
     return L.circleMarker(latlng, circleMarkerOptions);
   };
@@ -65,6 +68,10 @@ export const MapComponent: React.FC = (kashi) => {
         return {};
     }
   };
+
+  const pbfStyle: StyleFunction = (feature) =>{
+
+  }
 
   // 機能テスト用
   // isMovingの値が変わったら実行
@@ -149,114 +156,137 @@ export const MapComponent: React.FC = (kashi) => {
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
         /> */}
-        {/* <GeoJSON
+        <GeoJSON
           data={roads as GeoJSON.GeoJsonObject}
           style={mapStyle}
         />
         <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
           pointToLayer={pointToLayer}
-        /> */}
-        <PbfLayer
+        />
+
+         <PbfLayer
           url="https://cyberjapandata.gsi.go.jp/xyz/experimental_bvmap/{z}/{x}/{y}.pbf"
           maxNativeZoom={16} // 解像度を調整（値が小さい程データ量が小さい）
-          vectorTileLayerStyles={{
-            "railway": {
-              color: "red",
-              opacity: 0,
-              weight: weight_pbf
-            },
-            "waterarea": {
-              color: "#83afe9",
-              opacity: 1,
-              fill:true,
-              fillColor: "#83afe9",
-              weight: weight_pbf
-            },
-            "river": {
-              color: "#83afe9",
-              opacity: 1,
-              weight: weight_pbf,
-            },
-            "road": {
-              color: "red",
-              opacity: 0,
-              weight: weight_pbf
-            },
-            "elevation": {
-              color: "red",
-              weight: weight_pbf
-            },
-            "symbol": {
-              color: "red",
-              opacity: 0,
-              weight: weight_pbf
-            },
-            "coastline": {
-              color: "red",
-              opacity: 0,
-              weight: weight_pbf
-            },
-            "label": {
-              color: "red",
-              opacity: 0,
-              weight: weight_pbf
-            },
-            "searoute": {
-              color: "red",
-              opacity: 0,
-              weight: weight_pbf
-            },
-            "boundary":{
-              color: "red",
-              opacity: 0,
-              weight: weight_pbf
-            },
-            // 必要
-            "building":{
-              color: "black",
-              opacity: 1,
-              fill:true,
-              fillColor:"#e8e9ed",
-              fillOpacity:1,
-              weight: weight_pbf
-            },
-            "transp":{
-              color: "red",
-              opacity: 0,
-              weight: weight_pbf
-            },
-            "structurel":{
-              color: "red",
-              opacity: 0,
-              weight: weight_pbf
-            },
-            "structurea":{
-              color: "red",
-              opacity: 0,
-              weight: weight_pbf
-            },
-            "lake":{
-              color: "red",
-              opacity: 0,
-              weight: weight_pbf
-            },
-            "contour":{
-              color: "red",
-              opacity: 0,
-              weight: weight_pbf
-            },
-            "landforma":{
-              color: "red",
-              opacity: 0,
-              weight: weight_pbf
-            },
-            "wstructurea":{
-              color: "red",
-              opacity: 0,
-              weight: weight_pbf
+          minNativeZoom={16}
+          vectorTileLayerStyles={
+            {
+              "lake": {
+                color: "#90dbee",
+                opacity: 1,
+                weight: 0.5,
+                fill:true,
+                fillColor:"#90dbee",
+                fillOpacity:1,
+              },
+              "waterarea": {
+                color: "#90dbee",
+                opacity: 1,
+                weight: 0.5,
+                fill:true,
+                fillColor:"#90dbee",
+                fillOpacity:1,
+              },
+              "river": {
+                color: "#90dbee",
+                opacity: 1,
+                weight: 0.5
+              },
+              "building": {
+                color: "#9d9da0",
+                opacity: 1,
+                weight: 0.5,
+                fill:true,
+                fillColor:"#e8e9ed",
+                fillOpacity:1,
+              },
+              "road": {
+                color: "#b5c5d3",
+                opacity: 0,
+                weight: 0.5,
+              },
+
+              // ここから下は多分いらない（見えないようにopacity:0）
+              "coastline": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "wstructurea": {
+                color: "red",
+                opacity: 1,
+                weight: 0.5,
+                fill:true,
+                fillColor:"#red",
+                fillOpacity:1,
+              },
+              "structurel": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "landforma": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "transp": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "label": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "elevation": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "contour": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "landforml": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "boundary": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "searoute": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "symbol": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "structurea": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "landformp": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "railway": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
             }
-          }}
+        }
         />
 
         <Circle
