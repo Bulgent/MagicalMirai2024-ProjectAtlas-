@@ -136,76 +136,77 @@ export const MapComponent: React.FC = (kashi) => {
 
   return (
     <div className="App">
+
+      {/* centerは[緯度, 経度] */}
+      {/* zoomは16くらいがgood */}
+      <div id="map_container">
+        <MapContainer center={center} zoom={10} style={{ width: '100%', backgroundColor: '#90dbee' }} dragging={false} attributionControl={false}>
+          {/* <GeoJSON
+          data={areas as GeoJSON.GeoJsonObject}
+          style={mapStyle}
+        /> */}
+          <GeoJSON
+            data={roads as GeoJSON.GeoJsonObject}
+            style={mapStyle}
+          />
+          <GeoJSON
+            data={points as GeoJSON.GeoJsonObject}
+            pointToLayer={pointToLayer}
+          />
+          <PbfLayer
+            url="https://cyberjapandata.gsi.go.jp/xyz/experimental_bvmap/{z}/{x}/{y}.pbf"
+            maxNativeZoom={16} // 解像度を調整（値が小さい程データ量が小さい）
+            vectorTileLayerStyles={{
+              "Polygon": {
+                color: "red",
+                weight: 2
+              },
+              "line": {
+                color: "red",
+                weight: 2
+              },
+              "Point": {
+                color: "red",
+                weight: 2
+              },
+            }}
+          />
+
+          <Circle
+            center={circlePosition}
+            eventHandlers={{
+              click: handleCircleClick,
+            }}
+            pathOptions={{ fillColor: 'blue' }}
+            radius={6}
+          >
+            <Tooltip>{clickedText}</Tooltip>
+          </Circle>
+          {
+            pointPositions.map((position) => (
+              <Marker
+                key={`${position[0]}-${position[1]}`}
+                position={position}
+                eventHandlers={{
+                  click: () => addSomePanels(pointPositions.indexOf(position), `${position[0]}-${position[1]}`),
+                }}
+              />
+            ))
+          }
+          <MoveMap />
+        </MapContainer>
+      </div>
+      {
+        panels.map((label) => (
+          <p>{label}</p>
+        ))
+      }
       <button onClick={handleMapMove}>
         {isMoving ? '停止' : '地図を移動'}
       </button>
       <button onClick={addPoint}>
         Add Point
       </button>
-      {/* centerは[緯度, 経度] */}
-      {/* zoomは16くらいがgood */}
-      <MapContainer center={center} zoom={10} style={{ height: '500px', width: '500px', backgroundColor: '#90dbee' }} dragging={false} attributionControl={false}>
-        {/* <GeoJSON
-          data={areas as GeoJSON.GeoJsonObject}
-          style={mapStyle}
-        /> */}
-        <GeoJSON
-          data={roads as GeoJSON.GeoJsonObject}
-          style={mapStyle}
-        />
-        <GeoJSON
-          data={points as GeoJSON.GeoJsonObject}
-          pointToLayer={pointToLayer}
-        />
-        <PbfLayer
-          url="https://cyberjapandata.gsi.go.jp/xyz/experimental_bvmap/{z}/{x}/{y}.pbf"
-          maxNativeZoom={16} // 解像度を調整（値が小さい程データ量が小さい）
-          vectorTileLayerStyles={{
-            "Polygon": {
-              color: "red",
-              weight: 2
-            },
-            "line": {
-              color: "red",
-              weight: 2
-            },
-            "Point": {
-              color: "red",
-              weight: 2
-            },
-          }}
-        />
-
-        <Circle
-          center={circlePosition}
-          eventHandlers={{
-            click: handleCircleClick,
-          }}
-          pathOptions={{ fillColor: 'blue' }}
-          radius={6}
-        >
-          <Tooltip>{clickedText}</Tooltip>
-        </Circle>
-        {
-          pointPositions.map((position) => (
-            <Marker
-              key={`${position[0]}-${position[1]}`}
-              position={position}
-              eventHandlers={{
-                click: () => addSomePanels(pointPositions.indexOf(position), `${position[0]}-${position[1]}`),
-              }}
-            />
-          ))
-        }
-        <MoveMap />
-      </MapContainer>
-      {
-        panels.map((label) => (
-          <p>{label}</p>
-        ))
-      }
     </div>
   );
 };
-
-// export default MapComponent;

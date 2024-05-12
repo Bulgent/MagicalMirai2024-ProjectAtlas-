@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Player } from 'textalive-app-api';
 import { PlayerControl } from './PlayerControl';
-import {MapComponent} from './MapComponent';
+import { MapComponent } from './MapComponent';
 import songRead from './song_data/Song';
 import './App.css';
 
@@ -130,24 +130,32 @@ function LyricComponent() {
   else {
     return (
       <>
-        {player && app && (
-          <div className="controls">
-            <MapComponent char={char} />
-          </div>
-        )}
-        {player && app && (
-          <div className="controls">
-            <PlayerControl disabled={app.managed} player={player} />
-          </div>
-        )}
-        <div>
-          <div className="char">{char}</div>
-          <div className="chord">{chord}</div>
+        <div className="wrap">
+          <header>Project Atlas</header>
+          <main>
+            {player && app && (
+              <div className="controls">
+                <MapComponent char={char} />
+              </div>
+            )}
+          </main>
+          <aside>
+              <div className="char">{char}</div>
+              <div className="chord">{chord}</div>
+          </aside>
+          <footer>
+            {player && app && (
+              <div className="controls">
+                <PlayerControl disabled={app.managed} player={player} />
+              </div>
+            )}
+
+            <div>
+              <div className="time">{('00' + Math.floor((playTime / 1000) / 60)).slice(-2)}:{('00' + Math.floor((playTime / 1000) % 60)).slice(-2)} / {('00' + Math.floor(songLength / 60)).slice(-2)}:{('00' + Math.floor(songLength % 60)).slice(-2)}</div>
+            </div>
+            {div}
+          </footer>
         </div>
-        <div>
-          <div className="time">{('00' + Math.floor((playTime / 1000) / 60)).slice(-2)}:{('00' + Math.floor((playTime / 1000) % 60)).slice(-2)} / {('00' + Math.floor(songLength / 60)).slice(-2)}:{('00' + Math.floor(songLength % 60)).slice(-2)}</div>
-        </div>
-        {div}
       </>
     );
   }
