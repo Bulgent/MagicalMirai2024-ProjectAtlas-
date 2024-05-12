@@ -11,13 +11,16 @@ import { StyleFunction } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
-import PbfLayer from './PbfComponentSetting';
+// import PbfLayer from './PbfComponentSetting';
 
 // 地図データの導入
 import roads from './map_data/roads.json'
 import points from './map_data/points.json'
 import areas from './map_data/areas.json'
 
+// Pbf関連データの導入
+import PbfLayer from './pbf/PbfComponentSetting';
+import pbfStyle from './pbf/PbfLayerStyle.json'
 
 
 export const MapComponent: React.FC = (kashi) => {
@@ -40,7 +43,7 @@ export const MapComponent: React.FC = (kashi) => {
       fillColor: 'white',
       color: 'red',
       weight: 2,
-      fillOpacity: 0.5,
+      fillOpacity: 1.5,
     };
     return L.circleMarker(latlng, circleMarkerOptions);
   };
@@ -66,6 +69,10 @@ export const MapComponent: React.FC = (kashi) => {
     }
   };
 
+  const pbfStyle: StyleFunction = (feature) =>{
+
+  }
+
   // 機能テスト用
   // isMovingの値が変わったら実行
   // コンポーネントとして実行しないと動かない?
@@ -80,7 +87,7 @@ export const MapComponent: React.FC = (kashi) => {
       // 50ms毎に平行移動
       const timerId = setInterval(() => {
         setCenter((prevCenter) => [prevCenter[0], prevCenter[1] + 0.001]);
-        map.setView(center, 13);
+        map.setView(center, 16);
       }, 50);
       // falseのreturnの跡にintervalの値をclearにリセット
       return () => {
@@ -133,7 +140,7 @@ export const MapComponent: React.FC = (kashi) => {
     clickedCount === 0
       ? 'Click this Circle to change the Tooltip text'
       : `Circle click: ${clickedCount}`;
-
+  const weight_pbf = 0.1
   return (
     <div className="App">
       <button onClick={handleMapMove}>
@@ -144,7 +151,7 @@ export const MapComponent: React.FC = (kashi) => {
       </button>
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
-      <MapContainer center={center} zoom={10} style={{ height: '500px', width: '500px', backgroundColor: '#90dbee' }} dragging={false} attributionControl={false}>
+      <MapContainer center={center} zoom={16} style={{ height: '500px', width: '800px', backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
         {/* <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
@@ -157,23 +164,129 @@ export const MapComponent: React.FC = (kashi) => {
           data={points as GeoJSON.GeoJsonObject}
           pointToLayer={pointToLayer}
         />
-        <PbfLayer
+
+         <PbfLayer
           url="https://cyberjapandata.gsi.go.jp/xyz/experimental_bvmap/{z}/{x}/{y}.pbf"
           maxNativeZoom={16} // 解像度を調整（値が小さい程データ量が小さい）
-          vectorTileLayerStyles={{
-            "Polygon": {
-              color: "red",
-              weight: 2
-            },
-            "line": {
-              color: "red",
-              weight: 2
-            },
-            "Point": {
-              color: "red",
-              weight: 2
-            },
-          }}
+          minNativeZoom={16}
+          vectorTileLayerStyles={
+            {
+              "lake": {
+                color: "#90dbee",
+                opacity: 1,
+                weight: 0.5,
+                fill:true,
+                fillColor:"#90dbee",
+                fillOpacity:1,
+              },
+              "waterarea": {
+                color: "#90dbee",
+                opacity: 1,
+                weight: 0.5,
+                fill:true,
+                fillColor:"#90dbee",
+                fillOpacity:1,
+              },
+              "river": {
+                color: "#90dbee",
+                opacity: 1,
+                weight: 0.5
+              },
+              "building": {
+                color: "#9d9da0",
+                opacity: 1,
+                weight: 0.5,
+                fill:true,
+                fillColor:"#e8e9ed",
+                fillOpacity:1,
+              },
+              "road": {
+                color: "#b5c5d3",
+                opacity: 0,
+                weight: 0.5,
+              },
+
+              // ここから下は多分いらない（見えないようにopacity:0）
+              "coastline": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "wstructurea": {
+                color: "red",
+                opacity: 1,
+                weight: 0.5,
+                fill:true,
+                fillColor:"#red",
+                fillOpacity:1,
+              },
+              "structurel": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "landforma": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "transp": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "label": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "elevation": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "contour": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "landforml": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "boundary": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "searoute": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "symbol": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "structurea": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "landformp": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+              "railway": {
+                color: "red",
+                opacity: 0,
+                weight: 0.5
+              },
+            }
+        }
         />
 
         <Circle
