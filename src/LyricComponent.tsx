@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Player } from 'textalive-app-api';
 import { PlayerControl } from './PlayerControl';
-import {MapComponent} from './MapComponent';
+import { MapComponent } from './MapComponent';
 import songRead from './song_data/Song';
 import './App.css';
 
@@ -25,9 +25,11 @@ function LyricComponent() {
   const [songLength, setSongLength] = useState(0)
   const [char, setChar] = useState(''); // 歌詞情報
   const [chord, setChord] = useState(''); // コード情報
+  const [chorus, setChorus] = useState('');
   const [songNum, setSongNum] = useState(isDevelopment ? 3 : -1) //選択曲 -1:未選択 開発環境なら曲選択をすっ飛ばしてマップ画面に行く
   const [mediaElement, setMediaElement] = useState(null);
-
+  const [songTitle, setSongTitle] = useState('');
+  const [songArtist, setSongArtist] = useState('');
 
   // 同じ値のときは再計算せずにいいヤツ
   const div = useMemo(
@@ -46,8 +48,19 @@ function LyricComponent() {
       app: {
         token: 'elLljAkPmCHHiGDP', // トークンは https://developer.textalive.jp/profile で取得したものを使う
       },
-      mediaElement,
+      // mediaElement,
     });
+
+    function getSegNumber(time: number) {
+      const ans: number[] = [];
+      for (let i = 0; i < p.data.songMap.segments.length; i++) {
+        Array.from(p.data.songMap.segments[i].segments, (z) => {
+          if (z.contains(time)) ans.push(i);
+        });
+      }
+      return ans;
+    }
+
 
     // 曲イベント
     const playerListener = {
@@ -76,6 +89,8 @@ function LyricComponent() {
         console.log('player.data.song:', p.data.song);
         console.log('読込曲:', p.data.song.name, " / ", p.data.song.artist.name);
         console.log('player.data.songMap:', p.data.songMap);
+        setSongTitle(p.data.song.name)
+        setSongArtist(p.data.song.artist.name)
         setSongLength(p.data.song.length)
         // 一番最初の文字
         let c = p.video.firstChar;
@@ -89,6 +104,7 @@ function LyricComponent() {
               // 歌詞の更新
               setChar(u.text);
               setChord(p.findChord(p.timer.position).name + " → " + p.findChord(p.timer.position).next.name);
+              setChorus(getSegNumber(now).join())
             }
           };
           // 次の文字
@@ -130,24 +146,57 @@ function LyricComponent() {
   else {
     return (
       <>
-        {player && app && (
-          <div className="controls">
-            <MapComponent char={char} />
-          </div>
-        )}
-        {player && app && (
-          <div className="controls">
-            <PlayerControl disabled={app.managed} player={player} />
-          </div>
-        )}
-        <div>
-          <div className="char">{char}</div>
-          <div className="chord">{chord}</div>
+        <div className="wrap">
+          <header>Project Atlas</header>
+          <main>
+            <div className="mapcomponent">
+              {player && app && (<MapComponent char={char} />)}
+              <div className='mediacircle'>
+                <div className="media-jacket"></div>
+                <div className="media-seek">
+                  <div className='songtitle'>♪{songTitle}</div>
+                  {player && app && (
+                    <div className="controls">
+                      <PlayerControl disabled={app.managed} player={player} />
+                    </div>
+                  )}
+                  <div className='playartist'>
+                    <div className="time">
+                      {('00' + Math.floor((playTime / 1000) / 60)).slice(-2)}:{('00' + Math.floor((playTime / 1000) % 60)).slice(-2)} / {('00' + Math.floor(songLength / 60)).slice(-2)}:{('00' + Math.floor(songLength % 60)).slice(-2)}
+                    </div>
+                    <div className='songartist'>{songArtist}</div>
+                  </div>
+                  {div}
+                </div>
+              </div>
+            </div>
+          </main>
+          <aside>
+            <div className="char">{char}</div>
+            <div className="chord">{chord}</div>
+            <div className="chorus">曲遷移(0サビ):{chorus}</div>
+          </aside>
+          {/* <footer>
+            <div className='mediacircle'>
+              <div className="media-jacket"></div>
+              <div className="media-seek">
+                <div className='songtitle'>♪{songTitle}</div>
+                {player && app && (
+                  <div className="controls">
+                    <PlayerControl disabled={app.managed} player={player} />
+                  </div>
+                )}
+                <div className='playartist'>
+                  <div className="time">
+                    {('00' + Math.floor((playTime / 1000) / 60)).slice(-2)}:{('00' + Math.floor((playTime / 1000) % 60)).slice(-2)} / {('00' + Math.floor(songLength / 60)).slice(-2)}:{('00' + Math.floor(songLength % 60)).slice(-2)}
+                  </div>
+                  <div className='songartist'>{songArtist}</div>
+                </div>
+                {div}
+              </div>
+            </div>
+          </footer> */}
         </div>
-        <div>
-          <div className="time">{('00' + Math.floor((playTime / 1000) / 60)).slice(-2)}:{('00' + Math.floor((playTime / 1000) % 60)).slice(-2)} / {('00' + Math.floor(songLength / 60)).slice(-2)}:{('00' + Math.floor(songLength % 60)).slice(-2)}</div>
-        </div>
-        {div}
       </>
     );
   }

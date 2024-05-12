@@ -35,7 +35,7 @@ export const MapComponent: React.FC = (kashi) => {
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
   const [songKashi, setKashi] = useState(kashi)
-  console.log(kashi);
+  // console.log(kashi);
   // pointデータを図形として表現
   const pointToLayer = (feature, latlng) => {
     const circleMarkerOptions = {
@@ -143,15 +143,11 @@ export const MapComponent: React.FC = (kashi) => {
   const weight_pbf = 0.1
   return (
     <div className="App">
-      <button onClick={handleMapMove}>
-        {isMoving ? '停止' : '地図を移動'}
-      </button>
-      <button onClick={addPoint}>
-        Add Point
-      </button>
+
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
-      <MapContainer center={center} zoom={16} style={{ height: '500px', width: '800px', backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
+
+      <MapContainer center={center} zoom={16} style={{ backgroundColor: '#90dbee' }} dragging={true} attributionControl={false}>
         {/* <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
@@ -289,36 +285,41 @@ export const MapComponent: React.FC = (kashi) => {
         }
         />
 
-        <Circle
-          center={circlePosition}
-          eventHandlers={{
-            click: handleCircleClick,
-          }}
-          pathOptions={{ fillColor: 'blue' }}
-          radius={6}
-        >
-          <Tooltip>{clickedText}</Tooltip>
-        </Circle>
-        {
-          pointPositions.map((position) => (
-            <Marker
-              key={`${position[0]}-${position[1]}`}
-              position={position}
-              eventHandlers={{
-                click: () => addSomePanels(pointPositions.indexOf(position), `${position[0]}-${position[1]}`),
-              }}
-            />
-          ))
-        }
-        <MoveMap />
-      </MapContainer>
+          <Circle
+            center={circlePosition}
+            eventHandlers={{
+              click: handleCircleClick,
+            }}
+            pathOptions={{ fillColor: 'blue' }}
+            radius={6}
+          >
+            <Tooltip>{clickedText}</Tooltip>
+          </Circle>
+          {
+            pointPositions.map((position) => (
+              <Marker
+                key={`${position[0]}-${position[1]}`}
+                position={position}
+                eventHandlers={{
+                  click: () => addSomePanels(pointPositions.indexOf(position), `${position[0]}-${position[1]}`),
+                }}
+              />
+            ))
+          }
+          <MoveMap />
+        </MapContainer>
+      </div>
       {
         panels.map((label) => (
           <p>{label}</p>
         ))
       }
+      <button onClick={handleMapMove}>
+        {isMoving ? '停止' : '地図を移動'}
+      </button>
+      <button onClick={addPoint}>
+        Add Point
+      </button>
     </div>
   );
 };
-
-// export default MapComponent;
