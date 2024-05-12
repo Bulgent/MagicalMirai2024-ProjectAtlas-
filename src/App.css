@@ -1,13 +1,13 @@
 #root {
-  /* max-width: 1280px; */ */
-  margin: 0 auto;
+  /* max-width: 1280px; */
+  */ margin: 0 auto;
   /* padding: 2rem; */
-  text-align: center;
-} 
+  /* text-align: center; */
+}
 
 /* 背景 / Background */
 body {
-  background: #373b3e	;
+  background: #373b3e;
   /* background-image: linear-gradient(0deg, #eed475 0, #60a8a9 50%, #d7809e 100%); */
   background-attachment: fixed;
   background-size: 100vw 100vh;
@@ -26,6 +26,7 @@ body {
 
   z-index: 1;
 }
+
 /* 
 
 
@@ -35,16 +36,20 @@ body {
   padding-right: 10px;
   border-right: 1px solid #fff9;
 }
+
 #control.disabled {
   display: none;
 }
+
 #control a {
   color: rgb(99 208 226);
   text-decoration: none;
 }
+
 #control a.disabled {
   opacity: 0.3;
 }
+
 #control a:hover {
   color: rgb(255 148 56);
 }
@@ -53,6 +58,7 @@ body {
 #meta {
   padding-left: 10px;
 }
+
 #meta span {
   font-weight: normal;
 }
@@ -60,57 +66,135 @@ body {
 /* 音源 / Audio source */
 #media {
   /* 下寄せ / Bottom-aligned */
-  bottom: 10px;
-}
-#media.disabled > .textalive-media-wrapper {
+  bottom: 0px;
   width: 0;
   height: 0;
 }
 
+/* なんかじゃまなやつ */
+.textalive-media-wrapper {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.mapcomponent {
+  position: relative;
+}
+
 .leaflet-container {
   width: 100%;
-  aspect-ratio: 5/3 ;
+  aspect-ratio: 5/3;
   /* height: 300px; */
   margin: 0px;
 }
 
-.wrap{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:space-between;
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
-header,main,aside,footer{
-  padding:0px 0;
+
+header,
+main,
+aside,
+footer {
+  padding: 0px 0;
 }
-header{
-  width:100%;
-  background:#f0eeeb;
+
+header {
+  width: 100%;
+  background: #f0eeeb;
 }
-main{
-  width:80%;
-  background:#e3e3e3;
+
+main {
+  width: 70%;
+  background: #e3e3e3;
   padding: 2rem;
 }
-aside{
-  width:20%;
-  background:#c9c9c9;
-}
-footer{
-  width:100%;
-  background:#afafaf;
+
+aside {
+  width: 20%;
+  background: #c9c9c9;
 }
 
-#seekbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 10px;
-  background: rgba(255 255 255 / 40%);
+/* footer {
+  width: 100%;
+  background: #afafaf;
+  padding: 1rem;
+
+} */
+
+.mediacircle {
+  display: flex;
+  width: 90%;
+  border: 2px solid;
+  padding: 0.1em;
+  border-radius: 15px;
+  background: #e12885;
+  position: absolute;
+  z-index: 1000000000000000000;
+  bottom: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
 }
 
-#seekbar > div {
-  width: 0;
-  height: 100%;
-  background: rgba(255 255 255 / 80%);
+.media-jacket {
+  margin: 0.8em;
+  width: 15%;
+  /* display: flex; */
+  /* padding:1em; */
+  background: #bec8d1;
+}
+
+.media-seek {
+  margin: 0.8em;
+  width: 70%;
+  /* display: flex; */
+  border: 1px solid;
+  padding: 0.2em 1em;
+  /* border-radius: 15px; */
+  background: #373b3e;
+  /* mix-blend-mode: multiply	; */
+  clip-path: inset(0px round 0px);
+}
+
+.songtitle {
+  font-size: larger;
+  color: #fff;
+}
+
+.songartist {
+  font-size: normal;
+  color: #fff;
+  display: table-cell;
+  text-align: center;
+}
+
+.time {
+  font-size: normal;
+  color: #fff;
+  display: table-cell;
+  text-align: left;
+}
+
+.playartist {
+  display: table;
+  width: 90%;
+  /* overflow: hidden; */
+}
+
+.songcontrol{
+  display: flex;
+}
+
+.seekbar{
+  font-size: normal;
+  width: 90%;
+}
+.pausebutton{
+  font-size: smaller;
+  width: 10%;
 }

@@ -32,7 +32,7 @@ export const MapComponent: React.FC = (kashi) => {
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
   const [songKashi, setKashi] = useState(kashi)
-  console.log(kashi);
+  // console.log(kashi);
   // pointデータを図形として表現
   const pointToLayer = (feature, latlng) => {
     const circleMarkerOptions = {
@@ -140,7 +140,7 @@ export const MapComponent: React.FC = (kashi) => {
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
       <div id="map_container">
-        <MapContainer center={center} zoom={10} style={{ width: '100%', backgroundColor: '#90dbee' }} dragging={false} attributionControl={false}>
+        <MapContainer center={center} zoom={10} style={{ backgroundColor: '#90dbee' }} dragging={false} attributionControl={false}>
           {/* <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}

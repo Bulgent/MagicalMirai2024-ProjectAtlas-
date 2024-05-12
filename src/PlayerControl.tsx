@@ -1,8 +1,9 @@
 import { useCallback, useState, useEffect } from 'react';
 import { Button } from 'semantic-ui-react';
+import { Color } from 'textalive-app-api';
 import { PlayerSeekbar } from 'textalive-react-api';
 
-export const PlayerControl = ({ disabled, player}) => {
+export const PlayerControl = ({ disabled, player }) => {
   const [status, setStatus] = useState('stop');
   // console.log(player.data.songMap)
 
@@ -28,24 +29,25 @@ export const PlayerControl = ({ disabled, player}) => {
     () => player && player.requestStop(),
     [player]
   );
-
   return (
-    <div className="control">
-      <Button
-        content={status !== 'play' ? '再生' : '一時停止'}
-        onClick={status !== 'play' ? handlePlay : handlePause}
-        size="small"
-        disabled={disabled}
-      />
-      <Button
+    <div className="songcontrol">
+      <div className="seekbar">
+        <PlayerSeekbar player={!disabled && player} />
+      </div>
+      <div className="pausebutton">
+        <Button
+          content={status !== 'play' ? '▷' : '❘❘'}
+          onClick={status !== 'play' ? handlePlay : handlePause}
+          size="small"
+          disabled={disabled}
+        />
+      </div>
+      {/* <Button
         content="停止"
         onClick={handleStop}
         size="small"
         disabled={disabled || status === 'stop'}
-      />
-      <div className="seekbar">
-        <PlayerSeekbar player={!disabled && player} />
-      </div>
+      /> */}
     </div>
   );
 };
