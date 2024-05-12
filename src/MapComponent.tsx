@@ -323,6 +323,7 @@ export const MapComponent: React.FC = (kashi) => {
           }
           <MoveMap />
         </MapContainer>
+
         {/* 出力確認用、場所を移動させる↓ */}
         <ul>
           {clickedPoints.map((point, index) => (
@@ -332,6 +333,7 @@ export const MapComponent: React.FC = (kashi) => {
           ))}
         </ul>
         {/* 出力確認用、場所を移動させる↑ */}
+
       {
         panels.map((label) => (
           <p>{label}</p>
