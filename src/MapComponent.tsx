@@ -11,6 +11,7 @@ import { StyleFunction } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
+import PbfLayer from './PbfComponentSetting';
 
 // 地図データの導入
 import roads from './map_data/roads.json'
@@ -144,10 +145,10 @@ export const MapComponent: React.FC = (kashi) => {
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
       <MapContainer center={center} zoom={10} style={{ height: '500px', width: '500px', backgroundColor: '#90dbee' }} dragging={false} attributionControl={false}>
-        <GeoJSON
+        {/* <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
-        />
+        /> */}
         <GeoJSON
           data={roads as GeoJSON.GeoJsonObject}
           style={mapStyle}
@@ -156,6 +157,25 @@ export const MapComponent: React.FC = (kashi) => {
           data={points as GeoJSON.GeoJsonObject}
           pointToLayer={pointToLayer}
         />
+        <PbfLayer
+          url="https://cyberjapandata.gsi.go.jp/xyz/experimental_bvmap/{z}/{x}/{y}.pbf"
+          maxNativeZoom={16} // 解像度を調整（値が小さい程データ量が小さい）
+          vectorTileLayerStyles={{
+            "Polygon": {
+              color: "red",
+              weight: 2
+            },
+            "line": {
+              color: "red",
+              weight: 2
+            },
+            "Point": {
+              color: "red",
+              weight: 2
+            },
+          }}
+        />
+
         <Circle
           center={circlePosition}
           eventHandlers={{
