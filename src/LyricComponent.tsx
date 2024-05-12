@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Player } from 'textalive-app-api';
 import { PlayerControl } from './PlayerControl';
-import MapComponent from './MapComponent';
+import {MapComponent} from './MapComponent';
 import songRead from './song_data/Song';
 import './App.css';
 
@@ -126,7 +126,7 @@ function LyricComponent() {
       <>
         {player && app && (
           <div className="controls">
-            <MapComponent disabled={app.managed} />
+            <MapComponent char={char} />
           </div>
         )}
         {player && app && (
