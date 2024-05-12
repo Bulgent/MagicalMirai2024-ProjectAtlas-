@@ -308,7 +308,6 @@ export const MapComponent: React.FC = (kashi) => {
           }
           <MoveMap />
         </MapContainer>
-      </div>
       {
         panels.map((label) => (
           <p>{label}</p>
