@@ -20,7 +20,6 @@ import areas from './map_data/areas.json'
 
 // Pbf関連データの導入
 import PbfLayer from './pbf/PbfComponentSetting';
-import pbfStyle from './pbf/PbfLayerStyle.json'
 
 
 interface PointProperties {
@@ -63,10 +62,10 @@ export const MapComponent: React.FC = (kashi) => {
         };
       case 'MultiPolygon':
         return {
-          fillColor: '#f6f6f6',
+          fillColor: '#90dbee',
           weight: 2,
-          opacity: 1,
-          color: 'green',
+          opacity: 0.5,
+          color: 'gray',
           fillOpacity: 1,
         };
       default:
@@ -158,10 +157,10 @@ export const MapComponent: React.FC = (kashi) => {
       {/* zoomは16くらいがgood */}
 
       <MapContainer center={center} zoom={16} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
-        {/* <GeoJSON
+        <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
-        /> */}
+        />
         <GeoJSON
           data={roads as GeoJSON.GeoJsonObject}
           style={mapStyle}
