@@ -6,6 +6,7 @@ import {
   Tooltip,
   useMap,
   Marker,
+  useMapEvent
 } from 'react-leaflet';
 import { StyleFunction } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -35,7 +36,7 @@ export const MapComponent: React.FC = (kashi) => {
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
   const [songKashi, setKashi] = useState(kashi)
-  // console.log(kashi);
+  // console.log(kashi.char);
   // pointデータを図形として表現
   const pointToLayer = (feature, latlng) => {
     const circleMarkerOptions = {
@@ -135,19 +136,60 @@ export const MapComponent: React.FC = (kashi) => {
     );
   };
 
-  // ?と:でif文を書いている:がelse 
+  // if(kashi.char){
+  //   addSomePanels(1, kashi.char)
+  // }
+
+
+  // 👽
+  function MapEvent() {
+    const map = useMapEvent("click", (location) => {
+       map.setView(location.latlng, map.getZoom(), {
+         animate: true,
+       });
+
+      //ポップアップ
+      // map.openPopup('<div>popup</div>', location.latlng)
+
+      // ツールチップ
+      // map.openTooltip('<p>toolTip</p>', location.latlng)
+
+      //ズームイン・ズームアウト
+      // map.zoomIn(1)
+      // map.zoomOut(1)
+
+      //現在の位置情報
+      // map.locate({
+      //     setView: true
+      // })
+
+      //中心
+      // console.log(map.getCenter())
+
+      //境界座標
+      // console.log(map.getBounds())
+
+      //マップサイズ
+      // console.log(map.getSize())
+    });
+
+  }
+
+
+
+  // ?と:でif文を書いている:がelse
   const clickedText =
     clickedCount === 0
       ? 'Click this Circle to change the Tooltip text'
       : `Circle click: ${clickedCount}`;
   const weight_pbf = 0.1
   return (
-    <div className="App">
+    <>
 
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
 
-      <MapContainer center={center} zoom={16} style={{ backgroundColor: '#90dbee' }} dragging={true} attributionControl={false}>
+      <MapContainer className='mapcomponent' center={center} zoom={16} style={{ backgroundColor: '#90dbee' }} dragging={true} attributionControl={false}>
         {/* <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
@@ -319,6 +361,6 @@ export const MapComponent: React.FC = (kashi) => {
       <button onClick={addPoint}>
         Add Point
       </button>
-    </div>
+    </>
   );
 };
