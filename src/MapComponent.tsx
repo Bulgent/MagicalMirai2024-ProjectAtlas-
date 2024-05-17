@@ -6,9 +6,8 @@ import {
   Tooltip,
   useMap,
   Marker,
-  useMapEvent
 } from 'react-leaflet';
-import { StyleFunction } from 'leaflet';
+import { StyleFunction, LeafletMouseEvent ,LatLngExpression} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
@@ -21,11 +20,15 @@ import areas from './map_data/areas.json'
 
 // Pbf関連データの導入
 import PbfLayer from './pbf/PbfComponentSetting';
-import pbfStyle from './pbf/PbfLayerStyle.json'
 
+
+interface PointProperties {
+  name: string;
+  coordinates: [number, number];
+}
 
 export const MapComponent: React.FC = (kashi) => {
-
+  const [clickedPoints, setClickedPoints] = useState<PointProperties[]>([]);
   const position: [number, number] = [34.6937, 135.5021];
   const [center, setCenter] = useState<[number, number]>(position);
   const [isMoving, setIsMoving] = useState(false);
@@ -36,15 +39,15 @@ export const MapComponent: React.FC = (kashi) => {
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
   const [songKashi, setKashi] = useState(kashi)
-  // console.log(kashi.char);
+
   // pointデータを図形として表現
-  const pointToLayer = (feature, latlng) => {
+  const pointToLayer = (feature:any, latlng:LatLngExpression) => {
     const circleMarkerOptions = {
       radius: 6,
       fillColor: 'white',
       color: 'red',
       weight: 2,
-      fillOpacity: 1.5,
+      fillOpacity: 1,
     };
     return L.circleMarker(latlng, circleMarkerOptions);
   };
@@ -59,20 +62,16 @@ export const MapComponent: React.FC = (kashi) => {
         };
       case 'MultiPolygon':
         return {
-          fillColor: '#f6f6f6',
+          fillColor: '#90dbee',
           weight: 2,
-          opacity: 1,
-          color: 'green',
+          opacity: 0.5,
+          color: 'gray',
           fillOpacity: 1,
         };
       default:
         return {};
     }
   };
-
-  const pbfStyle: StyleFunction = (feature) =>{
-
-  }
 
   // 機能テスト用
   // isMovingの値が変わったら実行
@@ -136,64 +135,32 @@ export const MapComponent: React.FC = (kashi) => {
     );
   };
 
-  // if(kashi.char){
-  //   addSomePanels(1, kashi.char)
-  // }
-
-
-  // 👽
-  function MapEvent() {
-    const map = useMapEvent("click", (location) => {
-       map.setView(location.latlng, map.getZoom(), {
-         animate: true,
-       });
-
-      //ポップアップ
-      // map.openPopup('<div>popup</div>', location.latlng)
-
-      // ツールチップ
-      // map.openTooltip('<p>toolTip</p>', location.latlng)
-
-      //ズームイン・ズームアウト
-      // map.zoomIn(1)
-      // map.zoomOut(1)
-
-      //現在の位置情報
-      // map.locate({
-      //     setView: true
-      // })
-
-      //中心
-      // console.log(map.getCenter())
-
-      //境界座標
-      // console.log(map.getBounds())
-
-      //マップサイズ
-      // console.log(map.getSize())
-    });
-
-  }
-
-
-
-  // ?と:でif文を書いている:がelse
+  // ?と:でif文を書いている:がelse 
   const clickedText =
     clickedCount === 0
       ? 'Click this Circle to change the Tooltip text'
       : `Circle click: ${clickedCount}`;
-  const weight_pbf = 0.1
+
+    const onPointClick = (e: LeafletMouseEvent) => {
+      const clickedPointProperties: PointProperties = {
+        name: e.sourceTarget.feature.properties.name,
+        coordinates: e.sourceTarget.feature.geometry.coordinates
+      };
+      // properties.nameとgeometry.coordinatesの値を連想配列として格納
+      setClickedPoints(prevPoints => [...prevPoints, clickedPointProperties]);
+    };
+
   return (
     <>
 
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
 
-      <MapContainer className='mapcomponent' center={center} zoom={16} style={{ backgroundColor: '#90dbee' }} dragging={true} attributionControl={false}>
-        {/* <GeoJSON
+      <MapContainer className='mapcomponent' center={center} zoom={16} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
+        <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
-        /> */}
+        />
         <GeoJSON
           data={roads as GeoJSON.GeoJsonObject}
           style={mapStyle}
@@ -201,6 +168,11 @@ export const MapComponent: React.FC = (kashi) => {
         <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
           pointToLayer={pointToLayer}
+          onEachFeature={(_, layer) => {
+            layer.on({
+              click: onPointClick // ポイントがクリックされたときに呼び出される関数
+            });
+          }}
         />
 
          <PbfLayer
@@ -350,6 +322,18 @@ export const MapComponent: React.FC = (kashi) => {
           }
           <MoveMap />
         </MapContainer>
+
+        {/* 出力確認用、場所を移動させる↓ */}
+        {/* これがあるとマップの表示が下にずれる */}
+        {/* <ul>
+          {clickedPoints.map((point, index) => (
+            <li key={index}>
+              Name: {point.name}, Coordinates: {point.coordinates}
+            </li>
+          ))}
+        </ul> */}
+        {/* 出力確認用、場所を移動させる↑ */}
+
       {
         panels.map((label) => (
           <p>{label}</p>
