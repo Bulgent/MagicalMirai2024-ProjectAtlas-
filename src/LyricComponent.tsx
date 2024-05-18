@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Player } from 'textalive-app-api';
 import { PlayerControl } from './PlayerControl';
-import { MapComponent } from './MapComponent';
+import { HistoryComponent } from './HistoryComponent';
 import songRead from './song_data/Song';
 import './App.css';
 
@@ -15,8 +15,9 @@ import './App.css';
 //   onStop, // 楽曲停止時
 //   onAppMediaChange, // 楽曲変更時
 
-function LyricComponent() {
+export const LyricComponent = () => {
   // 開発環境稼働か?
+  // const isDevelopment: boolean = false;
   const isDevelopment: boolean = process.env.NODE_ENV === 'development';
 
   const [player, setPlayer] = useState(null);
@@ -48,7 +49,7 @@ function LyricComponent() {
       app: {
         token: 'elLljAkPmCHHiGDP', // トークンは https://developer.textalive.jp/profile で取得したものを使う
       },
-      // mediaElement,
+      mediaElement,
     });
 
     function getSegNumber(time: number) {
@@ -94,14 +95,19 @@ function LyricComponent() {
         setSongLength(p.data.song.length)
         // 一番最初の文字
         let c = p.video.firstChar;
-        // 前の歌詞と次の歌詞が同じ時はずっと繰り返す
-        // setPlayTime(now)
-
+        let isfirst: boolean = true;
+        // 今の歌詞と次の歌詞が存在する時はずっと繰り返す
         while (c && c.next) {
           c.animate = (now, u) => {
             // 文字が時間内の時
+            // console.log(u);
+
             if (u.startTime <= now && u.endTime > now) {
               // 歌詞の更新
+              if (isfirst) {
+                console.log("first")
+                isfirst = false;
+              }
               setChar(u.text);
               setChord(p.findChord(p.timer.position).name + " → " + p.findChord(p.timer.position).next.name);
               setChorus(getSegNumber(now).join())
@@ -109,6 +115,7 @@ function LyricComponent() {
           };
           // 次の文字
           c = c.next;
+          isfirst = true;
         }
       },
       onTimeUpdate: (position: number) => {
@@ -133,12 +140,17 @@ function LyricComponent() {
   if (songNum < 0) {
     return (
       <>
-        <button type="button" onClick={() => setSongNum(0)}>SUPERHERO</button>
-        <button type="button" onClick={() => setSongNum(1)}>いつか君と話したミライは</button>
-        <button type="button" onClick={() => setSongNum(2)}>フューチャーノーツ</button>
-        <button type="button" onClick={() => setSongNum(3)}>未来交響曲</button>
-        <button type="button" onClick={() => setSongNum(4)}>リアリティ</button>
-        <button type="button" onClick={() => setSongNum(5)}>The Marks</button>
+        <div className='mediacircle'>
+          <div className="media-jacket"></div>
+          <div className="media-seek">
+            <button type="button" onClick={() => setSongNum(0)}>SUPERHERO</button>
+            <button type="button" onClick={() => setSongNum(1)}>いつか君と話したミライは</button>
+            <button type="button" onClick={() => setSongNum(2)}>フューチャーノーツ</button>
+            <button type="button" onClick={() => setSongNum(3)}>未来交響曲</button>
+            <button type="button" onClick={() => setSongNum(4)}>リアリティ</button>
+            <button type="button" onClick={() => setSongNum(5)}>The Marks</button>
+          </div>
+        </div>
       </>
     );
   }
@@ -146,59 +158,27 @@ function LyricComponent() {
   else {
     return (
       <>
-        <div className="wrap">
-          <header>Project Atlas</header>
-          <main>
-            <div className="mapcomponent">
-              {player && app && (<MapComponent char={char} />)}
-              <div className='mediacircle'>
-                <div className="media-jacket"></div>
-                <div className="media-seek">
-                  <div className='songtitle'>♪{songTitle}</div>
-                  {player && app && (
-                    <div className="controls">
-                      <PlayerControl disabled={app.managed} player={player} />
-                    </div>
-                  )}
-                  <div className='playartist'>
-                    <div className="time">
-                      {('00' + Math.floor((playTime / 1000) / 60)).slice(-2)}:{('00' + Math.floor((playTime / 1000) % 60)).slice(-2)} / {('00' + Math.floor(songLength / 60)).slice(-2)}:{('00' + Math.floor(songLength % 60)).slice(-2)}
-                    </div>
-                    <div className='songartist'>{songArtist}</div>
-                  </div>
-                  {div}
-                </div>
+        <div className='mediacircle'>
+          <div className="media-jacket"></div>
+          <div className="media-seek">
+            <div className='songtitle'>♪{songTitle}</div>
+            {player && app && (
+              <div className="controls">
+                <PlayerControl disabled={app.managed} player={player} />
               </div>
-            </div>
-          </main>
-          <aside>
-            <div className="char">{char}</div>
-            <div className="chord">{chord}</div>
-            <div className="chorus">曲遷移(0サビ):{chorus}</div>
-          </aside>
-          {/* <footer>
-            <div className='mediacircle'>
-              <div className="media-jacket"></div>
-              <div className="media-seek">
-                <div className='songtitle'>♪{songTitle}</div>
-                {player && app && (
-                  <div className="controls">
-                    <PlayerControl disabled={app.managed} player={player} />
-                  </div>
-                )}
-                <div className='playartist'>
-                  <div className="time">
-                    {('00' + Math.floor((playTime / 1000) / 60)).slice(-2)}:{('00' + Math.floor((playTime / 1000) % 60)).slice(-2)} / {('00' + Math.floor(songLength / 60)).slice(-2)}:{('00' + Math.floor(songLength % 60)).slice(-2)}
-                  </div>
-                  <div className='songartist'>{songArtist}</div>
-                </div>
-                {div}
+            )}
+            <div className='playartist'>
+              <div className="time">
+                {('00' + Math.floor((playTime / 1000) / 60)).slice(-2)}:{('00' + Math.floor((playTime / 1000) % 60)).slice(-2)} / {('00' + Math.floor(songLength / 60)).slice(-2)}:{('00' + Math.floor(songLength % 60)).slice(-2)}
               </div>
+              <div className='songartist'>{songArtist}</div>
             </div>
-          </footer> */}
+            {div}
+            <HistoryComponent player={player}/>
+          </div>
         </div>
       </>
     );
   }
 }
-export default LyricComponent;
+// export default LyricComponent;

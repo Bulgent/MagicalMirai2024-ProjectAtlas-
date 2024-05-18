@@ -1,6 +1,7 @@
 import { useCallback, useState, useEffect } from 'react';
 import { Button } from 'semantic-ui-react';
 import { Color } from 'textalive-app-api';
+import { Player } from 'textalive-app-api';
 import { PlayerSeekbar } from 'textalive-react-api';
 
 export const PlayerControl = ({ disabled, player }) => {
@@ -32,7 +33,7 @@ export const PlayerControl = ({ disabled, player }) => {
   return (
     <div className="songcontrol">
       <div className="seekbar">
-        <PlayerSeekbar player={!disabled && player} />
+        <PlayerSeekbar player={!disabled && player}  />
       </div>
       <div className="pausebutton">
         <Button

@@ -151,12 +151,12 @@ export const MapComponent: React.FC = (kashi) => {
     };
 
   return (
-    <div className="App">
+    <>
 
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
 
-      <MapContainer center={center} zoom={16} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
+      <MapContainer className='mapcomponent' center={center} zoom={16} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
@@ -324,13 +324,14 @@ export const MapComponent: React.FC = (kashi) => {
         </MapContainer>
 
         {/* 出力確認用、場所を移動させる↓ */}
-        <ul>
+        {/* これがあるとマップの表示が下にずれる */}
+        {/* <ul>
           {clickedPoints.map((point, index) => (
             <li key={index}>
               Name: {point.name}, Coordinates: {point.coordinates}
             </li>
           ))}
-        </ul>
+        </ul> */}
         {/* 出力確認用、場所を移動させる↑ */}
 
       {
@@ -344,6 +345,6 @@ export const MapComponent: React.FC = (kashi) => {
       <button onClick={addPoint}>
         Add Point
       </button>
-    </div>
+    </>
   );
 };
