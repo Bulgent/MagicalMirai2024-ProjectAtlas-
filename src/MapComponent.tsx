@@ -296,8 +296,8 @@ export const MapComponent: React.FC = (kashi) => {
                 weight: 0.5
               },
             }
-        }
-        />
+          }
+          />
 
           <Circle
             center={circlePosition}
@@ -306,7 +306,7 @@ export const MapComponent: React.FC = (kashi) => {
             }}
             pathOptions={{ fillColor: 'blue' }}
             radius={6}
-          >
+            >
             <Tooltip>{clickedText}</Tooltip>
           </Circle>
           {
