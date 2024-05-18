@@ -27,6 +27,7 @@ export const LyricComponent = () => {
   const [char, setChar] = useState(''); // 歌詞情報
   const [chord, setChord] = useState(''); // コード情報
   const [chorus, setChorus] = useState('');
+  const [volume, setVolume] = useState(10);
   const [songNum, setSongNum] = useState(isDevelopment ? 3 : -1) //選択曲 -1:未選択 開発環境なら曲選択をすっ飛ばしてマップ画面に行く
   const [mediaElement, setMediaElement] = useState(null);
   const [songTitle, setSongTitle] = useState('');
@@ -93,6 +94,7 @@ export const LyricComponent = () => {
         setSongTitle(p.data.song.name)
         setSongArtist(p.data.song.artist.name)
         setSongLength(p.data.song.length)
+        p.volume=volume
         // 一番最初の文字
         let c = p.video.firstChar;
         let isfirst: boolean = true;
