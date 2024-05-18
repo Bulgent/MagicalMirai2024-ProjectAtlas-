@@ -1,6 +1,7 @@
 import { useCallback, useState, useEffect } from 'react';
 import { Button } from 'semantic-ui-react';
 import { Color } from 'textalive-app-api';
+import { Player } from 'textalive-app-api';
 import { PlayerSeekbar } from 'textalive-react-api';
 
 export const PlayerControl = ({ disabled, player }) => {

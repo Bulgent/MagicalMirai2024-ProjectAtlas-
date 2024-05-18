@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Player } from 'textalive-app-api';
 import { PlayerControl } from './PlayerControl';
+import { HistoryComponent } from './HistoryComponent';
 import songRead from './song_data/Song';
 import './App.css';
 
@@ -99,7 +100,7 @@ export const LyricComponent = () => {
         while (c && c.next) {
           c.animate = (now, u) => {
             // 文字が時間内の時
-            console.log(u);
+            // console.log(u);
 
             if (u.startTime <= now && u.endTime > now) {
               // 歌詞の更新
@@ -173,6 +174,7 @@ export const LyricComponent = () => {
               <div className='songartist'>{songArtist}</div>
             </div>
             {div}
+            <HistoryComponent player={player}/>
           </div>
         </div>
       </>
