@@ -3,8 +3,10 @@ import React from 'react';
 import { MapComponent } from './MapComponent';
 import { LyricComponent } from './LyricComponent';
 
+
 const App: React.FC = () => {
   return (
+    
     <React.Fragment>
       <div id="display" className="soft-gloss">
         <div id="navi" className="split">
