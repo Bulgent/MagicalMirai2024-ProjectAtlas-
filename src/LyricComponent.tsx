@@ -16,8 +16,8 @@ import './App.css';
 
 export const LyricComponent = () => {
   // 開発環境稼働か?
-  const isDevelopment: boolean = false;
-  // const isDevelopment: boolean = process.env.NODE_ENV === 'development';
+  // const isDevelopment: boolean = false;
+  const isDevelopment: boolean = process.env.NODE_ENV === 'development';
 
   const [player, setPlayer] = useState(null);
   const [app, setApp] = useState(null); //
@@ -48,7 +48,7 @@ export const LyricComponent = () => {
       app: {
         token: 'elLljAkPmCHHiGDP', // トークンは https://developer.textalive.jp/profile で取得したものを使う
       },
-      // mediaElement,
+      mediaElement,
     });
 
     function getSegNumber(time: number) {

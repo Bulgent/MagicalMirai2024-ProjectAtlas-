@@ -32,7 +32,7 @@ export const PlayerControl = ({ disabled, player }) => {
   return (
     <div className="songcontrol">
       <div className="seekbar">
-        <PlayerSeekbar player={!disabled && player} />
+        <PlayerSeekbar player={!disabled && player}  />
       </div>
       <div className="pausebutton">
         <Button
