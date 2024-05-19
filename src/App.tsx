@@ -4,6 +4,7 @@ import { useCallback, useState, useEffect } from 'react';
 import { MapComponent } from './MapComponent';
 import { LyricComponent } from './LyricComponent';
 
+
 const App: React.FC = () => {
   // LyricComponentからの歌詞をMapComponentに受け渡す
   const [phrase, setPhrase] = useState("")
@@ -13,6 +14,7 @@ const App: React.FC = () => {
   }
 
   return (
+    
     <React.Fragment>
       <div id="display" className="soft-gloss">
         <div id="navi" className="split">
