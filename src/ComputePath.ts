@@ -117,8 +117,8 @@ export function computePath(): any[] {
   
   // jsonからのデータ成形
   const links = createLinksFromJsonKai(roads)
-  const start_id = links[3000].from_string
-  const end_id = links[3500].from_string
+  const start_id = links[1000].from_string
+  const end_id = links[6000].from_string
   // リンクを格納して計算準備
   const graph = createGraph();
   for (const link of links){

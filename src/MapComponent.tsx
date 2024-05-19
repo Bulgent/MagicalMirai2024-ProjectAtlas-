@@ -97,12 +97,10 @@ export const MapComponent: React.FC = (kashi) => {
         type:"FeatureCollection",
         features:features
       }
-      console.log(geojson)
-      return(<div>
+      return(
         <GeoJSON
               data={geojson as GeoJSON.GeoJsonObject}
               style={mapStylePathWay}/>
-      </div>
               )
     }else{
       return null
