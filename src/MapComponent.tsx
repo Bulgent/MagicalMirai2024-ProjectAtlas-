@@ -38,7 +38,8 @@ export const MapComponent = (props: any) => {
   const [clickedCount, setClickedCount] = useState(0);
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
-  const [songKashi, setKashi] = useState("")
+  const [songKashi, setKashi] = useState(props.kashi)
+  // console.log(props.kashi, songKashi)
 
   // pointデータを図形として表現
   const pointToLayer = (feature: any, latlng: LatLngExpression) => {
@@ -115,7 +116,7 @@ export const MapComponent = (props: any) => {
         map.getBounds().getWest()) +
       map.getBounds().getWest()], { opacity: 0 });
       // 表示する歌詞
-      console.log("map", props.kashi)
+      // console.log("map", props.kashi)
       markertext.bindTooltip(props.kashi, { permanent: true, className: "label-kashi", direction: "center" })
       // 地図に追加
       markertext.addTo(map);
@@ -124,6 +125,29 @@ export const MapComponent = (props: any) => {
     // コンポーネントとしての利用のために
     return null;
   };
+
+    // 歌詞表示コンポーネント👽
+  // コンポーネントとして実行しないと動かない?
+  // const MapKashi = () => {
+  //   const map = useMap();
+  //   // console.log(map.getSize(), map.getCenter(), map.getBounds())
+  //   // var markertext = L.marker(map.getCenter(), { opacity: 1 });
+  //   if(props.kashi!=""){
+  //     var markertext = L.marker([Math.random() *
+  //       (map.getBounds().getNorth() -
+  //         map.getBounds().getSouth()) +
+  //       map.getBounds().getSouth(),
+  //       Math.random() *
+  //       (map.getBounds().getEast() -
+  //         map.getBounds().getWest()) +
+  //       map.getBounds().getWest()], { opacity: 1 });
+  //     markertext.bindTooltip(props.kashi, { permanent: true })
+  //     markertext.addTo(map);
+  //   }
+
+  //   // コンポーネントとしての利用のために
+  //   return null;
+  // };
 
 
   // 機能テスト用

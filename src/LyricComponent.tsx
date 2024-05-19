@@ -103,34 +103,55 @@ export const LyricComponent = (props: any) => {
         // setChorus(getSegNumber(now).join())
         console.log(kashiChar.text, kashiWord.text, kashiPhrase.text)
         // 今の歌詞と次の歌詞が存在する時はずっと繰り返す
-        // while (kashiPhrase && kashiPhrase.next) {
-        //   let isFirstPhrase: boolean = true;
-        //   // フレーズ
-        //   kashiPhrase.animate = (nowPhrase, uPhrase) => {
-        //     // 文字が時間内の時
-        //     if (uPhrase.startTime <= nowPhrase && uPhrase.endTime > nowPhrase && isFirstPhrase) {
-        //       // console.log(uPhrase.text)
-        //       // 歌詞の更新
-        //       props.handOverPhrase(uPhrase.text);   // 歌詞を親に渡す
-        //       isFirstPhrase = false;
-        //     }
-        //   };
-        //   kashiPhrase = kashiPhrase.next;  // 次の文字
-        // }
-        // while (kashiWord && kashiWord.next) {
-        //   let isFirstWord: boolean = true
-        //   // 単語
-        //   kashiWord.animate = (nowWord, uWord) => {
-        //     // 文字が時間内の時
-        //     if (uWord.startTime <= nowWord && uWord.endTime > nowWord && isFirstWord) {
-        //       // console.log(uWord.text)
-        //       // 歌詞の更新
-        //       props.handOverWord(uWord.text); // 歌詞を親に渡す
-        //       isFirstWord = false;
-        //     }
-        //   };
-        //   kashiWord = kashiWord.next; // 次の文字
-        // }
+        while (kashiPhrase && kashiPhrase.next) {
+          let isFirstPhrase: boolean = true;
+          // フレーズ
+          kashiPhrase.animate = (nowPhrase, uPhrase) => {
+            // 文字が時間内の時
+            if (uPhrase.contains(nowPhrase) && isFirstPhrase) {
+              // console.log(uPhrase.text)
+              // 歌詞の更新
+              props.handOverPhrase(uPhrase.text);   // 歌詞を親に渡す
+              isFirstPhrase = false;
+            }
+          };
+          kashiPhrase = kashiPhrase.next;  // 次の文字
+        }
+        // 最後の歌詞
+        kashiPhrase = p.video.lastPhrase;
+        kashiPhrase.animate = (nowPhrase, uPhrase) => {
+          // 文字が時間内の時
+          if (uPhrase.startTime <= nowPhrase && uPhrase.endTime > nowPhrase) {
+            // console.log(uWord.text)
+            // 歌詞の更新
+            props.handOverPhrase(uPhrase.text); // 歌詞を親に渡す
+          }
+        };
+        while (kashiWord && kashiWord.next) {
+          let isFirstWord: boolean = true
+          // 単語
+          kashiWord.animate = (nowWord, uWord) => {
+            // 文字が時間内の時
+            if (uWord.startTime <= nowWord && uWord.endTime > nowWord && isFirstWord) {
+              // console.log(uWord.text)
+              // 歌詞の更新
+              props.handOverWord(uWord.text); // 歌詞を親に渡す
+              isFirstWord = false;
+            }
+          };
+          kashiWord = kashiWord.next; // 次の文字
+        }
+        // 最後の歌詞
+        kashiWord = p.video.lastWord;
+        kashiWord.animate = (nowWord, uWord) => {
+          // 文字が時間内の時
+          if (uWord.startTime <= nowWord && uWord.endTime > nowWord) {
+            // console.log(uWord.text)
+            // 歌詞の更新
+            props.handOverWord(uWord.text); // 歌詞を親に渡す
+          }
+        };
+
         while (kashiChar && kashiChar.next) {
           let isFirstChar: boolean = true;
           // 一字
@@ -138,13 +159,23 @@ export const LyricComponent = (props: any) => {
             // 文字が時間内の時
             if (uChar.startTime <= nowChar && uChar.endTime > nowChar && isFirstChar) {
               // 歌詞の更新
-              console.log(uChar.text)
+              // console.log(uChar.text)
               props.handOverChar(uChar.text);  // 歌詞を親に渡す
               isFirstChar = false;
             }
           };
           kashiChar = kashiChar.next;  // 次の文字
         }
+        // 最後の歌詞
+        kashiChar = p.video.lastChar;
+        kashiChar.animate = (nowChar, uChar) => {
+          // 文字が時間内の時
+          if (uChar.startTime <= nowChar && uChar.endTime > nowChar) {
+            // console.log(uWord.text)
+            // 歌詞の更新
+            props.handOverChar(uChar.text); // 歌詞を親に渡す
+          }
+        };
       },
       onTimeUpdate: (position: number) => {
         setPlayTime(position)
