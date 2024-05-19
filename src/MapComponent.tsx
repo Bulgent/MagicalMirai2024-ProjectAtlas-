@@ -7,7 +7,7 @@ import {
   useMap,
   Marker,
 } from 'react-leaflet';
-import { StyleFunction, LeafletMouseEvent ,LatLngExpression} from 'leaflet';
+import { StyleFunction, LeafletMouseEvent, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
@@ -28,7 +28,7 @@ interface PointProperties {
   coordinates: [number, number];
 }
 
-export const MapComponent: React.FC = (kashi) => {
+export const MapComponent = (props: any) => {
   const [clickedPoints, setClickedPoints] = useState<PointProperties[]>([]);
   const position: [number, number] = [34.6937, 135.5021];
   const [center, setCenter] = useState<[number, number]>(position);
@@ -39,12 +39,12 @@ export const MapComponent: React.FC = (kashi) => {
   const [clickedCount, setClickedCount] = useState(0);
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
-  const [songKashi, setKashi] = useState(kashi)
+  const [songKashi, setKashi] = useState(props.kashi)
 
 
 
   // pointデータを図形として表現
-  const pointToLayer = (feature:any, latlng:LatLngExpression) => {
+  const pointToLayer = (feature: any, latlng: LatLngExpression) => {
     const circleMarkerOptions = {
       radius: 6,
       fillColor: 'white',
@@ -132,6 +132,30 @@ export const MapComponent: React.FC = (kashi) => {
     return null;
   };
 
+  // 歌詞表示コンポーネント👽
+  // コンポーネントとして実行しないと動かない?
+  const MapKashi = () => {
+    const map = useMap();
+    // console.log(map.getSize(), map.getCenter(), map.getBounds())
+    // var markertext = L.marker(map.getCenter(), { opacity: 1 });
+    if(props.kashi!=""){
+      var markertext = L.marker([Math.random() *
+        (map.getBounds().getNorth() -
+          map.getBounds().getSouth()) +
+        map.getBounds().getSouth(),
+        Math.random() *
+        (map.getBounds().getEast() -
+          map.getBounds().getWest()) +
+        map.getBounds().getWest()], { opacity: 1 });
+      markertext.bindTooltip(props.kashi, { permanent: true })
+      markertext.addTo(map);
+    }
+
+    // コンポーネントとしての利用のために
+    return null;
+  };
+
+
   // 機能テスト用
   // isMovingを切り替える（地図移動の発火点）
   const handleMapMove = () => {
@@ -175,14 +199,14 @@ export const MapComponent: React.FC = (kashi) => {
       ? 'Click this Circle to change the Tooltip text'
       : `Circle click: ${clickedCount}`;
 
-    const onPointClick = (e: LeafletMouseEvent) => {
-      const clickedPointProperties: PointProperties = {
-        name: e.sourceTarget.feature.properties.name,
-        coordinates: e.sourceTarget.feature.geometry.coordinates
-      };
-      // properties.nameとgeometry.coordinatesの値を連想配列として格納
-      setClickedPoints(prevPoints => [...prevPoints, clickedPointProperties]);
+  const onPointClick = (e: LeafletMouseEvent) => {
+    const clickedPointProperties: PointProperties = {
+      name: e.sourceTarget.feature.properties.name,
+      coordinates: e.sourceTarget.feature.geometry.coordinates
     };
+    // properties.nameとgeometry.coordinatesの値を連想配列として格納
+    setClickedPoints(prevPoints => [...prevPoints, clickedPointProperties]);
+  };
 
   return (
     <>
@@ -208,6 +232,7 @@ export const MapComponent: React.FC = (kashi) => {
             });
           }}
         />
+
         <PathWay />
          <PbfLayer
           url="https://cyberjapandata.gsi.go.jp/xyz/experimental_bvmap/{z}/{x}/{y}.pbf"
@@ -219,17 +244,17 @@ export const MapComponent: React.FC = (kashi) => {
                 color: "#90dbee",
                 opacity: 1,
                 weight: 0.5,
-                fill:true,
-                fillColor:"#90dbee",
-                fillOpacity:1,
+                fill: true,
+                fillColor: "#90dbee",
+                fillOpacity: 1,
               },
               "waterarea": {
                 color: "#90dbee",
                 opacity: 1,
                 weight: 0.5,
-                fill:true,
-                fillColor:"#90dbee",
-                fillOpacity:1,
+                fill: true,
+                fillColor: "#90dbee",
+                fillOpacity: 1,
               },
               "river": {
                 color: "#90dbee",
@@ -240,9 +265,9 @@ export const MapComponent: React.FC = (kashi) => {
                 color: "#9d9da0",
                 opacity: 1,
                 weight: 0.5,
-                fill:true,
-                fillColor:"#e8e9ed",
-                fillOpacity:1,
+                fill: true,
+                fillColor: "#e8e9ed",
+                fillOpacity: 1,
               },
               "road": {
                 color: "#b5c5d3",
@@ -260,9 +285,9 @@ export const MapComponent: React.FC = (kashi) => {
                 color: "red",
                 opacity: 1,
                 weight: 0.5,
-                fill:true,
-                fillColor:"#red",
-                fillOpacity:1,
+                fill: true,
+                fillColor: "#red",
+                fillOpacity: 1,
               },
               "structurel": {
                 color: "red",
@@ -331,42 +356,44 @@ export const MapComponent: React.FC = (kashi) => {
               },
             }
           }
-          />
+        />
 
-          <Circle
-            center={circlePosition}
-            eventHandlers={{
-              click: handleCircleClick,
-            }}
-            pathOptions={{ fillColor: 'blue' }}
-            radius={6}
-            >
-            <Tooltip>{clickedText}</Tooltip>
-          </Circle>
-          {
-            pointPositions.map((position) => (
-              <Marker
-                key={`${position[0]}-${position[1]}`}
-                position={position}
-                eventHandlers={{
-                  click: () => addSomePanels(pointPositions.indexOf(position), `${position[0]}-${position[1]}`),
-                }}
-              />
-            ))
-          }
-          <MoveMap />
-        </MapContainer>
+        <Circle
+          center={circlePosition}
+          eventHandlers={{
+            click: handleCircleClick,
+          }}
+          pathOptions={{ fillColor: 'blue' }}
+          radius={6}
+        >
+          <Tooltip>{clickedText}</Tooltip>
+        </Circle>
+        {
+          pointPositions.map((position) => (
+            <Marker
+              key={`${position[0]}-${position[1]}`}
+              position={position}
+              eventHandlers={{
+                click: () => addSomePanels(pointPositions.indexOf(position), `${position[0]}-${position[1]}`),
+              }}
+            />
+          ))
+        }
+        <MoveMap />
+        <MapKashi />
+      </MapContainer>
 
-        {/* 出力確認用、場所を移動させる↓ */}
-        {/* これがあるとマップの表示が下にずれる */}
-        {/* <ul>
+
+      {/* 出力確認用、場所を移動させる↓ */}
+      {/* これがあるとマップの表示が下にずれる */}
+      {/* <ul>
           {clickedPoints.map((point, index) => (
             <li key={index}>
               Name: {point.name}, Coordinates: {point.coordinates}
             </li>
           ))}
         </ul> */}
-        {/* 出力確認用、場所を移動させる↑ */}
+      {/* 出力確認用、場所を移動させる↑ */}
 
       {
         panels.map((label) => (
