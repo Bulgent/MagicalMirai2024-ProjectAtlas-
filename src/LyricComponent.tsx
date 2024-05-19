@@ -15,7 +15,7 @@ import './App.css';
 //   onStop, // 楽曲停止時
 //   onAppMediaChange, // 楽曲変更時
 
-export const LyricComponent = () => {
+export const LyricComponent = (props: any) => {
   // 開発環境稼働か?
   // const isDevelopment: boolean = false;
   const isDevelopment: boolean = process.env.NODE_ENV === 'development';
@@ -27,7 +27,7 @@ export const LyricComponent = () => {
   const [char, setChar] = useState(''); // 歌詞情報
   const [chord, setChord] = useState(''); // コード情報
   const [chorus, setChorus] = useState('');
-  const [volume, setVolume] = useState(10);
+  const [volume, setVolume] = useState(1);
   const [songNum, setSongNum] = useState(isDevelopment ? 3 : -1) //選択曲 -1:未選択 開発環境なら曲選択をすっ飛ばしてマップ画面に行く
   const [mediaElement, setMediaElement] = useState(null);
   const [songTitle, setSongTitle] = useState('');
@@ -94,30 +94,31 @@ export const LyricComponent = () => {
         setSongTitle(p.data.song.name)
         setSongArtist(p.data.song.artist.name)
         setSongLength(p.data.song.length)
-        p.volume=volume
+        p.volume = volume
         // 一番最初の文字
         let c = p.video.firstChar;
-        let isfirst: boolean = true;
         // 今の歌詞と次の歌詞が存在する時はずっと繰り返す
         while (c && c.next) {
+          let isfirst: boolean = true;
           c.animate = (now, u) => {
             // 文字が時間内の時
             // console.log(u);
-
             if (u.startTime <= now && u.endTime > now) {
               // 歌詞の更新
+              //最初だけ呼ぶ
               if (isfirst) {
-                console.log("first")
+                // console.log("first")
+                // 歌詞を親に渡す
+                props.handOverKashi(u.text);
                 isfirst = false;
               }
-              setChar(u.text);
-              setChord(p.findChord(p.timer.position).name + " → " + p.findChord(p.timer.position).next.name);
-              setChorus(getSegNumber(now).join())
+              // setChar(u.text);
+              // setChord(p.findChord(p.timer.position).name + " → " + p.findChord(p.timer.position).next.name);
+              // setChorus(getSegNumber(now).join())
             }
           };
           // 次の文字
           c = c.next;
-          isfirst = true;
         }
       },
       onTimeUpdate: (position: number) => {
@@ -176,7 +177,7 @@ export const LyricComponent = () => {
               <div className='songartist'>{songArtist}</div>
             </div>
             {div}
-            <HistoryComponent player={player}/>
+            <HistoryComponent player={player} />
           </div>
         </div>
       </>
