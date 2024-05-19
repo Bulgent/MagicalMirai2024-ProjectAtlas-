@@ -96,29 +96,54 @@ export const LyricComponent = (props: any) => {
         setSongLength(p.data.song.length)
         p.volume = volume
         // 一番最初の文字
-        let c = p.video.firstChar;
+        let kashiChar = p.video.firstChar; // 最初の文字(好)
+        let kashiWord = p.video.firstWord; // 最初の熟語(好き)
+        let kashiPhrase = p.video.firstPhrase; // 最初の歌詞(好きの伝え方は一つじゃないから)
+        // setChord(p.findChord(p.timer.position).name + " → " + p.findChord(p.timer.position).next.name);
+        // setChorus(getSegNumber(now).join())
+        console.log(kashiChar.text, kashiWord.text, kashiPhrase.text)
         // 今の歌詞と次の歌詞が存在する時はずっと繰り返す
-        while (c && c.next) {
-          let isfirst: boolean = true;
-          c.animate = (now, u) => {
+        // while (kashiPhrase && kashiPhrase.next) {
+        //   let isFirstPhrase: boolean = true;
+        //   // フレーズ
+        //   kashiPhrase.animate = (nowPhrase, uPhrase) => {
+        //     // 文字が時間内の時
+        //     if (uPhrase.startTime <= nowPhrase && uPhrase.endTime > nowPhrase && isFirstPhrase) {
+        //       // console.log(uPhrase.text)
+        //       // 歌詞の更新
+        //       props.handOverPhrase(uPhrase.text);   // 歌詞を親に渡す
+        //       isFirstPhrase = false;
+        //     }
+        //   };
+        //   kashiPhrase = kashiPhrase.next;  // 次の文字
+        // }
+        // while (kashiWord && kashiWord.next) {
+        //   let isFirstWord: boolean = true
+        //   // 単語
+        //   kashiWord.animate = (nowWord, uWord) => {
+        //     // 文字が時間内の時
+        //     if (uWord.startTime <= nowWord && uWord.endTime > nowWord && isFirstWord) {
+        //       // console.log(uWord.text)
+        //       // 歌詞の更新
+        //       props.handOverWord(uWord.text); // 歌詞を親に渡す
+        //       isFirstWord = false;
+        //     }
+        //   };
+        //   kashiWord = kashiWord.next; // 次の文字
+        // }
+        while (kashiChar && kashiChar.next) {
+          let isFirstChar: boolean = true;
+          // 一字
+          kashiChar.animate = (nowChar, uChar) => {
             // 文字が時間内の時
-            // console.log(u);
-            if (u.startTime <= now && u.endTime > now) {
+            if (uChar.startTime <= nowChar && uChar.endTime > nowChar && isFirstChar) {
               // 歌詞の更新
-              //最初だけ呼ぶ
-              if (isfirst) {
-                // console.log("first")
-                // 歌詞を親に渡す
-                props.handOverKashi(u.text);
-                isfirst = false;
-              }
-              // setChar(u.text);
-              // setChord(p.findChord(p.timer.position).name + " → " + p.findChord(p.timer.position).next.name);
-              // setChorus(getSegNumber(now).join())
+              console.log(uChar.text)
+              props.handOverChar(uChar.text);  // 歌詞を親に渡す
+              isFirstChar = false;
             }
           };
-          // 次の文字
-          c = c.next;
+          kashiChar = kashiChar.next;  // 次の文字
         }
       },
       onTimeUpdate: (position: number) => {
