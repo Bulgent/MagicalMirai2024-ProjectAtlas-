@@ -12,6 +12,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
 // import PbfLayer from './PbfComponentSetting';
+import { computePath } from './ComputePath'
 
 // 地図データの導入
 import roads from './map_data/roads.json'
@@ -40,6 +41,8 @@ export const MapComponent: React.FC = (kashi) => {
   const [panels, setPanels] = useState<string[]>([]);
   const [songKashi, setKashi] = useState(kashi)
 
+
+
   // pointデータを図形として表現
   const pointToLayer = (feature:any, latlng:LatLngExpression) => {
     const circleMarkerOptions = {
@@ -58,7 +61,7 @@ export const MapComponent: React.FC = (kashi) => {
       case 'MultiLineString':
         return {
           color: '#99abc2',
-          weight: 5,
+          weight: 10,
         };
       case 'MultiPolygon':
         return {
@@ -72,6 +75,39 @@ export const MapComponent: React.FC = (kashi) => {
         return {};
     }
   };
+
+  // line, polygonデータを図形として表現
+  const mapStylePathWay: StyleFunction = (feature) => {
+    switch (feature?.geometry?.type) {
+      case 'MultiLineString':
+        return {
+          color: 'blue',
+          weight: 5,
+          opacity:0.5,
+        };
+      default:
+        return {};
+    }
+  };
+
+  const PathWay: React.FC = () =>{
+    const features = computePath()
+        if (features){
+      const geojson = {
+        type:"FeatureCollection",
+        features:features
+      }
+      console.log(geojson)
+      return(<div>
+        <GeoJSON
+              data={geojson as GeoJSON.GeoJsonObject}
+              style={mapStylePathWay}/>
+      </div>
+              )
+    }else{
+      return null
+    }
+  }
 
   // 機能テスト用
   // isMovingの値が変わったら実行
@@ -174,7 +210,7 @@ export const MapComponent: React.FC = (kashi) => {
             });
           }}
         />
-
+        <PathWay />
          <PbfLayer
           url="https://cyberjapandata.gsi.go.jp/xyz/experimental_bvmap/{z}/{x}/{y}.pbf"
           maxNativeZoom={16} // 解像度を調整（値が小さい程データ量が小さい）
