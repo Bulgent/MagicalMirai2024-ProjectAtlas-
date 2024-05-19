@@ -110,6 +110,52 @@ export const MapComponent = (props: any) => {
   // 機能テスト用
   // isMovingの値が変わったら実行
   // コンポーネントとして実行しないと動かない?
+  
+  const route_positions = [
+    [34.72694444, 135.51888889],
+    [34.72777778, 135.51972222],
+    [34.72694444, 135.51888889],
+    [34.72777778, 135.51972222],
+  ]
+  console.log("map");
+  const MoveMapByRoute = (route_positions) =>{
+    const map = useMap();
+    const speed = 50
+    const vector = (posion:[number, number], next_position:[number, number], speed:number):[number, number] =>{
+      return [(next_position[0]-posion[0])/speed, (next_position[1]-posion[1])/speed];
+    };
+    useEffect(() => {
+      // falseの場合動かない
+      if (!isMoving) {
+        return;
+      }
+      // trueの場合
+      // 50ms毎に平行移動
+      // 現在のmap位置を取得
+      const timerId = setInterval(() => {
+        // 現在のmap位置とroute_positionsの最初の値からvectorを計算
+        const [vector_lat, vector_lon] = vector([map.getCenter().lat, map.getCenter().lng], route_positions[0], speed)
+        // 移動処理
+        setCenter((prevCenter) => [prevCenter[0]+vector_lat, prevCenter[1] + vector_lon]);
+        map.setView(center, 16);
+        // 現在値がroute_positionsと同じ値になったらroute_positionsの先頭の要素を削除
+        if (map.getCenter().lat===route_positions[0][0] && map.getCenter().lng===route_positions[0][1]){
+          if (route_positions.length == 0){
+            return;
+          }else{
+            route_positions = route_positions.slice(1);
+          }
+        }
+      }, 50);
+      // falseのreturnの跡にintervalの値をclearにリセット
+      return () => {
+        clearInterval(timerId);
+      };
+    }, [isMoving]);
+    // コンポーネントとしての利用のために
+    return null;
+  }
+
   const MoveMap = () => {
     const map = useMap();
     useEffect(() => {
