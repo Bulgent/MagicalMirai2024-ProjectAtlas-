@@ -91,7 +91,7 @@ export const MapComponent = (props: any) => {
   };
 
   const PathWay: React.FC = () =>{
-    const features = computePath()
+    const [features, nodes] = computePath()
         if (features){
       const geojson = {
         type:"FeatureCollection",

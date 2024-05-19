@@ -21,7 +21,7 @@ type Link = {
 type NodeResult = {
   node_id: string;
   link_id: string;
-  link_position: "to"|"from"|"hhh";
+  link_position: "to"|"from";
 }
 
 const deg2rad = (deg: number): number => {
@@ -54,7 +54,7 @@ const roundWithScale = (value: number, scale: number) => {
 /*
 jsonから最短距離計算のためのLinkへの整形
 */
-const createLinksFromJsonKai = (json: any):Link[] =>{
+const createLinksFromJson = (json: any):Link[] =>{
   const links: Link[] = [];
   const features = json["features"];
   // それぞれのノードの一致度の正確さを決定
@@ -90,6 +90,128 @@ const createLinksFromJsonKai = (json: any):Link[] =>{
   return links
 }
 
+function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[]]{
+  const feature_ret = []
+  const nodes_path:[number, number][] = []
+
+  for (let node_result of node_results){
+    const targetIndex2 = links.findIndex(link => {
+      return link.link_id === node_result.link_id
+    });
+    const link_detail:Link = links[targetIndex2]
+    const {from, to, type, name} = link_detail
+
+    // それぞれのリンク毎のfeatureを作成し配列に格納
+    const feature = {
+      type: "Feature",
+      properties: {
+        type,
+        name,
+      },
+      geometry:{
+        type:"MultiLineString",
+        coordinates:[
+          [
+            from,
+            to
+          ]
+        ]
+      }
+    }
+    feature_ret.push(feature)
+
+    // それぞれのノードの値を取得し格納（リンクの片方のノードのみを格納）
+    if (node_result.link_position==="from"){
+      nodes_path.push(from)
+    }else{
+      nodes_path.push(from)
+    }
+  }
+
+  const nodes_path_feature = [
+    {
+      type: "Feature",
+      properties: {
+        type:3,
+        name:"pathway",
+      },
+      geometry:{
+        type:"MultiLineString",
+        coordinates:[
+          nodes_path
+        ]
+      }
+    }
+  ]
+  console.log(feature_ret.length)
+  const set_feature_ret = new Set(feature_ret);
+  console.log([...set_feature_ret].length)
+  return [feature_ret, nodes_path_feature, nodes_path]
+}
+
+export function computePath(): [any[],any[]] {
+  // jsonからのデータ成形
+  const links = createLinksFromJson(roads)
+  const start_id = links[0].from_string
+  const end_id = links[6000].from_string
+  // リンクを格納して計算準備
+  const graph = createGraph();
+  for (const link of links){
+    const {from_string, to_string, weight} = link
+    graph.addLink(from_string, to_string, { weight })
+  }
+  const pathFinder = aStar(graph, {
+    // oriented: true,
+    // We tell our pathfinder what should it use as a distance function:
+    distance(fromNode, toNode, link) {
+      // We don't really care about from/to nodes in this case,
+      // as link.data has all needed information:
+      return link.data.weight;0
+    }
+  });
+  // 計算を実施
+  const path_lst = pathFinder.find(start_id, end_id);
+
+  // 計算結果よりリンクidを取得（描画用の座標に変換するため）
+  const node_results:NodeResult[] = []
+  // 植木算
+  let check_to_lst = []
+  let check_from_lst = []
+  for (let i:number=0; i<= path_lst.length-2; i++){
+    const path = path_lst[i]
+    const path_next = path_lst[i+1]
+    // nodeの座標を取得
+    const node_id = path.id
+    const node_next_id = path_next.id
+    // それに対応するLinkIdを取得する
+    const links_array = [...path.links]
+    let link_id;
+    let link_position
+    for (let link_ of links_array){
+
+      if (node_next_id===link_.fromId || node_next_id===link_.toId){
+        link_id = `${link_.fromId}-${link_.toId}`
+        link_position = node_next_id === link_.fromId ? "to" : "from";
+        break
+      }
+    }
+    const node_result:NodeResult = {
+      node_id,
+      link_id,
+      link_position
+    }
+    node_results.push(node_result)
+  }
+
+  // 描画用の座標をfeaturesに格納
+  // ノードによる描画を実施
+  const [feature_ret, nodes_path_feature, nodes_path] = getFeature(node_results, links)
+  return [nodes_path_feature, nodes_path]
+}
+
+/*
+確認用、消しても問題ない
+*/
 function countAndFindDifferences(arr1: any[], arr2: any[]): { count: number, diff: any[] } {
   const set1 = new Set(arr1);
   const set2 = new Set(arr2);
@@ -112,167 +234,3 @@ function countAndFindDifferences(arr1: any[], arr2: any[]): { count: number, dif
   console.log(diff)
   return { count, diff };
 }
-
-function getFeatureByLinkIdKai(node_results:NodeResult[], links:Link[]):any[]{
-  const feature_ret = []
-  const check_lst_to = []
-  const check_lst_from = []
-  for (let node_result of node_results){
-    const targetIndex2 = links.findIndex(link => {
-      return link.link_id === node_result.link_id
-    });
-    const link_detail:Link = links[targetIndex2]
-    const {from, to, type, name, from_string, to_string} = link_detail
-    // console.log(from)
-    const feature = {
-      type: "Feature",
-      properties: {
-        type,
-        name,
-      },
-      geometry:{
-        type:"MultiLineString",
-        coordinates:[
-          [
-            from,
-            to
-          ]
-        ]
-      }
-    }
-    feature_ret.push(feature)
-    check_lst_to.push(from_string)
-    check_lst_from.push(to_string)
-  }
-  countAndFindDifferences(check_lst_to, check_lst_from)
-  // console.log(check_lst_from)
-  return feature_ret
-}
-
-export function computePath(): any[] {
-  
-  // jsonからのデータ成形
-  const links = createLinksFromJsonKai(roads)
-  const start_id = links[0].from_string
-  const end_id = links[6000].from_string
-  // リンクを格納して計算準備
-  const graph = createGraph();
-  for (const link of links){
-    const {from_string, to_string, weight} = link
-    graph.addLink(from_string, to_string, { weight })
-  }
-  const pathFinder = aStar(graph, {
-    // oriented: true,
-    // We tell our pathfinder what should it use as a distance function:
-    distance(fromNode, toNode, link) {
-      // We don't really care about from/to nodes in this case,
-      // as link.data has all needed information:
-      return link.data.weight;0
-    }
-  });
-  // 計算を実施
-  const path_lst = pathFinder.find(start_id, end_id);
-  console.log(path_lst)
-  // 計算結果よりリンクidを取得（描画用の座標に変換するため）
-  const node_results:NodeResult[] = []
-  // 植木算
-  let check_to_lst = []
-  let check_from_lst = []
-  for (let i:number=0; i<= path_lst.length-2; i++){
-    const path = path_lst[i]
-    const path_next = path_lst[i+1]
-    // nodeの座標を取得
-    const node_id = path.id
-    const node_next_id = path_next.id
-    // それに対応するLinkIdを取得する
-    const links_array = [...path.links]
-    let link_id;
-    let link_position="hhh"
-    for (let link_ of links_array){
-      // console.log(link_)
-      if (node_next_id===link_.fromId || node_next_id===link_.toId){
-        link_id = `${link_.fromId}-${link_.toId}`
-        link_position = node_next_id === link_.fromId ? "to" : "from";
-        check_to_lst.push(link_.toId)
-        check_from_lst.push(link_.fromId)
-        break
-      }
-    }
-    const node_result:NodeResult = {
-      node_id,
-      link_id,
-      link_position
-    }
-    node_results.push(node_result)
-  }
-  countAndFindDifferences(check_to_lst, check_from_lst)
-  console.log(node_results)
-
-  // 描画用の座標をfeaturesに格納
-  return getFeatureByLinkIdKai(node_results, links)
-}
-
-
-
-// export function computePath(): any[] {
-  
-//   // jsonからのデータ成形
-//   const links = createLinksFromJsonKai(roads)
-//   const start_id = links[0].from_string
-//   const end_id = links[6000].from_string
-//   // リンクを格納して計算準備
-//   const graph = createGraph();
-//   for (const link of links){
-//     const {from_string, to_string, weight} = link
-//     graph.addLink(from_string, to_string, { weight })
-//   }
-//   const pathFinder = aStar(graph, {
-//     // oriented: true,
-//     // We tell our pathfinder what should it use as a distance function:
-//     distance(fromNode, toNode, link) {
-//       // We don't really care about from/to nodes in this case,
-//       // as link.data has all needed information:
-//       return link.data.weight;0
-//     }
-//   });
-//   // 計算を実施
-//   const path_lst = pathFinder.find(start_id, end_id);
-//   console.log(path_lst)
-//   // 計算結果よりリンクidを取得（描画用の座標に変換するため）
-//   const node_results:NodeResult[] = []
-//   // 植木算
-//   let check_to_lst = []
-//   let check_from_lst = []
-//   for (let i:number=0; i<= path_lst.length-2; i++){
-//     const path = path_lst[i]
-//     const path_next = path_lst[i+1]
-//     // nodeの座標を取得
-//     const node_id = path.id
-//     const node_next_id = path_next.id
-//     // それに対応するLinkIdを取得する
-//     const links_array = [...path.links]
-//     let link_id;
-//     let link_position="hhh"
-//     for (let link_ of links_array){
-//       // console.log(link_)
-//       if (node_next_id===link_.fromId || node_next_id===link_.toId){
-//         link_id = `${link_.fromId}-${link_.toId}`
-//         link_position = node_next_id === link_.fromId ? "to" : "from";
-//         check_to_lst.push(link_.toId)
-//         check_from_lst.push(link_.fromId)
-//         break
-//       }
-//     }
-//     const node_result:NodeResult = {
-//       node_id,
-//       link_id,
-//       link_position
-//     }
-//     node_results.push(node_result)
-//   }
-//   countAndFindDifferences(check_to_lst, check_from_lst)
-//   console.log(node_results)
-
-//   // 描画用の座標をfeaturesに格納
-//   return getFeatureByLinkIdKai(node_results, links)
-// }
