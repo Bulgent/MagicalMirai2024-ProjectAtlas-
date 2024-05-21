@@ -148,28 +148,29 @@ export const MapComponent = (props: any) => {
           routePositions[0],
           routePositions[1],
         );
-
+        console.log(vector_lat, vector_lon)
         // 移動処理
         // console.log(routePositions[0][0], routePositions[0][1], vector_lat,  vector_lon, distance, routePositions.length)
-        console.log(map.getCenter().lat, map.getCenter().lng)
-        map.setView(
-          [routePositions[0][0]+ vector_lat/(distance+EPSILON)*timer*speed, routePositions[0][1] + vector_lon/(distance+EPSILON)*timer*speed],
-          16
-        );
-        timer++;
 
         // 現在値がroute_positionsと同じ値になったらroute_positionsの先頭の要素を削除
-        if (Math.abs(routePositions[1][0]-map.getCenter().lat)<Math.abs(vector_lat)|| 
-            Math.abs(routePositions[1][1]-map.getCenter().lng)<Math.abs(vector_lon) ){
+        if (Math.abs(routePositions[1][0]-map.getCenter().lat)<=Math.abs(vector_lat/distance*speed)|| 
+            Math.abs(routePositions[1][1]-map.getCenter().lng)<=Math.abs(vector_lon/distance*speed) ){
           if (routePositions.length <= 2){
             console.log("finish")
+            clearInterval(timerId);
             return;
           }else{
             console.log("passed");
             timer = 0
             setRoutePositions(routePositions.slice(1));
           }
+        }else{
+          map.setView(
+            [routePositions[0][0]+ vector_lat/(distance+EPSILON)*timer*speed, routePositions[0][1] + vector_lon/(distance+EPSILON)*timer*speed],
+            16
+          );
         }
+        timer++;
       }, 16);
       // falseのreturnの跡にintervalの値をclearにリセット
       return () => {
