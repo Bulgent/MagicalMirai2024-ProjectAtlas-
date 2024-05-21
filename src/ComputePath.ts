@@ -93,6 +93,7 @@ const createLinksFromJson = (json: any):Link[] =>{
 function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[]]{
   const feature_ret = []
   const nodes_path:[number, number][] = []
+  const nodes_path_json:[number, number][] = []
 
   for (let node_result of node_results){
     const targetIndex2 = links.findIndex(link => {
@@ -122,9 +123,11 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
 
     // それぞれのノードの値を取得し格納（リンクの片方のノードのみを格納）
     if (node_result.link_position==="from"){
-      nodes_path.push(from)
+      nodes_path_json.push([from[0], from[1]])
+      nodes_path.push([from[1], from[0]])
     }else{
-      nodes_path.push(from)
+      nodes_path_json.push([to[0], to[1]])
+      nodes_path.push([to[1], to[0]])
     }
   }
 
@@ -138,14 +141,11 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
       geometry:{
         type:"MultiLineString",
         coordinates:[
-          nodes_path
+          nodes_path_json
         ]
       }
     }
   ]
-  console.log(feature_ret.length)
-  const set_feature_ret = new Set(feature_ret);
-  console.log([...set_feature_ret].length)
   return [feature_ret, nodes_path_feature, nodes_path]
 }
 
@@ -171,6 +171,7 @@ export function computePath(): [any[],any[]] {
   });
   // 計算を実施
   const path_lst = pathFinder.find(start_id, end_id);
+
 
   // 計算結果よりリンクidを取得（描画用の座標に変換するため）
   const node_results:NodeResult[] = []
@@ -206,6 +207,7 @@ export function computePath(): [any[],any[]] {
   // 描画用の座標をfeaturesに格納
   // ノードによる描画を実施
   const [feature_ret, nodes_path_feature, nodes_path] = getFeature(node_results, links)
+
   return [nodes_path_feature, nodes_path]
 }
 
@@ -231,6 +233,5 @@ function countAndFindDifferences(arr1: any[], arr2: any[]): { count: number, dif
       diff.push(item);
     }
   }
-  console.log(diff)
   return { count, diff };
 }

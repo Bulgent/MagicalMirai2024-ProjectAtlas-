@@ -13,15 +13,12 @@ import L from 'leaflet';
 import './App.css';
 // import PbfLayer from './PbfComponentSetting';
 import { computePath } from './ComputePath'
+import { roundWithScale } from './utils.ts'
 
 // 地図データの導入
 import roads from './map_data/roads.json'
 import points from './map_data/points.json'
 import areas from './map_data/areas.json'
-
-// Pbf関連データの導入
-import PbfLayer from './pbf/PbfComponentSetting';
-
 
 interface PointProperties {
   name: string;
@@ -32,13 +29,15 @@ export const MapComponent = (props: any) => {
   const [clickedPoints, setClickedPoints] = useState<PointProperties[]>([]);
   const position: [number, number] = [34.6937, 135.5021];
   const [center, setCenter] = useState<[number, number]>(position);
-  const [isMoving, setIsMoving] = useState(false);
+
   const [circlePosition, setCirclePosition] = useState<[number, number]>([
     34.3395651, 135.18270817
   ]);
   const [clickedCount, setClickedCount] = useState(0);
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
+  const [routePositions, setRoutePositions] = useState<[number, number][]>([]);
+  const [isInit, setIsInit] = useState<Boolean>(true);
   const [songKashi, setKashi] = useState(props.kashi)
 
 
@@ -92,16 +91,18 @@ export const MapComponent = (props: any) => {
 
   const PathWay: React.FC = () =>{
     const [features, nodes] = computePath()
-        if (features){
+
+    if (features){
       const geojson = {
         type:"FeatureCollection",
         features:features
       }
       return(
         <GeoJSON
-              data={geojson as GeoJSON.GeoJsonObject}
-              style={mapStylePathWay}/>
-              )
+          data={geojson as GeoJSON.GeoJsonObject}
+          style={mapStylePathWay}
+        />
+      )
     }else{
       return null
     }
@@ -111,50 +112,85 @@ export const MapComponent = (props: any) => {
   // isMovingの値が変わったら実行
   // コンポーネントとして実行しないと動かない?
   
-  const route_positions = [
-    [34.72694444, 135.51888889],
-    [34.72777778, 135.51972222],
-    [34.72694444, 135.51888889],
-    [34.72777778, 135.51972222],
-  ]
-  console.log("map");
-  const MoveMapByRoute = (route_positions) =>{
+
+
+  const MoveMapByRoute = () =>{
+
     const map = useMap();
-    const speed = 50
-    const vector = (posion:[number, number], next_position:[number, number], speed:number):[number, number] =>{
-      return [(next_position[0]-posion[0])/speed, (next_position[1]-posion[1])/speed];
+    const EPSILON = 0.000000000000001;
+    const speed = 0.00005
+    const smoothly = 100
+    const accuracyPosition = 3
+    const vector = (
+      position: [number, number],
+      nextPosition: [number, number],
+    ): [number, number, number] => {
+      const distance:number = Math.sqrt((nextPosition[0] - position[0])**2+(nextPosition[1] - position[1])**2)
+      // const distance :number = 1;
+      return [
+        (nextPosition[0] - position[0]) ,
+        (nextPosition[1] - position[1]) ,
+        distance
+      ];
     };
+
     useEffect(() => {
       // falseの場合動かない
-      if (!isMoving) {
+      if (!props.isMoving) {
         return;
       }
-      // trueの場合
-      // 50ms毎に平行移動
-      // 現在のmap位置を取得
+
+      let timer:number = 0;
       const timerId = setInterval(() => {
-        // 現在のmap位置とroute_positionsの最初の値からvectorを計算
-        const [vector_lat, vector_lon] = vector([map.getCenter().lat, map.getCenter().lng], route_positions[0], speed)
+
+      // 移動するためのベクトルを計算（単位ベクトルなので速度は一定）
+        const [vector_lat, vector_lon, distance] = vector(
+          routePositions[0],
+          routePositions[1],
+        );
+
         // 移動処理
-        setCenter((prevCenter) => [prevCenter[0]+vector_lat, prevCenter[1] + vector_lon]);
-        map.setView(center, 16);
+        // console.log(routePositions[0][0], routePositions[0][1], vector_lat,  vector_lon, distance, routePositions.length)
+        console.log(map.getCenter().lat, map.getCenter().lng)
+        map.setView(
+          [routePositions[0][0]+ vector_lat/(distance+EPSILON)*timer*speed, routePositions[0][1] + vector_lon/(distance+EPSILON)*timer*speed],
+          16
+        );
+        timer++;
+
         // 現在値がroute_positionsと同じ値になったらroute_positionsの先頭の要素を削除
-        if (map.getCenter().lat===route_positions[0][0] && map.getCenter().lng===route_positions[0][1]){
-          if (route_positions.length == 0){
+        if (Math.abs(routePositions[1][0]-map.getCenter().lat)<Math.abs(vector_lat)|| 
+            Math.abs(routePositions[1][1]-map.getCenter().lng)<Math.abs(vector_lon) ){
+          if (routePositions.length <= 2){
+            console.log("finish")
             return;
           }else{
-            route_positions = route_positions.slice(1);
+            console.log("passed");
+            timer = 0
+            setRoutePositions(routePositions.slice(1));
           }
         }
-      }, 50);
+      }, 16);
       // falseのreturnの跡にintervalの値をclearにリセット
       return () => {
         clearInterval(timerId);
       };
-    }, [isMoving]);
+    }, [props.isMoving]);
     // コンポーネントとしての利用のために
     return null;
   }
+
+  const initProcess = () =>{
+    if(isInit){
+      const [features, nodes] = computePath()
+      setRoutePositions(nodes)
+      setIsInit(false)
+    }else{
+
+    }
+  }
+
+  initProcess()
 
   const MoveMap = () => {
     const map = useMap();
@@ -202,11 +238,7 @@ export const MapComponent = (props: any) => {
   };
 
 
-  // 機能テスト用
-  // isMovingを切り替える（地図移動の発火点）
-  const handleMapMove = () => {
-    setIsMoving((prevIsMoving) => !prevIsMoving);
-  };
+
 
   // 機能テスト用
   // 描画するpointを追加する
@@ -425,7 +457,7 @@ export const MapComponent = (props: any) => {
             />
           ))
         }
-        <MoveMap />
+        <MoveMapByRoute/>
         <MapKashi />
       </MapContainer>
 
@@ -446,9 +478,7 @@ export const MapComponent = (props: any) => {
           <p>{label}</p>
         ))
       }
-      <button onClick={handleMapMove}>
-        {isMoving ? '停止' : '地図を移動'}
-      </button>
+
       <button onClick={addPoint}>
         Add Point
       </button>
