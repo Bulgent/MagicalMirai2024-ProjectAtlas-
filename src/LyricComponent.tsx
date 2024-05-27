@@ -4,6 +4,7 @@ import { PlayerControl } from './PlayerControl';
 import { HistoryComponent } from './HistoryComponent';
 import songRead from './song_data/Song';
 import './App.css';
+import songJacket from './song_data/jacket/mirai.jpg';
 
 //   onAppReady, // APIの準備完了
 //   onVideoReady, // 楽曲情報取得完了
@@ -219,22 +220,27 @@ export const LyricComponent = (props: any) => {
     return (
       <>
         <div className='mediacircle'>
-          <div className="media-jacket"></div>
           <div className="media-seek">
-            <div className='songtitle'>♪{songTitle}</div>
-            {player && app && (
-              <div className="controls">
-                <PlayerControl disabled={app.managed} player={player} />
-              </div>
-            )}
-            <div className='playartist'>
-              <div className="time">
-                {('00' + Math.floor((playTime / 1000) / 60)).slice(-2)}:{('00' + Math.floor((playTime / 1000) % 60)).slice(-2)} / {('00' + Math.floor(songLength / 60)).slice(-2)}:{('00' + Math.floor(songLength % 60)).slice(-2)}
-              </div>
-              <div className='songartist'>{songArtist}</div>
+            <div className='media-jacket transparent'>
+              <img className='jacketpic' src={songJacket} />
             </div>
-            {div}
-            {/* <HistoryComponent player={player} /> */}
+            <div className='media-info'>
+              <div className='title-artist'>
+                <div className='songtitle'>♪{songTitle}</div>
+                <div className='songartist'>{songArtist}</div>
+              </div>
+              <div className='playartist'>
+                <div className="time">
+                  {('00' + Math.floor((playTime / 1000) / 60)).slice(-2)}:{('00' + Math.floor((playTime / 1000) % 60)).slice(-2)} / {('00' + Math.floor(songLength / 60)).slice(-2)}:{('00' + Math.floor(songLength % 60)).slice(-2)}
+                </div>
+              </div>
+              <div className="controls">
+                {player && app && (
+                  <PlayerControl disabled={app.managed} player={player} />
+                )}
+              </div>
+              {div}
+            </div>
           </div>
         </div>
       </>
