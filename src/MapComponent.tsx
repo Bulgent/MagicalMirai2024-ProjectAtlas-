@@ -20,25 +20,31 @@ import areas from './map_data/areas.json'
 
 // Pbf関連データの導入
 import PbfLayer from './pbf/PbfComponentSetting';
+import { vectorTileLayerStyles } from './pbf/Pbfstyles';
 
 
 interface PointProperties {
   name: string;
   coordinates: [number, number];
 }
+interface kashiProperties {
+  text: string;
+  startTime: number;
+  endTime: number;
+}
 
 export const MapComponent = (props: any) => {
   const [clickedPoints, setClickedPoints] = useState<PointProperties[]>([]);
   const position: [number, number] = [34.6937, 135.5021];
   const [center, setCenter] = useState<[number, number]>(position);
-  const [isMoving, setIsMoving] = useState(false);
+  const [isMoving, setIsMoving] = useState<boolean>(false);
   const [circlePosition, setCirclePosition] = useState<[number, number]>([
     34.3395651, 135.18270817
   ]);
-  const [clickedCount, setClickedCount] = useState(0);
+  const [clickedCount, setClickedCount] = useState<number>(0);
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
-  const [songKashi, setKashi] = useState(props.kashi)
+  const [songKashi, setKashi] = useState<kashiProperties>({ text: "", startTime: 0, endTime: 0 });
   // console.log(props.kashi, songKashi)
 
   // pointデータを図形として表現
@@ -104,8 +110,10 @@ export const MapComponent = (props: any) => {
   const MapKashi = () => {
     const map = useMap();
     // console.log(map.getSize(), map.getCenter(), map.getBounds())
-    // var markertext = L.marker(map.getCenter(), { opacity: 1 });
-    if (props.kashi != "") {
+    // 歌詞が変わったら実行
+    if (props.kashi.text != "" && props.kashi != songKashi) {
+      console.log("歌詞が違う")
+      setKashi(props.kashi)
       // 地図の表示範囲内にランダムに歌詞配置
       var markertext = L.marker([Math.random() *
         (map.getBounds().getNorth() -
@@ -117,16 +125,19 @@ export const MapComponent = (props: any) => {
       map.getBounds().getWest()], { opacity: 0 });
       // 表示する歌詞
       // console.log("map", props.kashi)
-      markertext.bindTooltip(props.kashi, { permanent: true, className: "label-kashi", direction: "center" })
+      markertext.bindTooltip(props.kashi.text, { permanent: true, className: "label-kashi", direction: "center" })
       // 地図に追加
       markertext.addTo(map);
+
+      return () => {
+        markertext.remove();
+      };
     }
 
     // コンポーネントとしての利用のために
     return null;
   };
 
-    // 歌詞表示コンポーネント👽
   // コンポーネントとして実行しないと動かない?
   // const MapKashi = () => {
   //   const map = useMap();
@@ -231,124 +242,7 @@ export const MapComponent = (props: any) => {
           url="https://cyberjapandata.gsi.go.jp/xyz/experimental_bvmap/{z}/{x}/{y}.pbf"
           maxNativeZoom={16} // 解像度を調整（値が小さい程データ量が小さい）
           minNativeZoom={16}
-          vectorTileLayerStyles={
-            {
-              "lake": {
-                color: "#90dbee",
-                opacity: 1,
-                weight: 0.5,
-                fill: true,
-                fillColor: "#90dbee",
-                fillOpacity: 1,
-              },
-              "waterarea": {
-                color: "#90dbee",
-                opacity: 1,
-                weight: 0.5,
-                fill: true,
-                fillColor: "#90dbee",
-                fillOpacity: 1,
-              },
-              "river": {
-                color: "#90dbee",
-                opacity: 1,
-                weight: 0.5
-              },
-              "building": {
-                color: "#9d9da0",
-                opacity: 1,
-                weight: 0.5,
-                fill: true,
-                fillColor: "#e8e9ed",
-                fillOpacity: 1,
-              },
-              "road": {
-                color: "#b5c5d3",
-                opacity: 0,
-                weight: 0.5,
-              },
-
-              // ここから下は多分いらない（見えないようにopacity:0）
-              "coastline": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "wstructurea": {
-                color: "red",
-                opacity: 1,
-                weight: 0.5,
-                fill: true,
-                fillColor: "#red",
-                fillOpacity: 1,
-              },
-              "structurel": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "landforma": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "transp": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "label": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "elevation": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "contour": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "landforml": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "boundary": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "searoute": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "symbol": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "structurea": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "landformp": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "railway": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-            }
-          }
+          vectorTileLayerStyles={vectorTileLayerStyles} // 外部ファイルからスタイルを読み込む
         />
 
         <Circle

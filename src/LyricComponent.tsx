@@ -27,7 +27,7 @@ export const LyricComponent = (props: any) => {
   const [char, setChar] = useState(''); // 歌詞情報
   const [chord, setChord] = useState(''); // コード情報
   const [chorus, setChorus] = useState('');
-  const [volume, setVolume] = useState(1);
+  const [volume, setVolume] = useState(50);
   const [songNum, setSongNum] = useState(isDevelopment ? 3 : -1) //選択曲 -1:未選択 開発環境なら曲選択をすっ飛ばしてマップ画面に行く
   const [mediaElement, setMediaElement] = useState(null);
   const [songTitle, setSongTitle] = useState('');
@@ -111,7 +111,8 @@ export const LyricComponent = (props: any) => {
             if (uPhrase.contains(nowPhrase) && isFirstPhrase) {
               // console.log(uPhrase.text)
               // 歌詞の更新
-              props.handOverPhrase(uPhrase.text);   // 歌詞を親に渡す
+
+              props.handOverPhrase(uPhrase);   // 歌詞を親に渡す
               isFirstPhrase = false;
             }
           };
@@ -124,7 +125,7 @@ export const LyricComponent = (props: any) => {
           if (uPhrase.startTime <= nowPhrase && uPhrase.endTime > nowPhrase) {
             // console.log(uWord.text)
             // 歌詞の更新
-            props.handOverPhrase(uPhrase.text); // 歌詞を親に渡す
+            props.handOverPhrase(uPhrase); // 歌詞を親に渡す
           }
         };
         while (kashiWord && kashiWord.next) {
@@ -135,7 +136,7 @@ export const LyricComponent = (props: any) => {
             if (uWord.startTime <= nowWord && uWord.endTime > nowWord && isFirstWord) {
               // console.log(uWord.text)
               // 歌詞の更新
-              props.handOverWord(uWord.text); // 歌詞を親に渡す
+              props.handOverWord(uWord); // 歌詞を親に渡す
               isFirstWord = false;
             }
           };
@@ -148,7 +149,7 @@ export const LyricComponent = (props: any) => {
           if (uWord.startTime <= nowWord && uWord.endTime > nowWord) {
             // console.log(uWord.text)
             // 歌詞の更新
-            props.handOverWord(uWord.text); // 歌詞を親に渡す
+            props.handOverWord(uWord); // 歌詞を親に渡す
           }
         };
 
@@ -160,7 +161,7 @@ export const LyricComponent = (props: any) => {
             if (uChar.startTime <= nowChar && uChar.endTime > nowChar && isFirstChar) {
               // 歌詞の更新
               // console.log(uChar.text)
-              props.handOverChar(uChar.text);  // 歌詞を親に渡す
+              props.handOverChar(uChar);  // 歌詞を親に渡す
               isFirstChar = false;
             }
           };
@@ -173,7 +174,7 @@ export const LyricComponent = (props: any) => {
           if (uChar.startTime <= nowChar && uChar.endTime > nowChar) {
             // console.log(uWord.text)
             // 歌詞の更新
-            props.handOverChar(uChar.text); // 歌詞を親に渡す
+            props.handOverChar(uChar); // 歌詞を親に渡す
           }
         };
       },
@@ -233,7 +234,7 @@ export const LyricComponent = (props: any) => {
               <div className='songartist'>{songArtist}</div>
             </div>
             {div}
-            <HistoryComponent player={player} />
+            {/* <HistoryComponent player={player} /> */}
           </div>
         </div>
       </>

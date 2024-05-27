@@ -4,9 +4,9 @@ import { useCallback, useState, useEffect } from 'react';
 export const HistoryComponent = (props: any) => {
     return (
         <>
-            <div>フレーズ：<br/>{props.kashiPhrase}</div>
-            <div>単語：{props.kashiWord}</div>
-            <div>文字：{props.kashiChar}</div>
+            <div>フレーズ：<br/>{props.kashiPhrase.text}</div>
+            <div>単語：{props.kashiWord.text}</div>
+            <div>文字：{props.kashiChar.text}</div>
         </>
     )
 }
