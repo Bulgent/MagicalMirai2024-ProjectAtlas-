@@ -6,12 +6,11 @@ interface SongData {
     songURL: string;
     video: {
         // 音楽地図訂正履歴
-        beatId: number;
-        chordId: number;
-        repetitiveSegmentId: number;
-        // 歌詞タイミング訂正履歴
-        lyricId: number;
-        lyricDiffId: number;
+        beatId: number; // ビート情報のリビジョンID
+        chordId: number; // コード進行の情報のリビジョンID
+        repetitiveSegmentId: number; // サビなどの繰り返し区間のリビジョンID 
+        lyricId: number; // 歌詞ID -1: 最新 0: 読み込まない それ以外: 指定されたID
+        lyricDiffId: number; // 歌詞訂正ID
     },
     jacketName: string;
 }
@@ -23,6 +22,7 @@ const song1: SongData = {
     artist: "めろくる",
     songURL: "https://piapro.jp/t/hZ35/20240130103028",
     video: {
+        // https://songle.jp/songs/2712735/history
         // 音楽地図訂正履歴
         beatId: 4592293,
         chordId: 2727635,

@@ -30,7 +30,7 @@ export const LyricComponent = (props: any) => {
   const [chord, setChord] = useState(''); // コード情報
   // const [chorus, setChorus] = useState('');
   const [volume, setVolume] = useState(50);
-  const [songNum, setSongNum] = useState(isDevelopment ? 3 : -1) //選択曲 -1:未選択 開発環境なら曲選択をすっ飛ばしてマップ画面に行く
+  const [songNum, setSongNum] = useState(isDevelopment ? 2 : -1) //選択曲 -1:未選択 開発環境なら曲選択をすっ飛ばしてマップ画面に行く
   const [mediaElement, setMediaElement] = useState(null);
   const [songTitle, setSongTitle] = useState('');
   const [songArtist, setSongArtist] = useState('');
