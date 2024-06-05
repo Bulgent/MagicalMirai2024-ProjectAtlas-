@@ -74,8 +74,33 @@ body {
   border: 0px!important;
   box-shadow: none!important;
   font-size: 200%!important;
+  animation: fadeIn 0.255s ease;
+  /* animation: fadeInSlideUp 2s ease-in-out; */
 }
 
+/* ISSUE:既存のtranslate3dがあとに実行されてしまうので，座標がおかしくなる */
+/* @keyframes fadeInSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+} */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/* 曲コントロール */
 .mediacircle {
   display: flex;
   height: 20vh;
@@ -93,12 +118,14 @@ body {
   -ms-transform: translateX(-50%);
 }
 
+/* ジャケット */
 .media-jacket {
   height: 100%;
   /* display: flex; */
   /* padding:1em; */
 }
 
+/* 曲情報 */
 .media-info {
   margin: 0.8em 1em 0.8em 10em;
   width: 100%;
@@ -112,11 +139,13 @@ body {
   left: 0;
 }
 
+/* タイトルとアーティスト */
 .title-artist{
   display: flex;
   text-align: bottom;
 }
 
+/* si-kuba */
 .media-seek {
   margin: 0.8em;
   width: 100%;
@@ -203,3 +232,23 @@ body {
   box-shadow: 0 2px 2px 0 rgba(255, 255, 255, .2) inset, 0 2px 10px 0 rgba(255, 255, 255, .5) inset, 0 -2px 2px 0 rgba(0, 0, 0, .1) inset;
   border: 1px solid rgba(0, 0, 0, .2);
 }
+
+/* 
+.fade-text{
+  display: block;
+  color: transparent;
+  font-size: 30px;
+  line-height: 1.4;
+  margin-bottom: 40px;
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-size: 300% 300%;
+}
+
+.fade-text .to_right {
+  background-image: linear-gradient(to right, #fff 30%, rgba(255, 255, 255, 0) 60%);
+  background-position: left 100% center;
+  transform: translate(-20px, 0);
+  -webkit-animation: toRight var(--duration, 2.4s) var(--ease) var(--delay, 0.6s) forwards;
+          animation: toRight var(--duration, 2.4s) var(--ease) var(--delay, 0.6s) forwards;
+} */

@@ -114,18 +114,20 @@ export const MapComponent = (props: any) => {
     if (props.kashi.text != "" && props.kashi != songKashi) {
       console.log("歌詞が違う")
       setKashi(props.kashi)
-      // 地図の表示範囲内にランダムに歌詞配置
-      var markertext = L.marker([Math.random() *
+      const mapCoordinate: [number, number] = 
+      [Math.random() *
         (map.getBounds().getNorth() -
           map.getBounds().getSouth()) +
         map.getBounds().getSouth(),
       Math.random() *
       (map.getBounds().getEast() -
         map.getBounds().getWest()) +
-      map.getBounds().getWest()], { opacity: 0 });
+      map.getBounds().getWest()];
+      // 地図の表示範囲内にランダムに歌詞配置
+      const markertext = L.marker(mapCoordinate, { opacity: 0 });
       // 表示する歌詞
       // console.log("map", props.kashi)
-      markertext.bindTooltip(props.kashi.text, { permanent: true, className: "label-kashi", direction: "center" })
+      markertext.bindTooltip(props.kashi.text, { permanent: true, className: "label-kashi fade-text to_right", direction: "center" })
       // 地図に追加
       markertext.addTo(map);
 
