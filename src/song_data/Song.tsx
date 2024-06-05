@@ -12,7 +12,8 @@ interface SongData {
         // 歌詞タイミング訂正履歴
         lyricId: number;
         lyricDiffId: number;
-    }
+    },
+    jacketName: string;
 }
 
 // 曲情報
@@ -29,7 +30,8 @@ const song1: SongData = {
         // 歌詞タイミング訂正履歴
         lyricId: 59415,
         lyricDiffId: 13962
-    }
+    },
+    jacketName: "superhero.png"
 };
 
 const song2: SongData = {
@@ -45,7 +47,8 @@ const song2: SongData = {
         // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2F--OD%2F20240202150903
         lyricId: 59416,
         lyricDiffId: 13963
-    }
+    },
+    jacketName: "itsuka_kimi_to_hanashita_mirai_wa.png"
 };
 
 const song3: SongData = {
@@ -61,7 +64,8 @@ const song3: SongData = {
         // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FXiaI%2F20240201203346
         lyricId: 59417,
         lyricDiffId: 13964
-    }
+    },
+    jacketName: "future_notes.png"
 };
 
 const song4: SongData = {
@@ -77,7 +81,8 @@ const song4: SongData = {
         // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FRejk%2F20240202164429
         lyricId: 59418,
         lyricDiffId: 13965
-    }
+    },
+    jacketName: "mirai_koukyoukyoku.png"
 };
 
 const song5: SongData = {
@@ -93,7 +98,8 @@ const song5: SongData = {
         // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FELIC%2F20240130010349
         lyricId: 59419,
         lyricDiffId: 13966
-    }
+    },
+    jacketName: "reality.png"
 };
 
 const song6: SongData = {
@@ -109,7 +115,8 @@ const song6: SongData = {
         // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FxEA7%2F20240202002556
         lyricId: 59420,
         lyricDiffId: 13967
-    }
+    },
+    jacketName: "the_marks.png"
 };
 
 // 曲配列

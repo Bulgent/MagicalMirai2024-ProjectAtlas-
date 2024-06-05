@@ -4,7 +4,6 @@ import { PlayerControl } from './PlayerControl';
 import { HistoryComponent } from './HistoryComponent';
 import songRead from './song_data/Song';
 import './App.css';
-import songJacket from './song_data/jacket/mirai.jpg';
 
 //   onAppReady, // APIの準備完了
 //   onVideoReady, // 楽曲情報取得完了
@@ -16,6 +15,8 @@ import songJacket from './song_data/jacket/mirai.jpg';
 //   onStop, // 楽曲停止時
 //   onAppMediaChange, // 楽曲変更時
 
+
+
 export const LyricComponent = (props: any) => {
   // 開発環境稼働か?
   // const isDevelopment: boolean = false;
@@ -25,14 +26,19 @@ export const LyricComponent = (props: any) => {
   const [app, setApp] = useState(null); //
   const [playTime, setPlayTime] = useState(0)
   const [songLength, setSongLength] = useState(0)
-  const [char, setChar] = useState(''); // 歌詞情報
+  // const [char, setChar] = useState(''); // 歌詞情報
   const [chord, setChord] = useState(''); // コード情報
-  const [chorus, setChorus] = useState('');
+  // const [chorus, setChorus] = useState('');
   const [volume, setVolume] = useState(50);
   const [songNum, setSongNum] = useState(isDevelopment ? 3 : -1) //選択曲 -1:未選択 開発環境なら曲選択をすっ飛ばしてマップ画面に行く
   const [mediaElement, setMediaElement] = useState(null);
   const [songTitle, setSongTitle] = useState('');
   const [songArtist, setSongArtist] = useState('');
+
+  // 選択された曲のジャケット画像のパス取得
+  const getImage = (): string => {
+    return new URL(`./song_data/jacket/${songRead[songNum].jacketName}`, import.meta.url).href;
+  };
 
   // 同じ値のときは再計算せずにいいヤツ
   const div = useMemo(
@@ -222,7 +228,7 @@ export const LyricComponent = (props: any) => {
         <div className='mediacircle'>
           <div className="media-seek">
             <div className='media-jacket transparent'>
-              <img className='jacketpic' src={songJacket} />
+              <img className='jacketpic' src={getImage()} alt='' />
             </div>
             <div className='media-info'>
               <div className='title-artist'>
