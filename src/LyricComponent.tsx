@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Player } from 'textalive-app-api';
 import { PlayerControl } from './PlayerControl';
-import { HistoryComponent } from './HistoryComponent';
 import songRead from './song_data/Song';
 import './App.css';
 
@@ -30,7 +29,7 @@ export const LyricComponent = (props: any) => {
   const [chord, setChord] = useState(''); // コード情報
   // const [chorus, setChorus] = useState('');
   const [volume, setVolume] = useState(50);
-  const [songNum, setSongNum] = useState(isDevelopment ? 2 : -1) //選択曲 -1:未選択 開発環境なら曲選択をすっ飛ばしてマップ画面に行く
+  const [songNum, setSongNum] = useState(isDevelopment ? 3 : -1) //選択曲 -1:未選択 開発環境なら曲選択をすっ飛ばしてマップ画面に行く
   const [mediaElement, setMediaElement] = useState(null);
   const [songTitle, setSongTitle] = useState('');
   const [songArtist, setSongArtist] = useState('');
@@ -102,6 +101,7 @@ export const LyricComponent = (props: any) => {
         setSongArtist(p.data.song.artist.name)
         setSongLength(p.data.song.length)
         p.volume = volume
+        props.handOverSongInfo(songNum)
         // 一番最初の文字
         let kashiChar = p.video.firstChar; // 最初の文字(好)
         let kashiWord = p.video.firstWord; // 最初の熟語(好き)

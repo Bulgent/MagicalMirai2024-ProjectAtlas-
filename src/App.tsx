@@ -17,6 +17,7 @@ const App: React.FC = () => {
   const [kashiChar, setKashiChar] = useState<kashiProperties>({ text: "", startTime: 0, endTime: 0 })
   const [kashiWord, setKashiWord] = useState<kashiProperties>({ text: "", startTime: 0, endTime: 0 })
   const [kashiPhrase, setKashiPhrase] = useState<kashiProperties>({ text: "", startTime: 0, endTime: 0 })
+  const [songInfo, setSongInfo] = useState<number>(-1)
   const handOverChar = (songChar:kashiProperties) => {
     setKashiChar(songChar)
     // console.log("親受取単語:", songChar)
@@ -29,6 +30,9 @@ const App: React.FC = () => {
     setKashiPhrase(songPhrase)
     // console.log("親受取フレーズ:", songPhrase)
   }
+  const handOverSongInfo = (songInfo: number) => {
+    setSongInfo(songInfo)
+  }
 
   return (
     <React.Fragment>
@@ -36,10 +40,10 @@ const App: React.FC = () => {
         <div id="navi" className="split">
           <div id="map">
             {/* 単語:kashiChar, 熟語:kashiWord, フレーズ:kashiPhrase */}
-            <MapComponent kashi={kashiWord} /> 
+            <MapComponent kashi={kashiWord} songnum={songInfo}/> 
           </div>
           <div id="song">
-            <LyricComponent handOverChar={handOverChar} handOverWord={handOverWord} handOverPhrase={handOverPhrase} />
+            <LyricComponent handOverChar={handOverChar} handOverWord={handOverWord} handOverPhrase={handOverPhrase} handOverSongInfo={handOverSongInfo}/>
           </div>
         </div>
         <div id="history" className="split">

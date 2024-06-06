@@ -22,6 +22,8 @@ import areas from './map_data/areas.json'
 import PbfLayer from './pbf/PbfComponentSetting';
 import { vectorTileLayerStyles } from './pbf/Pbfstyles';
 
+// カラーパレットの導入
+import songRead from './song_data/Song';
 
 interface PointProperties {
   name: string;
@@ -168,35 +170,39 @@ export const MapComponent = (props: any) => {
     const map = useMap();
     // console.log(map.getSize(), map.getCenter(), map.getBounds())
     // 歌詞が変わったら実行
+    // ボカロによって色を変える
+    // if (props.songnum != -1) {
+    //   console.log(songRead[props.songnum].vocaloid.name)
+    // }
     if (props.kashi.text != "" && props.kashi != songKashi) {
-      console.log("歌詞が違う")
+      // console.log("歌詞が違う")
       setKashi(props.kashi)
-      let printKashi : string = "";
+      let printKashi: string = "";
       props.kashi.text.split('').forEach((char: string) => {
-        switch (checkKashiType(char)){
+        switch (checkKashiType(char)) {
           case KashiType.HIRAGANA:
-            printKashi += "<span class=hiragana>" + char + "</span>";
+            printKashi += "<span class='hiragana " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
             break;
           case KashiType.KATAKANA:
-            printKashi += "<span class=katakana>" + char + "</span>";
+            printKashi += "<span class='katakana " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
             break;
           case KashiType.KANJI:
-            printKashi += "<span class=kanji>" + char + "</span>";
+            printKashi += "<span class='kanji " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
             break;
           case KashiType.ENGLISH:
-            printKashi += "<span class=english>" + char + "</span>";
+            printKashi += "<span class='english " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
             break;
           case KashiType.NUMBER:
-            printKashi += "<span class=number>" + char + "</span>";
+            printKashi += "<span class='number " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
             break;
           case KashiType.SYMBOL:
-            printKashi += "<span class=symbol>" + char + "</span>";
+            printKashi += "<span class='symbol " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
             break;
           case KashiType.SPACE:
-            printKashi += "<span class=space>" + char + "</span>";
+            printKashi += "<span class='space " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
             break;
           default:
-            printKashi += "<span class=other>" + char + "</span>";
+            printKashi += "<span class='other " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
             break;
         }
       });
@@ -207,7 +213,7 @@ export const MapComponent = (props: any) => {
           map.getBounds().getSouth(),
         Math.random() * (map.getBounds().getEast() - map.getBounds().getWest()) +
         map.getBounds().getWest()];
-      console.log(mapCoordinate);
+      // console.log(mapCoordinate);
       // 地図の表示範囲内にランダムに歌詞配置
       const markertext = L.marker(mapCoordinate, { opacity: 0 });
       // 表示する歌詞
@@ -215,12 +221,12 @@ export const MapComponent = (props: any) => {
       markertext.bindTooltip(printKashi, { permanent: true, className: "label-kashi fade-text to_right", direction: "center" })
       // 地図に追加
       markertext.addTo(map);
-  
+
       return () => {
         markertext.remove();
       };
     }
-  
+
     // コンポーネントとしての利用のために
     return null;
   };

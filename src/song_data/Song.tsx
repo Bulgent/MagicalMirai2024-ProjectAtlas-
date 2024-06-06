@@ -3,6 +3,10 @@ interface SongData {
     id: number;
     title: string;
     artist: string;
+    vocaloid: {
+        name: string;
+        num: number;
+    },
     songURL: string;
     video: {
         // 音楽地図訂正履歴
@@ -15,11 +19,27 @@ interface SongData {
     jacketName: string;
 }
 
+enum vocaloidNum {
+    MIKU,
+    RINLEN,
+    LUKA,
+    KAITO,
+    MEIKO,
+    GUMI,
+    IA,
+    GAKUPPOID
+}
+
+
 // 曲情報
 const song1: SongData = {
     id: 0,
     title: "SUPERHERO",
     artist: "めろくる",
+    vocaloid: {
+        name: "len",
+        num: vocaloidNum.RINLEN
+    },
     songURL: "https://piapro.jp/t/hZ35/20240130103028",
     video: {
         // https://songle.jp/songs/2712735/history
@@ -38,6 +58,10 @@ const song2: SongData = {
     id: 1,
     title: "いつか君と話したミライは",
     artist: "タケノコ少年",
+    vocaloid: {
+        name: "miku",
+        num: vocaloidNum.MIKU
+    },
     songURL: "https://piapro.jp/t/--OD/20240202150903",
     video: {
         // 音楽地図訂正履歴
@@ -55,6 +79,10 @@ const song3: SongData = {
     id: 2,
     title: "フューチャーノーツ",
     artist: "shikisai",
+    vocaloid: {
+        name: "miku",
+        num: vocaloidNum.MIKU
+    },
     songURL: "https://piapro.jp/t/XiaI/20240201203346",
     video: {
         // 音楽地図訂正履歴
@@ -72,6 +100,10 @@ const song4: SongData = {
     id: 3,
     title: "未来交響曲",
     artist: "ヤマギシコージ",
+    vocaloid: {
+        name: "miku",
+        num: vocaloidNum.MIKU
+    },
     songURL: "https://piapro.jp/t/Rejk/20240202164429",
     video: {
         // 音楽地図訂正履歴
@@ -89,6 +121,10 @@ const song5: SongData = {
     id: 4,
     title: "リアリティ",
     artist: "歩く人",
+    vocaloid: {
+        name: "miku",
+        num: vocaloidNum.MIKU
+    },
     songURL: "https://piapro.jp/t/ELIC/20240130010349",
     video: {
         // 音楽地図訂正履歴
@@ -106,6 +142,10 @@ const song6: SongData = {
     id: 5,
     title: "The Marks",
     artist: "2ouDNS",
+    vocaloid: {
+        name: "miku",
+        num: vocaloidNum.MIKU
+    },
     songURL: "https://piapro.jp/t/xEA7/20240202002556",
     video: {
         // 音楽地図訂正履歴

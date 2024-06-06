@@ -77,20 +77,107 @@ body {
   animation: fadeIn 0.255s ease;
   /* animation: fadeInSlideUp 2s ease-in-out; */
 }
-/* 漢字だけ色とか変える */
-.kanji{
+
+/* 歌詞の色（ミク） */
+.hiragana.miku{
+  color: #373b3e	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;
+}
+.katakana.miku{
+  color: #137a7f	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+.kanji.miku{
+  color: #e12885	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 120%!important;
+}
+.english.miku{
+  color: #137a7f	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 120%!important;  
+}
+.number.miku{
+  color: #137a7f	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 150%!important;  
+}
+.symbol.miku{
+  color: #373b3e	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+.space.miku{
+  color: #373b3e	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+.other.miku{
+  color: #373b3e	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+
+/* 歌詞の色（レン） */
+.hiragana.len{
+  color: #555658	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;
+}
+.katakana.len{
+  color: #2b90a2	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+.kanji.len{
   color: #ffd98c	!important;
   font-weight: normal!important; 
   /* bold */
   font-size: 120%!important;
 }
-
-.number{
-  color: #c89697!important;
+.english.len{
+  color: #2b90a2	!important;
   font-weight: normal!important; 
   /* bold */
-  font-size: 120%!important;
+  font-size: 120%!important;  
 }
+.number.len{
+  color: #2b90a2	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 150%!important;  
+}
+.symbol.len{
+  color: #555658	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+.space.len{
+  color: #555658	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+.other.len{
+  color: #555658	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+
 
 /* ISSUE:既存のtranslate3dがあとに実行されてしまうので，座標がおかしくなる */
 /* @keyframes fadeInSlideUp {
