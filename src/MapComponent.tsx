@@ -11,17 +11,14 @@ import { StyleFunction, LeafletMouseEvent, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
-// import PbfLayer from './PbfComponentSetting';
+import PbfLayer from './PbfComponentSetting';
 import { computePath } from './ComputePath'
+import { roundWithScale } from './utils.ts'
 
 // 地図データの導入
 import roads from './map_data/roads.json'
 import points from './map_data/points.json'
 import areas from './map_data/areas.json'
-
-// Pbf関連データの導入
-import PbfLayer from './pbf/PbfComponentSetting';
-
 
 interface PointProperties {
   name: string;
@@ -32,13 +29,15 @@ export const MapComponent = (props: any) => {
   const [clickedPoints, setClickedPoints] = useState<PointProperties[]>([]);
   const position: [number, number] = [34.6937, 135.5021];
   const [center, setCenter] = useState<[number, number]>(position);
-  const [isMoving, setIsMoving] = useState(false);
+
   const [circlePosition, setCirclePosition] = useState<[number, number]>([
     34.3395651, 135.18270817
   ]);
   const [clickedCount, setClickedCount] = useState(0);
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
+  const [routePositions, setRoutePositions] = useState<[number, number][]>([]);
+  const [isInit, setIsInit] = useState<Boolean>(true);
   const [songKashi, setKashi] = useState(props.kashi)
 
 
@@ -91,17 +90,19 @@ export const MapComponent = (props: any) => {
   };
 
   const PathWay: React.FC = () =>{
-    const features = computePath()
-        if (features){
+    const [features, nodes] = computePath()
+
+    if (features){
       const geojson = {
         type:"FeatureCollection",
         features:features
       }
       return(
         <GeoJSON
-              data={geojson as GeoJSON.GeoJsonObject}
-              style={mapStylePathWay}/>
-              )
+          data={geojson as GeoJSON.GeoJsonObject}
+          style={mapStylePathWay}
+        />
+      )
     }else{
       return null
     }
@@ -110,6 +111,88 @@ export const MapComponent = (props: any) => {
   // 機能テスト用
   // isMovingの値が変わったら実行
   // コンポーネントとして実行しないと動かない?
+  
+
+
+  const MoveMapByRoute = () =>{
+
+    const map = useMap();
+    const EPSILON = 0.000000000000001;
+    const speed = 0.0001
+    const smoothly = 100
+    const accuracyPosition = 3
+    const vector = (
+      position: [number, number],
+      nextPosition: [number, number],
+    ): [number, number, number] => {
+      const distance:number = Math.sqrt((nextPosition[0] - position[0])**2+(nextPosition[1] - position[1])**2)
+      // const distance :number = 1;
+      return [
+        (nextPosition[0] - position[0]) ,
+        (nextPosition[1] - position[1]) ,
+        distance
+      ];
+    };
+
+    useEffect(() => {
+      // falseの場合動かない
+      if (!props.isMoving) {
+        return;
+      }
+
+      let timer:number = 0;
+      const timerId = setInterval(() => {
+
+      // 移動するためのベクトルを計算（単位ベクトルなので速度は一定）
+        const [vector_lat, vector_lon, distance] = vector(
+          routePositions[0],
+          routePositions[1],
+        );
+        console.log(vector_lat, vector_lon)
+        // 移動処理
+        // console.log(routePositions[0][0], routePositions[0][1], vector_lat,  vector_lon, distance, routePositions.length)
+
+        // 現在値がroute_positionsと同じ値になったらroute_positionsの先頭の要素を削除
+        if (Math.abs(routePositions[1][0]-map.getCenter().lat)<=Math.abs(vector_lat/distance*speed)|| 
+            Math.abs(routePositions[1][1]-map.getCenter().lng)<=Math.abs(vector_lon/distance*speed) ){
+          if (routePositions.length <= 2){
+            console.log("finish")
+            clearInterval(timerId);
+            return;
+          }else{
+            console.log("passed");
+            timer = 0
+            setRoutePositions(routePositions.slice(1));
+          }
+        }else{
+          map.setView(
+            [routePositions[0][0]+ vector_lat/(distance+EPSILON)*timer*speed, routePositions[0][1] + vector_lon/(distance+EPSILON)*timer*speed],
+            17
+          );
+        }
+        timer++;
+      }, 16);
+      // falseのreturnの跡にintervalの値をclearにリセット
+      return () => {
+        clearInterval(timerId);
+      };
+    }, [props.isMoving]);
+    // コンポーネントとしての利用のために
+    return null;
+  }
+
+  const initProcess = () =>{
+    if(isInit){
+      const [features, nodes] = computePath()
+      setRoutePositions(nodes)
+      setIsInit(false)
+    }else{
+
+    }
+  }
+
+  initProcess()
+
   const MoveMap = () => {
     const map = useMap();
     useEffect(() => {
@@ -156,11 +239,7 @@ export const MapComponent = (props: any) => {
   };
 
 
-  // 機能テスト用
-  // isMovingを切り替える（地図移動の発火点）
-  const handleMapMove = () => {
-    setIsMoving((prevIsMoving) => !prevIsMoving);
-  };
+
 
   // 機能テスト用
   // 描画するpointを追加する
@@ -379,7 +458,7 @@ export const MapComponent = (props: any) => {
             />
           ))
         }
-        <MoveMap />
+        <MoveMapByRoute/>
         <MapKashi />
       </MapContainer>
 
@@ -400,9 +479,7 @@ export const MapComponent = (props: any) => {
           <p>{label}</p>
         ))
       }
-      <button onClick={handleMapMove}>
-        {isMoving ? '停止' : '地図を移動'}
-      </button>
+
       <button onClick={addPoint}>
         Add Point
       </button>
