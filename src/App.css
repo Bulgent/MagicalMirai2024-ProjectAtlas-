@@ -77,6 +77,20 @@ body {
   animation: fadeIn 0.255s ease;
   /* animation: fadeInSlideUp 2s ease-in-out; */
 }
+/* 漢字だけ色とか変える */
+.kanji{
+  color: #ffd98c	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 120%!important;
+}
+
+.number{
+  color: #c89697!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 120%!important;
+}
 
 /* ISSUE:既存のtranslate3dがあとに実行されてしまうので，座標がおかしくなる */
 /* @keyframes fadeInSlideUp {
