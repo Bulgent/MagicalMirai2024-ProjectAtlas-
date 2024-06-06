@@ -11,7 +11,7 @@ import { StyleFunction, LeafletMouseEvent, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
-// import PbfLayer from './PbfComponentSetting';
+import PbfLayer from './PbfComponentSetting';
 import { computePath } from './ComputePath'
 import { roundWithScale } from './utils.ts'
 
@@ -118,7 +118,7 @@ export const MapComponent = (props: any) => {
 
     const map = useMap();
     const EPSILON = 0.000000000000001;
-    const speed = 0.00005
+    const speed = 0.0001
     const smoothly = 100
     const accuracyPosition = 3
     const vector = (
@@ -167,7 +167,7 @@ export const MapComponent = (props: any) => {
         }else{
           map.setView(
             [routePositions[0][0]+ vector_lat/(distance+EPSILON)*timer*speed, routePositions[0][1] + vector_lon/(distance+EPSILON)*timer*speed],
-            16
+            17
           );
         }
         timer++;
@@ -313,7 +313,7 @@ export const MapComponent = (props: any) => {
         />
 
         <PathWay />
-         {/* <PbfLayer
+         <PbfLayer
           url="https://cyberjapandata.gsi.go.jp/xyz/experimental_bvmap/{z}/{x}/{y}.pbf"
           maxNativeZoom={16} // 解像度を調整（値が小さい程データ量が小さい）
           minNativeZoom={16}
@@ -435,7 +435,7 @@ export const MapComponent = (props: any) => {
               },
             }
           }
-        /> */}
+        />
 
         <Circle
           center={circlePosition}
