@@ -12,6 +12,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
 import PbfLayer from './PbfComponentSetting';
+import { MapLibreTileLayer } from './MapLibraTileLayer.ts'
 import { computePath } from './ComputePath'
 import { roundWithScale } from './utils.ts'
 
@@ -313,130 +314,10 @@ export const MapComponent = (props: any) => {
         />
 
         <PathWay />
-         <PbfLayer
-          url="https://cyberjapandata.gsi.go.jp/xyz/experimental_bvmap/{z}/{x}/{y}.pbf"
-          maxNativeZoom={16} // 解像度を調整（値が小さい程データ量が小さい）
-          minNativeZoom={16}
-          vectorTileLayerStyles={
-            {
-              "lake": {
-                color: "#90dbee",
-                opacity: 1,
-                weight: 0.5,
-                fill: true,
-                fillColor: "#90dbee",
-                fillOpacity: 1,
-              },
-              "waterarea": {
-                color: "#90dbee",
-                opacity: 1,
-                weight: 0.5,
-                fill: true,
-                fillColor: "#90dbee",
-                fillOpacity: 1,
-              },
-              "river": {
-                color: "#90dbee",
-                opacity: 1,
-                weight: 0.5
-              },
-              "building": {
-                color: "#9d9da0",
-                opacity: 1,
-                weight: 0.5,
-                fill: true,
-                fillColor: "#e8e9ed",
-                fillOpacity: 1,
-              },
-              "road": {
-                color: "#b5c5d3",
-                opacity: 0,
-                weight: 0.5,
-              },
-
-              // ここから下は多分いらない（見えないようにopacity:0）
-              "coastline": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "wstructurea": {
-                color: "red",
-                opacity: 1,
-                weight: 0.5,
-                fill: true,
-                fillColor: "#red",
-                fillOpacity: 1,
-              },
-              "structurel": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "landforma": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "transp": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "label": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "elevation": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "contour": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "landforml": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "boundary": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "searoute": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "symbol": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "structurea": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "landformp": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "railway": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-            }
-          }
+        <MapLibreTileLayer
+          attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
+          url="https://tiles.stadiamaps.com/styles/alidade_smooth_dark.json"
         />
-
         <Circle
           center={circlePosition}
           eventHandlers={{
