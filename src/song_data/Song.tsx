@@ -21,14 +21,14 @@ interface SongData {
 }
 
 enum vocaloidNum {
-    MIKU,
-    RINLEN,
-    LUKA,
-    KAITO,
-    MEIKO,
-    GUMI,
-    IA,
-    GAKUPPOID
+    MIKU, // 初音ミク 0
+    RINLEN, // 鏡音リン・レン 1
+    LUKA, // 巡音ルカ 2
+    KAITO, // KAITO 3
+    MEIKO, // MEIKO 4
+    GUMI, // GUMI 5
+    IA, // IA 6
+    GAKUPPOID // 神威がくぽ 7
 }
 
 

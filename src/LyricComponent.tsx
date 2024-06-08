@@ -25,9 +25,6 @@ export const LyricComponent = (props: any) => {
   const [app, setApp] = useState(null); //
   const [playTime, setPlayTime] = useState(0)
   const [songLength, setSongLength] = useState(0)
-  // const [char, setChar] = useState(''); // 歌詞情報
-  const [chord, setChord] = useState(''); // コード情報
-  // const [chorus, setChorus] = useState('');
   const [volume, setVolume] = useState(50);
   const [songNum, setSongNum] = useState(isDevelopment ? 3 : -1) //選択曲 -1:未選択 開発環境なら曲選択をすっ飛ばしてマップ画面に行く
   const [mediaElement, setMediaElement] = useState(null);
