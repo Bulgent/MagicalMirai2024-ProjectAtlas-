@@ -55,7 +55,6 @@ export const HistoryComponent = (props: any) => {
             default:
                 return "不明";
         }
-
     }
     if ((props.player) != null) {
         return (
@@ -66,7 +65,7 @@ export const HistoryComponent = (props: any) => {
             <div>文字：{props.kashiChar.text}</div>
             <div>ｺｰﾄﾞ：{props.songChord}</div>
             <div>ﾋﾞｰﾄ：{props.songBeat}</div>
-            <div>サビ：{(props.songChorus == null) ? "No" : "Yes"}</div>
+            <div>ｻ ﾋﾞ：{(props.songChorus == null) ? "NO" : "YES"}</div>
             <div>経過：{Math.floor(props.player.timer.position / 1000 * 100) / 100} 秒</div>
             </>
         )

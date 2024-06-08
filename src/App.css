@@ -207,7 +207,7 @@ body {
   height: 20vh;
   width: 90%;
   border: 2px solid;
-  padding: 0.1em;
+  padding: 0.1em, 0.1em, 0.1em, 0.1em;
   border-radius: 15px;
   background: #e12885;
   position: absolute;
