@@ -5,6 +5,7 @@ interface SongData {
     artist: string;
     vocaloid: {
         name: string;
+        japanese?: string;
         num: number;
     },
     songURL: string;
@@ -38,6 +39,7 @@ const song1: SongData = {
     artist: "めろくる",
     vocaloid: {
         name: "len",
+        japanese: "鏡音レン",
         num: vocaloidNum.RINLEN
     },
     songURL: "https://piapro.jp/t/hZ35/20240130103028",
@@ -60,6 +62,7 @@ const song2: SongData = {
     artist: "タケノコ少年",
     vocaloid: {
         name: "miku",
+        japanese: "初音ミク",
         num: vocaloidNum.MIKU
     },
     songURL: "https://piapro.jp/t/--OD/20240202150903",
@@ -81,6 +84,7 @@ const song3: SongData = {
     artist: "shikisai",
     vocaloid: {
         name: "miku",
+        japanese: "初音ミク",
         num: vocaloidNum.MIKU
     },
     songURL: "https://piapro.jp/t/XiaI/20240201203346",
@@ -102,6 +106,7 @@ const song4: SongData = {
     artist: "ヤマギシコージ",
     vocaloid: {
         name: "miku",
+        japanese: "初音ミク",
         num: vocaloidNum.MIKU
     },
     songURL: "https://piapro.jp/t/Rejk/20240202164429",
@@ -123,6 +128,7 @@ const song5: SongData = {
     artist: "歩く人",
     vocaloid: {
         name: "miku",
+        japanese: "初音ミク",
         num: vocaloidNum.MIKU
     },
     songURL: "https://piapro.jp/t/ELIC/20240130010349",
@@ -144,6 +150,7 @@ const song6: SongData = {
     artist: "2ouDNS",
     vocaloid: {
         name: "miku",
+        japanese: "初音ミク",
         num: vocaloidNum.MIKU
     },
     songURL: "https://piapro.jp/t/xEA7/20240202002556",

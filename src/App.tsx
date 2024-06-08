@@ -72,7 +72,7 @@ const App: React.FC = () => {
         <div id="history" className="split">
           <HistoryComponent kashiChar={kashiChar} kashiWord={kashiWord} kashiPhrase={kashiPhrase}
                             songChord={songChord} songBeat={songBeat} songChorus={songChorus}
-                            player={player} />
+                            songnum={songInfo} player={player} />
           {/* <div className="char">{char}</div>
           <div className="chord">{chord}</div>
           <div className="chorus">曲遷移(0サビ):{chorus}</div> */}

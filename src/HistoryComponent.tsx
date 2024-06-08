@@ -1,6 +1,7 @@
-import { isNull } from 'util';
 import './App.css';
 import { useCallback, useState, useEffect } from 'react';
+
+import songRead from './song_data/Song';
 
 export const HistoryComponent = (props: any) => {
     // 品詞の判定
@@ -59,13 +60,16 @@ export const HistoryComponent = (props: any) => {
     if ((props.player) != null) {
         return (
             <>
+            <div>曲名：{props.player.data.song.name}</div>
+            <div>作曲：{props.player.data.song.artist.name}</div>
+            <div>歌手：{songRead[props.songnum].vocaloid.japanese}</div>
             <div>歌詞：{props.kashiPhrase.text}</div>
             <div>単語：{props.kashiWord.text}</div>
             <div>品詞：{checkPartOfSpeech(props.kashiWord.pos)} ({props.kashiWord.pos})</div>
             <div>文字：{props.kashiChar.text}</div>
             <div>ｺｰﾄﾞ：{props.songChord}</div>
             <div>ﾋﾞｰﾄ：{props.songBeat}</div>
-            <div>ｻ ﾋﾞ：{(props.songChorus == null) ? "NO" : "YES"}</div>
+            <div>ｻﾋﾞ?：{(props.songChorus == null) ? "NO" : "YES"}</div>
             <div>経過：{Math.floor(props.player.timer.position / 1000 * 100) / 100} 秒</div>
             </>
         )
