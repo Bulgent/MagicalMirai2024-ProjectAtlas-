@@ -69,6 +69,7 @@ export const LyricComponent = (props: any) => {
       return ans;
     }
 
+    let prevBeatPosition = -1;
 
     // 曲イベント
     const playerListener = {
@@ -101,6 +102,7 @@ export const LyricComponent = (props: any) => {
         setSongArtist(p.data.song.artist.name)
         setSongLength(p.data.song.length)
         p.volume = volume
+        props.handOverPlayer(p);
         props.handOverSongInfo(songNum)
         // 一番最初の文字
         let kashiChar = p.video.firstChar; // 最初の文字(好)
@@ -185,8 +187,22 @@ export const LyricComponent = (props: any) => {
           }
         };
       },
+      // 時間更新時
       onTimeUpdate: (position: number) => {
-        setPlayTime(position)
+        setPlayTime(position);
+        // コードの更新
+        props.handOverChord(p.findChord(position).name);
+        // ビートの更新
+        const beat = p.findBeat(position);
+        if (beat.position === prevBeatPosition) return;
+        let beatText = '';
+        for (let i = 0; i < beat.position; i++) {
+          beatText += '* ';
+        }
+        props.handOverBeat(beatText);
+        prevBeatPosition = beat.position;
+        // コーラスの更新
+        props.handOverChorus(p.findChorus(position));
       }
     };
     // イベント登録
