@@ -57,6 +57,7 @@ export const MapComponent = (props: any) => {
   const position: [number, number] = [34.6937, 135.5021];
   const [center, setCenter] = useState<[number, number]>(position);
   const [isMoving, setIsMoving] = useState<boolean>(true);
+  const [timer, setTimer] = useState(0);
 
   const [circlePosition, setCirclePosition] = useState<[number, number]>([
     34.3395651, 135.18270817
@@ -146,7 +147,7 @@ export const MapComponent = (props: any) => {
   // コンポーネントとして実行しないと動かない?
 
   const MoveMapByRoute = () =>{
-
+    
     const map = useMap();
     const EPSILON = 0.000000000000001;
     const speed = 0.0001
@@ -173,15 +174,13 @@ export const MapComponent = (props: any) => {
         return;
       }
 
-      let timer: number = 0;
       const timerId = setInterval(() => {
-
+        
         // 移動するためのベクトルを計算（単位ベクトルなので速度は一定）
         const [vector_lat, vector_lon, distance] = vector(
           routePositions[0],
           routePositions[1],
         );
-        console.log(vector_lat, vector_lon)
         // 移動処理
         // console.log(routePositions[0][0], routePositions[0][1], vector_lat,  vector_lon, distance, routePositions.length)
 
@@ -194,7 +193,7 @@ export const MapComponent = (props: any) => {
             return;
           } else {
             console.log("passed");
-            timer = 0
+            setTimer(0)
             setRoutePositions(routePositions.slice(1));
           }
         } else {
@@ -204,7 +203,8 @@ export const MapComponent = (props: any) => {
             17
           );
         }
-        timer++;
+        setTimer((prevTimer) => prevTimer + 1);
+        console.log(timer)
       }, 16);
       // falseのreturnの跡にintervalの値をclearにリセット
       return () => {

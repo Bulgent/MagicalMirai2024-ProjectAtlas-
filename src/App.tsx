@@ -73,7 +73,7 @@ const App: React.FC = () => {
     setHoverHistory((prev) => [...new Set([...prev, hover])]);
   }
 
-  const [isMoving, setIsMoving] = useState(true);
+  const [isMoving, setIsMoving] = useState(false);
   // 機能テスト用
   // isMovingを切り替える（地図移動の発火点）
   const handleMapMove = () => {
