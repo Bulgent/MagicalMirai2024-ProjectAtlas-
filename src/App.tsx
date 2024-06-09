@@ -13,6 +13,7 @@ interface kashiProperties {
 }
 
 console.log("App")
+
 const App: React.FC = () => {
   // LyricComponentからの歌詞をMapComponentに受け渡す(Wordだけ品詞が取得できる)
   const [kashiChar, setKashiChar] = useState<kashiProperties>({ text: "", startTime: 0, endTime: 0 })
@@ -55,7 +56,15 @@ const App: React.FC = () => {
     // console.log(player)
   }
 
+  const [isMoving, setIsMoving] = useState(false);
+
+  // 機能テスト用
+  // isMovingを切り替える（地図移動の発火点）
+  const handleMapMove = () => {
+    setIsMoving((prevIsMoving) => !prevIsMoving);
+  };
   return (
+    
     <React.Fragment>
       <div id="display" className="soft-gloss">
         <div id="navi" className="split">
@@ -73,7 +82,7 @@ const App: React.FC = () => {
           <HistoryComponent kashiChar={kashiChar} kashiWord={kashiWord} kashiPhrase={kashiPhrase}
                             songChord={songChord} songBeat={songBeat} songChorus={songChorus}
                             songnum={songInfo} player={player} />
-          {/* <div className="char">{char}</div>
+        {/* <div className="char">{char}</div>
           <div className="chord">{chord}</div>
           <div className="chorus">曲遷移(0サビ):{chorus}</div> */}
         </div>

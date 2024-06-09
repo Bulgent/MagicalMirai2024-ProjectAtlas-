@@ -7,7 +7,9 @@ declare module '*/map_data/*.json' {
     type Geometry = {
       type: "MultiLineString";
       coordinates: Coordinate[][];
-    } | {
+    } |       {type: "PathWay";
+    coordinates: Coordinate[][];
+  } |{
       type : "Point";
       coordinates: Coordinate[];
     }
