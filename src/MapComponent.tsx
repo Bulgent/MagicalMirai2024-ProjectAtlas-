@@ -12,7 +12,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
 import { computePath } from './ComputePath'
-import { roundWithScale } from './utils.ts'
+import { roundWithScale, KashiType, checkKashiType, ArchType, checkArchType } from './utils.ts'
 
 // 地図データの導入
 import roads from './map_data/roads.json'
@@ -25,6 +25,7 @@ import { vectorTileLayerStyles } from './pbf/Pbfstyles';
 
 // カラーパレットの導入
 import songRead from './song_data/Song';
+import { on } from 'events';
 
 interface PointProperties {
   name: string;
@@ -38,6 +39,7 @@ interface kashiProperties {
 
 export const MapComponent = (props: any) => {
   const [clickedPoints, setClickedPoints] = useState<PointProperties[]>([]);
+  const [hoverHistory, setHoverHistory] = useState<PointProperties[]>([]);
   const position: [number, number] = [34.6937, 135.5021];
   const [center, setCenter] = useState<[number, number]>(position);
   const [isMoving, setIsMoving] = useState<boolean>(true);
@@ -51,28 +53,6 @@ export const MapComponent = (props: any) => {
   const [routePositions, setRoutePositions] = useState<[number, number][]>([]);
   const [isInit, setIsInit] = useState<Boolean>(true);
   const [songKashi, setKashi] = useState<kashiProperties>({ text: "", startTime: 0, endTime: 0 });
-  // console.log(props.kashi, songKashi)
-
-  // 👽歌詞の種類を判別するための正規表現👽
-  const hiraganaRegex = /^[ぁ-ん]+$/;
-  const katakanaRegex = /^[ァ-ン]+$/;
-  const kanjiRegex = /^[一-龥]+$/;
-  const englishRegex = /^[a-zA-Z]+$/;
-  const numberRegex = /^[0-9]+$/;
-  const symbolRegex = /^[!-/:-@[-`{-~、。！？「」]+$/;
-  const spaceRegex = /^\s+$/;
-
-  // 👽歌詞の種類👽
-  const enum KashiType {
-    HIRAGANA = 0,
-    KATAKANA = 1,
-    KANJI = 2,
-    ENGLISH = 3,
-    NUMBER = 4,
-    SYMBOL = 5,
-    SPACE = 6,
-    OTHER = 7
-  }
 
   // pointデータを図形として表現
   const pointToLayer = (feature: any, latlng: LatLngExpression) => {
@@ -85,6 +65,8 @@ export const MapComponent = (props: any) => {
     };
     return L.circleMarker(latlng, circleMarkerOptions);
   };
+
+  // console.log(points.features[0].properties.type)
 
   // line, polygonデータを図形として表現
   const mapStyle: StyleFunction = (feature) => {
@@ -114,28 +96,28 @@ export const MapComponent = (props: any) => {
         return {
           color: 'blue',
           weight: 5,
-          opacity:0.5,
+          opacity: 0.5,
         };
       default:
         return {};
     }
   };
 
-  const PathWay: React.FC = () =>{
+  const PathWay: React.FC = () => {
     const [features, nodes] = computePath()
 
-    if (features){
+    if (features) {
       const geojson = {
-        type:"FeatureCollection",
-        features:features
+        type: "FeatureCollection",
+        features: features
       }
-      return(
+      return (
         <GeoJSON
           data={geojson as GeoJSON.GeoJsonObject}
           style={mapStylePathWay}
         />
       )
-    }else{
+    } else {
       return null
     }
   }
@@ -143,10 +125,7 @@ export const MapComponent = (props: any) => {
   // 機能テスト用
   // isMovingの値が変わったら実行
   // コンポーネントとして実行しないと動かない?
-  
-
-
-  const MoveMapByRoute = () =>{
+  const MoveMapByRoute = () => {
 
     const map = useMap();
     const EPSILON = 0.000000000000001;
@@ -157,26 +136,26 @@ export const MapComponent = (props: any) => {
       position: [number, number],
       nextPosition: [number, number],
     ): [number, number, number] => {
-      const distance:number = Math.sqrt((nextPosition[0] - position[0])**2+(nextPosition[1] - position[1])**2)
+      const distance: number = Math.sqrt((nextPosition[0] - position[0]) ** 2 + (nextPosition[1] - position[1]) ** 2)
       // const distance :number = 1;
       return [
-        (nextPosition[0] - position[0]) ,
-        (nextPosition[1] - position[1]) ,
+        (nextPosition[0] - position[0]),
+        (nextPosition[1] - position[1]),
         distance
       ];
     };
 
     useEffect(() => {
-      console.log(isMoving)
+      // console.log(isMoving)
       // falseの場合動かない
       if (!props.isMoving) {
         return;
       }
 
-      let timer:number = 0;
+      let timer: number = 0;
       const timerId = setInterval(() => {
 
-      // 移動するためのベクトルを計算（単位ベクトルなので速度は一定）
+        // 移動するためのベクトルを計算（単位ベクトルなので速度は一定）
         const [vector_lat, vector_lon, distance] = vector(
           routePositions[0],
           routePositions[1],
@@ -186,20 +165,21 @@ export const MapComponent = (props: any) => {
         // console.log(routePositions[0][0], routePositions[0][1], vector_lat,  vector_lon, distance, routePositions.length)
 
         // 現在値がroute_positionsと同じ値になったらroute_positionsの先頭の要素を削除
-        if (Math.abs(routePositions[1][0]-map.getCenter().lat)<=Math.abs(vector_lat/distance*speed)|| 
-            Math.abs(routePositions[1][1]-map.getCenter().lng)<=Math.abs(vector_lon/distance*speed) ){
-          if (routePositions.length <= 2){
+        if (Math.abs(routePositions[1][0] - map.getCenter().lat) <= Math.abs(vector_lat / distance * speed) ||
+          Math.abs(routePositions[1][1] - map.getCenter().lng) <= Math.abs(vector_lon / distance * speed)) {
+          if (routePositions.length <= 2) {
             console.log("finish")
             clearInterval(timerId);
             return;
-          }else{
+          } else {
             console.log("passed");
             timer = 0
             setRoutePositions(routePositions.slice(1));
           }
-        }else{
+        } else {
           map.setView(
-            [routePositions[0][0]+ vector_lat/(distance+EPSILON)*timer*speed, routePositions[0][1] + vector_lon/(distance+EPSILON)*timer*speed],
+            [routePositions[0][0] + vector_lat / (distance + EPSILON) * timer * speed,
+            routePositions[0][1] + vector_lon / (distance + EPSILON) * timer * speed],
             17
           );
         }
@@ -214,12 +194,12 @@ export const MapComponent = (props: any) => {
     return null;
   }
 
-  const initProcess = () =>{
-    if(isInit){
+  const initProcess = () => {
+    if (isInit) {
       const [features, nodes] = computePath()
       setRoutePositions(nodes)
       setIsInit(false)
-    }else{
+    } else {
 
     }
   }
@@ -248,83 +228,45 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
-  // 👽歌詞の種類を判別する👽
-  const checkKashiType = (text: string): KashiType => {
-    if (hiraganaRegex.test(text)) {
-      console.log(text, "ひらがな")
-      return KashiType.HIRAGANA;
-    }
-    else if (katakanaRegex.test(text)) {
-      console.log(text, "カタカナ")
-      return KashiType.KATAKANA;
-    }
-    else if (kanjiRegex.test(text)) {
-      console.log(text, "漢字")
-      return KashiType.KANJI;
-    }
-    else if (englishRegex.test(text)) {
-      console.log(text, "英語")
-      return KashiType.ENGLISH;
-    }
-    else if (numberRegex.test(text)) {
-      console.log(text, "数字")
-      return KashiType.NUMBER;
-    }
-    else if (symbolRegex.test(text)) {
-      console.log(text, "記号")
-      return KashiType.SYMBOL;
-    }
-    else if (spaceRegex.test(text)) {
-      console.log(text, "スペース")
-      return KashiType.SPACE;
-    }
-    else {
-      console.log(text, "その他")
-      return KashiType.OTHER;
-    }
-  };
-
   // 👽歌詞表示コンポーネント👽
   // コンポーネントとして実行しないと動かない?
   const MapKashi = () => {
     const map = useMap();
     // console.log(map.getSize(), map.getCenter(), map.getBounds())
-    // 歌詞が変わったら実行
-    // ボカロによって色を変える
-    // if (props.songnum != -1) {
-    //   console.log(songRead[props.songnum].vocaloid.name)
-    // }
+    // 歌詞が変わったら実行 ボカロによって色を変える
     if (props.kashi.text != "" && props.kashi != songKashi) {
       // console.log("歌詞が違う")
       setKashi(props.kashi)
       let printKashi: string = "";
       props.kashi.text.split('').forEach((char: string) => {
+        printKashi += "<span class=";
         switch (checkKashiType(char)) {
           case KashiType.HIRAGANA:
-            printKashi += "<span class='hiragana " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            printKashi += "'hiragana";
             break;
           case KashiType.KATAKANA:
-            printKashi += "<span class='katakana " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            printKashi += "'katakana";
             break;
           case KashiType.KANJI:
-            printKashi += "<span class='kanji " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            printKashi += "'kanji";
             break;
           case KashiType.ENGLISH:
-            printKashi += "<span class='english " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            printKashi += "'english";
             break;
           case KashiType.NUMBER:
-            printKashi += "<span class='number " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            printKashi += "'number";
             break;
           case KashiType.SYMBOL:
-            printKashi += "<span class='symbol " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            printKashi += "'symbol";
             break;
           case KashiType.SPACE:
-            printKashi += "<span class='space " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            printKashi += "'space";
             break;
           default:
-            printKashi += "<span class='other " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            printKashi += "'other";
             break;
         }
+        printKashi += " " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
       });
       console.log(printKashi);
       // 歌詞を表示する座標をランダムに決定
@@ -350,31 +292,6 @@ export const MapComponent = (props: any) => {
     // コンポーネントとしての利用のために
     return null;
   };
-
-  // コンポーネントとして実行しないと動かない?
-  // const MapKashi = () => {
-  //   const map = useMap();
-  //   // console.log(map.getSize(), map.getCenter(), map.getBounds())
-  //   // var markertext = L.marker(map.getCenter(), { opacity: 1 });
-  //   if(props.kashi!=""){
-  //     var markertext = L.marker([Math.random() *
-  //       (map.getBounds().getNorth() -
-  //         map.getBounds().getSouth()) +
-  //       map.getBounds().getSouth(),
-  //       Math.random() *
-  //       (map.getBounds().getEast() -
-  //         map.getBounds().getWest()) +
-  //       map.getBounds().getWest()], { opacity: 1 });
-  //     markertext.bindTooltip(props.kashi, { permanent: true })
-  //     markertext.addTo(map);
-  //   }
-
-  //   // コンポーネントとしての利用のために
-  //   return null;
-  // };
-
-
-
 
   // 機能テスト用
   // 描画するpointを追加する
@@ -420,7 +337,24 @@ export const MapComponent = (props: any) => {
     };
     // properties.nameとgeometry.coordinatesの値を連想配列として格納
     setClickedPoints(prevPoints => [...prevPoints, clickedPointProperties]);
+    console.log(clickedPoints)
   };
+  // 👽ポイントにマウスが乗ったときに呼び出される関数👽
+  const onPointHover = (e: LeafletMouseEvent) => {
+    console.log(e.sourceTarget.feature.properties.name)
+    //hoverhistoryに施設名と座標を配列で追加
+    const hoverPointProperties: PointProperties = {
+      name: e.sourceTarget.feature.properties.name,
+      coordinates: e.sourceTarget.feature.geometry.coordinates
+    };
+    // オフ会0人かどうか
+    if(e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
+      console.log("オイイイッス！👽")
+    }
+    setHoverHistory(prevPoints => [...prevPoints, hoverPointProperties]); 
+    console.log(checkArchType(e.sourceTarget.feature.properties.type))
+    props.handOverHover(e.sourceTarget.feature)
+  }
 
   return (
     <>
@@ -442,13 +376,14 @@ export const MapComponent = (props: any) => {
           pointToLayer={pointToLayer}
           onEachFeature={(_, layer) => {
             layer.on({
-              click: onPointClick // ポイントがクリックされたときに呼び出される関数
+              click: onPointClick, // ポイントがクリックされたときに呼び出される関数
+              mouseover : onPointHover, // ポイントにマウスが乗ったときに呼び出される関数
             });
           }}
         />
 
         <PathWay />
-         <PbfLayer
+        <PbfLayer
           url="https://cyberjapandata.gsi.go.jp/xyz/experimental_bvmap/{z}/{x}/{y}.pbf"
           maxNativeZoom={16} // 解像度を調整（値が小さい程データ量が小さい）
           minNativeZoom={16}
@@ -476,7 +411,7 @@ export const MapComponent = (props: any) => {
             />
           ))
         }
-        <MoveMapByRoute/>
+        <MoveMapByRoute />
         <MapKashi />
       </MapContainer>
 

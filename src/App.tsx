@@ -11,6 +11,17 @@ interface kashiProperties {
   endTime: number;
   pos?: string;
 }
+interface historyProperties {
+  type: string,
+  properties: {
+      type: number,
+      name: string
+  },
+  geometry: {
+      type: string,
+      coordinates: [number, number]
+  }
+}
 
 console.log("App")
 
@@ -24,6 +35,7 @@ const App: React.FC = () => {
   const [songBeat, setSongBeat] = useState<string>("")
   const [songInfo, setSongInfo] = useState<number>(-1)
   const [player, setPlayer] = useState<Object>()
+  const [hoverHistory, setHoverHistory] = useState<historyProperties>()
   const handOverChar = (songChar: kashiProperties) => {
     setKashiChar(songChar)
     // console.log("親受取単語:", songChar)
@@ -55,14 +67,19 @@ const App: React.FC = () => {
     setPlayer(player)
     // console.log(player)
   }
+  // MapComponentからのホバー情報を受け取る
+  const handOverHover = (hover : historyProperties) => {
+    setHoverHistory(hover)
+    console.log(hover)
+  }
 
   const [isMoving, setIsMoving] = useState(true);
-
   // 機能テスト用
   // isMovingを切り替える（地図移動の発火点）
   const handleMapMove = () => {
     setIsMoving((prevIsMoving) => !prevIsMoving);
   };
+// FUNFUN度の計算
   return (
 
     <React.Fragment>
@@ -70,7 +87,7 @@ const App: React.FC = () => {
         <div id="navi" className="split">
           <div id="map">
             {/* 単語:kashiChar, 熟語:kashiWord, フレーズ:kashiPhrase */}
-            <MapComponent kashi={kashiWord} songnum={songInfo}  isMoving={isMoving}/>
+            <MapComponent kashi={kashiWord} songnum={songInfo}  isMoving={isMoving} handOverHover={handOverHover}/>
           </div>
           <div id="song">
             <LyricComponent handOverChar={handOverChar} handOverWord={handOverWord} handOverPhrase={handOverPhrase}
