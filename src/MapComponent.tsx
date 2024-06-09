@@ -37,9 +37,21 @@ interface kashiProperties {
   endTime: number;
 }
 
+interface historyProperties {
+  type: string,
+  properties: {
+      type: number,
+      name: string
+  },
+  geometry: {
+      type: string,
+      coordinates: [number, number]
+  }
+}
+
 export const MapComponent = (props: any) => {
   const [clickedPoints, setClickedPoints] = useState<PointProperties[]>([]);
-  const [hoverHistory, setHoverHistory] = useState<PointProperties[]>([]);
+  const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([]);
   const position: [number, number] = [34.6937, 135.5021];
   const [center, setCenter] = useState<[number, number]>(position);
   const [isMoving, setIsMoving] = useState<boolean>(true);
@@ -342,16 +354,11 @@ export const MapComponent = (props: any) => {
   // 👽ポイントにマウスが乗ったときに呼び出される関数👽
   const onPointHover = (e: LeafletMouseEvent) => {
     console.log(e.sourceTarget.feature.properties.name)
-    //hoverhistoryに施設名と座標を配列で追加
-    const hoverPointProperties: PointProperties = {
-      name: e.sourceTarget.feature.properties.name,
-      coordinates: e.sourceTarget.feature.geometry.coordinates
-    };
     // オフ会0人かどうか
     if(e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
       console.log("オイイイッス！👽")
     }
-    setHoverHistory(prevPoints => [...prevPoints, hoverPointProperties]); 
+    setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
     console.log(checkArchType(e.sourceTarget.feature.properties.type))
     props.handOverHover(e.sourceTarget.feature)
   }

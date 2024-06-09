@@ -41,7 +41,7 @@ body {
   flex: 1;
   background-color: #86cecb;
   box-sizing: border-box;
-  padding: 1%;
+  padding: 0%1%0%1%;
 }
 
 /* Textalive広告 */
@@ -66,6 +66,26 @@ body {
   position: relative;
   /* width: 100%; */
   height: 100%;
+}
+
+.kashihistory {
+  font-size: 200%;
+  color: #fff;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align:justify;
+  text-align-last:justify;
+  background-color: blue;
+  height: 100%;
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
+  /* transfor14m: translate(-48%, -50%) rotate(90deg); */
+  
+  /* transform: rotate(90deg); */
+}
+
+.debughistory{
+  
 }
 
 /* 歌詞のスタイル(important付けないと他のが優先されりゅ) */
