@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   MapContainer,
   GeoJSON,
@@ -11,11 +11,11 @@ import { StyleFunction, LeafletMouseEvent, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
+import { MapLibreTileLayer } from './MapLibraTileLayer.ts'
 import { computePath } from './ComputePath'
-import { roundWithScale } from './utils.ts'
 
 // 地図データの導入
-import roads from './map_data/roads.json'
+import roads from './map_data/roads-kai.json'
 import points from './map_data/points.json'
 import areas from './map_data/areas.json'
 
@@ -50,6 +50,10 @@ export const MapComponent = (props: any) => {
   const [panels, setPanels] = useState<string[]>([]);
   const [routePositions, setRoutePositions] = useState<[number, number][]>([]);
   const [isInit, setIsInit] = useState<Boolean>(true);
+
+  const layerRef = useRef(null);
+
+
   const [songKashi, setKashi] = useState<kashiProperties>({ text: "", startTime: 0, endTime: 0 });
   // console.log(props.kashi, songKashi)
 
@@ -73,6 +77,7 @@ export const MapComponent = (props: any) => {
     SPACE = 6,
     OTHER = 7
   }
+
 
   // pointデータを図形として表現
   const pointToLayer = (feature: any, latlng: LatLngExpression) => {
@@ -140,12 +145,6 @@ export const MapComponent = (props: any) => {
     }
   }
 
-  // 機能テスト用
-  // isMovingの値が変わったら実行
-  // コンポーネントとして実行しないと動かない?
-  
-
-
   const MoveMapByRoute = () =>{
 
     const map = useMap();
@@ -169,6 +168,7 @@ export const MapComponent = (props: any) => {
     useEffect(() => {
       console.log(isMoving)
       // falseの場合動かない
+      console.log("ref", layerRef.current.getMaplibreMap())
       if (!props.isMoving) {
         return;
       }
@@ -211,42 +211,19 @@ export const MapComponent = (props: any) => {
       };
     }, [props.isMoving]);
     // コンポーネントとしての利用のために
-    return null;
-  }
+      return null;
+    }
 
   const initProcess = () =>{
     if(isInit){
+      console.log("init process", layerRef.current)
       const [features, nodes] = computePath()
       setRoutePositions(nodes)
       setIsInit(false)
-    }else{
-
     }
   }
 
-  initProcess()
-
-  const MoveMap = () => {
-    const map = useMap();
-    useEffect(() => {
-      // falseの場合動かない
-      if (!isMoving) {
-        return;
-      }
-      // trueの場合
-      // 50ms毎に平行移動
-      const timerId = setInterval(() => {
-        setCenter((prevCenter) => [prevCenter[0], prevCenter[1] + 0.001]);
-        map.setView(center, 16);
-      }, 50);
-      // falseのreturnの跡にintervalの値をclearにリセット
-      return () => {
-        clearInterval(timerId);
-      };
-    }, [isMoving]);
-    // コンポーネントとしての利用のために
-    return null;
-  };
+    initProcess()
 
   // 👽歌詞の種類を判別する👽
   const checkKashiType = (text: string): KashiType => {
@@ -351,31 +328,6 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
-  // コンポーネントとして実行しないと動かない?
-  // const MapKashi = () => {
-  //   const map = useMap();
-  //   // console.log(map.getSize(), map.getCenter(), map.getBounds())
-  //   // var markertext = L.marker(map.getCenter(), { opacity: 1 });
-  //   if(props.kashi!=""){
-  //     var markertext = L.marker([Math.random() *
-  //       (map.getBounds().getNorth() -
-  //         map.getBounds().getSouth()) +
-  //       map.getBounds().getSouth(),
-  //       Math.random() *
-  //       (map.getBounds().getEast() -
-  //         map.getBounds().getWest()) +
-  //       map.getBounds().getWest()], { opacity: 1 });
-  //     markertext.bindTooltip(props.kashi, { permanent: true })
-  //     markertext.addTo(map);
-  //   }
-
-  //   // コンポーネントとしての利用のために
-  //   return null;
-  // };
-
-
-
-
   // 機能テスト用
   // 描画するpointを追加する
   const addPoint = () => {
@@ -422,9 +374,20 @@ export const MapComponent = (props: any) => {
     setClickedPoints(prevPoints => [...prevPoints, clickedPointProperties]);
   };
 
+  // マップに表示されている文字を非表示にする（上手く動かない）
+  // 初期表示にて上手く動かない
+  useEffect(() => {
+    console.log("ressf", layerRef.current)
+      if (layerRef.current) {
+          const map = layerRef.current.getMaplibreMap();
+          map.getStyle().layers.forEach(l => {
+              if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none")
+          });
+      }
+  }, [props.isMoving]);
+
   return (
     <>
-
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
 
@@ -448,13 +411,11 @@ export const MapComponent = (props: any) => {
         />
 
         <PathWay />
-         <PbfLayer
-          url="https://cyberjapandata.gsi.go.jp/xyz/experimental_bvmap/{z}/{x}/{y}.pbf"
-          maxNativeZoom={16} // 解像度を調整（値が小さい程データ量が小さい）
-          minNativeZoom={16}
-          vectorTileLayerStyles={vectorTileLayerStyles} // 外部ファイルからスタイルを読み込む
+        <MapLibreTileLayer
+          attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
+          url="https://tiles.stadiamaps.com/styles/osm_bright.json" // https://docs.stadiamaps.com/map-styles/osm-bright/より取得
+          ref={layerRef}
         />
-
         <Circle
           center={circlePosition}
           eventHandlers={{

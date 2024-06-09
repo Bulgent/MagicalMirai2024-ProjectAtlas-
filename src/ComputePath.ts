@@ -1,6 +1,6 @@
 import {aStar} from 'ngraph.path';
 import createGraph from 'ngraph.graph';
-import roads from './map_data/roads.json';
+import roads from './map_data/roads-kai.json';
 
 /*
     feature_index_1とfeature_index_2は互いに行き来可能
@@ -153,7 +153,7 @@ export function computePath(): [any[],any[]] {
   // jsonからのデータ成形
   const links = createLinksFromJson(roads)
   const start_id = links[0].from_string
-  const end_id = links[6000].from_string
+  const end_id = links[100].from_string
   // リンクを格納して計算準備
   const graph = createGraph();
   for (const link of links){
