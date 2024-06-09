@@ -23,7 +23,6 @@ export const MapLibreTileLayer = createTileLayerComponent<
     },
     function updateTileLayer(layer, props, prevProps) {
         updateGridLayer(layer, props, prevProps)
-
         const { url, attribution } = props
         if (url != null && url !== prevProps.url) {
             layer.getMaplibreMap().setStyle(url)

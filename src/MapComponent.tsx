@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   MapContainer,
   GeoJSON,
@@ -17,7 +17,7 @@ import { computePath } from './ComputePath'
 import { roundWithScale } from './utils.ts'
 
 // 地図データの導入
-import roads from './map_data/roads.json'
+import roads from './map_data/roads-kai.json'
 import points from './map_data/points.json'
 import areas from './map_data/areas.json'
 
@@ -40,7 +40,7 @@ export const MapComponent = (props: any) => {
   const [routePositions, setRoutePositions] = useState<[number, number][]>([]);
   const [isInit, setIsInit] = useState<Boolean>(true);
   const [songKashi, setKashi] = useState(props.kashi)
-
+  const layerRef = useRef(null);
 
 
   // pointデータを図形として表現
@@ -137,6 +137,7 @@ export const MapComponent = (props: any) => {
 
     useEffect(() => {
       // falseの場合動かない
+      console.log("ref", layerRef.current.getMaplibreMap())
       if (!props.isMoving) {
         return;
       }
@@ -239,9 +240,6 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
-
-
-
   // 機能テスト用
   // 描画するpointを追加する
   const addPoint = () => {
@@ -288,6 +286,18 @@ export const MapComponent = (props: any) => {
     setClickedPoints(prevPoints => [...prevPoints, clickedPointProperties]);
   };
 
+
+
+  useEffect(() => {
+    console.log("ressf", layerRef.current)
+      if (layerRef.current) {
+          const map = layerRef.current.getMaplibreMap();
+          map.getStyle().layers.forEach(l => {
+              if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none")
+          });
+      }
+  }, [[]]);
+
   return (
     <>
 
@@ -317,6 +327,7 @@ export const MapComponent = (props: any) => {
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/alidade_smooth_dark.json"
+          ref={layerRef}
         />
         <Circle
           center={circlePosition}
