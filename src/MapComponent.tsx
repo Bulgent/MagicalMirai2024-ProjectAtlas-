@@ -20,27 +20,61 @@ import roads from './map_data/roads.json'
 import points from './map_data/points.json'
 import areas from './map_data/areas.json'
 
+// Pbf関連データの導入
+import PbfLayer from './pbf/PbfComponentSetting';
+import { vectorTileLayerStyles } from './pbf/Pbfstyles';
+
+// カラーパレットの導入
+import songRead from './song_data/Song';
+
 interface PointProperties {
   name: string;
   coordinates: [number, number];
+}
+interface kashiProperties {
+  text: string;
+  startTime: number;
+  endTime: number;
 }
 
 export const MapComponent = (props: any) => {
   const [clickedPoints, setClickedPoints] = useState<PointProperties[]>([]);
   const position: [number, number] = [34.6937, 135.5021];
   const [center, setCenter] = useState<[number, number]>(position);
+  const [isMoving, setIsMoving] = useState<boolean>(false);
 
   const [circlePosition, setCirclePosition] = useState<[number, number]>([
     34.3395651, 135.18270817
   ]);
-  const [clickedCount, setClickedCount] = useState(0);
+  const [clickedCount, setClickedCount] = useState<number>(0);
   const [pointPositions, setPointPositions] = useState<[number, number][]>([]);
   const [panels, setPanels] = useState<string[]>([]);
   const [routePositions, setRoutePositions] = useState<[number, number][]>([]);
   const [isInit, setIsInit] = useState<Boolean>(true);
   const [songKashi, setKashi] = useState(props.kashi)
+  const [songKashi, setKashi] = useState<kashiProperties>({ text: "", startTime: 0, endTime: 0 });
+  // console.log(props.kashi, songKashi)
 
+  // 👽歌詞の種類を判別するための正規表現👽
+  const hiraganaRegex = /^[ぁ-ん]+$/;
+  const katakanaRegex = /^[ァ-ン]+$/;
+  const kanjiRegex = /^[一-龥]+$/;
+  const englishRegex = /^[a-zA-Z]+$/;
+  const numberRegex = /^[0-9]+$/;
+  const symbolRegex = /^[!-/:-@[-`{-~、。！？「」]+$/;
+  const spaceRegex = /^\s+$/;
 
+  // 👽歌詞の種類👽
+  const enum KashiType {
+    HIRAGANA = 0,
+    KATAKANA = 1,
+    KANJI = 2,
+    ENGLISH = 3,
+    NUMBER = 4,
+    SYMBOL = 5,
+    SPACE = 6,
+    OTHER = 7
+  }
 
   // pointデータを図形として表現
   const pointToLayer = (feature: any, latlng: LatLngExpression) => {
@@ -215,28 +249,130 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
-  // 歌詞表示コンポーネント👽
+  // 👽歌詞の種類を判別する👽
+  const checkKashiType = (text: string): KashiType => {
+    if (hiraganaRegex.test(text)) {
+      console.log(text, "ひらがな")
+      return KashiType.HIRAGANA;
+    }
+    else if (katakanaRegex.test(text)) {
+      console.log(text, "カタカナ")
+      return KashiType.KATAKANA;
+    }
+    else if (kanjiRegex.test(text)) {
+      console.log(text, "漢字")
+      return KashiType.KANJI;
+    }
+    else if (englishRegex.test(text)) {
+      console.log(text, "英語")
+      return KashiType.ENGLISH;
+    }
+    else if (numberRegex.test(text)) {
+      console.log(text, "数字")
+      return KashiType.NUMBER;
+    }
+    else if (symbolRegex.test(text)) {
+      console.log(text, "記号")
+      return KashiType.SYMBOL;
+    }
+    else if (spaceRegex.test(text)) {
+      console.log(text, "スペース")
+      return KashiType.SPACE;
+    }
+    else {
+      console.log(text, "その他")
+      return KashiType.OTHER;
+    }
+  };
+
+  // 👽歌詞表示コンポーネント👽
   // コンポーネントとして実行しないと動かない?
   const MapKashi = () => {
     const map = useMap();
     // console.log(map.getSize(), map.getCenter(), map.getBounds())
-    // var markertext = L.marker(map.getCenter(), { opacity: 1 });
-    if(props.kashi!=""){
-      var markertext = L.marker([Math.random() *
-        (map.getBounds().getNorth() -
-          map.getBounds().getSouth()) +
-        map.getBounds().getSouth(),
-        Math.random() *
-        (map.getBounds().getEast() -
-          map.getBounds().getWest()) +
-        map.getBounds().getWest()], { opacity: 1 });
-      markertext.bindTooltip(props.kashi, { permanent: true })
+    // 歌詞が変わったら実行
+    // ボカロによって色を変える
+    // if (props.songnum != -1) {
+    //   console.log(songRead[props.songnum].vocaloid.name)
+    // }
+    if (props.kashi.text != "" && props.kashi != songKashi) {
+      // console.log("歌詞が違う")
+      setKashi(props.kashi)
+      let printKashi: string = "";
+      props.kashi.text.split('').forEach((char: string) => {
+        switch (checkKashiType(char)) {
+          case KashiType.HIRAGANA:
+            printKashi += "<span class='hiragana " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            break;
+          case KashiType.KATAKANA:
+            printKashi += "<span class='katakana " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            break;
+          case KashiType.KANJI:
+            printKashi += "<span class='kanji " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            break;
+          case KashiType.ENGLISH:
+            printKashi += "<span class='english " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            break;
+          case KashiType.NUMBER:
+            printKashi += "<span class='number " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            break;
+          case KashiType.SYMBOL:
+            printKashi += "<span class='symbol " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            break;
+          case KashiType.SPACE:
+            printKashi += "<span class='space " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            break;
+          default:
+            printKashi += "<span class='other " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+            break;
+        }
+      });
+      console.log(printKashi);
+      // 歌詞を表示する座標をランダムに決定
+      const mapCoordinate: [number, number] =
+        [Math.random() * (map.getBounds().getNorth() - map.getBounds().getSouth()) +
+          map.getBounds().getSouth(),
+        Math.random() * (map.getBounds().getEast() - map.getBounds().getWest()) +
+        map.getBounds().getWest()];
+      // console.log(mapCoordinate);
+      // 地図の表示範囲内にランダムに歌詞配置
+      const markertext = L.marker(mapCoordinate, { opacity: 0 });
+      // 表示する歌詞
+      // console.log("map", props.kashi)
+      markertext.bindTooltip(printKashi, { permanent: true, className: "label-kashi fade-text to_right", direction: "center" })
+      // 地図に追加
       markertext.addTo(map);
+
+      return () => {
+        markertext.remove();
+      };
     }
 
     // コンポーネントとしての利用のために
     return null;
   };
+
+  // コンポーネントとして実行しないと動かない?
+  // const MapKashi = () => {
+  //   const map = useMap();
+  //   // console.log(map.getSize(), map.getCenter(), map.getBounds())
+  //   // var markertext = L.marker(map.getCenter(), { opacity: 1 });
+  //   if(props.kashi!=""){
+  //     var markertext = L.marker([Math.random() *
+  //       (map.getBounds().getNorth() -
+  //         map.getBounds().getSouth()) +
+  //       map.getBounds().getSouth(),
+  //       Math.random() *
+  //       (map.getBounds().getEast() -
+  //         map.getBounds().getWest()) +
+  //       map.getBounds().getWest()], { opacity: 1 });
+  //     markertext.bindTooltip(props.kashi, { permanent: true })
+  //     markertext.addTo(map);
+  //   }
+
+  //   // コンポーネントとしての利用のために
+  //   return null;
+  // };
 
 
 
@@ -317,124 +453,7 @@ export const MapComponent = (props: any) => {
           url="https://cyberjapandata.gsi.go.jp/xyz/experimental_bvmap/{z}/{x}/{y}.pbf"
           maxNativeZoom={16} // 解像度を調整（値が小さい程データ量が小さい）
           minNativeZoom={16}
-          vectorTileLayerStyles={
-            {
-              "lake": {
-                color: "#90dbee",
-                opacity: 1,
-                weight: 0.5,
-                fill: true,
-                fillColor: "#90dbee",
-                fillOpacity: 1,
-              },
-              "waterarea": {
-                color: "#90dbee",
-                opacity: 1,
-                weight: 0.5,
-                fill: true,
-                fillColor: "#90dbee",
-                fillOpacity: 1,
-              },
-              "river": {
-                color: "#90dbee",
-                opacity: 1,
-                weight: 0.5
-              },
-              "building": {
-                color: "#9d9da0",
-                opacity: 1,
-                weight: 0.5,
-                fill: true,
-                fillColor: "#e8e9ed",
-                fillOpacity: 1,
-              },
-              "road": {
-                color: "#b5c5d3",
-                opacity: 0,
-                weight: 0.5,
-              },
-
-              // ここから下は多分いらない（見えないようにopacity:0）
-              "coastline": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "wstructurea": {
-                color: "red",
-                opacity: 1,
-                weight: 0.5,
-                fill: true,
-                fillColor: "#red",
-                fillOpacity: 1,
-              },
-              "structurel": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "landforma": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "transp": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "label": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "elevation": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "contour": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "landforml": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "boundary": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "searoute": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "symbol": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "structurea": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "landformp": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-              "railway": {
-                color: "red",
-                opacity: 0,
-                weight: 0.5
-              },
-            }
-          }
+          vectorTileLayerStyles={vectorTileLayerStyles} // 外部ファイルからスタイルを読み込む
         />
 
         <Circle
