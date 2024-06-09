@@ -4,9 +4,6 @@ import { useCallback, useState, useEffect } from 'react';
 import songRead from './song_data/Song';
 
 export const HistoryComponent = (props: any) => {
-
-    console.log(props.hoverHistory)
-
     // 品詞の判定
     const checkPartOfSpeech = (pos: string) => {
         // N: 名詞 (Noun)
@@ -60,6 +57,16 @@ export const HistoryComponent = (props: any) => {
         }
     }
 
+    const showHover = () => {
+        let historyText: string = ""
+        props.hoverHistory.map((hover: any) => {
+            // console.log(hover.properties.name)
+            historyText += hover.properties.name + "▶"
+        })
+        console.log(props.hoverHistory)
+        return historyText
+    }
+
     // 曲読み込み済みか?
     if ((props.player) != null) {
         return (
@@ -80,7 +87,7 @@ export const HistoryComponent = (props: any) => {
                 <div>経過：{Math.floor(props.player.timer.position / 1000 * 100) / 100} 秒</div>
                 <div>長さ：{props.player.data.song.length} 秒</div>
                 <div>-----------------------------</div>
-                <div>ホバー：{props.hoverHistory[1]?.properties.name}</div>
+                <div>ﾎﾊﾞｰ：{showHover()}</div>
             </>
         )
     }
