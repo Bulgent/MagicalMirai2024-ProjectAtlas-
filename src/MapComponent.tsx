@@ -11,7 +11,6 @@ import { StyleFunction, LeafletMouseEvent, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
-import PbfLayer from './PbfComponentSetting';
 import { computePath } from './ComputePath'
 import { roundWithScale } from './utils.ts'
 
@@ -41,7 +40,7 @@ export const MapComponent = (props: any) => {
   const [clickedPoints, setClickedPoints] = useState<PointProperties[]>([]);
   const position: [number, number] = [34.6937, 135.5021];
   const [center, setCenter] = useState<[number, number]>(position);
-  const [isMoving, setIsMoving] = useState<boolean>(false);
+  const [isMoving, setIsMoving] = useState<boolean>(true);
 
   const [circlePosition, setCirclePosition] = useState<[number, number]>([
     34.3395651, 135.18270817
@@ -51,7 +50,6 @@ export const MapComponent = (props: any) => {
   const [panels, setPanels] = useState<string[]>([]);
   const [routePositions, setRoutePositions] = useState<[number, number][]>([]);
   const [isInit, setIsInit] = useState<Boolean>(true);
-  const [songKashi, setKashi] = useState(props.kashi)
   const [songKashi, setKashi] = useState<kashiProperties>({ text: "", startTime: 0, endTime: 0 });
   // console.log(props.kashi, songKashi)
 
@@ -169,6 +167,7 @@ export const MapComponent = (props: any) => {
     };
 
     useEffect(() => {
+      console.log(isMoving)
       // falseの場合動かない
       if (!props.isMoving) {
         return;
