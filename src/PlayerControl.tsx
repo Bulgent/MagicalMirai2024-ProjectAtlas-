@@ -36,10 +36,10 @@ export const PlayerControl = ({ disabled, player }) => {
         <PlayerSeekbar player={!disabled && player}  />
       </div>
       <div className="pausebutton">
-        <Button
-          content={status !== 'play' ? '▷' : '❘❘'}
+        <input type="button"
+          value={status !== 'play' ? '▷' : '❘❘'}
           onClick={status !== 'play' ? handlePlay : handlePause}
-          size="small"
+          // size="small"
           disabled={disabled}
         />
       </div>

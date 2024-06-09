@@ -45,11 +45,11 @@ body {
 }
 
 /* Textalive広告 */
-.media{
+.media {
   height: 0;
   opacity: 0;
-  display:none;
-  visibility:hidden;
+  display: none;
+  visibility: hidden;
 }
 
 /* 地図 / Map */
@@ -68,12 +68,146 @@ body {
   height: 100%;
 }
 
+/* 歌詞のスタイル(important付けないと他のが優先されりゅ) */
+.label-kashi{
+  background-color: transparent!important;
+  border: 0px!important;
+  box-shadow: none!important;
+  font-size: 200%!important;
+  animation: fadeIn 0.255s ease;
+  /* animation: fadeInSlideUp 2s ease-in-out; */
+}
+
+/* 歌詞の色（ミク） */
+.hiragana.miku{
+  color: #373b3e	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;
+}
+.katakana.miku{
+  color: #137a7f	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+.kanji.miku{
+  color: #e12885	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 120%!important;
+}
+.english.miku{
+  color: #137a7f	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 120%!important;  
+}
+.number.miku{
+  color: #137a7f	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 150%!important;  
+}
+.symbol.miku{
+  color: #373b3e	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+.space.miku{
+  color: #373b3e	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+.other.miku{
+  color: #373b3e	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+
+/* 歌詞の色（レン） */
+.hiragana.len{
+  color: #555658	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;
+}
+.katakana.len{
+  color: #2b90a2	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+.kanji.len{
+  color: #ffd98c	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 120%!important;
+}
+.english.len{
+  color: #2b90a2	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 120%!important;  
+}
+.number.len{
+  color: #2b90a2	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 150%!important;  
+}
+.symbol.len{
+  color: #555658	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+.space.len{
+  color: #555658	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+.other.len{
+  color: #555658	!important;
+  font-weight: normal!important; 
+  /* bold */
+  font-size: 100%!important;  
+}
+
+
+/* ISSUE:既存のtranslate3dがあとに実行されてしまうので，座標がおかしくなる */
+/* @keyframes fadeInSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+} */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/* 曲コントロール */
 .mediacircle {
   display: flex;
   height: 20vh;
   width: 90%;
   border: 2px solid;
-  padding: 0.1em;
+  padding: 0.1em, 0.1em, 0.1em, 0.1em;
   border-radius: 15px;
   background: #e12885;
   position: absolute;
@@ -85,30 +219,78 @@ body {
   -ms-transform: translateX(-50%);
 }
 
+/* ジャケット */
 .media-jacket {
-  margin: 0.8em;
-  width: 15%;
+  height: 100%;
   /* display: flex; */
   /* padding:1em; */
-  background: #bec8d1;
 }
 
+/* 曲情報 */
+.media-info {
+  margin: 0.8em 1em 0.8em 10em;
+  width: 100%;
+  /* display: flex; */
+  /* padding: 0.2em 5em 0.2em 5em; */
+  /* border-radius: 15px; */
+  /* mix-blend-mode: multiply	; */
+  /* align-items: center; */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* タイトルとアーティスト */
+.title-artist{
+  display: flex;
+  text-align: bottom;
+}
+
+/* si-kuba */
 .media-seek {
   margin: 0.8em;
-  width: 70%;
+  width: 100%;
   /* display: flex; */
   border: 1px solid;
-  padding: 0.2em 1em;
   /* border-radius: 15px; */
   background: #373b3e;
   /* mix-blend-mode: multiply	; */
-  clip-path: inset(0px round 0px);
+  /* clip-path: inset(0px round 0px); */
   /* align-items: center; */
+  position: relative;
+}
+
+.jacketpic {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left;
+}
+
+.media-jacket, .media-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.transparent {
+  position: relative;  /* 基準位置とする */
+}
+.transparent::before {
+  content: "";         /* 疑似要素に必須 */
+  width: 100%;         /* 幅いっぱい */
+  height: 100%;        /* 高さいっぱい */
+  display: block;      /* 高さを指定するためにブロック要素にする */
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0, #373b3e 20%); /* 徐々に透明にする */
+  position: absolute;  /*  */
+  top: 0;
+  left: 0;
 }
 
 .songtitle {
   font-size: 4vh;
   color: #fff;
+  margin-right: 20px;
 }
 
 .songartist {
@@ -137,7 +319,7 @@ body {
 
 .seekbar {
   font-size: 1vh;
-  width: 90%;
+  width: 80%;
 }
 
 .pausebutton {
@@ -151,3 +333,23 @@ body {
   box-shadow: 0 2px 2px 0 rgba(255, 255, 255, .2) inset, 0 2px 10px 0 rgba(255, 255, 255, .5) inset, 0 -2px 2px 0 rgba(0, 0, 0, .1) inset;
   border: 1px solid rgba(0, 0, 0, .2);
 }
+
+/* 
+.fade-text{
+  display: block;
+  color: transparent;
+  font-size: 30px;
+  line-height: 1.4;
+  margin-bottom: 40px;
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-size: 300% 300%;
+}
+
+.fade-text .to_right {
+  background-image: linear-gradient(to right, #fff 30%, rgba(255, 255, 255, 0) 60%);
+  background-position: left 100% center;
+  transform: translate(-20px, 0);
+  -webkit-animation: toRight var(--duration, 2.4s) var(--ease) var(--delay, 0.6s) forwards;
+          animation: toRight var(--duration, 2.4s) var(--ease) var(--delay, 0.6s) forwards;
+} */
