@@ -35,7 +35,7 @@ const App: React.FC = () => {
   const [songBeat, setSongBeat] = useState<string>("")
   const [songInfo, setSongInfo] = useState<number>(-1)
   const [player, setPlayer] = useState<Object>()
-  const [hoverHistory, setHoverHistory] = useState<historyProperties>()
+  const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([])
   const handOverChar = (songChar: kashiProperties) => {
     setKashiChar(songChar)
     // console.log("親受取単語:", songChar)
@@ -69,8 +69,8 @@ const App: React.FC = () => {
   }
   // MapComponentからのホバー情報を受け取る
   const handOverHover = (hover : historyProperties) => {
-    setHoverHistory(hover)
-    console.log(hover)
+    //hoverhistory に追加(重複削除)
+    setHoverHistory((prev) => [...new Set([...prev, hover])]);
   }
 
   const [isMoving, setIsMoving] = useState(true);
@@ -98,7 +98,7 @@ const App: React.FC = () => {
         <div id="history" className="split">
           <HistoryComponent kashiChar={kashiChar} kashiWord={kashiWord} kashiPhrase={kashiPhrase}
             songChord={songChord} songBeat={songBeat} songChorus={songChorus}
-            songnum={songInfo} player={player} />
+            songnum={songInfo} player={player} hoverHistory={hoverHistory} />
           <button onClick={handleMapMove}>
             {isMoving ? '停止' : '地図を移動'}
           </button>
