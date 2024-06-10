@@ -1,7 +1,7 @@
-import './App.css';
+import '../styles/App.css';
 import { useCallback, useState, useEffect } from 'react';
 
-import songRead from './utils/Song.ts';
+import songRead from '../utils/Song.ts';
 
 export const HistoryComponent = (props: any) => {
     // 品詞の判定

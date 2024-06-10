@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Player } from 'textalive-app-api';
-import { PlayerControl } from './PlayerControl';
-import songRead from './utils/Song.ts';
-import './App.css';
+import { PlayerControl } from '../services/PlayerControl.tsx';
+import songRead from '../utils/Song.ts';
+import '../styles/App.css';
 
 //   onAppReady, // APIの準備完了
 //   onVideoReady, // 楽曲情報取得完了

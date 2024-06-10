@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
-import './App.css';
-import {foo} from './services/ComputePath.ts'
+import App from './pages/GamePage.tsx';
+import './styles/App.css';
 
 // foo()
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <App />
 );

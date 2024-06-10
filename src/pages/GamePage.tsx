@@ -1,9 +1,9 @@
-import './App.css';
+import '../styles/App.css';
 import React from 'react';
 import { useCallback, useState, useEffect } from 'react';
-import { MapComponent } from './MapComponent';
-import { LyricComponent } from './LyricComponent';
-import { HistoryComponent } from './HistoryComponent';
+import { MapComponent } from '../components/MapComponent';
+import { LyricComponent } from '../components/LyricComponent';
+import { HistoryComponent } from '../components/HistoryComponent';
 
 interface kashiProperties {
   text: string;
