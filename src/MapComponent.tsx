@@ -26,7 +26,7 @@ import PbfLayer from './pbf/PbfComponentSetting';
 import { vectorTileLayerStyles } from './pbf/Pbfstyles';
 
 // カラーパレットの導入
-import songRead from './song_data/Song';
+import songRead from './utils/Song';
 import { on } from 'events';
 
 interface PointProperties {

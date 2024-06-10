@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Player } from 'textalive-app-api';
 import { PlayerControl } from './PlayerControl';
-import songRead from './song_data/Song';
+import songRead from './utils/Song';
 import './App.css';
 
 //   onAppReady, // APIの準備完了
@@ -33,7 +33,7 @@ export const LyricComponent = (props: any) => {
 
   // 選択された曲のジャケット画像のパス取得
   const getImage = (): string => {
-    return new URL(`./song_data/jacket/${songRead[songNum].jacketName}`, import.meta.url).href;
+    return new URL(`./assets/images/jacket/${songRead[songNum].jacketName}`, import.meta.url).href;
   };
 
   // 同じ値のときは再計算せずにいいヤツ
