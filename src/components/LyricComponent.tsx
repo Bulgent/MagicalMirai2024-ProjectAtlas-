@@ -33,7 +33,7 @@ export const LyricComponent = (props: any) => {
 
   // 選択された曲のジャケット画像のパス取得
   const getImage = (): string => {
-    return new URL(`./assets/images/jacket/${songRead[songNum].jacketName}`, import.meta.url).href;
+    return new URL(`../assets/images/jacket/${songRead[songNum].jacketName}`, import.meta.url).href;
   };
 
   // 同じ値のときは再計算せずにいいヤツ
