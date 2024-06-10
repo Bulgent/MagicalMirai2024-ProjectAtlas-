@@ -11,9 +11,9 @@ import { StyleFunction, LeafletMouseEvent, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './App.css';
-import { MapLibreTileLayer } from './MapLibraTileLayer.ts'
-import { computePath } from './ComputePath'
-import { roundWithScale, KashiType, checkKashiType, ArchType, checkArchType } from './utils.ts'
+import { MapLibreTileLayer } from './utils/MapLibraTileLayer.ts'
+import { computePath } from './services/ComputePath.ts'
+import { roundWithScale, KashiType, checkKashiType, ArchType, checkArchType } from './utils/utils.ts'
 
 
 // 地図データの導入
@@ -26,7 +26,7 @@ import PbfLayer from './pbf/PbfComponentSetting';
 import { vectorTileLayerStyles } from './pbf/Pbfstyles';
 
 // カラーパレットの導入
-import songRead from './utils/Song';
+import songRead from './utils/Song.ts';
 import { on } from 'events';
 
 interface PointProperties {

@@ -1,6 +1,6 @@
 import {aStar} from 'ngraph.path';
 import createGraph from 'ngraph.graph';
-import roads from './map_data/roads-kai.json';
+import roads from '../map_data/roads-kai.json';
 
 /*
     feature_index_1とfeature_index_2は互いに行き来可能
