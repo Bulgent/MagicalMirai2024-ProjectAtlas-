@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Player } from 'textalive-app-api';
-import { PlayerControl } from './PlayerControl';
-import songRead from './song_data/Song';
-import './App.css';
+import { PlayerControl } from '../services/PlayerControl.tsx';
+import songRead from '../utils/Song.ts';
+import '../styles/App.css';
 
 //   onAppReady, // APIの準備完了
 //   onVideoReady, // 楽曲情報取得完了
@@ -13,8 +13,6 @@ import './App.css';
 //   onPause, // 楽曲一時停止時
 //   onStop, // 楽曲停止時
 //   onAppMediaChange, // 楽曲変更時
-
-
 
 export const LyricComponent = (props: any) => {
   // 開発環境稼働か?
@@ -33,7 +31,7 @@ export const LyricComponent = (props: any) => {
 
   // 選択された曲のジャケット画像のパス取得
   const getImage = (): string => {
-    return new URL(`./song_data/jacket/${songRead[songNum].jacketName}`, import.meta.url).href;
+    return new URL(`../assets/images/jacket/${songRead[songNum].jacketName}`, import.meta.url).href;
   };
 
   // 同じ値のときは再計算せずにいいヤツ

@@ -10,23 +10,23 @@ import {
 import { StyleFunction, LeafletMouseEvent, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import './App.css';
-import { MapLibreTileLayer } from './MapLibraTileLayer.ts'
-import { computePath } from './ComputePath'
-import { roundWithScale, KashiType, checkKashiType, ArchType, checkArchType } from './utils.ts'
+import '../styles/App.css';
+import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
+import { computePath } from '../services/ComputePath.ts'
+import { roundWithScale, KashiType, checkKashiType, ArchType, checkArchType } from '../utils/utils.ts'
 
 
 // 地図データの導入
-import roads from './map_data/roads-kai.json'
-import points from './map_data/points.json'
-import areas from './map_data/areas.json'
+import roads from '../assets/jsons/map_data/roads-kai.json'
+import points from '../assets/jsons/map_data/points.json'
+import areas from '../assets/jsons/map_data/areas.json'
 
 // Pbf関連データの導入
 import PbfLayer from './pbf/PbfComponentSetting';
 import { vectorTileLayerStyles } from './pbf/Pbfstyles';
 
 // カラーパレットの導入
-import songRead from './song_data/Song';
+import songRead from '../utils/Song.ts';
 import { on } from 'events';
 
 interface PointProperties {

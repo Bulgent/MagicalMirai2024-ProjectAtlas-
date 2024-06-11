@@ -10,7 +10,7 @@ interface SongData {
     },
     songURL: string;
     video: {
-        // 音楽地図訂正履歴
+        // 音楽地図訂正履歴s
         beatId: number; // ビート情報のリビジョンID
         chordId: number; // コード進行の情報のリビジョンID
         repetitiveSegmentId: number; // サビなどの繰り返し区間のリビジョンID 

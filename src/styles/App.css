@@ -42,6 +42,7 @@ body {
   background-color: #86cecb;
   box-sizing: border-box;
   padding: 0%1%0%1%;
+  display: flex;
 }
 
 /* Textalive広告 */
@@ -80,12 +81,12 @@ body {
   writing-mode: vertical-rl;
   text-orientation: sideways;
   /* transfor14m: translate(-48%, -50%) rotate(90deg); */
-  
+  flex :2;
   /* transform: rotate(90deg); */
 }
 
 .debughistory{
-  
+  flex: 8;
 }
 
 /* 歌詞のスタイル(important付けないと他のが優先されりゅ) */
