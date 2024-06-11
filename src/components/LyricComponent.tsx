@@ -14,8 +14,6 @@ import '../styles/App.css';
 //   onStop, // 楽曲停止時
 //   onAppMediaChange, // 楽曲変更時
 
-
-
 export const LyricComponent = (props: any) => {
   // 開発環境稼働か?
   // const isDevelopment: boolean = false;
