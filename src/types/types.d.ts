@@ -1,0 +1,32 @@
+import { Player } from 'textalive-app-api';
+
+type lyricProperties = {
+    text: string;
+    startTime: number;
+    endTime: number;
+    pos?: string;
+}
+
+type handOverPlayer = (player: Player) => void;
+type handOverNumber = (number: number) => void;
+type handOverLyric = (lyric: lyricProperties) => void;
+type handOverString = (string: string) => void;
+type handOverAny = (chorus: any) => void;
+
+type createPlayerContent = {
+    mediaElement:any
+    songNumber:number
+    handOverPlayer: handOverPlayer
+    handOverSongInfo: handOverNumber
+    handOverChar: handOverLyric
+    handOverWord: handOverLyric
+    handOverPhrase: handOverLyric
+    handOverBeat: handOverString
+    handOverChord: handOverString
+    handOverChorus: handOverAny
+    handOverSongTitle:handOverString
+    handOverSongArtist:handOverString
+    handOverSongLength:handOverNumber
+    handOverPlayTime:handOverNumber
+    handOverApp: handOverAny
+}
