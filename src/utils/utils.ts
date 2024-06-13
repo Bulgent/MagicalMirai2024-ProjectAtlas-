@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 // 👽歌詞の種類を判別するための正規表現👽
 const hiraganaRegex = /^[ぁ-ん]+$/;
 const katakanaRegex = /^[ァ-ン]+$/;
@@ -166,4 +168,14 @@ export const calculateVector = (
     (nextPosition[1] - position[1]),
     distance
   ];
+};
+
+/**
+ * handOver作成関数
+ */
+export const createHandOverFunction = <T,>(setter: React.Dispatch<React.SetStateAction<T>>) => {
+  return useCallback((value: T) => {
+    setter(value);
+    // console.log("親受取:", value);
+  }, [setter]);
 };

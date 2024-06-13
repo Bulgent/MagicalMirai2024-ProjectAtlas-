@@ -1,114 +1,129 @@
 import '../styles/App.css';
 import React from 'react';
-import { useCallback, useState, useEffect } from 'react';
-import { MapComponent } from '../components/MapComponent';
+import { Player } from 'textalive-app-api';
+import { useState, useEffect } from "react"
 import { LyricComponent } from '../components/LyricComponent';
 import { HistoryComponent } from '../components/HistoryComponent';
+import { MapComponent } from '../components/MapComponent'
+import { createPlayerContent, lyricProperties, historyProperties } from '../types/types';
+import { createPlayer } from "../services/TextAlive.ts"
+import { createHandOverFunction } from "../utils/utils.ts"
 
-interface kashiProperties {
-  text: string;
-  startTime: number;
-  endTime: number;
-  pos?: string;
-}
-interface historyProperties {
-  type: string,
-  properties: {
-      type: number,
-      name: string
-  },
-  geometry: {
-      type: string,
-      coordinates: [number, number]
-  }
-}
-
-console.log("App")
-
-const App: React.FC = () => {
-  // LyricComponentからの歌詞をMapComponentに受け渡す(Wordだけ品詞が取得できる)
-  const [kashiChar, setKashiChar] = useState<kashiProperties>({ text: "", startTime: 0, endTime: 0 })
-  const [kashiWord, setKashiWord] = useState<kashiProperties>({ text: "", startTime: 0, endTime: 0, pos: "" })
-  const [kashiPhrase, setKashiPhrase] = useState<kashiProperties>({ text: "", startTime: 0, endTime: 0 })
+export const GamePage = () => {
+  // 開発環境について
+  const isDevelopment: boolean = process.env.NODE_ENV === 'development';
+  // TxtAlive周りの変数宣言
+  const [lyricChar, setLyricChar] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 })
+  const [lyricWord, setLyricWord] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0, pos: "" })
+  const [lyricPhrase, setLyricPhrase] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 })
   const [songChord, setSongChord] = useState<string>("")
   const [songChorus, setSongChorus] = useState<string>("")
   const [songBeat, setSongBeat] = useState<string>("")
   const [songInfo, setSongInfo] = useState<number>(-1)
-  const [player, setPlayer] = useState<Object>()
+  const [player, setPlayer] = useState<Player | null>(null);
+  const [app, setApp] = useState<any>()
+  const [songTitle, setSongTitle] = useState<string>("")
+  const [songArtist, setSongArtist] = useState<string>("")
+  const [songLength, setSongLength] = useState<number>(0)
+  const [playTime, setPlayTime] = useState<number>(0)
+  const [mediaElement, setMediaElement] = useState(null);
+  const [songNumber, setSongNumber] = useState(isDevelopment ? 3 : -1);
+  const handOverSongNumber = createHandOverFunction(setSongNumber) // 曲選択をLyricComponentで持たせることを想定
+  const handOverMediaElement = createHandOverFunction(setMediaElement)
+
+
+  // Map移動に関しての変数宣言
+  const [isMoving, setIsMoving] = useState(false);
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([])
-  const handOverChar = (songChar: kashiProperties) => {
-    setKashiChar(songChar)
-    // console.log("親受取単語:", songChar)
-  }
-  const handOverWord = (songWord: kashiProperties) => {
-    setKashiWord(songWord)
-    // console.log("親受取熟語:", songWord)
-  }
-  const handOverPhrase = (songPhrase: kashiProperties) => {
-    setKashiPhrase(songPhrase)
-    // console.log("親受取フレーズ:", songPhrase)
-  }
-  const handOverChord = (songChord: string) => {
-    setSongChord(songChord)
-    // console.log("親受取コード:", songChord)
-  }
-  const handOverBeat = (songBeat: string) => {
-    setSongBeat(songBeat)
-    // console.log("親受取ビート:", songBeat)
-  }
-  const handOverChorus = (songChorus: string) => {
-    setSongChorus(songChorus)
-    // console.log("親受取コーラス:", songChorus)
-  }
-  const handOverSongInfo = (songInfo: number) => {
-    setSongInfo(songInfo)
-  }
-  const handOverPlayer = (player: any) => {
-    setPlayer(player)
-    // console.log(player)
-  }
+  const handleMapMove = () => {
+    setIsMoving((prevIsMoving) => !prevIsMoving);
+  };
   // MapComponentからのホバー情報を受け取る
-  const handOverHover = (hover : historyProperties) => {
+  const handOverHoverHistory = (hover : historyProperties) => {
     //hoverhistory に追加(重複削除)
     setHoverHistory((prev) => [...new Set([...prev, hover])]);
   }
 
-  const [isMoving, setIsMoving] = useState(false);
-  // 機能テスト用
-  // isMovingを切り替える（地図移動の発火点）
-  const handleMapMove = () => {
-    setIsMoving((prevIsMoving) => !prevIsMoving);
-  };
+  // PlayerLister作成のための変数
+  const createPlayerContent: createPlayerContent = {
+    mediaElement,
+    songNumber,
+    handOverPlayer: createHandOverFunction(setPlayer),
+    handOverSongInfo: createHandOverFunction(setSongInfo),
+    handOverChar: createHandOverFunction(setLyricChar),
+    handOverWord: createHandOverFunction(setLyricWord),
+    handOverPhrase: createHandOverFunction(setLyricPhrase),
+    handOverBeat: createHandOverFunction(setSongBeat),
+    handOverChord: createHandOverFunction(setSongChord),
+    handOverChorus: createHandOverFunction(setSongChorus),
+    handOverSongTitle:createHandOverFunction(setSongTitle),
+    handOverSongArtist:createHandOverFunction(setSongArtist),
+    handOverSongLength:createHandOverFunction(setSongLength),
+    handOverPlayTime:createHandOverFunction(setPlayTime),
+    handOverApp: createHandOverFunction(setApp)
+  }
+
+  // Txtaliveから情報取得開始
+  useEffect(() => {
+    // 曲選択前または画面描画前のときはエラーが出るのでスキップ
+    if (songNumber < 0 || typeof window === 'undefined' || !mediaElement) {
+        return;
+      }
+    // 音楽取得処理を作成（値は全てhandOverで取得）
+    const { playerListener } = createPlayer(createPlayerContent)
+    // 再生終了時
+    return () => {
+        console.log('--- [app] shutdown ---');
+        player.removeListener(playerListener);
+        player.dispose();
+        };
+  }, [mediaElement])
+
 // FUNFUN度の計算
   return (
-
     <React.Fragment>
       <div id="display" className="soft-gloss">
         <div id="navi" className="split">
           <div id="map">
             {/* 単語:kashiChar, 熟語:kashiWord, フレーズ:kashiPhrase */}
-            <MapComponent kashi={kashiWord} songnum={songInfo}  isMoving={isMoving} handOverHover={handOverHover}/>
+            <MapComponent 
+              kashi={lyricWord}
+              songnum={songInfo}  
+              isMoving={isMoving} 
+              handOverHover={handOverHoverHistory}
+            />
           </div>
           <div id="song">
-            <LyricComponent handOverChar={handOverChar} handOverWord={handOverWord} handOverPhrase={handOverPhrase}
-              handOverChord={handOverChord} handOverBeat={handOverBeat} handOverChorus={handOverChorus}
-              handOverSongInfo={handOverSongInfo} handOverPlayer={handOverPlayer} />
+            <LyricComponent 
+              songNumber={songNumber} 
+              songTitle={songTitle}
+              songArtist={songArtist}
+              playTime={playTime}
+              songLength={songLength}
+              player={player}
+              app={app}
+              handOverSongNumber={handOverSongNumber}
+              handOverMediaElement={handOverMediaElement}
+            />
           </div>
         </div>
         <div id="history" className="split">
-          <HistoryComponent kashiChar={kashiChar} kashiWord={kashiWord} kashiPhrase={kashiPhrase}
-            songChord={songChord} songBeat={songBeat} songChorus={songChorus}
-            songnum={songInfo} player={player} hoverHistory={hoverHistory} />
+          <HistoryComponent 
+            lyricChar={lyricChar} 
+            lyricWord={lyricWord} 
+            lyricPhrase={lyricPhrase}
+            songChord={songChord} 
+            songBeat={songBeat} 
+            songChorus={songChorus}
+            songnum={songInfo} 
+            player={player} 
+            hoverHistory={hoverHistory} 
+          />
           <button onClick={handleMapMove}>
             {isMoving ? '停止' : '地図を移動'}
           </button>
-          {/* <div className="char">{char}</div>
-          <div className="chord">{chord}</div>
-          <div className="chorus">曲遷移(0サビ):{chorus}</div> */}
+          </div>
         </div>
-      </div>
     </React.Fragment>
   );
 }
-
-export default App;
