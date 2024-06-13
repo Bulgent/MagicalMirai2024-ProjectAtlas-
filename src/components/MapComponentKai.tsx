@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker } from 'react-leaflet';
-import { StyleFunction, LeafletMouseEvent, LatLngExpression } from 'leaflet';
+import { LeafletMouseEvent, marker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
 import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { KashiType, checkKashiType, ArchType, checkArchType } from '../utils/utils.ts'
+import { pointToLayer, mapStyle, mapStylePathWay } from '../utils/MapStyle.ts'
 
 // 地図データの導入
 import roads from '../assets/jsons/map_data/roads-kai.json'
@@ -14,31 +14,11 @@ import points from '../assets/jsons/map_data/points.json'
 import areas from '../assets/jsons/map_data/areas.json'
 
 // カラーパレットの導入
-import songRead from '../utils/Song.ts';
+import songData from '../utils/Song.ts';
 import { on } from 'events';
 
 // 型導入
-
-interface PointProperties {
-  name: string;
-  coordinates: [number, number];
-}
-interface kashiProperties {
-  text: string;
-  startTime: number;
-  endTime: number;
-}
-interface historyProperties {
-  type: string,
-  properties: {
-      type: number,
-      name: string
-  },
-  geometry: {
-      type: string,
-      coordinates: [number, number]
-  }
-}
+import {  PointProperties, lyricProperties, historyProperties } from '../types/types';
 
 export const MapComponent = (props: any) => {
   const [clickedPoints, setClickedPoints] = useState<PointProperties[]>([]);
@@ -60,57 +40,8 @@ export const MapComponent = (props: any) => {
   const layerRef = useRef(null);
 
 
-  const [songKashi, setKashi] = useState<kashiProperties>({ text: "", startTime: 0, endTime: 0 });
+  const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
 
-
-  // pointデータを図形として表現
-  const pointToLayer = (feature: any, latlng: LatLngExpression) => {
-    const circleMarkerOptions = {
-      radius: 6,
-      fillColor: 'white',
-      color: 'red',
-      weight: 2,
-      fillOpacity: 1,
-    };
-    return L.circleMarker(latlng, circleMarkerOptions);
-  };
-
-  // console.log(points.features[0].properties.type)
-
-  // line, polygonデータを図形として表現
-  const mapStyle: StyleFunction = (feature) => {
-    switch (feature?.geometry?.type) {
-      case 'MultiLineString':
-        return {
-          color: '#99abc2',
-          weight: 10,
-        };
-      case 'MultiPolygon':
-        return {
-          fillColor: '#90dbee',
-          weight: 2,
-          opacity: 0.5,
-          color: 'gray',
-          fillOpacity: 1,
-        };
-      default:
-        return {};
-    }
-  };
-
-  // line, polygonデータを図形として表現
-  const mapStylePathWay: StyleFunction = (feature) => {
-    switch (feature?.geometry?.type) {
-      case 'MultiLineString':
-        return {
-          color: 'blue',
-          weight: 5,
-          opacity: 0.5,
-        };
-      default:
-        return {};
-    }
-  };
 
   const PathWay: React.FC = () => {
     const [features, nodes] = computePath()
@@ -202,7 +133,7 @@ export const MapComponent = (props: any) => {
     }, [props.isMoving]);
     // コンポーネントとしての利用のために
       return null;
-    }
+  }
 
   const initProcess = () =>{
     if(isInit){
@@ -214,7 +145,7 @@ export const MapComponent = (props: any) => {
     }
   }
 
-    initProcess()
+  initProcess()
 
   // 👽歌詞表示コンポーネント👽
   // コンポーネントとして実行しないと動かない?
@@ -254,7 +185,7 @@ export const MapComponent = (props: any) => {
             printKashi += "'other";
             break;
         }
-        printKashi += " " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+        printKashi += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
       });
       console.log(printKashi);
       // 歌詞を表示する座標をランダムに決定
@@ -265,7 +196,7 @@ export const MapComponent = (props: any) => {
         map.getBounds().getWest()];
       // console.log(mapCoordinate);
       // 地図の表示範囲内にランダムに歌詞配置
-      const markertext = L.marker(mapCoordinate, { opacity: 0 });
+      const markertext = marker(mapCoordinate, { opacity: 0 });
       // 表示する歌詞
       // console.log("map", props.kashi)
       markertext.bindTooltip(printKashi, { permanent: true, className: "label-kashi fade-text to_right", direction: "center" })
@@ -273,50 +204,13 @@ export const MapComponent = (props: any) => {
       markertext.addTo(map);
 
       return () => {
-        markertext.remove();
+        markertext.remove(); // Componentはvoidで返すべきではない
       };
     }
 
     // コンポーネントとしての利用のために
     return null;
   };
-
-  // 機能テスト用
-  // 描画するpointを追加する
-  const addPoint = () => {
-    const newPoint: [number, number] = [
-      center[0] + Math.random() * 0.01,
-      center[1] + Math.random() * 0.01,
-    ];
-    setPointPositions((prevPositions) => [...prevPositions, newPoint]);
-  };
-
-  // 機能テスト用
-  // カウントを増やして描画する位置を変更
-  // useCallbackを使う理由が分からない
-  const handleCircleClick = useCallback(() => {
-    setClickedCount((count) => count + 1);
-    setCirclePosition([
-      center[0] + Math.random() * 0.01,
-      center[1] + Math.random() * 0.01,
-    ]);
-  }, []);
-
-  // 機能テスト用
-  // 描画する文字を追加する
-  const addSomePanels = (index: number, key: string) => {
-    const newPanel: string = `clicked ${key}`;
-    setPanels((prevPanels) => [...prevPanels, newPanel]);
-    setPointPositions((prevPositions) =>
-      prevPositions.filter((_, i) => i !== index)
-    );
-  };
-
-  // ?と:でif文を書いている:がelse 
-  const clickedText =
-    clickedCount === 0
-      ? 'Click this Circle to change the Tooltip text'
-      : `Circle click: ${clickedCount}`;
 
   const onPointClick = (e: LeafletMouseEvent) => {
     const clickedPointProperties: PointProperties = {
@@ -342,7 +236,6 @@ export const MapComponent = (props: any) => {
   // マップに表示されている文字を非表示にする
   // 初期表示にて上手く動かない songnumで解決ゾロリ
   useEffect(() => {
-    console.log("ressf", layerRef.current)
       if (layerRef.current) {
           const map = layerRef.current.getMaplibreMap();
           map.getStyle().layers.forEach(l => {
@@ -375,7 +268,6 @@ export const MapComponent = (props: any) => {
             });
           }}
         />
-
         <PathWay />
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
@@ -383,27 +275,6 @@ export const MapComponent = (props: any) => {
           ref={layerRef}
           style={{ backgroundColor: '#f5f3f3'}}
         />
-        <Circle
-          center={circlePosition}
-          eventHandlers={{
-            click: handleCircleClick,
-          }}
-          pathOptions={{ fillColor: 'blue' }}
-          radius={6}
-        >
-          <Tooltip>{clickedText}</Tooltip>
-        </Circle>
-        {
-          pointPositions.map((position) => (
-            <Marker
-              key={`${position[0]}-${position[1]}`}
-              position={position}
-              eventHandlers={{
-                click: () => addSomePanels(pointPositions.indexOf(position), `${position[0]}-${position[1]}`),
-              }}
-            />
-          ))
-        }
         <MoveMapByRoute />
         <MapKashi />
       </MapContainer>
@@ -419,16 +290,6 @@ export const MapComponent = (props: any) => {
           ))}
         </ul> */}
       {/* 出力確認用、場所を移動させる↑ */}
-
-      {
-        panels.map((label) => (
-          <p>{label}</p>
-        ))
-      }
-
-      <button onClick={addPoint}>
-        Add Point
-      </button>
     </>
   );
 };

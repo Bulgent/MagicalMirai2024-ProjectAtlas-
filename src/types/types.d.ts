@@ -41,4 +41,9 @@ type historyProperties = {
         type: string
         coordinates: [number, number]
     }
+}
+
+type PointProperties = {
+    name: string
+    coordinates: [number, number]
   }

@@ -4,6 +4,7 @@ import { Player } from 'textalive-app-api';
 import { useState, useCallback, useEffect } from "react"
 import { LyricComponent } from '../components/LyricComponentKaiKai';
 import { HistoryComponent } from '../components/HistoryComponentKai';
+import { MapComponent } from '../components/MapComponentKai'
 import {  createPlayerContent, lyricProperties, historyProperties } from '../types/types';
 import { createPlayer } from "../services/TextAlive.ts"
 
@@ -37,7 +38,12 @@ const App: React.FC = () => {
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([])
   const handOverSongNumber = createHandOverFunction(setSongNumber) // 曲選択をLyricComponentで持たせることを想定
   const handOverMediaElement = createHandOverFunction(setMediaElement)
-  const handOverHoverHistory = createHandOverFunction(setHoverHistory)
+  // MapComponentからのホバー情報を受け取る
+  const handOverHoverHistory = (hover : historyProperties) => {
+    //hoverhistory に追加(重複削除)
+    setHoverHistory((prev) => [...new Set([...prev, hover])]);
+  }
+
   const createPlayerContent: createPlayerContent = {
     mediaElement,
     songNumber,
@@ -71,12 +77,21 @@ const App: React.FC = () => {
         player.dispose();
         };
   }, [mediaElement])
-
+  const isMoving=false;
 // FUNFUN度の計算
   return (
     <React.Fragment>
       <div id="display" className="soft-gloss">
         <div id="navi" className="split">
+          <div id="map">
+            {/* 単語:kashiChar, 熟語:kashiWord, フレーズ:kashiPhrase */}
+            <MapComponent 
+              kashi={lyricWord}
+              songnum={songInfo}  
+              isMoving={isMoving} 
+              handOverHover={handOverHoverHistory}
+            />
+          </div>
           <div id="song">
             <LyricComponent 
               songNumber={songNumber} 

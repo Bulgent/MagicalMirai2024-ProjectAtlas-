@@ -59,6 +59,7 @@ export const HistoryComponent = (props: any) => {
 
     const showHover = () => {
         let historyText: string = ""
+        console.log(props.hoverHistory)
         props.hoverHistory.map((hover: any) => {
             // console.log(hover.properties.name)
             historyText += hover.properties.name + "▶"
