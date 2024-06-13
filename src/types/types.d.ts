@@ -30,3 +30,15 @@ type createPlayerContent = {
     handOverPlayTime:handOverNumber
     handOverApp: handOverAny
 }
+
+type historyProperties = {
+    type: string
+    properties: {
+        type: number
+        name: string
+    }
+    geometry: {
+        type: string
+        coordinates: [number, number]
+    }
+  }
