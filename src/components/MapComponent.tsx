@@ -77,7 +77,7 @@ export const MapComponent = (props: any) => {
   // pointデータを図形として表現
   const pointToLayer = (feature: any, latlng: LatLngExpression) => {
     const circleMarkerOptions = {
-      radius: 6,
+      radius: 10,
       fillColor: 'white',
       color: 'red',
       weight: 2,
@@ -200,7 +200,7 @@ export const MapComponent = (props: any) => {
           map.setView(
             [routePositions[0][0] + vector_lat / (distance + EPSILON) * timer * speed,
             routePositions[0][1] + vector_lon / (distance + EPSILON) * timer * speed],
-            17
+            15.25
           );
         }
         setTimer((prevTimer) => prevTimer + 1);
