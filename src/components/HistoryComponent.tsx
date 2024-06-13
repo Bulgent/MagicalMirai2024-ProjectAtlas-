@@ -1,6 +1,6 @@
 import '../styles/App.css';
 import { useCallback, useState, useEffect } from 'react';
-
+import { checkArchType } from '../utils/utils.ts';
 import songRead from '../utils/Song.ts';
 
 export const HistoryComponent = (props: any) => {
@@ -58,13 +58,11 @@ export const HistoryComponent = (props: any) => {
     }
 
     const showHover = () => {
-        let historyText: string = ""
-        props.hoverHistory.map((hover: any) => {
-            // console.log(hover.properties.name)
-            historyText += hover.properties.name + "▶"
-        })
-        console.log(props.hoverHistory)
-        return historyText
+        return (
+            <>{[...props.hoverHistory].reverse().map((hover: any, index: number) => (
+                <div key={index} className='hoverhistory'>{hover.properties.name} {checkArchType(hover.properties.type)}</div>
+            ))}</>
+        )
     }
 
     // 曲読み込み済みか?

@@ -22,37 +22,68 @@ export const enum KashiType {
 // 👽歌詞の種類を判別する👽
 export const checkKashiType = (text: string): KashiType => {
   if (hiraganaRegex.test(text)) {
-    console.log(text, "ひらがな")
+    // console.log(text, "ひらがな")
     return KashiType.HIRAGANA;
   }
   else if (katakanaRegex.test(text)) {
-    console.log(text, "カタカナ")
+    // console.log(text, "カタカナ")
     return KashiType.KATAKANA;
   }
   else if (kanjiRegex.test(text)) {
-    console.log(text, "漢字")
+    // console.log(text, "漢字")
     return KashiType.KANJI;
   }
   else if (englishRegex.test(text)) {
-    console.log(text, "英語")
+    // console.log(text, "英語")
     return KashiType.ENGLISH;
   }
   else if (numberRegex.test(text)) {
-    console.log(text, "数字")
+    // console.log(text, "数字")
     return KashiType.NUMBER;
   }
   else if (symbolRegex.test(text)) {
-    console.log(text, "記号")
+    // console.log(text, "記号")
     return KashiType.SYMBOL;
   }
   else if (spaceRegex.test(text)) {
-    console.log(text, "スペース")
+    // console.log(text, "スペース")
     return KashiType.SPACE;
   }
   else {
-    console.log(text, "その他")
+    // console.log(text, "その他")
     return KashiType.OTHER;
   }
+};
+
+export const formatKashi = (char: string) => {
+  let printKashi = "";
+  switch (checkKashiType(char)) {
+    case KashiType.HIRAGANA:
+      printKashi = "'hiragana";
+      break;
+    case KashiType.KATAKANA:
+      printKashi = "'katakana";
+      break;
+    case KashiType.KANJI:
+      printKashi = "'kanji";
+      break;
+    case KashiType.ENGLISH:
+      printKashi = "'english";
+      break;
+    case KashiType.NUMBER:
+      printKashi = "'number";
+      break;
+    case KashiType.SYMBOL:
+      printKashi = "'symbol";
+      break;
+    case KashiType.SPACE:
+      printKashi = "'space";
+      break;
+    default:
+      printKashi = "'other";
+      break;
+  }
+  return printKashi;
 };
 
 // 👽建物の種類👽
@@ -67,29 +98,29 @@ export const enum ArchType {
 }
 
 // 👽建物の種類を判別する👽
-export const checkArchType = (type: number): ArchType => {
+export const checkArchType = (type: number): string => {
   switch (type) {
-    case 1:
-      console.log("映画館")
-      return ArchType.THEATRE;
-    case 2:
-      console.log("公会堂，集会場")
-      return ArchType.PUBLIC;
-    case 3:
-      console.log("劇場，演芸場")
-      return ArchType.ENTERTAINMENT;
-    case 4:
-      console.log("展示場")
-      return ArchType.EXHIBITION;
-    case 5:
-      console.log("体育館，観覧場")
-      return ArchType.GYM;
-    case 6:
-      console.log("その他集客施設")
-      return ArchType.OTHER;
+    case ArchType.THEATRE:
+      // console.log("映画館")
+      return "映画館";
+    case ArchType.PUBLIC:
+      // console.log("公会堂，集会場")
+      return "公会堂，集会場";
+    case ArchType.ENTERTAINMENT:
+      // console.log("劇場，演芸場")
+      return "劇場，演芸場";
+    case ArchType.EXHIBITION:
+      // console.log("展示場")
+      return "展示場";
+    case ArchType.GYM:
+      // console.log("体育館，観覧場")
+      return "体育館，観覧場";
+    case ArchType.OTHER:
+      // console.log("その他集客施設")
+      return "その他集客施設";
     default:
-      console.log("未発見")
-      return ArchType.NOT_FOUND;
+      // console.log("未発見")
+      return "未発見";
   }
 }
 

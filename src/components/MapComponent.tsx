@@ -13,7 +13,7 @@ import L from 'leaflet';
 import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
-import { roundWithScale, KashiType, checkKashiType, ArchType, checkArchType } from '../utils/utils.ts'
+import { roundWithScale, KashiType, checkKashiType, ArchType, checkArchType, formatKashi } from '../utils/utils.ts'
 
 
 // 地図データの導入
@@ -77,7 +77,7 @@ export const MapComponent = (props: any) => {
   // pointデータを図形として表現
   const pointToLayer = (feature: any, latlng: LatLngExpression) => {
     const circleMarkerOptions = {
-      radius: 6,
+      radius: 10,
       fillColor: 'white',
       color: 'red',
       weight: 2,
@@ -169,7 +169,7 @@ export const MapComponent = (props: any) => {
     useEffect(() => {
       // console.log(isMoving)
       // falseの場合動かない
-      console.log("ref", layerRef.current.getMaplibreMap())
+      // console.log("ref", layerRef.current.getMaplibreMap())
       if (!props.isMoving) {
         return;
       }
@@ -200,7 +200,7 @@ export const MapComponent = (props: any) => {
           map.setView(
             [routePositions[0][0] + vector_lat / (distance + EPSILON) * timer * speed,
             routePositions[0][1] + vector_lon / (distance + EPSILON) * timer * speed],
-            17
+            15.25
           );
         }
         setTimer((prevTimer) => prevTimer + 1);
@@ -221,7 +221,6 @@ export const MapComponent = (props: any) => {
       const [features, nodes] = computePath()
       setRoutePositions(nodes)
       setIsInit(false)
-
     }
   }
 
@@ -239,32 +238,33 @@ export const MapComponent = (props: any) => {
       let printKashi: string = "";
       props.kashi.text.split('').forEach((char: string) => {
         printKashi += "<span class=";
-        switch (checkKashiType(char)) {
-          case KashiType.HIRAGANA:
-            printKashi += "'hiragana";
-            break;
-          case KashiType.KATAKANA:
-            printKashi += "'katakana";
-            break;
-          case KashiType.KANJI:
-            printKashi += "'kanji";
-            break;
-          case KashiType.ENGLISH:
-            printKashi += "'english";
-            break;
-          case KashiType.NUMBER:
-            printKashi += "'number";
-            break;
-          case KashiType.SYMBOL:
-            printKashi += "'symbol";
-            break;
-          case KashiType.SPACE:
-            printKashi += "'space";
-            break;
-          default:
-            printKashi += "'other";
-            break;
-        }
+        printKashi += formatKashi(char);
+        // switch (checkKashiType(char)) {
+        //   case KashiType.HIRAGANA:
+        //     printKashi += "'hiragana";
+        //     break;
+        //   case KashiType.KATAKANA:
+        //     printKashi += "'katakana";
+        //     break;
+        //   case KashiType.KANJI:
+        //     printKashi += "'kanji";
+        //     break;
+        //   case KashiType.ENGLISH:
+        //     printKashi += "'english";
+        //     break;
+        //   case KashiType.NUMBER:
+        //     printKashi += "'number";
+        //     break;
+        //   case KashiType.SYMBOL:
+        //     printKashi += "'symbol";
+        //     break;
+        //   case KashiType.SPACE:
+        //     printKashi += "'space";
+        //     break;
+        //   default:
+        //     printKashi += "'other";
+        //     break;
+        // }
         printKashi += " " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
       });
       console.log(printKashi);
