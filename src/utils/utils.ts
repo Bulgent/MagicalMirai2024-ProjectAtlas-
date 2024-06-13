@@ -150,3 +150,20 @@ export const checkPartOfSpeech = (PoS: string) => {
           return "不明";
   }
 }
+
+/**
+ * @return
+ * [x-vector, y-vector, scalar]
+ */
+export const calculateVector = (
+  position: [number, number],
+  nextPosition: [number, number],
+): [number, number, number] => {
+  const distance: number = Math.sqrt((nextPosition[0] - position[0]) ** 2 + (nextPosition[1] - position[1]) ** 2)
+  // const distance :number = 1;
+  return [
+    (nextPosition[0] - position[0]),
+    (nextPosition[1] - position[1]),
+    distance
+  ];
+};

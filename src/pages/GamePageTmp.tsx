@@ -5,7 +5,7 @@ import { useState, useCallback, useEffect } from "react"
 import { LyricComponent } from '../components/LyricComponentKaiKai';
 import { HistoryComponent } from '../components/HistoryComponentKai';
 import { MapComponent } from '../components/MapComponentKai'
-import {  createPlayerContent, lyricProperties, historyProperties } from '../types/types';
+import { createPlayerContent, lyricProperties, historyProperties } from '../types/types';
 import { createPlayer } from "../services/TextAlive.ts"
 
 /**
@@ -35,15 +35,23 @@ const App: React.FC = () => {
   const [playTime, setPlayTime] = useState<number>(0)
   const [mediaElement, setMediaElement] = useState(null);
   const [songNumber, setSongNumber] = useState(0);
-  const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([])
   const handOverSongNumber = createHandOverFunction(setSongNumber) // 曲選択をLyricComponentで持たせることを想定
   const handOverMediaElement = createHandOverFunction(setMediaElement)
+
+
+  // Map移動に関しての変数宣言
+  const [isMoving, setIsMoving] = useState(false);
+  const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([])
+  const handleMapMove = () => {
+    setIsMoving((prevIsMoving) => !prevIsMoving);
+  };
   // MapComponentからのホバー情報を受け取る
   const handOverHoverHistory = (hover : historyProperties) => {
     //hoverhistory に追加(重複削除)
     setHoverHistory((prev) => [...new Set([...prev, hover])]);
   }
 
+  // PlayerLister作成のための変数
   const createPlayerContent: createPlayerContent = {
     mediaElement,
     songNumber,
@@ -77,7 +85,7 @@ const App: React.FC = () => {
         player.dispose();
         };
   }, [mediaElement])
-  const isMoving=false;
+
 // FUNFUN度の計算
   return (
     <React.Fragment>
@@ -105,21 +113,24 @@ const App: React.FC = () => {
               handOverMediaElement={handOverMediaElement}
             />
           </div>
-            <div id="history" className="split">
-            <HistoryComponent 
-              lyricChar={lyricChar} 
-              lyricWord={lyricWord} 
-              lyricPhrase={lyricPhrase}
-              songChord={songChord} 
-              songBeat={songBeat} 
-              songChorus={songChorus}
-              songnum={songInfo} 
-              player={player} 
-              hoverHistory={hoverHistory} 
-            />
+        </div>
+        <div id="history" className="split">
+          <HistoryComponent 
+            lyricChar={lyricChar} 
+            lyricWord={lyricWord} 
+            lyricPhrase={lyricPhrase}
+            songChord={songChord} 
+            songBeat={songBeat} 
+            songChorus={songChorus}
+            songnum={songInfo} 
+            player={player} 
+            hoverHistory={hoverHistory} 
+          />
+          <button onClick={handleMapMove}>
+            {isMoving ? '停止' : '地図を移動'}
+          </button>
           </div>
         </div>
-      </div>
     </React.Fragment>
   );
 }
