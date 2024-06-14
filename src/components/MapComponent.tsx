@@ -130,7 +130,7 @@ export const MapComponent = (props: any) => {
       props.kashi.text.split('').forEach((char: string) => {
         printKashi += "<span class=";
         printKashi += formatKashi(char);
-        printKashi += " " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
+        printKashi += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
       });
       console.log(printKashi);
       // 歌詞を表示する座標をランダムに決定
