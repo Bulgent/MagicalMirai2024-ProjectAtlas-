@@ -148,8 +148,20 @@ export const MapComponent = (props: any) => {
   };
 
   const PathWay: React.FC = () => {
-    const [features, nodes] = computePath()
-
+    const [features, nodes] = computePath();
+    const map = useMap();
+  
+    useEffect(() => {
+      console.log("値が違うよ！")
+      if (nodes) {
+        nodes.forEach(node => {
+          const marker = L.marker([node[0], node[1]]) // node.lat と node.lng は、ノードの緯度と経度を指します。
+            .addTo(map) // map は、Leaflet で初期化された地図オブジェクトです。
+            .bindTooltip('👌👽👌', { permanent: true, direction: 'center' });
+        });
+      }
+    }, [nodes]); // nodes が変更されるたびに、効果を再実行します。
+  
     if (features) {
       const geojson = {
         type: "FeatureCollection",
@@ -160,11 +172,29 @@ export const MapComponent = (props: any) => {
           data={geojson as GeoJSON.GeoJsonObject}
           style={mapStylePathWay}
         />
-      )
+      );
     } else {
-      return null
+      return null;
     }
-  }
+  };
+  // const PathWay: React.FC = () => {
+  //   const [features, nodes] = computePath()
+
+  //   if (features) {
+  //     const geojson = {
+  //       type: "FeatureCollection",
+  //       features: features
+  //     }
+  //     return (
+  //       <GeoJSON
+  //         data={geojson as GeoJSON.GeoJsonObject}
+  //         style={mapStylePathWay}
+  //       />
+  //     )
+  //   } else {
+  //     return null
+  //   }
+  // }
 
   // 機能テスト用
   // isMovingの値が変わったら実行
@@ -354,13 +384,12 @@ export const MapComponent = (props: any) => {
   // };
   // 👽ポイントにマウスが乗ったときに呼び出される関数👽
   const onPointHover = (e: LeafletMouseEvent) => {
-    console.log(e.sourceTarget.feature.properties.name)
+    console.log(e.sourceTarget.feature.properties.name, checkArchType(e.sourceTarget.feature.properties.type))
     // オフ会0人かどうか
     if (e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
       console.log("オイイイッス！👽")
     }
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
-    console.log(checkArchType(e.sourceTarget.feature.properties.type))
     props.handOverHover(e.sourceTarget.feature)
   }
 
