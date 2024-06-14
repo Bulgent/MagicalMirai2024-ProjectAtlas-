@@ -42,12 +42,12 @@ interface kashiProperties {
 interface historyProperties {
   type: string,
   properties: {
-      type: number,
-      name: string
+    type: number,
+    name: string
   },
   geometry: {
-      type: string,
-      coordinates: [number, number]
+    type: string,
+    coordinates: [number, number]
   }
 }
 
@@ -83,7 +83,31 @@ export const MapComponent = (props: any) => {
       weight: 2,
       fillOpacity: 1,
     };
-    return L.circleMarker(latlng, circleMarkerOptions);
+  
+    const marker = L.circleMarker(latlng, circleMarkerOptions);
+  
+    // ホバー時のイベントハンドラ
+    const onHover = (e: L.LeafletMouseEvent) => {
+      const hoveredMarker = e.target;
+      hoveredMarker.setStyle({
+        fillColor: 'yellow', // ホバー時の色
+      });
+      // ツールチップ表示
+      hoveredMarker.bindTooltip(feature.properties.name, { permanent: true, direction: 'top' }).openTooltip();
+      
+    };
+  
+    // ホバーが解除された時のイベントハンドラ
+    // const onHoverOut = (e: L.LeafletMouseEvent) => {
+    //   const hoveredMarker = e.target;
+    //   hoveredMarker.setStyle(circleMarkerOptions); // 元のスタイルに戻す
+    // };
+  
+    // イベントリスナーを追加
+    marker.on('mouseover', onHover);
+    // marker.on('mouseout', onHoverOut);
+  
+    return marker;
   };
 
   // console.log(points.features[0].properties.type)
@@ -146,8 +170,8 @@ export const MapComponent = (props: any) => {
   // isMovingの値が変わったら実行
   // コンポーネントとして実行しないと動かない?
 
-  const MoveMapByRoute = () =>{
-    
+  const MoveMapByRoute = () => {
+
     const map = useMap();
     const EPSILON = 0.000000000000001;
     const speed = 0.0001
@@ -175,7 +199,7 @@ export const MapComponent = (props: any) => {
       }
 
       const timerId = setInterval(() => {
-        
+
         // 移動するためのベクトルを計算（単位ベクトルなので速度は一定）
         const [vector_lat, vector_lon, distance] = vector(
           routePositions[0],
@@ -212,11 +236,11 @@ export const MapComponent = (props: any) => {
       };
     }, [props.isMoving]);
     // コンポーネントとしての利用のために
-      return null;
-    }
+    return null;
+  }
 
-  const initProcess = () =>{
-    if(isInit){
+  const initProcess = () => {
+    if (isInit) {
       console.log("init process", layerRef.current)
       const [features, nodes] = computePath()
       setRoutePositions(nodes)
@@ -224,7 +248,7 @@ export const MapComponent = (props: any) => {
     }
   }
 
-    initProcess()
+  initProcess()
 
   // 👽歌詞表示コンポーネント👽
   // コンポーネントとして実行しないと動かない?
@@ -239,41 +263,31 @@ export const MapComponent = (props: any) => {
       props.kashi.text.split('').forEach((char: string) => {
         printKashi += "<span class=";
         printKashi += formatKashi(char);
-        // switch (checkKashiType(char)) {
-        //   case KashiType.HIRAGANA:
-        //     printKashi += "'hiragana";
-        //     break;
-        //   case KashiType.KATAKANA:
-        //     printKashi += "'katakana";
-        //     break;
-        //   case KashiType.KANJI:
-        //     printKashi += "'kanji";
-        //     break;
-        //   case KashiType.ENGLISH:
-        //     printKashi += "'english";
-        //     break;
-        //   case KashiType.NUMBER:
-        //     printKashi += "'number";
-        //     break;
-        //   case KashiType.SYMBOL:
-        //     printKashi += "'symbol";
-        //     break;
-        //   case KashiType.SPACE:
-        //     printKashi += "'space";
-        //     break;
-        //   default:
-        //     printKashi += "'other";
-        //     break;
-        // }
         printKashi += " " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
       });
       console.log(printKashi);
       // 歌詞を表示する座標をランダムに決定
-      const mapCoordinate: [number, number] =
-        [Math.random() * (map.getBounds().getNorth() - map.getBounds().getSouth()) +
-          map.getBounds().getSouth(),
-        Math.random() * (map.getBounds().getEast() - map.getBounds().getWest()) +
-        map.getBounds().getWest()];
+      // フォントサイズを定義（ピクセル単位）
+      const fontSizePx = 12;
+      // ピクセル単位のフォントサイズを地理座標に変換するための仮定の係数
+      const conversionFactor = 0.0001;
+
+      // フォントサイズに基づいて座標の範囲を調整
+      const adjustedNorth = map.getBounds().getNorth() - (fontSizePx * conversionFactor);
+      const adjustedSouth = map.getBounds().getSouth() + (fontSizePx * conversionFactor);
+      const adjustedEast = map.getBounds().getEast() - (fontSizePx * conversionFactor);
+      const adjustedWest = map.getBounds().getWest() + (fontSizePx * conversionFactor);
+
+      // 調整された範囲を使用してランダムな座標を生成
+      const mapCoordinate: [number, number] = [
+        Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
+        Math.random() * (adjustedEast - adjustedWest) + adjustedWest
+      ];
+      // const mapCoordinate: [number, number] =
+      //   [Math.random() * (map.getBounds().getNorth() - map.getBounds().getSouth()) +
+      //     map.getBounds().getSouth(),
+      //   Math.random() * (map.getBounds().getEast() - map.getBounds().getWest()) +
+      //   map.getBounds().getWest()];
       // console.log(mapCoordinate);
       // 地図の表示範囲内にランダムに歌詞配置
       const markertext = L.marker(mapCoordinate, { opacity: 0 });
@@ -329,20 +343,20 @@ export const MapComponent = (props: any) => {
       ? 'Click this Circle to change the Tooltip text'
       : `Circle click: ${clickedCount}`;
 
-  const onPointClick = (e: LeafletMouseEvent) => {
-    const clickedPointProperties: PointProperties = {
-      name: e.sourceTarget.feature.properties.name,
-      coordinates: e.sourceTarget.feature.geometry.coordinates
-    };
-    // properties.nameとgeometry.coordinatesの値を連想配列として格納
-    setClickedPoints(prevPoints => [...prevPoints, clickedPointProperties]);
-    console.log(clickedPoints)
-  };
+  // const onPointClick = (e: LeafletMouseEvent) => {
+  //   const clickedPointProperties: PointProperties = {
+  //     name: e.sourceTarget.feature.properties.name,
+  //     coordinates: e.sourceTarget.feature.geometry.coordinates
+  //   };
+  //   // properties.nameとgeometry.coordinatesの値を連想配列として格納
+  //   setClickedPoints(prevPoints => [...prevPoints, clickedPointProperties]);
+  //   console.log(clickedPoints)
+  // };
   // 👽ポイントにマウスが乗ったときに呼び出される関数👽
   const onPointHover = (e: LeafletMouseEvent) => {
     console.log(e.sourceTarget.feature.properties.name)
     // オフ会0人かどうか
-    if(e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
+    if (e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
       console.log("オイイイッス！👽")
     }
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
@@ -354,12 +368,12 @@ export const MapComponent = (props: any) => {
   // 初期表示にて上手く動かない songnumで解決ゾロリ
   useEffect(() => {
     console.log("ressf", layerRef.current)
-      if (layerRef.current) {
-          const map = layerRef.current.getMaplibreMap();
-          map.getStyle().layers.forEach(l => {
-              if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none")
-          });
-      }
+    if (layerRef.current) {
+      const map = layerRef.current.getMaplibreMap();
+      map.getStyle().layers.forEach(l => {
+        if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none")
+      });
+    }
   }, [props.songnum]);
 
   return (
@@ -381,8 +395,7 @@ export const MapComponent = (props: any) => {
           pointToLayer={pointToLayer}
           onEachFeature={(_, layer) => {
             layer.on({
-              click: onPointClick, // ポイントがクリックされたときに呼び出される関数
-              mouseover : onPointHover, // ポイントにマウスが乗ったときに呼び出される関数
+              mouseover: onPointHover, // ポイントにマウスが乗ったときに呼び出される関数
             });
           }}
         />
@@ -392,9 +405,9 @@ export const MapComponent = (props: any) => {
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/osm_bright.json" // https://docs.stadiamaps.com/map-styles/osm-bright/より取得
           ref={layerRef}
-          style={{ backgroundColor: '#f5f3f3'}}
+          style={{ backgroundColor: '#f5f3f3' }}
         />
-        <Circle
+        {/* <Circle
           center={circlePosition}
           eventHandlers={{
             click: handleCircleClick,
@@ -414,7 +427,7 @@ export const MapComponent = (props: any) => {
               }}
             />
           ))
-        }
+        } */}
         <MoveMapByRoute />
         <MapKashi />
       </MapContainer>
