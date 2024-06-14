@@ -17,7 +17,7 @@ import areas from '../assets/jsons/map_data/areas.json'
 import songData from '../utils/Song.ts';
 
 
-import {  PointProperties, lyricProperties, historyProperties } from '../types/types';
+import { PointProperties, lyricProperties, historyProperties } from '../types/types';
 
 export const MapComponent = (props: any) => {
   // Mapのための定数
@@ -34,8 +34,48 @@ export const MapComponent = (props: any) => {
   const layerRef = useRef(null);
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
 
+  const [isInitTmp, setInInitTmp] = useState<Boolean>(true);
+
+  const PathwayTooltips = () => {
+    if(isInitTmp){
+      const map = useMap();
+      routePositions.forEach(([lat, lng]) => {
+        const lyricMarker = marker([lat, lng]).addTo(map);
+        lyricMarker.bindTooltip('ここです！', { permanent: true, direction: 'top' }).openTooltip();
+        setInInitTmp(false)
+      });
+    }
+
+  
+      // コンポーネントのアンマウント時にマーカーをクリーンアップ
+      // return () => {
+      //   routePositions.forEach(([lat, lng]) => {
+      //     map.eachLayer((layer) => {
+      //       if (layer instanceof L.Marker && layer.getLatLng().equals(L.latLng(lat, lng))) {
+      //         map.removeLayer(layer);
+      //       }
+      //     });
+      //   });
+      // };
+    // }, [routePositions]); // 依存配列に routePositions と map を追加
+  
+    return null; // このコンポーネントはビジュアル要素を直接レンダリングしない
+  };
+
   // 通る道についての描画（デバッグ用）
   const PathWay: React.FC = () => {
+    // useEffect(() => {
+    //   const map = useMap();
+    //   console.log("値が違うよ！")
+    //   if (routePositions) {
+    //     routePositions.forEach(node => {
+    //       const marker = L.marker([node[0], node[1]]) // node.lat と node.lng は、ノードの緯度と経度を指します。
+    //         .addTo(map) // map は、Leaflet で初期化された地図オブジェクトです。
+    //         .bindTooltip('👌👽👌', { permanent: true, direction: 'center' });
+    //     });
+    //   }
+    // }, [routePositions]); // nodes が変更されるたびに、効果を再実行します。
+
     if (pathwayFeature) {
       const geojson = {
         type: "FeatureCollection",
@@ -51,6 +91,8 @@ export const MapComponent = (props: any) => {
       return null;
     }
   };
+
+  
   // const PathWay: React.FC = () => {
   //   const [features, nodes] = computePath()
 
@@ -71,7 +113,7 @@ export const MapComponent = (props: any) => {
   // }
 
 
-  const MoveMapByRoute = () =>{
+  const MoveMapByRoute = () => {
     const map = useMap();
     const EPSILON = 0.000000000000001; // 0除算回避
 
@@ -114,7 +156,7 @@ export const MapComponent = (props: any) => {
       };
     }, [props.isMoving]);
     // コンポーネントとしての利用のために
-      return null;
+    return null;
   }
 
   // 👽歌詞表示コンポーネント👽
@@ -185,13 +227,20 @@ export const MapComponent = (props: any) => {
   }
 
   // 初回だけ処理
-  if(isInit){
+  if (isInit) {
     console.log("init process", layerRef.current)
     // TODO: 1回しか処理をしないreact的な書き方
     const [features, nodes] = computePath()
     setRoutePositions(nodes)
     setPathwayFeature(features)
     setIsInit(false)
+
+     // useMap フックを使用して地図インスタンスを取得
+  
+    // useEffect(() => {
+    // ルートの各位置に対してマーカーとツールチップを追加
+
+
   }
 
   // マップに表示されている文字を非表示にする
@@ -224,7 +273,7 @@ export const MapComponent = (props: any) => {
           pointToLayer={pointToLayer}
           onEachFeature={(_, layer) => {
             layer.on({
-              mouseover : onPointHover, // ポイントにマウスが乗ったときに呼び出される関数
+              mouseover: onPointHover, // ポイントにマウスが乗ったときに呼び出される関数
             });
           }}
         />
@@ -237,6 +286,7 @@ export const MapComponent = (props: any) => {
         />
         <MoveMapByRoute />
         <MapKashi />
+        <PathwayTooltips/>
       </MapContainer>
 
 
