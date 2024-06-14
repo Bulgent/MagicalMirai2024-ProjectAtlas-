@@ -31,18 +31,18 @@ export const MapComponent = (props: any) => {
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([]);
   const [timer, setTimer] = useState(0);
   const [routePositions, setRoutePositions] = useState<[number, number][]>([]);
+  const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
   const [isInit, setIsInit] = useState<Boolean>(true);
   const layerRef = useRef(null);
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
 
   // 通る道についての描画（デバッグ用）
   const PathWay: React.FC = () => {
-    const [features, nodes] = computePath()
 
-    if (features) {
+    if (pathwayFeature) {
       const geojson = {
         type: "FeatureCollection",
-        features: features
+        features: pathwayFeature
       }
       return (
         <GeoJSON
@@ -192,6 +192,7 @@ export const MapComponent = (props: any) => {
     // TODO: 1回しか処理をしないreact的な書き方
     const [features, nodes] = computePath()
     setRoutePositions(nodes)
+    setPathwayFeature(features)
     setIsInit(false)
   }
 
