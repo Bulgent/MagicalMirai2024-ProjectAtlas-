@@ -4,7 +4,7 @@ import songData from '../utils/Song.ts';
 
 
 export const LyricComponent = (props:any) =>{
-  // 謎の処理
+  // 音楽を流すスピーカー（音楽を流すために必要）
   const div = useMemo(
       () => <div className="media" ref={props.handOverMediaElement} />,
       []

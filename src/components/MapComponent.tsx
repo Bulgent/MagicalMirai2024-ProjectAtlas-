@@ -15,7 +15,6 @@ import areas from '../assets/jsons/map_data/areas.json'
 
 // カラーパレットの導入s
 import songData from '../utils/Song.ts';
-import { on } from 'events';
 
 // 型導入
 import {  PointProperties, lyricProperties, historyProperties } from '../types/types';
@@ -27,7 +26,6 @@ export const MapComponent = (props: any) => {
   const mapZoom: number = 17; // Mapのzoomについて1が一番ズームアウト
 
   // React Hooks
-  const [clickedPoints, setClickedPoints] = useState<PointProperties[]>([]);
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([]);
   const [timer, setTimer] = useState(0);
   const [routePositions, setRoutePositions] = useState<[number, number][]>([]);
@@ -38,7 +36,6 @@ export const MapComponent = (props: any) => {
 
   // 通る道についての描画（デバッグ用）
   const PathWay: React.FC = () => {
-
     if (pathwayFeature) {
       const geojson = {
         type: "FeatureCollection",
@@ -165,15 +162,6 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
-  const onPointClick = (e: LeafletMouseEvent) => {
-    const clickedPointProperties: PointProperties = {
-      name: e.sourceTarget.feature.properties.name,
-      coordinates: e.sourceTarget.feature.geometry.coordinates
-    };
-    // properties.nameとgeometry.coordinatesの値を連想配列として格納
-    setClickedPoints(prevPoints => [...prevPoints, clickedPointProperties]);
-    console.log(clickedPoints)
-  };
   // 👽ポイントにマウスが乗ったときに呼び出される関数👽
   const onPointHover = (e: LeafletMouseEvent) => {
     console.log(e.sourceTarget.feature.properties.name)
@@ -226,7 +214,6 @@ export const MapComponent = (props: any) => {
           pointToLayer={pointToLayer}
           onEachFeature={(_, layer) => {
             layer.on({
-              click: onPointClick, // ポイントがクリックされたときに呼び出される関数
               mouseover : onPointHover, // ポイントにマウスが乗ったときに呼び出される関数
             });
           }}

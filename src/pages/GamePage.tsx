@@ -77,7 +77,7 @@ export const GamePage = () => {
         player.removeListener(playerListener);
         player.dispose();
         };
-  }, [mediaElement])
+    }, [mediaElement])
 
 // FUNFUN度の計算
   return (
