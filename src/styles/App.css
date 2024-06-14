@@ -79,7 +79,7 @@ body {
   background-color: blue;
   height: 100%;
   writing-mode: vertical-rl;
-  text-orientation: sideways;
+  /* text-orientation: sideways; */
   /* transfor14m: translate(-48%, -50%) rotate(90deg); */
   flex :2;
   /* transform: rotate(90deg); */
@@ -87,6 +87,20 @@ body {
 
 .debughistory{
   flex: 8;
+  overflow: hidden;
+}
+
+.hoverhistory {
+  background-color: gray;
+  border-color: #e12885;
+  border-width: 2px;
+  border-radius: 15px;
+  padding: .5em;
+  margin: .5em;
+  color: #fff;
+  font-size: 100%;
+  overflow: hidden;
+  animation: fadeInSlideDown 1s ease forwards;
 }
 
 /* 歌詞のスタイル(important付けないと他のが優先されりゅ) */
@@ -96,7 +110,9 @@ body {
   box-shadow: none!important;
   font-size: 200%!important;
   animation: fadeIn 0.255s ease;
-  /* animation: fadeInSlideUp 2s ease-in-out; */
+  transition: transform 1s ease;
+  /* transform: translate(0px, 0px); */
+  /* animation: fadeInSlideUp 2s ease-in-out none */
 }
 
 /* 歌詞の色（ミク） */
@@ -201,7 +217,7 @@ body {
 
 
 /* ISSUE:既存のtranslate3dがあとに実行されてしまうので，座標がおかしくなる */
-/* @keyframes fadeInSlideUp {
+@keyframes fadeInSlideUp {
   0% {
     opacity: 0;
     transform: translateY(100%);
@@ -210,7 +226,18 @@ body {
     opacity: 1;
     transform: translateY(0%);
   }
-} */
+}
+
+@keyframes fadeInSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
 
 @keyframes fadeIn {
   0% {

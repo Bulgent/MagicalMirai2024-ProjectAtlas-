@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
-import { KashiType, checkKashiType, ArchType, checkArchType, calculateVector } from '../utils/utils.ts'
+import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector } from '../utils/utils.ts'
 import { pointToLayer, mapStyle, mapStylePathWay } from '../utils/MapStyle.ts'
 
 // 地図データの導入
@@ -16,7 +16,7 @@ import areas from '../assets/jsons/map_data/areas.json'
 // カラーパレットの導入s
 import songData from '../utils/Song.ts';
 
-// 型導入
+
 import {  PointProperties, lyricProperties, historyProperties } from '../types/types';
 
 export const MapComponent = (props: any) => {
@@ -46,11 +46,30 @@ export const MapComponent = (props: any) => {
           data={geojson as GeoJSON.GeoJsonObject}
           style={mapStylePathWay}
         />
-      )
+      );
     } else {
-      return null
+      return null;
     }
-  }
+  };
+  // const PathWay: React.FC = () => {
+  //   const [features, nodes] = computePath()
+
+  //   if (features) {
+  //     const geojson = {
+  //       type: "FeatureCollection",
+  //       features: features
+  //     }
+  //     return (
+  //       <GeoJSON
+  //         data={geojson as GeoJSON.GeoJsonObject}
+  //         style={mapStylePathWay}
+  //       />
+  //     )
+  //   } else {
+  //     return null
+  //   }
+  // }
+
 
   const MoveMapByRoute = () =>{
     const map = useMap();
@@ -62,6 +81,7 @@ export const MapComponent = (props: any) => {
         return;
       }
       const timerId = setInterval(() => {
+
         // 移動するためのベクトルを計算（単位ベクトルなので速度は一定）
         const [vector_lat, vector_lon, distance] = calculateVector(
           routePositions[0],
@@ -109,41 +129,32 @@ export const MapComponent = (props: any) => {
       let printKashi: string = "";
       props.kashi.text.split('').forEach((char: string) => {
         printKashi += "<span class=";
-        switch (checkKashiType(char)) {
-          case KashiType.HIRAGANA:
-            printKashi += "'hiragana";
-            break;
-          case KashiType.KATAKANA:
-            printKashi += "'katakana";
-            break;
-          case KashiType.KANJI:
-            printKashi += "'kanji";
-            break;
-          case KashiType.ENGLISH:
-            printKashi += "'english";
-            break;
-          case KashiType.NUMBER:
-            printKashi += "'number";
-            break;
-          case KashiType.SYMBOL:
-            printKashi += "'symbol";
-            break;
-          case KashiType.SPACE:
-            printKashi += "'space";
-            break;
-          default:
-            printKashi += "'other";
-            break;
-        }
-        printKashi += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
+        printKashi += formatKashi(char);
+        printKashi += " " + songRead[props.songnum].vocaloid.name + "'>" + char + "</span>";
       });
       console.log(printKashi);
       // 歌詞を表示する座標をランダムに決定
-      const mapCoordinate: [number, number] =
-        [Math.random() * (map.getBounds().getNorth() - map.getBounds().getSouth()) +
-          map.getBounds().getSouth(),
-        Math.random() * (map.getBounds().getEast() - map.getBounds().getWest()) +
-        map.getBounds().getWest()];
+      // フォントサイズを定義（ピクセル単位）
+      const fontSizePx = 12;
+      // ピクセル単位のフォントサイズを地理座標に変換するための仮定の係数
+      const conversionFactor = 0.0001;
+
+      // フォントサイズに基づいて座標の範囲を調整
+      const adjustedNorth = map.getBounds().getNorth() - (fontSizePx * conversionFactor);
+      const adjustedSouth = map.getBounds().getSouth() + (fontSizePx * conversionFactor);
+      const adjustedEast = map.getBounds().getEast() - (fontSizePx * conversionFactor);
+      const adjustedWest = map.getBounds().getWest() + (fontSizePx * conversionFactor);
+
+      // 調整された範囲を使用してランダムな座標を生成
+      const mapCoordinate: [number, number] = [
+        Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
+        Math.random() * (adjustedEast - adjustedWest) + adjustedWest
+      ];
+      // const mapCoordinate: [number, number] =
+      //   [Math.random() * (map.getBounds().getNorth() - map.getBounds().getSouth()) +
+      //     map.getBounds().getSouth(),
+      //   Math.random() * (map.getBounds().getEast() - map.getBounds().getWest()) +
+      //   map.getBounds().getWest()];
       // console.log(mapCoordinate);
       // 地図の表示範囲内にランダムに歌詞配置
       const markertext = marker(mapCoordinate, { opacity: 0 });
@@ -164,13 +175,12 @@ export const MapComponent = (props: any) => {
 
   // 👽ポイントにマウスが乗ったときに呼び出される関数👽
   const onPointHover = (e: LeafletMouseEvent) => {
-    console.log(e.sourceTarget.feature.properties.name)
+    console.log(e.sourceTarget.feature.properties.name, checkArchType(e.sourceTarget.feature.properties.type))
     // オフ会0人かどうか
-    if(e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
+    if (e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
       console.log("オイイイッス！👽")
     }
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
-    console.log(checkArchType(e.sourceTarget.feature.properties.type))
     props.handOverHover(e.sourceTarget.feature)
   }
 
@@ -223,7 +233,7 @@ export const MapComponent = (props: any) => {
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/osm_bright.json" // https://docs.stadiamaps.com/map-styles/osm-bright/より取得
           ref={layerRef}
-          style={{ backgroundColor: '#f5f3f3'}}
+          style={{ backgroundColor: '#f5f3f3' }}
         />
         <MoveMapByRoute />
         <MapKashi />

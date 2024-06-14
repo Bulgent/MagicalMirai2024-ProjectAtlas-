@@ -1,6 +1,7 @@
 import {aStar} from 'ngraph.path';
 import createGraph from 'ngraph.graph';
 import roads from '../assets/jsons/map_data/roads-kai.json';
+import { useMemo } from 'react';
 
 /*
     feature_index_1とfeature_index_2は互いに行き来可能
