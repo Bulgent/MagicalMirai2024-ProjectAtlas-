@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker } from 'react-leaflet';
-import { LeafletMouseEvent, marker } from 'leaflet';
+import { LeafletMouseEvent, marker, Map } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
@@ -39,9 +39,9 @@ export const MapComponent = (props: any) => {
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
   const layerRef = useRef(null);
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
-  const [noteCoordinates, setNoteCoordinates] = useState<[number, number][]>([]);
+  const [isInitMap, setIsInitMap] = useState<Boolean>(true);
 
-  const [isInitTmp, setIsInitTmp] = useState<Boolean>(true);
+  const [noteCoordinates, setNoteCoordinates] = useState<[number, number][]>([]);
 
   // 初回だけ処理
   useEffect(() => {
@@ -54,10 +54,9 @@ export const MapComponent = (props: any) => {
 
   // マーカーの表示(単語によって色を変える) 
   // TODO 歌詞の長さでの配置にする．
-  const PathwayTooltips = () => {
-    const map = useMap();
+  const addNotesToMap = (map) => {
     useEffect(() => {
-      if (props.songnum == -1 || props.songnum == null || !isInitTmp) {
+      if (props.songnum == -1 || props.songnum == null) {
         return
       }
       // 道路の長さを取得
@@ -104,9 +103,32 @@ export const MapComponent = (props: any) => {
       return () => {
         console.log("unmount note")
       };
-    }, [props.songnum, props.player?.video.wordCount, isInitTmp]);
-    return <></>;
+    }, [props.songnum, props.player?.video.wordCount]);
   };
+
+  /**
+   * Mapに対して、描画後に1度実行
+   */
+  const MapFunctionInit = () => {
+    const map = useMap(); 
+    // Map描画後に一度実行
+    useEffect(()=>{
+      if (isInitMap){
+        addNotesToMap(map)
+        setIsInitMap(false)
+      }
+    },[map, isInitMap])
+    return null
+  }
+
+  /**
+   * Mapに対して、描画後に定期実行
+   */
+  const MapFunctionUpdate = () => {
+    const map = useMap(); // MapContainerの中でしか取得できない
+    addLyricTextToMap(map)
+    return null
+  }
 
   // 通る道についての描画（デバッグ用）
   const PathWay: React.FC = () => {
@@ -172,9 +194,10 @@ export const MapComponent = (props: any) => {
     return null;
   }
 
+
   // 👽歌詞表示コンポーネント👽
   // コンポーネントとして実行しないと動かない?
-  const MapKashi: React.FC = () => {
+const addLyricTextToMap = (map:Map) => {
     const map = useMap();
     // console.log(map.getSize(), map.getCenter(), map.getBounds())
     // 歌詞が変わったら実行 ボカロによって色を変える
@@ -217,7 +240,7 @@ export const MapComponent = (props: any) => {
       return () => {
         //markertext.remove();
       }
-    }, [props.kashi, songKashi, props.songnum]);
+    }, [map, props.kashi, songKashi, props.songnum]);
     return null;
   };
 
@@ -231,15 +254,6 @@ export const MapComponent = (props: any) => {
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
     props.handOverHover(e.sourceTarget.feature)
   }
-
-  // if (isInit) {
-  //   console.log("init process", layerRef.current)
-  //   // TODO: 1回しか処理をしないreact的な書き方
-  //   const [features, nodes] = computePath()
-  //   setRoutePositions(nodes)
-  //   setPathwayFeature(features)
-  //   setIsInit(false)
-  // }
 
   // マップに表示されている文字を非表示にする
   // 初期表示にて上手く動かない songnumで解決ゾロリ
@@ -282,8 +296,8 @@ export const MapComponent = (props: any) => {
           ref={layerRef}
         />
         <MoveMapByRoute />
-        <MapKashi />
-        <PathwayTooltips />
+        <MapFunctionInit />
+        <MapFunctionUpdate />
       </MapContainer>
     </>
   );
