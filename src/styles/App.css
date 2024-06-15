@@ -117,10 +117,15 @@ body {
   border: 0px!important;
   box-shadow: none!important;
   font-size: 200%!important;
-  animation: fadeIn 0.255s ease;
-  transition: transform 1s ease;
+  /* animation: fadeIn 0.255s ease;
+  transition: transform 1s ease; */
   /* transform: translate(0px, 0px); */
   /* animation: fadeInSlideUp 2s ease-in-out none */
+}
+
+/* 歌詞のアニメーションを司る */
+.tooltip-lyric{
+  animation: fadeInSlideRight 0.5s ease-in-out none;
 }
 
 /* 歌詞の色（ミク） */
@@ -244,6 +249,28 @@ body {
   100% {
     opacity: 1;
     transform: translateY(0%);
+  }
+}
+
+@keyframes fadeInSlideRight {
+  0% {
+    opacity: 0.5;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
+@keyframes fadeInSlideLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0%);
   }
 }
 

@@ -74,8 +74,8 @@ export const GamePage = () => {
     // 再生終了時
     return () => {
         console.log('--- [app] shutdown ---');
-        player.removeListener(playerListener);
-        player.dispose();
+        player?.removeListener(playerListener);
+        player?.dispose();
         };
     }, [mediaElement])
 
@@ -90,6 +90,7 @@ export const GamePage = () => {
               kashi={lyricWord}
               songnum={songInfo}  
               isMoving={isMoving} 
+              player={player}
               handOverHover={handOverHoverHistory}
             />
           </div>

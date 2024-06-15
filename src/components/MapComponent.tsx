@@ -22,8 +22,8 @@ import { PointProperties, lyricProperties, historyProperties } from '../types/ty
 type noteTooltip = {
   fwdLength: number; // 前方の距離
   crtLength: number; // 現在の距離
-  crtPosStart: [number, number]; // 現在の座標始まり
-  crtPosEnd: [number, number]; // 現在の座標終わり
+  crtPosStart: [lat: number, lng: number]; // 現在の座標始まり
+  crtPosEnd: [lat: number, lng: number]; // 現在の座標終わり
 };
 
 export const MapComponent = (props: any) => {
@@ -40,7 +40,7 @@ export const MapComponent = (props: any) => {
   const layerRef = useRef(null);
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
 
-  const [isInitTmp, setInInitTmp] = useState<Boolean>(true);
+  const [isInitTmp, setIsInitTmp] = useState<Boolean>(true);
 
   // 初回だけ処理
   useEffect(() => {
@@ -55,7 +55,6 @@ export const MapComponent = (props: any) => {
   const PathwayTooltips = () => {
     const map = useMap();
     useEffect(() => {
-      console.log(props.songnum)
       if (props.songnum == -1 || props.songnum == null || !isInitTmp) {
         return
       }
@@ -76,7 +75,8 @@ export const MapComponent = (props: any) => {
         // 道路の長さを加算
         routeEntireLength += distance;
       }
-      const noteNum = 264; // 264 player.video.wordcount
+      console.log(songData[props.songnum].note + "の数:", props.player.video.wordCount)
+      const noteNum = props.player.video.wordCount; // 264 player.video.wordCount
       const NoteInterval = routeEntireLength / noteNum;
       const noteCoordinates = Array.from({ length: noteNum }, (_, i) => NoteInterval * (i));
 
@@ -95,11 +95,11 @@ export const MapComponent = (props: any) => {
         lyricMarker.bindTooltip(songData[props.songnum].note,
           { permanent: true, direction: 'center', offset: L.point(-15, 0), interactive: false, className: "label-note" }).openTooltip();
       });
-      setInInitTmp(false)
+      setIsInitTmp(false)
       return () => {
-        console.log("unmount")
+        console.log("unmount note")
       };
-    }, []);
+    }, [props.songnum, props.player?.video.wordCount, isInitTmp]);
     return <></>;
   };
 
@@ -173,48 +173,49 @@ export const MapComponent = (props: any) => {
     const map = useMap();
     // console.log(map.getSize(), map.getCenter(), map.getBounds())
     // 歌詞が変わったら実行 ボカロによって色を変える
-    if (props.kashi.text != "" && props.kashi != songKashi) {
-      // console.log("歌詞が違う")
-      setKashi(props.kashi)
-      let printKashi: string = "";
-      props.kashi.text.split('').forEach((char: string) => {
-        printKashi += "<span class='";
-        printKashi += formatKashi(char);
-        printKashi += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
-      });
-      console.log(printKashi);
-      // 歌詞を表示する座標をランダムに決定
-      // フォントサイズを定義（ピクセル単位）
-      const fontSizePx = 12;
-      // ピクセル単位のフォントサイズを地理座標に変換するための仮定の係数
-      const conversionFactor = 0.0001;
+    useEffect(() => {
+      if (props.kashi.text == "" || props.kashi == songKashi) {
+        return
+      }
+        // console.log("歌詞が違う")
+        setKashi(props.kashi)
+        let printKashi: string = "<div class = 'tooltip-lyric'>";
+        props.kashi.text.split('').forEach((char: string) => {
+          printKashi += "<span class='";
+          printKashi += formatKashi(char);
+          printKashi += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
+        });
+        printKashi += "</div>";
+        console.log(printKashi);
+        // 歌詞を表示する座標をランダムに決定
+        // フォントサイズを定義（ピクセル単位）
+        const fontSizePx = 12;
+        // ピクセル単位のフォントサイズを地理座標に変換するための仮定の係数
+        const conversionFactor = 0.0001;
 
-      // フォントサイズに基づいて座標の範囲を調整
-      const adjustedNorth = map.getBounds().getNorth() - (fontSizePx * conversionFactor);
-      const adjustedSouth = map.getBounds().getSouth() + (fontSizePx * conversionFactor);
-      const adjustedEast = map.getBounds().getEast() - (fontSizePx * conversionFactor);
-      const adjustedWest = map.getBounds().getWest() + (fontSizePx * conversionFactor);
+        // フォントサイズに基づいて座標の範囲を調整
+        const adjustedNorth = map.getBounds().getNorth() - (fontSizePx * conversionFactor);
+        const adjustedSouth = map.getBounds().getSouth() + (fontSizePx * conversionFactor);
+        const adjustedEast = map.getBounds().getEast() - (fontSizePx * conversionFactor);
+        const adjustedWest = map.getBounds().getWest() + (fontSizePx * conversionFactor);
 
-      // 調整された範囲を使用してランダムな座標を生成
-      const mapCoordinate: [number, number] = [
-        Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
-        Math.random() * (adjustedEast - adjustedWest) + adjustedWest
-      ];
-      // 地図の表示範囲内にランダムに歌詞配置
-      const markertext = marker(mapCoordinate, { opacity: 0 });
-      // 表示する歌詞
-      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, className: "label-kashi fade-text to_right", direction: "center" })
-      // 地図に追加
-      markertext.addTo(map);
+        // 調整された範囲を使用してランダムな座標を生成
+        const mapCoordinate: [number, number] = [
+          Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
+          Math.random() * (adjustedEast - adjustedWest) + adjustedWest
+        ];
+        // 地図の表示範囲内にランダムに歌詞配置
+        const markertext = marker(mapCoordinate, { opacity: 0 });
+        // 表示する歌詞
+        markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi fade-text to_right", direction: "center" })
+        // 地図に追加
+        markertext.addTo(map);
 
-      return () => {
-        markertext.remove(); // Componentはvoidで返すべきではない
-      };
-    }
-    // コンポーネントとしての利用のために
-    return (
-      <></>
-    );
+        return () => {
+          //markertext.remove();
+        }
+    }, [props.kashi, songKashi, props.songnum]);
+    return null;
   };
 
   // 👽ポイントにマウスが乗ったときに呼び出される関数👽
@@ -227,7 +228,6 @@ export const MapComponent = (props: any) => {
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
     props.handOverHover(e.sourceTarget.feature)
   }
-
 
   // if (isInit) {
   //   console.log("init process", layerRef.current)
