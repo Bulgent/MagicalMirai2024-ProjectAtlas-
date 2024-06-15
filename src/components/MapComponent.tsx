@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map } from 'leaflet';
+import { LeafletMouseEvent, marker, Map, point } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
@@ -52,11 +52,12 @@ export const MapComponent = (props: any) => {
   }, []); // 空の依存配列を渡すことで、この効果はコンポーネントのマウント時にのみ実行されます。
 
 
-  // マーカーの表示(単語によって色を変える) 
+    // マーカーの表示(単語によって色を変える) 
   // TODO 歌詞の長さでの配置にする．
-  const addNotesToMap = (map) => {
+  const AddNotesToMap = () => {
+    const map = useMap();
     useEffect(() => {
-      if (props.songnum == -1 || props.songnum == null) {
+      if (props.songnum == -1 || props.songnum == null || !isInitMap) {
         return
       }
       // 道路の長さを取得
@@ -99,27 +100,14 @@ export const MapComponent = (props: any) => {
           { permanent: true, direction: 'center', offset: L.point(-15, 0), interactive: false, className: "label-note" }).openTooltip();
       });
       setNoteCoordinates(noteCd);
-      setIsInitTmp(false)
+      setIsInitMap(false)
       return () => {
         console.log("unmount note")
       };
-    }, [props.songnum, props.player?.video.wordCount]);
+    }, [props.songnum, props.player?.video.wordCount, isInitMap]);
+    return <></>;
   };
 
-  /**
-   * Mapに対して、描画後に1度実行
-   */
-  const MapFunctionInit = () => {
-    const map = useMap(); 
-    // Map描画後に一度実行
-    useEffect(()=>{
-      if (isInitMap){
-        addNotesToMap(map)
-        setIsInitMap(false)
-      }
-    },[map, isInitMap])
-    return null
-  }
 
   /**
    * Mapに対して、描画後に定期実行
@@ -198,7 +186,6 @@ export const MapComponent = (props: any) => {
   // 👽歌詞表示コンポーネント👽
   // コンポーネントとして実行しないと動かない?
 const addLyricTextToMap = (map:Map) => {
-    const map = useMap();
     // console.log(map.getSize(), map.getCenter(), map.getBounds())
     // 歌詞が変わったら実行 ボカロによって色を変える
     useEffect(() => {
@@ -296,7 +283,7 @@ const addLyricTextToMap = (map:Map) => {
           ref={layerRef}
         />
         <MoveMapByRoute />
-        <MapFunctionInit />
+        <AddNotesToMap />
         <MapFunctionUpdate />
       </MapContainer>
     </>
