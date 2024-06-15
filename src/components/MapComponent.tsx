@@ -177,6 +177,7 @@ export const MapComponent = (props: any) => {
       if (props.kashi.text == "" || props.kashi == songKashi) {
         return
       }
+      // TODO ナビゲーションの移動方向によってスライド方向を変える
         // console.log("歌詞が違う")
         setKashi(props.kashi)
         let printKashi: string = "<div class = 'tooltip-lyric'>";
