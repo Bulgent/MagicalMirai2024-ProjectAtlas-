@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker } from 'react-leaflet';
-import { LeafletMouseEvent, marker } from 'leaflet';
+import { LeafletMouseEvent, marker, Map } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
@@ -33,49 +33,92 @@ export const MapComponent = (props: any) => {
   const [isInit, setIsInit] = useState<Boolean>(true);
   const layerRef = useRef(null);
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
+  const [isInitMap, setInInitMap] = useState<Boolean>(true);
 
-  const [isInitTmp, setInInitTmp] = useState<Boolean>(true);
 
-  const PathwayTooltips = () => {
-    if(isInitTmp){
-      const map = useMap();
-      routePositions.forEach(([lat, lng]) => {
-        const lyricMarker = marker([lat, lng]).addTo(map);
-        lyricMarker.bindTooltip('ここです！', { permanent: true, direction: 'top' }).openTooltip();
-        setInInitTmp(false)
-      });
-    }
+  const addLyricPointToMap = (map:Map) =>{
+    routePositions.forEach(([lat, lng]) => {
+      const lyricMarker = marker([lat, lng]).addTo(map);
+      lyricMarker.bindTooltip('ここです！', { permanent: true, direction: 'top' }).openTooltip();
+    })
+  }
 
   
-      // コンポーネントのアンマウント時にマーカーをクリーンアップ
-      // return () => {
-      //   routePositions.forEach(([lat, lng]) => {
-      //     map.eachLayer((layer) => {
-      //       if (layer instanceof L.Marker && layer.getLatLng().equals(L.latLng(lat, lng))) {
-      //         map.removeLayer(layer);
-      //       }
-      //     });
-      //   });
-      // };
-    // }, [routePositions]); // 依存配列に routePositions と map を追加
+  // 👽歌詞表示コンポーネント👽
+  // コンポーネントとして実行しないと動かない?
+  const addLyricTextToMap = (map:Map) => {
+    // 歌詞が変わったら実行 ボカロによって色を変える
+    useEffect(()=>{
+      if (props.kashi.text != "" && props.kashi != songKashi) {
+        // console.log("歌詞が違う")
+        setKashi(props.kashi)
+        let printKashi: string = "";
+        props.kashi.text.split('').forEach((char: string) => {
+          printKashi += "<span class=";
+          printKashi += formatKashi(char);
+          printKashi += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
+        });
+        console.log(printKashi);
+        // 歌詞を表示する座標をランダムに決定
+        // フォントサイズを定義（ピクセル単位）
+        const fontSizePx = 12;
+        // ピクセル単位のフォントサイズを地理座標に変換するための仮定の係数
+        const conversionFactor = 0.0001;
   
-    return null; // このコンポーネントはビジュアル要素を直接レンダリングしない
+        // フォントサイズに基づいて座標の範囲を調整
+        const adjustedNorth = map.getBounds().getNorth() - (fontSizePx * conversionFactor);
+        const adjustedSouth = map.getBounds().getSouth() + (fontSizePx * conversionFactor);
+        const adjustedEast = map.getBounds().getEast() - (fontSizePx * conversionFactor);
+        const adjustedWest = map.getBounds().getWest() + (fontSizePx * conversionFactor);
+  
+        // 調整された範囲を使用してランダムな座標を生成
+        const mapCoordinate: [number, number] = [
+          Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
+          Math.random() * (adjustedEast - adjustedWest) + adjustedWest
+        ];
+        // const mapCoordinate: [number, number] =
+        //   [Math.random() * (map.getBounds().getNorth() - map.getBounds().getSouth()) +
+        //     map.getBounds().getSouth(),
+        //   Math.random() * (map.getBounds().getEast() - map.getBounds().getWest()) +
+        //   map.getBounds().getWest()];
+        // console.log(mapCoordinate);
+        // 地図の表示範囲内にランダムに歌詞配置
+        const markertext = marker(mapCoordinate, { opacity: 0 });
+        // 表示する歌詞
+        // console.log("map", props.kashi)
+        markertext.bindTooltip(printKashi, { permanent: true, className: "label-kashi fade-text to_right", direction: "center" })
+        // 地図に追加
+        markertext.addTo(map);
+      }
+    },[map, props])
   };
+
+  /**
+   * Mapに対して、描画後に1度実行
+   */
+  const MapFunctionInit = () => {
+    const map = useMap(); 
+    // Map描画後に一度実行
+    useEffect(()=>{
+      if (isInitMap){
+        addLyricPointToMap(map)
+        setInInitMap(false)
+      }
+    },[map, isInitMap])
+    return null
+  }
+
+  /**
+   * Mapに対して、描画後に定期実行
+   */
+  const MapFunctionUpdate = () => {
+    const map = useMap(); // MapContainerの中でしか取得できない
+    addLyricTextToMap(map)
+    return null
+  }
 
   // 通る道についての描画（デバッグ用）
   const PathWay: React.FC = () => {
-    // useEffect(() => {
-    //   const map = useMap();
-    //   console.log("値が違うよ！")
-    //   if (routePositions) {
-    //     routePositions.forEach(node => {
-    //       const marker = L.marker([node[0], node[1]]) // node.lat と node.lng は、ノードの緯度と経度を指します。
-    //         .addTo(map) // map は、Leaflet で初期化された地図オブジェクトです。
-    //         .bindTooltip('👌👽👌', { permanent: true, direction: 'center' });
-    //     });
-    //   }
-    // }, [routePositions]); // nodes が変更されるたびに、効果を再実行します。
-
     if (pathwayFeature) {
       const geojson = {
         type: "FeatureCollection",
@@ -91,27 +134,6 @@ export const MapComponent = (props: any) => {
       return null;
     }
   };
-
-  
-  // const PathWay: React.FC = () => {
-  //   const [features, nodes] = computePath()
-
-  //   if (features) {
-  //     const geojson = {
-  //       type: "FeatureCollection",
-  //       features: features
-  //     }
-  //     return (
-  //       <GeoJSON
-  //         data={geojson as GeoJSON.GeoJsonObject}
-  //         style={mapStylePathWay}
-  //       />
-  //     )
-  //   } else {
-  //     return null
-  //   }
-  // }
-
 
   const MoveMapByRoute = () => {
     const map = useMap();
@@ -159,61 +181,6 @@ export const MapComponent = (props: any) => {
     return null;
   }
 
-  // 👽歌詞表示コンポーネント👽
-  // コンポーネントとして実行しないと動かない?
-  const MapKashi = () => {
-    const map = useMap();
-    // console.log(map.getSize(), map.getCenter(), map.getBounds())
-    // 歌詞が変わったら実行 ボカロによって色を変える
-    if (props.kashi.text != "" && props.kashi != songKashi) {
-      // console.log("歌詞が違う")
-      setKashi(props.kashi)
-      let printKashi: string = "";
-      props.kashi.text.split('').forEach((char: string) => {
-        printKashi += "<span class=";
-        printKashi += formatKashi(char);
-        printKashi += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
-      });
-      console.log(printKashi);
-      // 歌詞を表示する座標をランダムに決定
-      // フォントサイズを定義（ピクセル単位）
-      const fontSizePx = 12;
-      // ピクセル単位のフォントサイズを地理座標に変換するための仮定の係数
-      const conversionFactor = 0.0001;
-
-      // フォントサイズに基づいて座標の範囲を調整
-      const adjustedNorth = map.getBounds().getNorth() - (fontSizePx * conversionFactor);
-      const adjustedSouth = map.getBounds().getSouth() + (fontSizePx * conversionFactor);
-      const adjustedEast = map.getBounds().getEast() - (fontSizePx * conversionFactor);
-      const adjustedWest = map.getBounds().getWest() + (fontSizePx * conversionFactor);
-
-      // 調整された範囲を使用してランダムな座標を生成
-      const mapCoordinate: [number, number] = [
-        Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
-        Math.random() * (adjustedEast - adjustedWest) + adjustedWest
-      ];
-      // const mapCoordinate: [number, number] =
-      //   [Math.random() * (map.getBounds().getNorth() - map.getBounds().getSouth()) +
-      //     map.getBounds().getSouth(),
-      //   Math.random() * (map.getBounds().getEast() - map.getBounds().getWest()) +
-      //   map.getBounds().getWest()];
-      // console.log(mapCoordinate);
-      // 地図の表示範囲内にランダムに歌詞配置
-      const markertext = marker(mapCoordinate, { opacity: 0 });
-      // 表示する歌詞
-      // console.log("map", props.kashi)
-      markertext.bindTooltip(printKashi, { permanent: true, className: "label-kashi fade-text to_right", direction: "center" })
-      // 地図に追加
-      markertext.addTo(map);
-
-      return () => {
-        markertext.remove(); // Componentはvoidで返すべきではない
-      };
-    }
-
-    // コンポーネントとしての利用のために
-    return null;
-  };
 
   // 👽ポイントにマウスが乗ったときに呼び出される関数👽
   const onPointHover = (e: LeafletMouseEvent) => {
@@ -234,13 +201,6 @@ export const MapComponent = (props: any) => {
     setRoutePositions(nodes)
     setPathwayFeature(features)
     setIsInit(false)
-
-     // useMap フックを使用して地図インスタンスを取得
-  
-    // useEffect(() => {
-    // ルートの各位置に対してマーカーとツールチップを追加
-
-
   }
 
   // マップに表示されている文字を非表示にする
@@ -285,8 +245,8 @@ export const MapComponent = (props: any) => {
           style={{ backgroundColor: '#f5f3f3' }}
         />
         <MoveMapByRoute />
-        <MapKashi />
-        <PathwayTooltips/>
+        <MapFunctionInit />
+        <MapFunctionUpdate />
       </MapContainer>
 
 
