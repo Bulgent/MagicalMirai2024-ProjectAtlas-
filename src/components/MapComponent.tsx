@@ -97,51 +97,6 @@ export const MapComponent = (props: any) => {
     }, []);
     return <></>;
   };
-  // const PathwayTooltips = () => {
-  //   if (isInitTmp && props.songnum != -1) {
-  //     const map = useMap();
-  //     // 道路の長さを取得
-  //     const [_, nodes] = computePath();
-  //     let routeLength: noteTooltip[] = [];
-  //     let routeEntireLength: number = 0.0;
-  //     // それぞれの道路の長さを計算
-  //     for (let i = 0; i < nodes.length - 1; i++) {
-  //       let [lat, lon, distance] = calculateVector(
-  //         nodes[i], nodes[i + 1]
-  //       );
-  //       // 配列に追加
-  //       routeLength.push({
-  //         fwdLength: routeEntireLength,
-  //         crtLength: distance,
-  //         crtPosStart: nodes[i],
-  //         crtPosEnd: nodes[i + 1]
-  //       });
-  //       // 道路の長さを加算
-  //       routeEntireLength += distance;
-  //     }
-  //     // console.log("road", routeLength)
-  //     const noteNum = 264; // 264 player.video.wordcount
-  //     const NoteInterval = routeEntireLength / noteNum;
-  //     const noteCoordinates = Array.from({ length: noteNum }, (_, i) => NoteInterval * (i));
-
-  //     // 道路の長さを元に歌詞を均等配置
-  //     noteCoordinates.forEach((noteCoordinate) => {
-  //       // 配列の中でどの道路に含まれるかを探す
-  //       const noteIndex = routeLength.findIndex((route) => route.fwdLength <= noteCoordinate && noteCoordinate <= route.fwdLength + route.crtLength);
-  //       // 道路の中での位置を計算
-  //       const crtRoute = routeLength[noteIndex];
-  //       const crtDistance = noteCoordinate - crtRoute.fwdLength;
-  //       const crtLat = crtRoute.crtPosStart[0] + (crtRoute.crtPosEnd[0] - crtRoute.crtPosStart[0]) * (crtDistance / crtRoute.crtLength);
-  //       const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
-  //       // マーカーを配置
-  //       const lyricMarker = marker([crtLat, crtLng], { opacity: 0 }).addTo(map);
-  //       lyricMarker.bindTooltip(songData[props.songnum].note, { permanent: true, direction: 'center', className: "label-note" }).openTooltip();
-  //     }
-  //     );
-  //     setInInitTmp(false)
-  //   }
-  //   return <></>; // このコンポーネントはビジュアル要素を直接レンダリングしない
-  // };
 
   // 通る道についての描画（デバッグ用）
   const PathWay: React.FC = () => {
