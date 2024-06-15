@@ -79,8 +79,8 @@ export const MapComponent = (props: any) => {
       }
       console.log(songData[props.songnum].note + "の数:", props.player.video.wordCount)
       const noteNum = props.player.video.wordCount; // 264 player.video.wordCount
-      const NoteInterval = routeEntireLength / noteNum;
-      const noteLength = Array.from({ length: noteNum }, (_, i) => NoteInterval * (i));
+      const noteInterval = routeEntireLength / noteNum;
+      const noteLength = Array.from({ length: noteNum }, (_, i) => noteInterval * (i));
       const noteCd: [number, number][] = []
 
       // 道路の長さを元に歌詞を均等配置(なんかCopilotが勝手に入れてくれた)
