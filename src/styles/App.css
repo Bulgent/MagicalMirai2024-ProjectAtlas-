@@ -104,6 +104,14 @@ body {
 }
 
 /* 歌詞のスタイル(important付けないと他のが優先されりゅ) */
+.label-onpu{
+  background-color: transparent!important;
+  border: 0px!important;
+  box-shadow: none!important;
+  font-size: 200%!important;
+}
+
+/* 歌詞のスタイル(important付けないと他のが優先されりゅ) */
 .label-kashi{
   background-color: transparent!important;
   border: 0px!important;
