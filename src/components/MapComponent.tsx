@@ -80,13 +80,17 @@ export const MapComponent = (props: any) => {
       const NoteInterval = routeEntireLength / noteNum;
       const noteCoordinates = Array.from({ length: noteNum }, (_, i) => NoteInterval * (i));
 
-      // 道路の長さを元に歌詞を均等配置
+      // 道路の長さを元に歌詞を均等配置(なんかCopilotが勝手に入れてくれた)
       noteCoordinates.forEach((noteCoordinate) => {
+        // 歌詞の座標の含まれる道路を探す
         const noteIndex = routeLength.findIndex((route) => route.fwdLength <= noteCoordinate && noteCoordinate <= route.fwdLength + route.crtLength);
+        // 歌詞の座標が含まれる道路の情報を取得
         const crtRoute = routeLength[noteIndex];
+        // 歌詞の座標が含まれる道路の中での距離を計算
         const crtDistance = noteCoordinate - crtRoute.fwdLength;
         const crtLat = crtRoute.crtPosStart[0] + (crtRoute.crtPosEnd[0] - crtRoute.crtPosStart[0]) * (crtDistance / crtRoute.crtLength);
         const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
+        // 歌詞の座標に🎵を表示
         const lyricMarker = marker([crtLat, crtLng], { opacity: 0 }).addTo(map);
         lyricMarker.bindTooltip(songData[props.songnum].note, { permanent: true, direction: 'center', className: "label-note" }).openTooltip();
       });
