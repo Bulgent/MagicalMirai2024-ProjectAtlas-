@@ -57,32 +57,33 @@ export const checkKashiType = (text: string): KashiType => {
   }
 };
 
+// 歌詞の種類を文字列で返す
 export const formatKashi = (char: string) => {
   let printKashi = "";
   switch (checkKashiType(char)) {
     case KashiType.HIRAGANA:
-      printKashi = "'hiragana";
+      printKashi = "hiragana";
       break;
     case KashiType.KATAKANA:
-      printKashi = "'katakana";
+      printKashi = "katakana";
       break;
     case KashiType.KANJI:
-      printKashi = "'kanji";
+      printKashi = "kanji";
       break;
     case KashiType.ENGLISH:
-      printKashi = "'english";
+      printKashi = "english";
       break;
     case KashiType.NUMBER:
-      printKashi = "'number";
+      printKashi = "number";
       break;
     case KashiType.SYMBOL:
-      printKashi = "'symbol";
+      printKashi = "symbol";
       break;
     case KashiType.SPACE:
-      printKashi = "'space";
+      printKashi = "space";
       break;
     default:
-      printKashi = "'other";
+      printKashi = "other";
       break;
   }
   return printKashi;

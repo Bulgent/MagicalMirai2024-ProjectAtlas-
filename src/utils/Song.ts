@@ -18,6 +18,7 @@ interface SongData {
         lyricDiffId: number; // 歌詞訂正ID
     },
     jacketName: string;
+    note: string;
 }
 
 enum vocaloidNum {
@@ -53,7 +54,8 @@ const song1: SongData = {
         lyricId: 59415,
         lyricDiffId: 13962
     },
-    jacketName: "superhero.png"
+    jacketName: "superhero.png",
+    note: "🎵"
 };
 
 const song2: SongData = {
@@ -75,7 +77,8 @@ const song2: SongData = {
         lyricId: 59416,
         lyricDiffId: 13963
     },
-    jacketName: "itsuka_kimi_to_hanashita_mirai_wa.png"
+    jacketName: "itsuka_kimi_to_hanashita_mirai_wa.png",
+    note: "🎵"
 };
 
 const song3: SongData = {
@@ -97,7 +100,8 @@ const song3: SongData = {
         lyricId: 59417,
         lyricDiffId: 13964
     },
-    jacketName: "future_notes.png"
+    jacketName: "future_notes.png",
+    note: "🎵"
 };
 
 const song4: SongData = {
@@ -119,7 +123,8 @@ const song4: SongData = {
         lyricId: 59418,
         lyricDiffId: 13965
     },
-    jacketName: "mirai_koukyoukyoku.png"
+    jacketName: "mirai_koukyoukyoku.png",
+    note: "🎵"
 };
 
 const song5: SongData = {
@@ -141,7 +146,8 @@ const song5: SongData = {
         lyricId: 59419,
         lyricDiffId: 13966
     },
-    jacketName: "reality.png"
+    jacketName: "reality.png",
+    note: "🎵"
 };
 
 const song6: SongData = {
@@ -163,7 +169,8 @@ const song6: SongData = {
         lyricId: 59420,
         lyricDiffId: 13967
     },
-    jacketName: "the_marks.png"
+    jacketName: "the_marks.png",
+    note: "🎵"
 };
 
 // 曲配列
