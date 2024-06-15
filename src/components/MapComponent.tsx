@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker } from 'react-leaflet';
 import { LeafletMouseEvent, marker, Map, point } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
-import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector } from '../utils/utils.ts'
+import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance } from '../utils/utils.ts'
 import { pointToLayer, mapStyle, mapStylePathWay } from '../utils/MapStyle.ts'
 
 // 地図データの導入
@@ -31,6 +31,7 @@ export const MapComponent = (props: any) => {
   const mapCenter: [number, number] = [34.6937, 135.5021];
   const mapSpeed: number = 0.0001;
   const mapZoom: number = 17; // Mapのzoomについて1が一番ズームアウト
+  const mapMoveRenderInterval_ms = 10;
 
   // React Hooks
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([]);
@@ -40,19 +41,37 @@ export const MapComponent = (props: any) => {
   const layerRef = useRef(null);
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
   const [isInitMap, setIsInitMap] = useState<Boolean>(true);
-
+  const lengthKmRef = useRef<number>(-1)
+  const moveSpeedRef = useRef<number>(-1)
+  const isInitPlayer = useRef(true)
   const [noteCoordinates, setNoteCoordinates] = useState<[number, number][]>([]);
 
   // 初回だけ処理
   useEffect(() => {
     // console.log("init process", layerRef.current);
-    const [features, nodes] = computePath();
+    const [features, nodes, length_km] = computePath();
+    lengthKmRef.current = length_km
     setRoutePositions(nodes);
     setPathwayFeature(features);
   }, []); // 空の依存配列を渡すことで、この効果はコンポーネントのマウント時にのみ実行されます。
 
+  // Playerが作成された後に一度だけ処理
+  useEffect(()=>{
+    if (props.songnum == -1 || props.songnum == null || !isInitPlayer.current) {
+      return
+    }
+    const [features, nodes, length_km] = computePath();
+    lengthKmRef.current = length_km
+    setRoutePositions(nodes);
+    setPathwayFeature(features);
+    // mapの移動速度を計算（km/s）
+    moveSpeedRef.current = length_km/props.player.video.duration
+    isInitPlayer.current = false
+    console.log(moveSpeedRef.current)
+  },[props.kashi, songKashi, props.songnum])
 
-    // マーカーの表示(単語によって色を変える) 
+
+  // マーカーの表示(単語によって色を変える) 
   // TODO 歌詞の長さでの配置にする．
   const AddNotesToMap = () => {
     const map = useMap();
@@ -152,6 +171,11 @@ export const MapComponent = (props: any) => {
           routePositions[0],
           routePositions[1],
         );
+        
+        // そのノード間を何秒で移動完了する必要があるか
+        const distanceKm = calculateDistance(routePositions[0], routePositions[1])
+        const completeMoveSecondMs = distanceKm/moveSpeedRef.current
+
         // 現在値がroute_positionsと同じ値になったらroute_positionsの先頭の要素を削除
         if (Math.abs(routePositions[1][0] - map.getCenter().lat) <= Math.abs(vector_lat / distance * mapSpeed) ||
           Math.abs(routePositions[1][1] - map.getCenter().lng) <= Math.abs(vector_lon / distance * mapSpeed)) {
@@ -161,18 +185,18 @@ export const MapComponent = (props: any) => {
             return;
           } else {
             console.log("passed");
-            setTimer(0)
+            setTimer(0) // TODO: useRefに変更したい
             setRoutePositions(routePositions.slice(1));
           }
         } else {
           map.setView(
-            [routePositions[0][0] + vector_lat / (distance + EPSILON) * timer * mapSpeed,
-            routePositions[0][1] + vector_lon / (distance + EPSILON) * timer * mapSpeed],
+            [routePositions[0][0] + vector_lat / completeMoveSecondMs*(mapMoveRenderInterval_ms)*timer,
+            routePositions[0][1] + vector_lon / completeMoveSecondMs*(mapMoveRenderInterval_ms)*timer],
             mapZoom
           );
         }
         setTimer((prevTimer) => prevTimer + 1);
-      }, 16);
+      }, mapMoveRenderInterval_ms);
       // falseのreturnの跡にintervalの値をclearにリセット
       return () => {
         clearInterval(timerId);
@@ -185,7 +209,7 @@ export const MapComponent = (props: any) => {
 
   // 👽歌詞表示コンポーネント👽
   // コンポーネントとして実行しないと動かない?
-const addLyricTextToMap = (map:Map) => {
+  const addLyricTextToMap = (map:Map) => {
     // console.log(map.getSize(), map.getCenter(), map.getBounds())
     // 歌詞が変わったら実行 ボカロによって色を変える
     useEffect(() => {

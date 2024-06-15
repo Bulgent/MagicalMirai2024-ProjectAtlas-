@@ -2,6 +2,7 @@ import {aStar} from 'ngraph.path';
 import createGraph from 'ngraph.graph';
 import roads from '../assets/jsons/map_data/roads-kai.json';
 import { useMemo } from 'react';
+import { calculateDistance } from '../utils/utils.ts'
 
 /*
     feature_index_1とfeature_index_2は互いに行き来可能
@@ -25,25 +26,25 @@ type NodeResult = {
   link_position: "to"|"from";
 }
 
-const deg2rad = (deg: number): number => {
-    return (deg * Math.PI) / 180.0;
-  };
+// const deg2rad = (deg: number): number => {
+//     return (deg * Math.PI) / 180.0;
+//   };
 
-/*
-緯度経度から距離kmに変換
-*/
-const calculateDistance = (from_lonlat: [number, number], to_lonlat:[number, number]):number =>{
-    const RX: number = 6378.137; // 回転楕円体の長半径（赤道半径）[km]
-    const RY: number = 6356.752; // 回転楕円体の短半径（極半径) [km]
-    const dx = deg2rad(from_lonlat[0]) - deg2rad(to_lonlat[0]);
-    const dy = deg2rad(from_lonlat[1]) - deg2rad(to_lonlat[1]);
-    const mu = (deg2rad(from_lonlat[1]) + deg2rad(to_lonlat[1])) / 2.0; // μ
-    const E = Math.sqrt(1 - Math.pow(RY / RX, 2.0)); // 離心率
-    const W = Math.sqrt(1 - Math.pow(E * Math.sin(mu), 2.0));
-    const M = RX * (1 - Math.pow(E, 2.0)) / Math.pow(W, 3.0); // 子午線曲率半径
-    const N = RX / W; // 卯酉線曲率半径
-    return Math.sqrt(Math.pow(M * dy, 2.0) + Math.pow(N * dx * Math.cos(mu), 2.0)); // 距離[km]
-}
+// /*
+// 緯度経度から距離kmに変換
+// */
+// const calculateDistance = (from_lonlat: [number, number], to_lonlat:[number, number]):number =>{
+//     const RX: number = 6378.137; // 回転楕円体の長半径（赤道半径）[km]
+//     const RY: number = 6356.752; // 回転楕円体の短半径（極半径) [km]
+//     const dx = deg2rad(from_lonlat[0]) - deg2rad(to_lonlat[0]);
+//     const dy = deg2rad(from_lonlat[1]) - deg2rad(to_lonlat[1]);
+//     const mu = (deg2rad(from_lonlat[1]) + deg2rad(to_lonlat[1])) / 2.0; // μ
+//     const E = Math.sqrt(1 - Math.pow(RY / RX, 2.0)); // 離心率
+//     const W = Math.sqrt(1 - Math.pow(E * Math.sin(mu), 2.0));
+//     const M = RX * (1 - Math.pow(E, 2.0)) / Math.pow(W, 3.0); // 子午線曲率半径
+//     const N = RX / W; // 卯酉線曲率半径
+//     return Math.sqrt(Math.pow(M * dy, 2.0) + Math.pow(N * dx * Math.cos(mu), 2.0)); // 距離[km]
+// }
 
 /*
 任意の小数点の桁（scale）で四捨五入
@@ -91,10 +92,11 @@ const createLinksFromJson = (json: any):Link[] =>{
   return links
 }
 
-function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[]]{
+function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[], number]{
   const feature_ret = []
   const nodes_path:[number, number][] = []
   const nodes_path_json:[number, number][] = []
+  let length_km = 0
 
   for (let node_result of node_results){
     const targetIndex2 = links.findIndex(link => {
@@ -121,7 +123,7 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
       }
     }
     feature_ret.push(feature)
-
+    length_km += calculateDistance(from, to)
     // それぞれのノードの値を取得し格納（リンクの片方のノードのみを格納）
     if (node_result.link_position==="from"){
       nodes_path_json.push([from[0], from[1]])
@@ -147,10 +149,10 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
       }
     }
   ]
-  return [feature_ret, nodes_path_feature, nodes_path]
+  return [feature_ret, nodes_path_feature, nodes_path, length_km]
 }
 
-export function computePath(): [any[],any[]] {
+export function computePath(): [any[],any[], number] {
   // jsonからのデータ成形
   const links = createLinksFromJson(roads)
   const start_id = links[0].from_string
@@ -207,9 +209,9 @@ export function computePath(): [any[],any[]] {
 
   // 描画用の座標をfeaturesに格納
   // ノードによる描画を実施
-  const [feature_ret, nodes_path_feature, nodes_path] = getFeature(node_results, links)
+  const [feature_ret, nodes_path_feature, nodes_path, length_km] = getFeature(node_results, links)
 
-  return [nodes_path_feature, nodes_path]
+  return [nodes_path_feature, nodes_path, length_km]
 }
 
 /*
