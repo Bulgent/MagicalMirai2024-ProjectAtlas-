@@ -19,6 +19,13 @@ import songData from '../utils/Song.ts';
 
 import { PointProperties, lyricProperties, historyProperties } from '../types/types';
 
+type noteTooltip = {
+  fwdLength: number; // 前方の距離
+  crtLength: number; // 現在の距離
+  crtPosStart: [number, number]; // 現在の座標始まり
+  crtPosEnd: [number, number]; // 現在の座標終わり
+};
+
 export const MapComponent = (props: any) => {
   // Mapのための定数
   const mapCenter: [number, number] = [34.6937, 135.5021];
@@ -35,53 +42,106 @@ export const MapComponent = (props: any) => {
 
   const [isInitTmp, setInInitTmp] = useState<Boolean>(true);
 
+  // 初回だけ処理
+  useEffect(() => {
+    console.log("init process", layerRef.current);
+    const [features, nodes] = computePath();
+    setRoutePositions(nodes);
+    setPathwayFeature(features);
+  }, []); // 空の依存配列を渡すことで、この効果はコンポーネントのマウント時にのみ実行されます。
+
+
   // マーカーの表示(単語によって色を変える)
   const PathwayTooltips = () => {
-    if (isInitTmp) {
-      // 道路の長さの取得
-      let routeLength = 0.0;
-      for (let i = 0; i < routePositions.length - 1; i++) {
-        routeLength += Math.sqrt(
-          (routePositions[i + 1][0] - routePositions[i][0]) ** 2 +
-          (routePositions[i + 1][1] - routePositions[i][1]) ** 2
-        );
+    const map = useMap();
+    useEffect(() => {
+      console.log(props.songnum)
+      if (props.songnum == -1 || props.songnum == null || !isInitTmp) {
+        return
       }
-      console.log("road", routeLength)
-      const tooltipNum = 264; // 何個のマーカーを表示するか
-      const toolTipInterval = routeLength / tooltipNum;
-      // console.log("interval", toolTipInterval)
-      const map = useMap();
-      // マーカー数に合わせて道路上に等間隔に配置
-      for (let i = 0; i < tooltipNum; i++) {
-        const [vector_lat, vector_lon, distance] = calculateVector(
-          routePositions[0],
-          routePositions[1],
-        );
-        const lat = routePositions[0][0] + vector_lat / (distance + 0.000000000000001) * i * toolTipInterval;
-        const lon = routePositions[0][1] + vector_lon / (distance + 0.000000000000001) * i * toolTipInterval;
-        const lyricMarker = marker([lat, lon], { opacity: 0 }).addTo(map);
-        lyricMarker.bindTooltip('👽👍', { permanent: true, direction: 'center', className: "label-onpu" }).openTooltip();
-        setInInitTmp(false)
+      // 道路の長さを取得
+      const [_, nodes] = computePath();
+      let routeLength = [];
+      let routeEntireLength = 0.0;
+      // それぞれの道路の長さを計算
+      for (let i = 0; i < nodes.length - 1; i++) {
+        let [lat, lon, distance] = calculateVector(nodes[i], nodes[i + 1]);
+        // 配列に追加
+        routeLength.push({
+          fwdLength: routeEntireLength,
+          crtLength: distance,
+          crtPosStart: nodes[i],
+          crtPosEnd: nodes[i + 1]
+        });
+        // 道路の長さを加算
+        routeEntireLength += distance;
       }
-      // for (let i = 0; i < tooltipNum; i++) {
-      //   const [lat, lng] = [
-      //     routePositions[0][0] + (routePositions[1][0] - routePositions[0][0]) * i / tooltipNum,
-      //     routePositions[0][1] + (routePositions[1][1] - routePositions[0][1]) * i / tooltipNum
-      //   ];
-      //   console.log("lat", lat, "lng", lng)
-      //   const lyricMarker = marker([lat, lng], { opacity: 0 }).addTo(map);
-      //   lyricMarker.bindTooltip('👽👍', { permanent: true, direction: 'center', className: "label-onpu" }).openTooltip();
-      //   setInInitTmp(false)
-      // }
+      const noteNum = 264; // 264 player.video.wordcount
+      const NoteInterval = routeEntireLength / noteNum;
+      const noteCoordinates = Array.from({ length: noteNum }, (_, i) => NoteInterval * (i));
 
-      // routePositions.forEach(([lat, lng]) => {
-      //   const lyricMarker = marker([lat, lng], { opacity: 0 }).addTo(map);
-      //   lyricMarker.bindTooltip('👽👍', { permanent: true, direction: 'center', className: "label-onpu" }).openTooltip();
-      //   setInInitTmp(false)
-      // });
-    }
-    return <></>; // このコンポーネントはビジュアル要素を直接レンダリングしない
+      // 道路の長さを元に歌詞を均等配置
+      noteCoordinates.forEach((noteCoordinate) => {
+        const noteIndex = routeLength.findIndex((route) => route.fwdLength <= noteCoordinate && noteCoordinate <= route.fwdLength + route.crtLength);
+        const crtRoute = routeLength[noteIndex];
+        const crtDistance = noteCoordinate - crtRoute.fwdLength;
+        const crtLat = crtRoute.crtPosStart[0] + (crtRoute.crtPosEnd[0] - crtRoute.crtPosStart[0]) * (crtDistance / crtRoute.crtLength);
+        const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
+        const lyricMarker = marker([crtLat, crtLng], { opacity: 0 }).addTo(map);
+        lyricMarker.bindTooltip(songData[props.songnum].note, { permanent: true, direction: 'center', className: "label-note" }).openTooltip();
+      });
+      setInInitTmp(false)
+      return () => {
+        console.log("unmount")
+      };
+    }, []);
+    return <></>;
   };
+  // const PathwayTooltips = () => {
+  //   if (isInitTmp && props.songnum != -1) {
+  //     const map = useMap();
+  //     // 道路の長さを取得
+  //     const [_, nodes] = computePath();
+  //     let routeLength: noteTooltip[] = [];
+  //     let routeEntireLength: number = 0.0;
+  //     // それぞれの道路の長さを計算
+  //     for (let i = 0; i < nodes.length - 1; i++) {
+  //       let [lat, lon, distance] = calculateVector(
+  //         nodes[i], nodes[i + 1]
+  //       );
+  //       // 配列に追加
+  //       routeLength.push({
+  //         fwdLength: routeEntireLength,
+  //         crtLength: distance,
+  //         crtPosStart: nodes[i],
+  //         crtPosEnd: nodes[i + 1]
+  //       });
+  //       // 道路の長さを加算
+  //       routeEntireLength += distance;
+  //     }
+  //     // console.log("road", routeLength)
+  //     const noteNum = 264; // 264 player.video.wordcount
+  //     const NoteInterval = routeEntireLength / noteNum;
+  //     const noteCoordinates = Array.from({ length: noteNum }, (_, i) => NoteInterval * (i));
+
+  //     // 道路の長さを元に歌詞を均等配置
+  //     noteCoordinates.forEach((noteCoordinate) => {
+  //       // 配列の中でどの道路に含まれるかを探す
+  //       const noteIndex = routeLength.findIndex((route) => route.fwdLength <= noteCoordinate && noteCoordinate <= route.fwdLength + route.crtLength);
+  //       // 道路の中での位置を計算
+  //       const crtRoute = routeLength[noteIndex];
+  //       const crtDistance = noteCoordinate - crtRoute.fwdLength;
+  //       const crtLat = crtRoute.crtPosStart[0] + (crtRoute.crtPosEnd[0] - crtRoute.crtPosStart[0]) * (crtDistance / crtRoute.crtLength);
+  //       const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
+  //       // マーカーを配置
+  //       const lyricMarker = marker([crtLat, crtLng], { opacity: 0 }).addTo(map);
+  //       lyricMarker.bindTooltip(songData[props.songnum].note, { permanent: true, direction: 'center', className: "label-note" }).openTooltip();
+  //     }
+  //     );
+  //     setInInitTmp(false)
+  //   }
+  //   return <></>; // このコンポーネントはビジュアル要素を直接レンダリングしない
+  // };
 
   // 通る道についての描画（デバッグ用）
   const PathWay: React.FC = () => {
@@ -168,13 +228,13 @@ export const MapComponent = (props: any) => {
       const fontSizePx = 12;
       // ピクセル単位のフォントサイズを地理座標に変換するための仮定の係数
       const conversionFactor = 0.0001;
-  
+
       // フォントサイズに基づいて座標の範囲を調整
       const adjustedNorth = map.getBounds().getNorth() - (fontSizePx * conversionFactor);
       const adjustedSouth = map.getBounds().getSouth() + (fontSizePx * conversionFactor);
       const adjustedEast = map.getBounds().getEast() - (fontSizePx * conversionFactor);
       const adjustedWest = map.getBounds().getWest() + (fontSizePx * conversionFactor);
-  
+
       // 調整された範囲を使用してランダムな座標を生成
       const mapCoordinate: [number, number] = [
         Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
@@ -186,7 +246,7 @@ export const MapComponent = (props: any) => {
       markertext.bindTooltip(printKashi, { permanent: true, className: "label-kashi fade-text to_right", direction: "center" })
       // 地図に追加
       markertext.addTo(map);
-  
+
       return () => {
         markertext.remove(); // Componentはvoidで返すべきではない
       };
@@ -208,13 +268,6 @@ export const MapComponent = (props: any) => {
     props.handOverHover(e.sourceTarget.feature)
   }
 
-  // 初回だけ処理
-  useEffect(() => {
-    console.log("init process", layerRef.current);
-    const [features, nodes] = computePath();
-    setRoutePositions(nodes);
-    setPathwayFeature(features);
-  }, []); // 空の依存配列を渡すことで、この効果はコンポーネントのマウント時にのみ実行されます。
 
   // if (isInit) {
   //   console.log("init process", layerRef.current)
