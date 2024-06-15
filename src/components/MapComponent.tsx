@@ -39,19 +39,21 @@ export const MapComponent = (props: any) => {
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
   const layerRef = useRef(null);
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
+  const [noteCoordinates, setNoteCoordinates] = useState<[number, number][]>([]);
 
   const [isInitTmp, setIsInitTmp] = useState<Boolean>(true);
 
   // 初回だけ処理
   useEffect(() => {
-    console.log("init process", layerRef.current);
+    // console.log("init process", layerRef.current);
     const [features, nodes] = computePath();
     setRoutePositions(nodes);
     setPathwayFeature(features);
   }, []); // 空の依存配列を渡すことで、この効果はコンポーネントのマウント時にのみ実行されます。
 
 
-  // マーカーの表示(単語によって色を変える)
+  // マーカーの表示(単語によって色を変える) 
+  // TODO 歌詞の長さでの配置にする．
   const PathwayTooltips = () => {
     const map = useMap();
     useEffect(() => {
@@ -78,23 +80,26 @@ export const MapComponent = (props: any) => {
       console.log(songData[props.songnum].note + "の数:", props.player.video.wordCount)
       const noteNum = props.player.video.wordCount; // 264 player.video.wordCount
       const NoteInterval = routeEntireLength / noteNum;
-      const noteCoordinates = Array.from({ length: noteNum }, (_, i) => NoteInterval * (i));
+      const noteLength = Array.from({ length: noteNum }, (_, i) => NoteInterval * (i));
+      const noteCd: [number, number][] = []
 
       // 道路の長さを元に歌詞を均等配置(なんかCopilotが勝手に入れてくれた)
-      noteCoordinates.forEach((noteCoordinate) => {
+      noteLength.forEach((noteLen) => {
         // 歌詞の座標の含まれる道路を探す
-        const noteIndex = routeLength.findIndex((route) => route.fwdLength <= noteCoordinate && noteCoordinate <= route.fwdLength + route.crtLength);
+        const noteIndex = routeLength.findIndex((route) => route.fwdLength <= noteLen && noteLen <= route.fwdLength + route.crtLength);
         // 歌詞の座標が含まれる道路の情報を取得
         const crtRoute = routeLength[noteIndex];
         // 歌詞の座標が含まれる道路の中での距離を計算
-        const crtDistance = noteCoordinate - crtRoute.fwdLength;
+        const crtDistance = noteLen - crtRoute.fwdLength;
         const crtLat = crtRoute.crtPosStart[0] + (crtRoute.crtPosEnd[0] - crtRoute.crtPosStart[0]) * (crtDistance / crtRoute.crtLength);
         const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
+        noteCd.push([crtLat, crtLng]);
         // 歌詞の座標に🎵を表示
         const lyricMarker = marker([crtLat, crtLng], { opacity: 0 }).addTo(map);
         lyricMarker.bindTooltip(songData[props.songnum].note,
           { permanent: true, direction: 'center', offset: L.point(-15, 0), interactive: false, className: "label-note" }).openTooltip();
       });
+      setNoteCoordinates(noteCd);
       setIsInitTmp(false)
       return () => {
         console.log("unmount note")
@@ -177,8 +182,9 @@ export const MapComponent = (props: any) => {
       if (props.kashi.text == "" || props.kashi == songKashi) {
         return
       }
+      // console.log(noteCoordinates)
       // TODO ナビゲーションの移動方向によってスライド方向を変える
-      // console.log("歌詞が違う")
+      // TODO noteCoordinatesで歌詞の表示位置を変える
       setKashi(props.kashi)
       let printKashi: string = "<div class = 'tooltip-lyric'>";
       props.kashi.text.split('').forEach((char: string) => {
@@ -189,16 +195,12 @@ export const MapComponent = (props: any) => {
       printKashi += "</div>";
       console.log(printKashi);
       // 歌詞を表示する座標をランダムに決定
-      // フォントサイズを定義（ピクセル単位）
-      const fontSizePx = 12;
-      // ピクセル単位のフォントサイズを地理座標に変換するための仮定の係数
-      const conversionFactor = 0.0001;
-
-      // フォントサイズに基づいて座標の範囲を調整
-      const adjustedNorth = map.getBounds().getNorth() - (fontSizePx * conversionFactor);
-      const adjustedSouth = map.getBounds().getSouth() + (fontSizePx * conversionFactor);
-      const adjustedEast = map.getBounds().getEast() - (fontSizePx * conversionFactor);
-      const adjustedWest = map.getBounds().getWest() + (fontSizePx * conversionFactor);
+      const conversionFactor = [0.0, 0.0];
+      // 座標の範囲を調整
+      const adjustedNorth = map.getBounds().getNorth() - conversionFactor[0];
+      const adjustedSouth = map.getBounds().getSouth() + conversionFactor[0];
+      const adjustedEast = map.getBounds().getEast() - conversionFactor[1]; // 地図の真ん中より左に配置
+      const adjustedWest = map.getBounds().getWest() + conversionFactor[1];
 
       // 調整された範囲を使用してランダムな座標を生成
       const mapCoordinate: [number, number] = [
