@@ -92,7 +92,7 @@ export const MapComponent = (props: any) => {
         const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
         // 歌詞の座標に🎵を表示
         const lyricMarker = marker([crtLat, crtLng], { opacity: 0 }).addTo(map);
-        lyricMarker.bindTooltip(songData[props.songnum].note, { permanent: true, direction: 'center', className: "label-note" }).openTooltip();
+        lyricMarker.bindTooltip(songData[props.songnum].note, { permanent: true, direction: 'center', sticky : true, className: "label-note" }).openTooltip();
       });
       setInInitTmp(false)
       return () => {
