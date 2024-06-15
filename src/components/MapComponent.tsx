@@ -92,7 +92,7 @@ export const MapComponent = (props: any) => {
         const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
         // 歌詞の座標に🎵を表示
         const lyricMarker = marker([crtLat, crtLng], { opacity: 0 }).addTo(map);
-        lyricMarker.bindTooltip(songData[props.songnum].note, { permanent: true, direction: 'center', sticky : true, className: "label-note" }).openTooltip();
+        lyricMarker.bindTooltip(songData[props.songnum].note, { permanent: true, direction: 'center', sticky: true, className: "label-note" }).openTooltip();
       });
       setInInitTmp(false)
       return () => {
@@ -202,7 +202,7 @@ export const MapComponent = (props: any) => {
       // 地図の表示範囲内にランダムに歌詞配置
       const markertext = marker(mapCoordinate, { opacity: 0 });
       // 表示する歌詞
-      markertext.bindTooltip(printKashi, { permanent: true, className: "label-kashi fade-text to_right", direction: "center" })
+      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, className: "label-kashi fade-text to_right", direction: "center" })
       // 地図に追加
       markertext.addTo(map);
 
