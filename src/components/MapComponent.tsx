@@ -178,43 +178,43 @@ export const MapComponent = (props: any) => {
         return
       }
       // TODO ナビゲーションの移動方向によってスライド方向を変える
-        // console.log("歌詞が違う")
-        setKashi(props.kashi)
-        let printKashi: string = "<div class = 'tooltip-lyric'>";
-        props.kashi.text.split('').forEach((char: string) => {
-          printKashi += "<span class='";
-          printKashi += formatKashi(char);
-          printKashi += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
-        });
-        printKashi += "</div>";
-        console.log(printKashi);
-        // 歌詞を表示する座標をランダムに決定
-        // フォントサイズを定義（ピクセル単位）
-        const fontSizePx = 12;
-        // ピクセル単位のフォントサイズを地理座標に変換するための仮定の係数
-        const conversionFactor = 0.0001;
+      // console.log("歌詞が違う")
+      setKashi(props.kashi)
+      let printKashi: string = "<div class = 'tooltip-lyric'>";
+      props.kashi.text.split('').forEach((char: string) => {
+        printKashi += "<span class='";
+        printKashi += formatKashi(char);
+        printKashi += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
+      });
+      printKashi += "</div>";
+      console.log(printKashi);
+      // 歌詞を表示する座標をランダムに決定
+      // フォントサイズを定義（ピクセル単位）
+      const fontSizePx = 12;
+      // ピクセル単位のフォントサイズを地理座標に変換するための仮定の係数
+      const conversionFactor = 0.0001;
 
-        // フォントサイズに基づいて座標の範囲を調整
-        const adjustedNorth = map.getBounds().getNorth() - (fontSizePx * conversionFactor);
-        const adjustedSouth = map.getBounds().getSouth() + (fontSizePx * conversionFactor);
-        const adjustedEast = map.getBounds().getEast() - (fontSizePx * conversionFactor);
-        const adjustedWest = map.getBounds().getWest() + (fontSizePx * conversionFactor);
+      // フォントサイズに基づいて座標の範囲を調整
+      const adjustedNorth = map.getBounds().getNorth() - (fontSizePx * conversionFactor);
+      const adjustedSouth = map.getBounds().getSouth() + (fontSizePx * conversionFactor);
+      const adjustedEast = map.getBounds().getEast() - (fontSizePx * conversionFactor);
+      const adjustedWest = map.getBounds().getWest() + (fontSizePx * conversionFactor);
 
-        // 調整された範囲を使用してランダムな座標を生成
-        const mapCoordinate: [number, number] = [
-          Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
-          Math.random() * (adjustedEast - adjustedWest) + adjustedWest
-        ];
-        // 地図の表示範囲内にランダムに歌詞配置
-        const markertext = marker(mapCoordinate, { opacity: 0 });
-        // 表示する歌詞
-        markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi fade-text to_right", direction: "center" })
-        // 地図に追加
-        markertext.addTo(map);
+      // 調整された範囲を使用してランダムな座標を生成
+      const mapCoordinate: [number, number] = [
+        Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
+        Math.random() * (adjustedEast - adjustedWest) + adjustedWest
+      ];
+      // 地図の表示範囲内にランダムに歌詞配置
+      const markertext = marker(mapCoordinate, { opacity: 0 });
+      // 表示する歌詞
+      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi fade-text to_right", direction: "center" })
+      // 地図に追加
+      markertext.addTo(map);
 
-        return () => {
-          //markertext.remove();
-        }
+      return () => {
+        //markertext.remove();
+      }
     }, [props.kashi, songKashi, props.songnum]);
     return null;
   };
