@@ -19,6 +19,13 @@ import songData from '../utils/Song.ts';
 
 import { PointProperties, lyricProperties, historyProperties } from '../types/types';
 
+type noteTooltip = {
+  fwdLength: number; // 前方の距離
+  crtLength: number; // 現在の距離
+  crtPosStart: [lat: number, lng: number]; // 現在の座標始まり
+  crtPosEnd: [lat: number, lng: number]; // 現在の座標終わり
+};
+
 export const MapComponent = (props: any) => {
   // Mapのための定数
   const mapCenter: [number, number] = [34.6937, 135.5021];
@@ -30,67 +37,73 @@ export const MapComponent = (props: any) => {
   const [timer, setTimer] = useState(0);
   const [routePositions, setRoutePositions] = useState<[number, number][]>([]);
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
-  const [isInit, setIsInit] = useState<Boolean>(true);
   const layerRef = useRef(null);
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
-  const [isInitMap, setInInitMap] = useState<Boolean>(true);
+  const [isInitMap, setIsInitMap] = useState<Boolean>(true);
+
+  const [noteCoordinates, setNoteCoordinates] = useState<[number, number][]>([]);
+
+  // 初回だけ処理
+  useEffect(() => {
+    // console.log("init process", layerRef.current);
+    const [features, nodes] = computePath();
+    setRoutePositions(nodes);
+    setPathwayFeature(features);
+  }, []); // 空の依存配列を渡すことで、この効果はコンポーネントのマウント時にのみ実行されます。
 
 
-  const addLyricPointToMap = (map:Map) =>{
-    routePositions.forEach(([lat, lng]) => {
-      const lyricMarker = marker([lat, lng]).addTo(map);
-      lyricMarker.bindTooltip('ここです！', { permanent: true, direction: 'top' }).openTooltip();
-    })
-  }
-
-  
-  // 👽歌詞表示コンポーネント👽
-  // コンポーネントとして実行しないと動かない?
-  const addLyricTextToMap = (map:Map) => {
-    // 歌詞が変わったら実行 ボカロによって色を変える
-    useEffect(()=>{
-      if (props.kashi.text != "" && props.kashi != songKashi) {
-        // console.log("歌詞が違う")
-        setKashi(props.kashi)
-        let printKashi: string = "";
-        props.kashi.text.split('').forEach((char: string) => {
-          printKashi += "<span class=";
-          printKashi += formatKashi(char);
-          printKashi += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
-        });
-        console.log(printKashi);
-        // 歌詞を表示する座標をランダムに決定
-        // フォントサイズを定義（ピクセル単位）
-        const fontSizePx = 12;
-        // ピクセル単位のフォントサイズを地理座標に変換するための仮定の係数
-        const conversionFactor = 0.0001;
-  
-        // フォントサイズに基づいて座標の範囲を調整
-        const adjustedNorth = map.getBounds().getNorth() - (fontSizePx * conversionFactor);
-        const adjustedSouth = map.getBounds().getSouth() + (fontSizePx * conversionFactor);
-        const adjustedEast = map.getBounds().getEast() - (fontSizePx * conversionFactor);
-        const adjustedWest = map.getBounds().getWest() + (fontSizePx * conversionFactor);
-  
-        // 調整された範囲を使用してランダムな座標を生成
-        const mapCoordinate: [number, number] = [
-          Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
-          Math.random() * (adjustedEast - adjustedWest) + adjustedWest
-        ];
-        // const mapCoordinate: [number, number] =
-        //   [Math.random() * (map.getBounds().getNorth() - map.getBounds().getSouth()) +
-        //     map.getBounds().getSouth(),
-        //   Math.random() * (map.getBounds().getEast() - map.getBounds().getWest()) +
-        //   map.getBounds().getWest()];
-        // console.log(mapCoordinate);
-        // 地図の表示範囲内にランダムに歌詞配置
-        const markertext = marker(mapCoordinate, { opacity: 0 });
-        // 表示する歌詞
-        // console.log("map", props.kashi)
-        markertext.bindTooltip(printKashi, { permanent: true, className: "label-kashi fade-text to_right", direction: "center" })
-        // 地図に追加
-        markertext.addTo(map);
+  // マーカーの表示(単語によって色を変える) 
+  // TODO 歌詞の長さでの配置にする．
+  const addNotesToMap = (map) => {
+    useEffect(() => {
+      if (props.songnum == -1 || props.songnum == null) {
+        return
       }
-    },[map, props])
+      // 道路の長さを取得
+      const [_, nodes] = computePath();
+      let routeLength = [];
+      let routeEntireLength = 0.0;
+      // それぞれの道路の長さを計算
+      for (let i = 0; i < nodes.length - 1; i++) {
+        let [lat, lon, distance] = calculateVector(nodes[i], nodes[i + 1]);
+        // 配列に追加
+        routeLength.push({
+          fwdLength: routeEntireLength,
+          crtLength: distance,
+          crtPosStart: nodes[i],
+          crtPosEnd: nodes[i + 1]
+        });
+        // 道路の長さを加算
+        routeEntireLength += distance;
+      }
+      console.log(songData[props.songnum].note + "の数:", props.player.video.wordCount)
+      const noteNum = props.player.video.wordCount; // 264 player.video.wordCount
+      const noteInterval = routeEntireLength / noteNum;
+      const noteLength = Array.from({ length: noteNum }, (_, i) => noteInterval * (i));
+      const noteCd: [number, number][] = []
+
+      // 道路の長さを元に歌詞を均等配置(なんかCopilotが勝手に入れてくれた)
+      noteLength.forEach((noteLen) => {
+        // 歌詞の座標の含まれる道路を探す
+        const noteIndex = routeLength.findIndex((route) => route.fwdLength <= noteLen && noteLen <= route.fwdLength + route.crtLength);
+        // 歌詞の座標が含まれる道路の情報を取得
+        const crtRoute = routeLength[noteIndex];
+        // 歌詞の座標が含まれる道路の中での距離を計算
+        const crtDistance = noteLen - crtRoute.fwdLength;
+        const crtLat = crtRoute.crtPosStart[0] + (crtRoute.crtPosEnd[0] - crtRoute.crtPosStart[0]) * (crtDistance / crtRoute.crtLength);
+        const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
+        noteCd.push([crtLat, crtLng]);
+        // 歌詞の座標に🎵を表示
+        const lyricMarker = marker([crtLat, crtLng], { opacity: 0 }).addTo(map);
+        lyricMarker.bindTooltip(songData[props.songnum].note,
+          { permanent: true, direction: 'center', offset: L.point(-15, 0), interactive: false, className: "label-note" }).openTooltip();
+      });
+      setNoteCoordinates(noteCd);
+      setIsInitTmp(false)
+      return () => {
+        console.log("unmount note")
+      };
+    }, [props.songnum, props.player?.video.wordCount]);
   };
 
   /**
@@ -101,8 +114,8 @@ export const MapComponent = (props: any) => {
     // Map描画後に一度実行
     useEffect(()=>{
       if (isInitMap){
-        addLyricPointToMap(map)
-        setInInitMap(false)
+        addNotesToMap(map)
+        setIsInitMap(false)
       }
     },[map, isInitMap])
     return null
@@ -182,6 +195,55 @@ export const MapComponent = (props: any) => {
   }
 
 
+  // 👽歌詞表示コンポーネント👽
+  // コンポーネントとして実行しないと動かない?
+const addLyricTextToMap = (map:Map) => {
+    const map = useMap();
+    // console.log(map.getSize(), map.getCenter(), map.getBounds())
+    // 歌詞が変わったら実行 ボカロによって色を変える
+    useEffect(() => {
+      if (props.kashi.text == "" || props.kashi == songKashi) {
+        return
+      }
+      // console.log(noteCoordinates)
+      // TODO ナビゲーションの移動方向によってスライド方向を変える
+      // TODO noteCoordinatesで歌詞の表示位置を変える
+      setKashi(props.kashi)
+      let printKashi: string = "<div class = 'tooltip-lyric'>";
+      props.kashi.text.split('').forEach((char: string) => {
+        printKashi += "<span class='";
+        printKashi += formatKashi(char);
+        printKashi += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
+      });
+      printKashi += "</div>";
+      console.log(printKashi);
+      // 歌詞を表示する座標をランダムに決定
+      const conversionFactor = [0.0, 0.0];
+      // 座標の範囲を調整
+      const adjustedNorth = map.getBounds().getNorth() - conversionFactor[0];
+      const adjustedSouth = map.getBounds().getSouth() + conversionFactor[0];
+      const adjustedEast = map.getBounds().getEast() - conversionFactor[1]; // 地図の真ん中より左に配置
+      const adjustedWest = map.getBounds().getWest() + conversionFactor[1];
+
+      // 調整された範囲を使用してランダムな座標を生成
+      const mapCoordinate: [number, number] = [
+        Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
+        Math.random() * (adjustedEast - adjustedWest) + adjustedWest
+      ];
+      // 地図の表示範囲内にランダムに歌詞配置
+      const markertext = marker(mapCoordinate, { opacity: 0 });
+      // 表示する歌詞
+      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi fade-text to_right", direction: "center" })
+      // 地図に追加
+      markertext.addTo(map);
+
+      return () => {
+        //markertext.remove();
+      }
+    }, [map, props.kashi, songKashi, props.songnum]);
+    return null;
+  };
+
   // 👽ポイントにマウスが乗ったときに呼び出される関数👽
   const onPointHover = (e: LeafletMouseEvent) => {
     console.log(e.sourceTarget.feature.properties.name, checkArchType(e.sourceTarget.feature.properties.type))
@@ -191,16 +253,6 @@ export const MapComponent = (props: any) => {
     }
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
     props.handOverHover(e.sourceTarget.feature)
-  }
-
-  // 初回だけ処理
-  if (isInit) {
-    console.log("init process", layerRef.current)
-    // TODO: 1回しか処理をしないreact的な書き方
-    const [features, nodes] = computePath()
-    setRoutePositions(nodes)
-    setPathwayFeature(features)
-    setIsInit(false)
   }
 
   // マップに表示されている文字を非表示にする
@@ -240,26 +292,13 @@ export const MapComponent = (props: any) => {
         <PathWay />
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
-          url="https://tiles.stadiamaps.com/styles/osm_bright.json" // https://docs.stadiamaps.com/map-styles/osm-bright/より取得
+          url="https://tiles.stadiamaps.com/styles/osm_bright.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
           ref={layerRef}
-          style={{ backgroundColor: '#f5f3f3' }}
         />
         <MoveMapByRoute />
         <MapFunctionInit />
         <MapFunctionUpdate />
       </MapContainer>
-
-
-      {/* 出力確認用、場所を移動させる↓ */}
-      {/* これがあるとマップの表示が下にずれる */}
-      {/* <ul>
-          {clickedPoints.map((point, index) => (
-            <li key={index}>
-              Name: {point.name}, Coordinates: {point.coordinates}
-            </li>
-          ))}
-        </ul> */}
-      {/* 出力確認用、場所を移動させる↑ */}
     </>
   );
 };

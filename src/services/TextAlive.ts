@@ -13,7 +13,7 @@ const getLyricElement = (lyric: any, player: Player, handover: handOverLyric) =>
             // 文字が時間内の時
             if (entireLyric.contains(currentLyric) && isFirstPhrase) {
                 // 歌詞の更新
-                console.log(entireLyric)
+                // console.log(entireLyric)
                 handover(entireLyric);   // 歌詞を親に渡す
                 isFirstPhrase = false;
             }
@@ -70,7 +70,7 @@ export const createPlayer = (createPlayerContent: createPlayerContent) => {
         createPlayerContent.handOverSongTitle(player.data.song.name)
         createPlayerContent.handOverSongArtist(player.data.song.artist.name)
         createPlayerContent.handOverSongLength(player.data.song.length)
-        // player.volume = volume 音量調整する？
+        // player.volume = volume 音量調整する？五月蝿いので小さくしました
         createPlayerContent.handOverPlayer(player);
         createPlayerContent.handOverSongInfo(createPlayerContent.songNumber)
         // 一番最初の文字
@@ -79,7 +79,7 @@ export const createPlayer = (createPlayerContent: createPlayerContent) => {
         let kashiPhrase = player.video.firstPhrase; // 最初の歌詞(好きの伝え方は一つじゃないから)
         // setChord(playerListener.findChord(playerListener.timer.position).name + " → " + playerListener.findChord(playerListener.timer.position).next.name);
         // setChorus(getSegNumber(now).join())
-        console.log(kashiChar.text, kashiWord.text, kashiPhrase.text)
+        console.log(player, kashiChar.text, kashiWord.text, kashiPhrase.text)
         // 音楽が流れている間のそれぞれの歌詞情報取得処理
         // Char: 1文字, Word: 単語, Phrase: 短文
         getLyricElement(kashiChar, player, createPlayerContent.handOverChar)
