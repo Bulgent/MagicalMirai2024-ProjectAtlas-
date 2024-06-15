@@ -35,7 +35,6 @@ export const MapComponent = (props: any) => {
 
   // React Hooks
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([]);
-  const [timer, setTimer] = useState(0);
   const [routePositions, setRoutePositions] = useState<[number, number][]>([]);
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
   const layerRef = useRef(null);
@@ -45,6 +44,7 @@ export const MapComponent = (props: any) => {
   const moveSpeedRef = useRef<number>(-1)
   const isInitPlayer = useRef(true)
   const [noteCoordinates, setNoteCoordinates] = useState<[number, number][]>([]);
+  const moveManageTimerRef = useRef(0)
 
   // 初回だけ処理
   useEffect(() => {
@@ -67,7 +67,6 @@ export const MapComponent = (props: any) => {
     // mapの移動速度を計算（km/s）
     moveSpeedRef.current = length_km/props.player.video.duration
     isInitPlayer.current = false
-    console.log(moveSpeedRef.current)
   },[props.kashi, songKashi, props.songnum])
 
 
@@ -185,17 +184,17 @@ export const MapComponent = (props: any) => {
             return;
           } else {
             console.log("passed");
-            setTimer(0) // TODO: useRefに変更したい
+            moveManageTimerRef.current = 0
             setRoutePositions(routePositions.slice(1));
           }
         } else {
           map.setView(
-            [routePositions[0][0] + vector_lat / completeMoveSecondMs*(mapMoveRenderInterval_ms)*timer,
-            routePositions[0][1] + vector_lon / completeMoveSecondMs*(mapMoveRenderInterval_ms)*timer],
+            [routePositions[0][0] + vector_lat / completeMoveSecondMs*(mapMoveRenderInterval_ms)*moveManageTimerRef.current,
+            routePositions[0][1] + vector_lon / completeMoveSecondMs*(mapMoveRenderInterval_ms)*moveManageTimerRef.current],
             mapZoom
           );
         }
-        setTimer((prevTimer) => prevTimer + 1);
+        moveManageTimerRef.current += 1;
       }, mapMoveRenderInterval_ms);
       // falseのreturnの跡にintervalの値をclearにリセット
       return () => {
