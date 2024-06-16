@@ -65,11 +65,12 @@ const createLinksFromJson = (json: any):Link[] =>{
   return links
 }
 
+
 function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[]]{
   const feature_ret = []
   const nodes_path:[number, number][] = []
   const nodes_path_json:[number, number][] = []
-
+  console.log(node_results)
   for (let node_result of node_results){
     const targetIndex2 = links.findIndex(link => {
       return link.link_id === node_result.link_id
@@ -96,6 +97,8 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
     }
     feature_ret.push(feature)
     // それぞれのノードの値を取得し格納（リンクの片方のノードのみを格納）
+    // とりあえず両方の値を入れることにする
+    // 直前の配列に含まれていないものを入れる
     if (node_result.link_position==="from"){
       nodes_path_json.push([from[0], from[1]])
       nodes_path.push([from[1], from[0]])
@@ -167,6 +170,7 @@ export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:
 
   // 計算結果よりリンクidを取得（描画用の座標に変換するため）
   const node_results:NodeResult[] = []
+  console.log(path_lst)
   // 植木算
   let check_to_lst = []
   let check_from_lst = []
