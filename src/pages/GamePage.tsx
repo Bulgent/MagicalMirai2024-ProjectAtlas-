@@ -17,7 +17,7 @@ export const GamePage = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const buttonInfo = queryParams.get('song'); // クエリパラメータからbuttonの値を取得
-  console.log(buttonInfo);
+  // console.log(buttonInfo);
   // TxtAlive周りの変数宣言
   const [lyricChar, setLyricChar] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 })
   const [lyricWord, setLyricWord] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0, pos: "" })
