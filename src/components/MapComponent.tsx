@@ -6,18 +6,20 @@ import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { checkArchType, formatKashi, calculateVector } from '../utils/utils.ts'
-import { pointToLayer, mapStyle, mapStylePathWay } from '../utils/MapStyle.ts'
+import { seasonType, weatherType, timeType, pointToLayer, mapStyle, polygonStyle, mapStylePathWay } from '../utils/MapStyle.ts'
 import { svgNote, svgAlien, svgUnicorn } from '../assets/marker/markerSVG.ts'
 
 // 地図データの導入
 import roads from '../assets/jsons/map_data/roads-kai.json'
 import points from '../assets/jsons/map_data/points.json'
 import areas from '../assets/jsons/map_data/areas.json'
+import weather from '../assets/jsons/map_data/polygons.json'
 
 // songDataの導入
 import songData from '../utils/Song.ts';
 
 import { PointProperties, lyricProperties, historyProperties } from '../types/types';
+import { time } from 'console';
 
 type noteTooltip = {
   fwdLength: number; // 前方の距離
@@ -40,6 +42,9 @@ export const MapComponent = (props: any) => {
   const layerRef = useRef(null);
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
   const [isInitMap, setIsInitMap] = useState<Boolean>(true);
+  // const [season, setSeason] = useState<seasonType>(seasonType.SUMMER);
+  // const [time, setTime] = useState<timeType>(timeType.MORNING);
+  // const [weather, setWeather] = useState<weatherType>(weatherType.SUNNY);
 
   const [noteCoordinates, setNoteCoordinates] = useState<{ note: string, lyric: string, lat: number, lng: number, start: number, end: number }[]>([]);
 
@@ -174,6 +179,8 @@ export const MapComponent = (props: any) => {
         });
       });
 
+
+
       // console.log(wordTime)
       console.log(noteCd)
       setNoteCoordinates(noteCd);
@@ -259,7 +266,6 @@ export const MapComponent = (props: any) => {
     return null;
   }
 
-
   // 👽歌詞表示コンポーネント👽
   // コンポーネントとして実行しないと動かない?
   const addLyricTextToMap = (map: Map) => {
@@ -286,7 +292,7 @@ export const MapComponent = (props: any) => {
       // 座標の範囲を調整
       const adjustedNorth = map.getBounds().getNorth() - conversionFactor[0];
       const adjustedSouth = map.getBounds().getSouth() + conversionFactor[0];
-      const adjustedEast = map.getBounds().getEast() - conversionFactor[1]; // 地図の真ん中より左に配置
+      const adjustedEast = map.getBounds().getEast() - conversionFactor[1];
       const adjustedWest = map.getBounds().getWest() + conversionFactor[1];
 
       // 調整された範囲を使用してランダムな座標を生成
@@ -326,7 +332,15 @@ export const MapComponent = (props: any) => {
       const map = layerRef.current.getMaplibreMap();
       map.getStyle().layers.forEach(l => {
         if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none")
+        // 海の色を赤くする
+        // if (l.id == "water") map.setPaintProperty(l.id, "fill-color", "#ff0000")
+        // 背景色を青くする
+        // if (l.id == "background") map.setPaintProperty(l.id, "background-color", "#0000ff")
+        // 敷地を青くする
+        // if (l.id.includes("landuse")) map.setPaintProperty(l.id, "fill-color", "#0000ff")
+        // if (l.paint.includes("linecolor")) map.setPaintProperty(l.id, "fill-color", "#0000ff")
       });
+
     }
   }, [props.songnum]);
 
@@ -336,6 +350,7 @@ export const MapComponent = (props: any) => {
       {/* zoomは16くらいがgood */}
 
       <MapContainer className='mapcomponent' center={mapCenter} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
+
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
@@ -343,6 +358,14 @@ export const MapComponent = (props: any) => {
         <GeoJSON
           data={roads as GeoJSON.GeoJsonObject}
           style={mapStyle}
+        />
+        <GeoJSON
+          data={weather as GeoJSON.GeoJsonObject}
+          style={polygonStyle(
+            seasonType.SUMMER,
+            timeType.NIGHT,
+            weatherType.SUNNY
+          )}
         />
         <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
