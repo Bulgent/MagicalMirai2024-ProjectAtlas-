@@ -12,7 +12,9 @@ import { pointToLayer, mapStyle, mapStylePathWay } from '../utils/MapStyle.ts'
 import { svgNote, svgAlien, svgUnicorn } from '../assets/marker/markerSVG.ts'
 
 // 地図データの導入
-import roads from '../assets/jsons/map_data/roads-kai.json'
+import trunk from '../assets/jsons/map_data/trunk.json'
+import primary from '../assets/jsons/map_data/primary.json'
+import secondary from '../assets/jsons/map_data/secondary.json'
 import points from '../assets/jsons/map_data/points.json'
 import areas from '../assets/jsons/map_data/areas.json'
 
@@ -31,8 +33,10 @@ type noteTooltip = {
 
 export const MapComponent = (props: any) => {
   // Mapのための定数
-  const mapCenter: [number, number] = [34.6937, 135.5021];
+  const startCoordinate: [number, number] = [34.503780572499515, 135.5574936226363];
+  const endCoordinate:[number, number] = [34.6379271092576, 135.4196972135114]
   const mapZoom: number = 17; // Mapのzoomについて1が一番ズームアウト
+  const roadJsonLst = [trunk, primary, secondary] // 表示する道路について
   const mapMoveRenderInterval_ms = 20;
 
   // React Hooks
@@ -59,7 +63,7 @@ export const MapComponent = (props: any) => {
   // 初回だけ処理
 
   useEffect(() => {
-    const [features, nodes] = computePath();
+    const [features, nodes] = computePath(roadJsonLst, startCoordinate,endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
     setRoutePositions(nodes);
     setPathwayFeature(features);
@@ -96,7 +100,7 @@ export const MapComponent = (props: any) => {
   const AddNotesToMap = () => {
     const map = useMap();
     useEffect(() => {
-      if (props.songnum == -1 || props.songnum == null || !isInitMapPlayer) {
+      if (props.songnum == -1 || props.songnum == null || !isInitMapPlayer || routePositions.length===0) {
         return
       }
 
@@ -130,7 +134,8 @@ export const MapComponent = (props: any) => {
       })
 
       // 道路の長さを取得
-      const [_, nodes] = computePath();
+      const nodes = routePositions;
+      // const [_, nodes] = computePath();
       let routeLength: noteTooltip[] = [];
       let routeEntireLength = 0.0;
       // それぞれの道路の長さを計算
@@ -221,7 +226,7 @@ export const MapComponent = (props: any) => {
         console.log("unmount note")
       };
 
-    }, [props.songnum, props.player?.video.wordCount, isInitMapPlayer]);
+    }, [props.songnum, props.player?.video.wordCount, isInitMapPlayer, routePositions]);
 
     return <></>;
   };
@@ -367,13 +372,21 @@ export const MapComponent = (props: any) => {
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
 
-      <MapContainer className='mapcomponent' center={mapCenter} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
+      <MapContainer className='mapcomponent' center={startCoordinate} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
         />
         <GeoJSON
-          data={roads as GeoJSON.GeoJsonObject}
+          data={trunk as GeoJSON.GeoJsonObject}
+          style={mapStyle}
+        />
+        <GeoJSON
+          data={primary as GeoJSON.GeoJsonObject}
+          style={mapStyle}
+        />
+        <GeoJSON
+          data={secondary as GeoJSON.GeoJsonObject}
           style={mapStyle}
         />
         <GeoJSON
