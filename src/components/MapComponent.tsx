@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
-import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector } from '../utils/utils.ts'
+import { checkArchType, formatKashi, calculateVector } from '../utils/utils.ts'
 import { pointToLayer, mapStyle, mapStylePathWay } from '../utils/MapStyle.ts'
 
 // 地図データの導入
@@ -13,9 +13,8 @@ import roads from '../assets/jsons/map_data/roads-kai.json'
 import points from '../assets/jsons/map_data/points.json'
 import areas from '../assets/jsons/map_data/areas.json'
 
-// カラーパレットの導入s
+// songDataの導入
 import songData from '../utils/Song.ts';
-
 
 import { PointProperties, lyricProperties, historyProperties } from '../types/types';
 
@@ -114,7 +113,7 @@ export const MapComponent = (props: any) => {
       console.log("noteLength", noteLength)
       let noteCd: { note: string; lat: number; lng: number; }[] = [];
 
-      // 道路の長さを元に歌詞を均等配置(なんかCopilotが勝手に入れてくれた)
+      // 歌詞の時間を元に🎵を配置
       noteLength.forEach((noteLen, index) => {
         // 歌詞の座標の含まれる道路を探す
         const noteIndex = routeLength.findIndex((route) => route.fwdLength <= noteLen && noteLen <= route.fwdLength + route.crtLength);
@@ -125,11 +124,11 @@ export const MapComponent = (props: any) => {
         const crtLat = crtRoute.crtPosStart[0] + (crtRoute.crtPosEnd[0] - crtRoute.crtPosStart[0]) * (crtDistance / crtRoute.crtLength);
         const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
         let tooltipString = "🎵"
-        switch (index){
+        switch (index) {
           case 0:
-            tooltipString = "👽" 
+            tooltipString = "👽"
             break;
-          case noteNum+1:
+          case noteNum + 1:
             tooltipString = "🦄"
             break;
           default:
@@ -150,7 +149,7 @@ export const MapComponent = (props: any) => {
       console.log(wordTime)
       console.log(noteCd)
       // noteCdとwordTimeが既に定義されていると仮定
-      
+
       setNoteCoordinates(noteCd);
       setIsInitMap(false)
       return () => {
