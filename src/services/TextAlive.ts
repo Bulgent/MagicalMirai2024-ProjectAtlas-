@@ -13,7 +13,6 @@ const getLyricElement = (lyric: any, player: Player, handover: handOverLyric) =>
             // 文字が時間内の時
             if (entireLyric.contains(currentLyric) && isFirstPhrase) {
                 // 歌詞の更新
-                // console.log(entireLyric)
                 handover(entireLyric);   // 歌詞を親に渡す
                 isFirstPhrase = false;
             }

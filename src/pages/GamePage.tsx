@@ -33,10 +33,16 @@ export const GamePage = () => {
   const [songLength, setSongLength] = useState<number>(0)
   const [playTime, setPlayTime] = useState<number>(0)
   const [mediaElement, setMediaElement] = useState(null);
+  const [isMapMove, setIsMapMove] = useState<Boolean>(false);
+
+
+  const handOverIsMapMove = createHandOverFunction(setIsMapMove)
+
   // const [songNumber, setSongNumber] = useState(isDevelopment ? 3 : buttonInfo ? parseInt(buttonInfo) : -1);
   const [songNumber, setSongNumber] = useState(buttonInfo ? parseInt(buttonInfo) : -1);
   const handOverSongNumber = createHandOverFunction(setSongNumber) // 曲選択をLyricComponentで持たせることを想定
   const handOverMediaElement = createHandOverFunction(setMediaElement)
+
 
   // Map移動に関しての変数宣言
   const [isMoving, setIsMoving] = useState(false);
@@ -67,6 +73,7 @@ export const GamePage = () => {
     handOverSongLength: createHandOverFunction(setSongLength),
     handOverPlayTime: createHandOverFunction(setPlayTime),
     handOverApp: createHandOverFunction(setApp)
+
   }
 
   // Txtaliveから情報取得開始
@@ -94,8 +101,8 @@ export const GamePage = () => {
             {/* 単語:kashiChar, 熟語:kashiWord, フレーズ:kashiPhrase */}
             <MapComponent
               kashi={lyricWord}
-              songnum={songInfo}
-              isMoving={isMoving}
+              songnum={songInfo}  
+              isMoving={isMapMove} 
               player={player}
               handOverHover={handOverHoverHistory}
             />
@@ -111,6 +118,7 @@ export const GamePage = () => {
               app={app}
               handOverSongNumber={handOverSongNumber}
               handOverMediaElement={handOverMediaElement}
+              handOverIsMapMove={handOverIsMapMove}
             />
           </div>
         </div>
@@ -126,11 +134,8 @@ export const GamePage = () => {
             player={player}
             hoverHistory={hoverHistory}
           />
-          <button onClick={handleMapMove}>
-            {isMoving ? '停止' : '地図を移動'}
-          </button>
+          </div>
         </div>
-      </div>
     </React.Fragment>
   );
 }

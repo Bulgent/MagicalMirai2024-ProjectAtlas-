@@ -1,14 +1,14 @@
 import {aStar} from 'ngraph.path';
 import createGraph from 'ngraph.graph';
-import roads from '../assets/jsons/map_data/roads-kai.json';
-import { useMemo } from 'react';
+import roads from '../assets/jsons/map_data/trunk.json';
+import { calculateDistance, roundWithScale } from '../utils/utils.ts'
 
 /*
     feature_index_1とfeature_index_2は互いに行き来可能
     feature_index_1とfeature_index_2は文字列ではなく、数値のインデックスを使用する
 */
 type Link = {
-    from: [number, number]; // feature_index_1
+    from: [number, number]; // feature_index_1 [lon, lat]
     to: [number, number]; // feature_index_2
     from_string:string; // `${from[0]}-${from[1]}` 
     to_string:string; // `${to[0]}-${to[1]}` 
@@ -25,32 +25,6 @@ type NodeResult = {
   link_position: "to"|"from";
 }
 
-const deg2rad = (deg: number): number => {
-    return (deg * Math.PI) / 180.0;
-  };
-
-/*
-緯度経度から距離kmに変換
-*/
-const calculateDistance = (from_lonlat: [number, number], to_lonlat:[number, number]):number =>{
-    const RX: number = 6378.137; // 回転楕円体の長半径（赤道半径）[km]
-    const RY: number = 6356.752; // 回転楕円体の短半径（極半径) [km]
-    const dx = deg2rad(from_lonlat[0]) - deg2rad(to_lonlat[0]);
-    const dy = deg2rad(from_lonlat[1]) - deg2rad(to_lonlat[1]);
-    const mu = (deg2rad(from_lonlat[1]) + deg2rad(to_lonlat[1])) / 2.0; // μ
-    const E = Math.sqrt(1 - Math.pow(RY / RX, 2.0)); // 離心率
-    const W = Math.sqrt(1 - Math.pow(E * Math.sin(mu), 2.0));
-    const M = RX * (1 - Math.pow(E, 2.0)) / Math.pow(W, 3.0); // 子午線曲率半径
-    const N = RX / W; // 卯酉線曲率半径
-    return Math.sqrt(Math.pow(M * dy, 2.0) + Math.pow(N * dx * Math.cos(mu), 2.0)); // 距離[km]
-}
-
-/*
-任意の小数点の桁（scale）で四捨五入
-*/
-const roundWithScale = (value: number, scale: number) => {
-  return Math.round(value * 10 ** scale) / 10 ** scale;
-};
 
 /*
 jsonから最短距離計算のためのLinkへの整形
@@ -121,7 +95,6 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
       }
     }
     feature_ret.push(feature)
-
     // それぞれのノードの値を取得し格納（リンクの片方のノードのみを格納）
     if (node_result.link_position==="from"){
       nodes_path_json.push([from[0], from[1]])
@@ -131,7 +104,6 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
       nodes_path.push([to[1], to[0]])
     }
   }
-
   const nodes_path_feature = [
     {
       type: "Feature",
@@ -150,11 +122,30 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
   return [feature_ret, nodes_path_feature, nodes_path]
 }
 
-export function computePath(): [any[],any[]] {
+const getNearestPosition=(lon:number, lat:number, links:Link[], )=>{
+  let nearestId:string|null = null;
+  let minDistance = 100000000;
+  for(let link of links){
+    const [lonLink, latLink] = link.from
+    const tmpDistance = Math.sqrt((lonLink-lon)**2+(latLink-lat)**2)
+    if (minDistance > tmpDistance){
+      minDistance = tmpDistance
+      nearestId = link.from_string
+    }
+  }
+  return nearestId
+}
+
+export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:number], endCoordinate:[lat:number, lon:number]): [any[],any[]] {
   // jsonからのデータ成形
-  const links = createLinksFromJson(roads)
-  const start_id = links[0].from_string
-  const end_id = links[100].from_string
+  console.log("computing pathway")
+  let links:Link[] = [];
+  for(const roadJson of roadJsonLst){
+    links = [...links, ...createLinksFromJson(roadJson)];
+  }
+  // const links = createLinksFromJson(roads)
+  const start_id = getNearestPosition(startCoordinate[1], startCoordinate[0], links)
+  const end_id = getNearestPosition(endCoordinate[1], endCoordinate[0], links)
   // リンクを格納して計算準備
   const graph = createGraph();
   for (const link of links){
@@ -167,11 +158,11 @@ export function computePath(): [any[],any[]] {
     distance(fromNode, toNode, link) {
       // We don't really care about from/to nodes in this case,
       // as link.data has all needed information:
-      return link.data.weight;0
+      return link.data.weight;
     }
   });
   // 計算を実施
-  const path_lst = pathFinder.find(start_id, end_id);
+  const path_lst = pathFinder.find(end_id, start_id);
 
 
   // 計算結果よりリンクidを取得（描画用の座標に変換するため）
@@ -190,7 +181,6 @@ export function computePath(): [any[],any[]] {
     let link_id;
     let link_position
     for (let link_ of links_array){
-
       if (node_next_id===link_.fromId || node_next_id===link_.toId){
         link_id = `${link_.fromId}-${link_.toId}`
         link_position = node_next_id === link_.fromId ? "to" : "from";
