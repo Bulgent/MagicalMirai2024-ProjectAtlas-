@@ -1,21 +1,23 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map, point } from 'leaflet';
+import { LeafletMouseEvent, marker, Map, point, divIcon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
+
 import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance ,calculateEachRoadLengthRatio, getRationalPositonIndex} from '../utils/utils.ts'
+
 import { pointToLayer, mapStyle, mapStylePathWay } from '../utils/MapStyle.ts'
+import { svgNote, svgAlien, svgUnicorn } from '../assets/marker/markerSVG.ts'
 
 // 地図データの導入
 import roads from '../assets/jsons/map_data/roads-kai.json'
 import points from '../assets/jsons/map_data/points.json'
 import areas from '../assets/jsons/map_data/areas.json'
 
-// カラーパレットの導入s
+// songDataの導入
 import songData from '../utils/Song.ts';
-
 
 import { PointProperties, lyricProperties, historyProperties } from '../types/types';
 import { dataUrlToString } from 'textalive-app-api';
@@ -39,17 +41,23 @@ export const MapComponent = (props: any) => {
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
   const layerRef = useRef(null);
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
+
   const [isInitMapPlayer, setIsInitMap] = useState<Boolean>(true);
   const lengthKmRef = useRef<number>(-1)
   const moveSpeedRef = useRef<number>(-1)
   const isInitPlayer = useRef(true)
   const isInitMap = useRef(true)
-  const [noteCoordinates, setNoteCoordinates] = useState<[number, number][]>([]);
   const moveManageTimerRef = useRef(0)
   const vector_distance_sum = useRef(0)
   const km_distance_sum = useRef(0)
   const eachRoadLengthRatioRef = useRef<number[]>([])
   // このコンポーネントがレンダリングされた初回だけ処理
+
+
+  const [noteCoordinates, setNoteCoordinates] = useState<{ note: string, lyric: string, lat: number, lng: number, start: number, end: number }[]>([]);
+
+  // 初回だけ処理
+
   useEffect(() => {
     const [features, nodes] = computePath();
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
@@ -81,7 +89,9 @@ export const MapComponent = (props: any) => {
     return null;
   }
 
-  // マーカーの表示(単語によって色を変える) 
+
+  // 👽マーカーの表示(単語によって色を変える)👽 
+
   // TODO 歌詞の長さでの配置にする．
   const AddNotesToMap = () => {
     const map = useMap();
@@ -89,9 +99,39 @@ export const MapComponent = (props: any) => {
       if (props.songnum == -1 || props.songnum == null || !isInitMapPlayer) {
         return
       }
+
+      // 歌詞の時間を取得
+      let wordTemp = props.player.video.firstWord
+      // 曲の始まりを追加
+      let wordTime: { lyric: string, start: number, end: number }[] = [{
+        lyric: "",
+        start: 0,
+        end: wordTemp.startTime
+      }]
+      while (wordTemp.next != null) {
+        wordTime.push({
+          lyric: wordTemp.text,
+          start: wordTemp.startTime,
+          end: wordTemp.endTime
+        })
+        wordTemp = wordTemp.next
+      }
+      // 最後の歌詞を追加
+      wordTime.push({
+        lyric: wordTemp.text,
+        start: wordTemp.startTime,
+        end: wordTemp.endTime
+      })
+      // 曲の終わりを追加
+      wordTime.push({
+        lyric: "",
+        start: props.player.video.duration,
+        end: props.player.video.duration
+      })
+
       // 道路の長さを取得
       const [_, nodes] = computePath();
-      let routeLength = [];
+      let routeLength: noteTooltip[] = [];
       let routeEntireLength = 0.0;
       // それぞれの道路の長さを計算
       for (let i = 0; i < nodes.length - 1; i++) {
@@ -106,14 +146,18 @@ export const MapComponent = (props: any) => {
         // 道路の長さを加算
         routeEntireLength += distance;
       }
+      // console.log("曲長さ:", props.player.video.duration, "道長さ:", routeEntireLength)
       console.log(songData[props.songnum].note + "の数:", props.player.video.wordCount)
-      const noteNum = props.player.video.wordCount; // 264 player.video.wordCount
-      const noteInterval = routeEntireLength / noteNum;
-      const noteLength = Array.from({ length: noteNum }, (_, i) => noteInterval * (i));
-      const noteCd: [number, number][] = []
+      // 単語数
+      const wordCount = props.player.video.wordCount;
+      const noteGain = routeEntireLength / props.player.video.duration;
+      const noteLength = wordTime.map((word) => word.start * noteGain);
+      let noteCd: { note: string; lyric: string; lat: number; lng: number; start: number, end: number }[] = [];
+      // console.log("gain", noteGain)
+      // console.log("noteLength", noteLength)
 
-      // 道路の長さを元に歌詞を均等配置(なんかCopilotが勝手に入れてくれた)
-      noteLength.forEach((noteLen) => {
+      // 歌詞の時間を元に🎵を配置
+      noteLength.forEach((noteLen, index) => {
         // 歌詞の座標の含まれる道路を探す
         const noteIndex = routeLength.findIndex((route) => route.fwdLength <= noteLen && noteLen <= route.fwdLength + route.crtLength);
         // 歌詞の座標が含まれる道路の情報を取得
@@ -122,18 +166,63 @@ export const MapComponent = (props: any) => {
         const crtDistance = noteLen - crtRoute.fwdLength;
         const crtLat = crtRoute.crtPosStart[0] + (crtRoute.crtPosEnd[0] - crtRoute.crtPosStart[0]) * (crtDistance / crtRoute.crtLength);
         const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
-        noteCd.push([crtLat, crtLng]);
+        let markerString = "🎵" // 表示する文字
+        let markerSVG = "" // 表示するSVG
+        switch (index) {
+          case 0: // 最初
+            markerString = "👽"
+            markerSVG = svgAlien
+            break;
+          case wordCount + 1: // 最後
+            markerString = "🦄"
+            markerSVG = svgUnicorn
+            break;
+          default: // それ以外
+            markerString = songData[props.songnum].note
+            markerSVG = svgNote
+            break;
+        }
+        noteCd.push({
+          note: markerString,
+          lyric: wordTime[index].lyric,
+          lat: crtLat,
+          lng: crtLng,
+          start: wordTime[index].start,
+          end: wordTime[index].end
+        })
+
+        // L.icon を使用してカスタムアイコンを設定
+        const customIcon = divIcon({
+          className: 'custom-icon', // カスタムクラス名
+          html: markerSVG, // SVG アイコンの HTML
+          iconSize: [50, 50], // アイコンのサイズ
+          iconAnchor: [25, 50] // アイコンのアンカーポイント
+        });
+
         // 歌詞の座標に🎵を表示
-        const lyricMarker = marker([crtLat, crtLng], { opacity: 0 }).addTo(map);
-        lyricMarker.bindTooltip(songData[props.songnum].note,
-          { permanent: true, direction: 'center', offset: L.point(-15, 0), interactive: false, className: "label-note" }).openTooltip();
+        const lyricMarker = marker([crtLat, crtLng], { icon: customIcon, opacity: 1 }).addTo(map);
+        lyricMarker.bindTooltip(wordTime[index].lyric,
+          { permanent: true, direction: 'bottom', interactive: true, className: "label-note" }).openTooltip();
+
+        lyricMarker.on('click', function (e) {
+          console.log("click")
+          // ツールチップの文字取得
+          const tooltip = e.target.getTooltip();
+          const content = tooltip.getContent();
+          console.log(content);
+        });
       });
+
+      // console.log(wordTime)
+      console.log(noteCd)
       setNoteCoordinates(noteCd);
       setIsInitMap(false)
       return () => {
         console.log("unmount note")
       };
+
     }, [props.songnum, props.player?.video.wordCount, isInitMapPlayer]);
+
     return <></>;
   };
 
@@ -212,7 +301,9 @@ export const MapComponent = (props: any) => {
 
   // 👽歌詞表示コンポーネント👽
   // コンポーネントとして実行しないと動かない?
-  const addLyricTextToMap = (map:Map) => {
+
+  const addLyricTextToMap = (map: Map) => {
+
     // console.log(map.getSize(), map.getCenter(), map.getBounds())
     // 歌詞が変わったら実行 ボカロによって色を変える
     useEffect(() => {
@@ -247,7 +338,7 @@ export const MapComponent = (props: any) => {
       // 地図の表示範囲内にランダムに歌詞配置
       const markertext = marker(mapCoordinate, { opacity: 0 });
       // 表示する歌詞
-      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi fade-text to_right", direction: "center" })
+      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi fade-text to_right", direction: "bottom" })
       // 地図に追加
       markertext.addTo(map);
 

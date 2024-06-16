@@ -212,6 +212,7 @@ export const createHandOverFunction = <T,>(setter: React.Dispatch<React.SetState
   }, [setter]);
 };
 
+
 export const deg2rad = (deg: number): number => {
   return (deg * Math.PI) / 180.0;
 };
@@ -272,3 +273,4 @@ export const getRationalPositonIndex = (ratio:number, ratioLst:number[]):[number
     throw new Error("値が見つかりません")
   }
 }
+
