@@ -231,3 +231,44 @@ export const calculateDistance = (from_lonlat: [number, number], to_lonlat:[numb
   const N = RX / W; // 卯酉線曲率半径
   return Math.sqrt(Math.pow(M * dy, 2.0) + Math.pow(N * dx * Math.cos(mu), 2.0)); // 距離[km]
 }
+
+/**
+ * それぞれの道路の全体における割合を計算（積算）
+ * @param nodes 経由地点の緯度経度ペアの配列
+ * @returns 各道路の距離の割合の配列 (例: [0, 0.1, 0.5, 0.9, 1])
+ */
+export const calculateEachRoadLengthRatio = (nodes:any[]):number[] => {
+  let eachRoadLengthRatio = [];
+  let roadLengthSum = 0;
+  const lstLength = nodes.length
+
+  for(let i=0; i<lstLength-1; i++){
+    const roadLength = calculateDistance(nodes[i], nodes[i+1])
+    roadLengthSum+=roadLength
+    eachRoadLengthRatio.push(roadLengthSum)
+  }
+  eachRoadLengthRatio = eachRoadLengthRatio.map(x => x/roadLengthSum)
+  return eachRoadLengthRatio
+}
+
+/**
+ * 曲の進行状況に応じて、現在の経由地点のインデックスと次のインデックスまでの残り距離の割合を返す
+ * @param ratio 曲の全体に対する現在の進行状況 (0 ~ 1)
+ * @param ratioLst 各道路の距離の割合の配列
+ * @returns 現在の経由地点のインデックスと残り距離の割合の配列 [インデックス, 残り距離の割合]
+ */
+export const getRationalPositonIndex = (ratio:number, ratioLst:number[]):[number, number] =>{
+  const lstLength = ratioLst.length
+  for (let i=0; i<=lstLength-2; i++){
+    if (ratioLst[i]<=ratio && ratio<ratioLst[i+1]){
+      return [i+1, (ratio-ratioLst[i])/(ratioLst[i+1]-ratioLst[i])]
+    } 
+  }
+  if (ratio < ratioLst[0]){
+    return [0, ratio/ratioLst[0]]
+  } else if (ratioLst[lstLength-1] <= ratio && ratio<=1){
+    return [lstLength-1, (ratio-ratioLst[lstLength-1])/(ratioLst[lstLength-1]-ratioLst[lstLength-2])]
+  } else {
+    throw new Error("値が見つかりません")
+  }
+}

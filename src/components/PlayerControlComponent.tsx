@@ -42,7 +42,7 @@ export const PlayerControl = (props:any) => {
       </div>
       <div className="pausebutton">
         <input type="button"
-          value={status !== 'play' ? '▷' : '❘❘1'}
+          value={status !== 'play' ? '▷' : '❘❘'}
           onClick={status !== 'play' ? handlePlay : handlePause}
           // size="small"
           disabled={props.disabled}

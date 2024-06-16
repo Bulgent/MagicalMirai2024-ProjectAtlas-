@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
-import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance } from '../utils/utils.ts'
+import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance ,calculateEachRoadLengthRatio, getRationalPositonIndex} from '../utils/utils.ts'
 import { pointToLayer, mapStyle, mapStylePathWay } from '../utils/MapStyle.ts'
 
 // 地図データの導入
@@ -48,14 +48,15 @@ export const MapComponent = (props: any) => {
   const moveManageTimerRef = useRef(0)
   const vector_distance_sum = useRef(0)
   const km_distance_sum = useRef(0)
-  // 初回だけ処理
+  const eachRoadLengthRatioRef = useRef<number[]>([])
+  // このコンポーネントがレンダリングされた初回だけ処理
   useEffect(() => {
-    // console.log("init process", layerRef.current);
     const [features, nodes, length_km] = computePath();
     lengthKmRef.current = length_km
+    eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
     setRoutePositions(nodes);
     setPathwayFeature(features);
-  }, []); // 空の依存配列を渡すことで、この効果はコンポーネントのマウント時にのみ実行されます。
+  }, []); 
 
   // Playerが作成された後に一度だけ処理
   useEffect(()=>{
@@ -164,7 +165,6 @@ export const MapComponent = (props: any) => {
     return <></>;
   };
 
-
   /**
    * Mapに対して、描画後に定期実行
    */
@@ -194,59 +194,48 @@ export const MapComponent = (props: any) => {
 
   const MoveMapByRoute = () => {
     const map = useMap();
-    const EPSILON = 0.000000000000001; // 0除算回避
-    useEffect(() => {
-      // falseの場合動かない
-      if (!props.isMoving) {
-        return;
-      }
-      const timerId = setInterval(() => {
-
-        // 移動するためのベクトルを計算（単位ベクトルなので速度は一定）
-        const [vector_lat, vector_lon, distance] = calculateVector(
-          routePositions[0],
-          routePositions[1],
-        );
-        
-        // そのノード間を何msで移動完了する必要があるか
-        const distanceKm = calculateDistance(routePositions[0], routePositions[1])
-        const completeMoveSecondMs = distanceKm/moveSpeedRef.current
-        // 何回のレンダリングで移動するか
-        const renderTimes = Math.floor(completeMoveSecondMs/mapMoveRenderInterval_ms)
-        // 1レンダリングで移動する距離
-        const unitVectorLat = vector_lat / completeMoveSecondMs * mapMoveRenderInterval_ms
-        const unitVectorLon = vector_lon / completeMoveSecondMs * mapMoveRenderInterval_ms
-        console.log("localspeed: ", (distanceKm/renderTimes/mapMoveRenderInterval_ms), " globalspeed: ", moveSpeedRef.current)
-        console.log("progress_km: ", (distanceKm/km_distance_sum.current*100), "progeress_vecr: ", (distance/vector_distance_sum.current*100))
-        // 現在値がroute_positionsと同じ値になったらroute_positionsの先頭の要素を削除
-        if (moveManageTimerRef.current === renderTimes) {
-          if (routePositions.length <= 2) {
-            console.log("finish")
-            clearInterval(timerId);
-            return;
-          } else {
-            console.log("passed");
-            moveManageTimerRef.current = 0
-            setRoutePositions(routePositions.slice(1));
-            console.log(distanceKm)
-          }
-        } else {
+    const animationRef = useRef<number | null>(null);
+  
+    const loop = useCallback(
+      () => {
+        if (!props.isMoving) {
+          return;
+        }
+  
+        // 曲の全体における位置を確認
+        const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
+  
+        if (rationalPlayerPosition < 1) {
+          const [startNodeIndex, nodeResidue] = getRationalPositonIndex(rationalPlayerPosition, eachRoadLengthRatioRef.current);
+          // 中心にセットする座標を計算
           map.setView(
-            [routePositions[0][0] + unitVectorLat*moveManageTimerRef.current,
-            routePositions[0][1] + unitVectorLon*moveManageTimerRef.current],
+            [
+              routePositions[startNodeIndex][0] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][0] * nodeResidue,
+              routePositions[startNodeIndex][1] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][1] * nodeResidue,
+            ],
             mapZoom
           );
+  
+          animationRef.current = requestAnimationFrame(loop);
+        } else {
+          cancelAnimationFrame(animationRef.current!);
         }
-        moveManageTimerRef.current += 1;
-      }, mapMoveRenderInterval_ms);
-      // falseのreturnの跡にintervalの値をclearにリセット
+      },
+      [props.isMoving, props.player]
+    );
+  
+    useEffect(() => {
+      if (props.isMoving) {
+        animationRef.current = requestAnimationFrame(loop);
+      }
+  
       return () => {
-        clearInterval(timerId);
+        cancelAnimationFrame(animationRef.current!);
       };
     }, [props.isMoving]);
-    // コンポーネントとしての利用のために
+  
     return null;
-  }
+  };
 
 
   // 👽歌詞表示コンポーネント👽
