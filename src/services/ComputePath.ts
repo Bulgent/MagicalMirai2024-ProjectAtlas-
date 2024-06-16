@@ -153,6 +153,7 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
 }
 
 export function computePath(): [any[],any[], number] {
+  console.log("calculating")
   // jsonからのデータ成形
   const links = createLinksFromJson(roads)
   const start_id = links[0].from_string

@@ -34,7 +34,6 @@ export const PlayerControl = (props:any) => {
     },
     [props.player, props.handOverIsMapMove]
   );
-  console.log(typeof props.handOverIsMapMove)
 
   return (
     <div className="songcontrol">

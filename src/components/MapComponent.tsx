@@ -18,6 +18,7 @@ import songData from '../utils/Song.ts';
 
 
 import { PointProperties, lyricProperties, historyProperties } from '../types/types';
+import { dataUrlToString } from 'textalive-app-api';
 
 type noteTooltip = {
   fwdLength: number; // 前方の距離
@@ -29,9 +30,8 @@ type noteTooltip = {
 export const MapComponent = (props: any) => {
   // Mapのための定数
   const mapCenter: [number, number] = [34.6937, 135.5021];
-  const mapSpeed: number = 0.0001;
   const mapZoom: number = 17; // Mapのzoomについて1が一番ズームアウト
-  const mapMoveRenderInterval_ms = 10;
+  const mapMoveRenderInterval_ms = 20;
 
   // React Hooks
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([]);
@@ -39,13 +39,15 @@ export const MapComponent = (props: any) => {
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
   const layerRef = useRef(null);
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
-  const [isInitMap, setIsInitMap] = useState<Boolean>(true);
+  const [isInitMapPlayer, setIsInitMap] = useState<Boolean>(true);
   const lengthKmRef = useRef<number>(-1)
   const moveSpeedRef = useRef<number>(-1)
   const isInitPlayer = useRef(true)
+  const isInitMap = useRef(true)
   const [noteCoordinates, setNoteCoordinates] = useState<[number, number][]>([]);
   const moveManageTimerRef = useRef(0)
-
+  const vector_distance_sum = useRef(0)
+  const km_distance_sum = useRef(0)
   // 初回だけ処理
   useEffect(() => {
     // console.log("init process", layerRef.current);
@@ -64,18 +66,54 @@ export const MapComponent = (props: any) => {
     lengthKmRef.current = length_km
     setRoutePositions(nodes);
     setPathwayFeature(features);
+    let length_sum = 0
+    vector_distance_sum.current = 0
+    
+    for (let i = 0; i < routePositions.length - 1; i++){
+      length_sum = length_sum + calculateDistance(routePositions[i], routePositions[i+1])
+      const [vector_lat, vector_lon, distance] = calculateVector(
+        routePositions[i],
+        routePositions[i+1],
+      );
+      vector_distance_sum.current = vector_distance_sum.current + distance
+    }
+    km_distance_sum.current = length_sum
+    console.log(routePositions.length)
     // mapの移動速度を計算（km/s）
-    moveSpeedRef.current = length_km/props.player.video.duration
+    moveSpeedRef.current = length_sum/props.player.video.duration
     isInitPlayer.current = false
   },[props.kashi, songKashi, props.songnum])
 
+  /**
+   * Mapから文字を消す処理
+   */
+  const RemoveMapTextFunction=() => {
+    const map = useMap();
+    useEffect(() => {
+      if (!isInitMap){
+        return
+      }
+      if (layerRef.current) {
+        // 読み込みが2段階ある
+        if(layerRef.current.getMaplibreMap().getStyle()===undefined){
+          return
+        }
+        const map = layerRef.current.getMaplibreMap();
+        map.getStyle().layers.forEach(l => {
+          if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none")
+        });
+      isInitMap.current = false
+      }
+    }, [map]);
+    return null;
+  }
 
   // マーカーの表示(単語によって色を変える) 
   // TODO 歌詞の長さでの配置にする．
   const AddNotesToMap = () => {
     const map = useMap();
     useEffect(() => {
-      if (props.songnum == -1 || props.songnum == null || !isInitMap) {
+      if (props.songnum == -1 || props.songnum == null || !isInitMapPlayer) {
         return
       }
       // 道路の長さを取得
@@ -122,7 +160,7 @@ export const MapComponent = (props: any) => {
       return () => {
         console.log("unmount note")
       };
-    }, [props.songnum, props.player?.video.wordCount, isInitMap]);
+    }, [props.songnum, props.player?.video.wordCount, isInitMapPlayer]);
     return <></>;
   };
 
@@ -157,7 +195,6 @@ export const MapComponent = (props: any) => {
   const MoveMapByRoute = () => {
     const map = useMap();
     const EPSILON = 0.000000000000001; // 0除算回避
-
     useEffect(() => {
       // falseの場合動かない
       if (!props.isMoving) {
@@ -171,13 +208,18 @@ export const MapComponent = (props: any) => {
           routePositions[1],
         );
         
-        // そのノード間を何秒で移動完了する必要があるか
+        // そのノード間を何msで移動完了する必要があるか
         const distanceKm = calculateDistance(routePositions[0], routePositions[1])
         const completeMoveSecondMs = distanceKm/moveSpeedRef.current
-
+        // 何回のレンダリングで移動するか
+        const renderTimes = Math.floor(completeMoveSecondMs/mapMoveRenderInterval_ms)
+        // 1レンダリングで移動する距離
+        const unitVectorLat = vector_lat / completeMoveSecondMs * mapMoveRenderInterval_ms
+        const unitVectorLon = vector_lon / completeMoveSecondMs * mapMoveRenderInterval_ms
+        console.log("localspeed: ", (distanceKm/renderTimes/mapMoveRenderInterval_ms), " globalspeed: ", moveSpeedRef.current)
+        console.log("progress_km: ", (distanceKm/km_distance_sum.current*100), "progeress_vecr: ", (distance/vector_distance_sum.current*100))
         // 現在値がroute_positionsと同じ値になったらroute_positionsの先頭の要素を削除
-        if (Math.abs(routePositions[1][0] - map.getCenter().lat) <= Math.abs(vector_lat / distance * mapSpeed) ||
-          Math.abs(routePositions[1][1] - map.getCenter().lng) <= Math.abs(vector_lon / distance * mapSpeed)) {
+        if (moveManageTimerRef.current === renderTimes) {
           if (routePositions.length <= 2) {
             console.log("finish")
             clearInterval(timerId);
@@ -186,11 +228,12 @@ export const MapComponent = (props: any) => {
             console.log("passed");
             moveManageTimerRef.current = 0
             setRoutePositions(routePositions.slice(1));
+            console.log(distanceKm)
           }
         } else {
           map.setView(
-            [routePositions[0][0] + vector_lat / completeMoveSecondMs*(mapMoveRenderInterval_ms)*moveManageTimerRef.current,
-            routePositions[0][1] + vector_lon / completeMoveSecondMs*(mapMoveRenderInterval_ms)*moveManageTimerRef.current],
+            [routePositions[0][0] + unitVectorLat*moveManageTimerRef.current,
+            routePositions[0][1] + unitVectorLon*moveManageTimerRef.current],
             mapZoom
           );
         }
@@ -226,7 +269,7 @@ export const MapComponent = (props: any) => {
         printKashi += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
       });
       printKashi += "</div>";
-      console.log(printKashi);
+      // console.log(printKashi);
       // 歌詞を表示する座標をランダムに決定
       const conversionFactor = [0.0, 0.0];
       // 座標の範囲を調整
@@ -265,16 +308,7 @@ export const MapComponent = (props: any) => {
     props.handOverHover(e.sourceTarget.feature)
   }
 
-  // マップに表示されている文字を非表示にする
-  // 初期表示にて上手く動かない songnumで解決ゾロリ
-  useEffect(() => {
-    if (layerRef.current) {
-      const map = layerRef.current.getMaplibreMap();
-      map.getStyle().layers.forEach(l => {
-        if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none")
-      });
-    }
-  }, [props.songnum]);
+
 
   return (
     <>
@@ -308,6 +342,7 @@ export const MapComponent = (props: any) => {
         <MoveMapByRoute />
         <AddNotesToMap />
         <MapFunctionUpdate />
+        <RemoveMapTextFunction />
       </MapContainer>
     </>
   );

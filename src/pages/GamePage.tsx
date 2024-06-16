@@ -122,9 +122,6 @@ export const GamePage = () => {
             player={player} 
             hoverHistory={hoverHistory} 
           />
-          <button onClick={handleMapMove}>
-            {isMapMove ? '停止' : '地図を移動'}
-          </button>
           </div>
         </div>
     </React.Fragment>
