@@ -1,8 +1,9 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect ,useRef} from 'react';
 import { PlayerSeekbar } from 'textalive-react-api';
 
 export const PlayerControl = (props:any) => {
   const [status, setStatus] = useState('stop');
+  const isInitPlay = useRef(true);
 
   useEffect(() => {
     const listener = {
@@ -17,6 +18,11 @@ export const PlayerControl = (props:any) => {
   const handlePlay = useCallback(
     () => {
       if (props.player) {
+        if(isInitPlay.current){
+          props.player.timer.seek(0);
+          console.log("initialize playing")
+          isInitPlay.current = false
+        }
         props.player.requestPlay();
         props.handOverIsMapMove(true);
         console.log("playing");
