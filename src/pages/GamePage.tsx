@@ -33,6 +33,7 @@ export const GamePage = () => {
   const [songLength, setSongLength] = useState<number>(0)
   const [playTime, setPlayTime] = useState<number>(0)
   const [mediaElement, setMediaElement] = useState(null);
+  const [isMapMove, setIsMapMove] = useState<Boolean>(false);
 
 
   const handOverIsMapMove = createHandOverFunction(setIsMapMove)
@@ -135,7 +136,6 @@ export const GamePage = () => {
           />
           </div>
         </div>
-      </div>
     </React.Fragment>
   );
 }
