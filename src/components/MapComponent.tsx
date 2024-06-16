@@ -41,7 +41,7 @@ export const MapComponent = (props: any) => {
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
   const [isInitMap, setIsInitMap] = useState<Boolean>(true);
 
-  const [noteCoordinates, setNoteCoordinates] = useState<{ note: string, lat: number, lng: number }[]>([]);
+  const [noteCoordinates, setNoteCoordinates] = useState<{ note: string, lyric: string, lat: number, lng: number, start: number, end: number }[]>([]);
 
   // 初回だけ処理
   useEffect(() => {
@@ -63,6 +63,7 @@ export const MapComponent = (props: any) => {
 
       // 歌詞の時間を取得
       let wordTemp = props.player.video.firstWord
+      // 曲の始まりを追加
       let wordTime: { lyric: string, start: number, end: number }[] = [{
         lyric: "",
         start: 0,
@@ -82,6 +83,7 @@ export const MapComponent = (props: any) => {
         start: wordTemp.startTime,
         end: wordTemp.endTime
       })
+      // 曲の終わりを追加
       wordTime.push({
         lyric: "",
         start: props.player.video.duration,
@@ -107,15 +109,14 @@ export const MapComponent = (props: any) => {
       }
       // console.log("曲長さ:", props.player.video.duration, "道長さ:", routeEntireLength)
       console.log(songData[props.songnum].note + "の数:", props.player.video.wordCount)
-      const noteNum = props.player.video.wordCount; // 264 player.video.wordCount
+      // 単語数
+      const wordCount = props.player.video.wordCount;
       const noteGain = routeEntireLength / props.player.video.duration;
       const noteLength = wordTime.map((word) => word.start * noteGain);
-      let noteCd: { note: string; lat: number; lng: number; }[] = [];
+      let noteCd: { note: string; lyric: string; lat: number; lng: number; start: number, end: number }[] = [];
       // console.log("gain", noteGain)
       // console.log("noteLength", noteLength)
 
-      // SVG アイコンの HTML 文字列を定義
-     
       // 歌詞の時間を元に🎵を配置
       noteLength.forEach((noteLen, index) => {
         // 歌詞の座標の含まれる道路を探す
@@ -126,26 +127,29 @@ export const MapComponent = (props: any) => {
         const crtDistance = noteLen - crtRoute.fwdLength;
         const crtLat = crtRoute.crtPosStart[0] + (crtRoute.crtPosEnd[0] - crtRoute.crtPosStart[0]) * (crtDistance / crtRoute.crtLength);
         const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
-        let tooltipString = "🎵" // 表示する文字
+        let markerString = "🎵" // 表示する文字
         let markerSVG = "" // 表示するSVG
         switch (index) {
           case 0: // 最初
-            tooltipString = "👽"
+            markerString = "👽"
             markerSVG = svgAlien
             break;
-          case noteNum + 1: // 最後
-            tooltipString = "🦄"
+          case wordCount + 1: // 最後
+            markerString = "🦄"
             markerSVG = svgUnicorn
             break;
           default: // それ以外
-            tooltipString = songData[props.songnum].note
+            markerString = songData[props.songnum].note
             markerSVG = svgNote
             break;
         }
         noteCd.push({
-          note: tooltipString,
+          note: markerString,
+          lyric: wordTime[index].lyric,
           lat: crtLat,
-          lng: crtLng
+          lng: crtLng,
+          start: wordTime[index].start,
+          end: wordTime[index].end
         })
 
         // L.icon を使用してカスタムアイコンを設定
@@ -171,7 +175,7 @@ export const MapComponent = (props: any) => {
       });
 
       // console.log(wordTime)
-      // console.log(noteCd)
+      console.log(noteCd)
       setNoteCoordinates(noteCd);
       setIsInitMap(false)
       return () => {
