@@ -12,6 +12,7 @@ type handOverNumber = (number: number) => void;
 type handOverLyric = (lyric: lyricProperties) => void;
 type handOverString = (string: string) => void;
 type handOverAny = (chorus: any) => void;
+type handOverBoolean = (boolean:boolean) => void;
 
 type createPlayerContent = {
     mediaElement:any
