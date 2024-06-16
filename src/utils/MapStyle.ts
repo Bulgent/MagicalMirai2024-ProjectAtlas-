@@ -1,5 +1,6 @@
 import { StyleFunction, LatLngExpression, circleMarker } from 'leaflet';
 
+
 // pointデータを図形として表現
 export const pointToLayer = (feature: any, latlng: LatLngExpression) => {
     const circleMarkerOptions = {
@@ -106,6 +107,7 @@ function addHexColors(hex1: string, hex2: string): string {
 
 // 日本の天気
 export const polygonStyle = (season : number, time : number, weather : number) => {
+    // console.log(season, time, weather)
     let seasonColor = '';
     let timeColor = '';
     let weatherColor = '';
@@ -138,7 +140,7 @@ export const polygonStyle = (season : number, time : number, weather : number) =
             timeColor = '#ffffff'; // 空色
             break;
         case timeType.SUNSET:
-            timeColor = '#f39800'; // 金茶
+            timeColor = '#ec5d0f'; // 夕日色
             break;
         case timeType.NIGHT:
             timeColor = '#001e43'; // ミッドナイトブルー

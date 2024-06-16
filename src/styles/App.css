@@ -105,6 +105,7 @@ body {
   animation: fadeInSlideDown 1s ease forwards;
 }
 
+
 /* 歌詞のスタイル(important付けないと他のが優先されりゅ) */
 .label-note{
   background-color: transparent!important;

@@ -1,5 +1,12 @@
 import { Player } from 'textalive-app-api';
 
+type noteProperties = {
+    fwdLength: number; // 前方の距離
+    crtLength: number; // 現在の距離
+    crtPosStart: [lat: number, lng: number]; // 現在の座標始まり
+    crtPosEnd: [lat: number, lng: number]; // 現在の座標終わり
+};
+
 type lyricProperties = {
     text: string;
     startTime: number;
@@ -12,7 +19,7 @@ type handOverNumber = (number: number) => void;
 type handOverLyric = (lyric: lyricProperties) => void;
 type handOverString = (string: string) => void;
 type handOverAny = (chorus: any) => void;
-type handOverBoolean = (boolean:boolean) => void;
+type handOverBoolean = (boolean: boolean) => void;
 
 type createPlayerContent = {
     mediaElement: any
