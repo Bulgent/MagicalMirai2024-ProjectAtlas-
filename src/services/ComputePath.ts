@@ -92,11 +92,10 @@ const createLinksFromJson = (json: any):Link[] =>{
   return links
 }
 
-function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[], number]{
+function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[]]{
   const feature_ret = []
   const nodes_path:[number, number][] = []
   const nodes_path_json:[number, number][] = []
-  let length_km = 0
 
   for (let node_result of node_results){
     const targetIndex2 = links.findIndex(link => {
@@ -123,7 +122,6 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
       }
     }
     feature_ret.push(feature)
-    length_km += calculateDistance(from, to)
     // それぞれのノードの値を取得し格納（リンクの片方のノードのみを格納）
     if (node_result.link_position==="from"){
       nodes_path_json.push([from[0], from[1]])
@@ -133,7 +131,6 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
       nodes_path.push([to[1], to[0]])
     }
   }
-
   const nodes_path_feature = [
     {
       type: "Feature",
@@ -149,7 +146,7 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
       }
     }
   ]
-  return [feature_ret, nodes_path_feature, nodes_path, length_km]
+  return [feature_ret, nodes_path_feature, nodes_path]
 }
 
 export function computePath(): [any[],any[], number] {
@@ -170,7 +167,7 @@ export function computePath(): [any[],any[], number] {
     distance(fromNode, toNode, link) {
       // We don't really care about from/to nodes in this case,
       // as link.data has all needed information:
-      return link.data.weight;0
+      return link.data.weight;
     }
   });
   // 計算を実施
@@ -193,7 +190,6 @@ export function computePath(): [any[],any[], number] {
     let link_id;
     let link_position
     for (let link_ of links_array){
-
       if (node_next_id===link_.fromId || node_next_id===link_.toId){
         link_id = `${link_.fromId}-${link_.toId}`
         link_position = node_next_id === link_.fromId ? "to" : "from";
@@ -210,9 +206,9 @@ export function computePath(): [any[],any[], number] {
 
   // 描画用の座標をfeaturesに格納
   // ノードによる描画を実施
-  const [feature_ret, nodes_path_feature, nodes_path, length_km] = getFeature(node_results, links)
+  const [feature_ret, nodes_path_feature, nodes_path] = getFeature(node_results, links)
 
-  return [nodes_path_feature, nodes_path, length_km]
+  return [nodes_path_feature, nodes_path]
 }
 
 /*

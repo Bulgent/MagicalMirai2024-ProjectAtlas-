@@ -51,39 +51,11 @@ export const MapComponent = (props: any) => {
   const eachRoadLengthRatioRef = useRef<number[]>([])
   // このコンポーネントがレンダリングされた初回だけ処理
   useEffect(() => {
-    const [features, nodes, length_km] = computePath();
-    lengthKmRef.current = length_km
+    const [features, nodes] = computePath();
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
     setRoutePositions(nodes);
     setPathwayFeature(features);
   }, []); 
-
-  // Playerが作成された後に一度だけ処理
-  useEffect(()=>{
-    if (props.songnum == -1 || props.songnum == null || !isInitPlayer.current) {
-      return
-    }
-    const [features, nodes, length_km] = computePath();
-    lengthKmRef.current = length_km
-    setRoutePositions(nodes);
-    setPathwayFeature(features);
-    let length_sum = 0
-    vector_distance_sum.current = 0
-    
-    for (let i = 0; i < routePositions.length - 1; i++){
-      length_sum = length_sum + calculateDistance(routePositions[i], routePositions[i+1])
-      const [vector_lat, vector_lon, distance] = calculateVector(
-        routePositions[i],
-        routePositions[i+1],
-      );
-      vector_distance_sum.current = vector_distance_sum.current + distance
-    }
-    km_distance_sum.current = length_sum
-    console.log(routePositions.length)
-    // mapの移動速度を計算（km/s）
-    moveSpeedRef.current = length_sum/props.player.video.duration
-    isInitPlayer.current = false
-  },[props.kashi, songKashi, props.songnum])
 
   /**
    * Mapから文字を消す処理
