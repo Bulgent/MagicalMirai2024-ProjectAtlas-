@@ -52,7 +52,7 @@ export const LyricComponent = (props:any) =>{
               </div>
               <div className="controls">
                 {props.player && props.app && (
-                  <PlayerControl disabled={props.app.managed} player={props.player} />
+                  <PlayerControl disabled={props.app.managed} player={props.player} handOverIsMapMove={props.handOverIsMapMove}/>
                 )}
               </div>
               {div}

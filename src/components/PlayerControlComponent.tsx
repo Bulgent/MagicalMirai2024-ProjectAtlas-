@@ -15,13 +15,26 @@ export const PlayerControl = (props:any) => {
   }, [props.player]);
 
   const handlePlay = useCallback(
-    () => props.player && props.player.requestPlay(),
-    [props.player]
+    () => {
+      if (props.player) {
+        props.player.requestPlay();
+        props.handOverIsMapMove(true);
+        console.log("playing");
+      }
+    },
+    [props.player, props.handOverIsMapMove]
   );
   const handlePause = useCallback(
-    () => props.player && props.player.requestPause(),
-    [props.player]
+    () => {
+      if (props.player) {
+        props.player.requestPause();
+        props.handOverIsMapMove(false);
+        console.log("pause");
+      }
+    },
+    [props.player, props.handOverIsMapMove]
   );
+
   return (
     <div className="songcontrol">
       <div className="seekbar">
