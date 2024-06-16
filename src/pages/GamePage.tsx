@@ -17,7 +17,7 @@ export const GamePage = () => {
   const [lyricWord, setLyricWord] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0, pos: "" })
   const [lyricPhrase, setLyricPhrase] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 })
   const [songChord, setSongChord] = useState<string>("")
-  const [songChorus, setSongChorus] = useState<string>("")
+  const [songChorus, setSongChorus] = useState<object>({init:true});
   const [songBeat, setSongBeat] = useState<string>("")
   const [songInfo, setSongInfo] = useState<number>(-1)
   const [player, setPlayer] = useState<Player | null>(null);
