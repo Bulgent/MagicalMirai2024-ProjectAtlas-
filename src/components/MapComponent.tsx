@@ -145,7 +145,7 @@ export const MapComponent = (props: any) => {
       let routeEntireLength = 0.0;
       // それぞれの道路の長さを計算
       for (let i = 0; i < nodes.length - 1; i++) {
-        let [lat, lon, distance] = calculateVector(nodes[i], nodes[i + 1]);
+        let distance = calculateDistance(nodes[i], nodes[i + 1]);
         // 配列に追加
         routeLength.push({
           fwdLength: routeEntireLength,
