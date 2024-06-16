@@ -41,7 +41,7 @@ export const MapComponent = (props: any) => {
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
   const [isInitMap, setIsInitMap] = useState<Boolean>(true);
 
-  const [noteCoordinates, setNoteCoordinates] = useState<[number, number][]>([]);
+  const [noteCoordinates, setNoteCoordinates] = useState<{ note: string, lat: number, lng: number }[]>([]);
 
   // 初回だけ処理
   useEffect(() => {
@@ -52,7 +52,7 @@ export const MapComponent = (props: any) => {
   }, []); // 空の依存配列を渡すことで、この効果はコンポーネントのマウント時にのみ実行されます。
 
 
-    // マーカーの表示(単語によって色を変える) 
+  // 👽マーカーの表示(単語によって色を変える)👽 
   // TODO 歌詞の長さでの配置にする．
   const AddNotesToMap = () => {
     const map = useMap();
@@ -60,9 +60,37 @@ export const MapComponent = (props: any) => {
       if (props.songnum == -1 || props.songnum == null || !isInitMap) {
         return
       }
+
+      // 歌詞の時間を取得
+      let wordTemp = props.player.video.firstWord
+      let wordTime: { lyric: string, start: number, end: number }[] = [{
+        lyric: "",
+        start: 0,
+        end: wordTemp.startTime
+      }]
+      while (wordTemp.next != null) {
+        wordTime.push({
+          lyric: wordTemp.text,
+          start: wordTemp.startTime,
+          end: wordTemp.endTime
+        })
+        wordTemp = wordTemp.next
+      }
+      // 最後の歌詞を追加
+      wordTime.push({
+        lyric: wordTemp.text,
+        start: wordTemp.startTime,
+        end: wordTemp.endTime
+      })
+      wordTime.push({
+        lyric: "",
+        start: props.player.video.duration,
+        end: props.player.video.duration
+      })
+
       // 道路の長さを取得
       const [_, nodes] = computePath();
-      let routeLength = [];
+      let routeLength: noteTooltip[] = [];
       let routeEntireLength = 0.0;
       // それぞれの道路の長さを計算
       for (let i = 0; i < nodes.length - 1; i++) {
@@ -77,14 +105,17 @@ export const MapComponent = (props: any) => {
         // 道路の長さを加算
         routeEntireLength += distance;
       }
+      console.log("曲長さ:", props.player.video.duration, "道長さ:", routeEntireLength)
       console.log(songData[props.songnum].note + "の数:", props.player.video.wordCount)
       const noteNum = props.player.video.wordCount; // 264 player.video.wordCount
-      const noteInterval = routeEntireLength / noteNum;
-      const noteLength = Array.from({ length: noteNum }, (_, i) => noteInterval * (i));
-      const noteCd: [number, number][] = []
+      const noteGain = routeEntireLength / props.player.video.duration;
+      console.log("gain", noteGain)
+      const noteLength = wordTime.map((word) => word.start * noteGain);
+      console.log("noteLength", noteLength)
+      let noteCd: { note: string; lat: number; lng: number; }[] = [];
 
       // 道路の長さを元に歌詞を均等配置(なんかCopilotが勝手に入れてくれた)
-      noteLength.forEach((noteLen) => {
+      noteLength.forEach((noteLen, index) => {
         // 歌詞の座標の含まれる道路を探す
         const noteIndex = routeLength.findIndex((route) => route.fwdLength <= noteLen && noteLen <= route.fwdLength + route.crtLength);
         // 歌詞の座標が含まれる道路の情報を取得
@@ -93,18 +124,39 @@ export const MapComponent = (props: any) => {
         const crtDistance = noteLen - crtRoute.fwdLength;
         const crtLat = crtRoute.crtPosStart[0] + (crtRoute.crtPosEnd[0] - crtRoute.crtPosStart[0]) * (crtDistance / crtRoute.crtLength);
         const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
-        noteCd.push([crtLat, crtLng]);
+        let tooltipString = "🎵"
+        switch (index){
+          case 0:
+            tooltipString = "👽" 
+            break;
+          case noteNum+1:
+            tooltipString = "🦄"
+            break;
+          default:
+            tooltipString = songData[props.songnum].note
+            break;
+        }
+        noteCd.push({
+          note: tooltipString,
+          lat: crtLat,
+          lng: crtLng
+        })
         // 歌詞の座標に🎵を表示
         const lyricMarker = marker([crtLat, crtLng], { opacity: 0 }).addTo(map);
-        lyricMarker.bindTooltip(songData[props.songnum].note,
-          { permanent: true, direction: 'center', offset: L.point(-15, 0), interactive: false, className: "label-note" }).openTooltip();
+        lyricMarker.bindTooltip(tooltipString,
+          { permanent: true, direction: 'center', offset: point(-15, 0), interactive: false, className: "label-note" }).openTooltip();
       });
+
+      console.log(wordTime)
+      console.log(noteCd)
+      // noteCdとwordTimeが既に定義されていると仮定
+      
       setNoteCoordinates(noteCd);
       setIsInitMap(false)
       return () => {
         console.log("unmount note")
       };
-    }, [props.songnum, props.player?.video.wordCount, isInitMap]);
+    }, [props.songnum, props.player?.video.wordTemp, isInitMap]);
     return <></>;
   };
 
@@ -185,7 +237,7 @@ export const MapComponent = (props: any) => {
 
   // 👽歌詞表示コンポーネント👽
   // コンポーネントとして実行しないと動かない?
-const addLyricTextToMap = (map:Map) => {
+  const addLyricTextToMap = (map: Map) => {
     // console.log(map.getSize(), map.getCenter(), map.getBounds())
     // 歌詞が変わったら実行 ボカロによって色を変える
     useEffect(() => {
