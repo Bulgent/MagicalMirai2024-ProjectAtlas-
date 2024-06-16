@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map, point } from 'leaflet';
+import { LeafletMouseEvent, marker, Map, point, divIcon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
@@ -149,7 +149,7 @@ export const MapComponent = (props: any) => {
         })
 
         // L.icon を使用してカスタムアイコンを設定
-        const customIcon = L.divIcon({
+        const customIcon = divIcon({
           className: 'custom-icon', // カスタムクラス名
           html: markerSVG, // SVG アイコンの HTML
           iconSize: [50, 50], // アイコンのサイズ
@@ -172,8 +172,6 @@ export const MapComponent = (props: any) => {
 
       // console.log(wordTime)
       // console.log(noteCd)
-      // noteCdとwordTimeが既に定義されていると仮定
-
       setNoteCoordinates(noteCd);
       setIsInitMap(false)
       return () => {
