@@ -6,7 +6,7 @@ import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { seasonType, weatherType, timeType, pointToLayer, mapStyle, polygonStyle, mapStylePathWay } from '../utils/MapStyle.ts'
-import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance ,calculateEachRoadLengthRatio, getRationalPositonIndex} from '../utils/utils.ts'
+import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance, calculateEachRoadLengthRatio, getRationalPositonIndex } from '../utils/utils.ts'
 import { PointProperties, noteProperties, lyricProperties, historyProperties } from '../types/types';
 
 // SVGデータの導入
@@ -18,7 +18,7 @@ import primary from '../assets/jsons/map_data/primary.json'
 import secondary from '../assets/jsons/map_data/secondary.json'
 import points from '../assets/jsons/map_data/points.json'
 import areas from '../assets/jsons/map_data/areas.json'
-import weather from '../assets/jsons/map_data/polygons.json'
+import sky from '../assets/jsons/map_data/polygons.json'
 
 // songDataの導入
 import songData from '../utils/Song.ts';
@@ -26,7 +26,7 @@ import songData from '../utils/Song.ts';
 export const MapComponent = (props: any) => {
   // Mapのための定数
   const startCoordinate: [number, number] = [34.503780572499515, 135.5574936226363];
-  const endCoordinate:[number, number] = [34.6379271092576, 135.4196972135114]
+  const endCoordinate: [number, number] = [34.6379271092576, 135.4196972135114]
   const mapZoom: number = 17; // Mapのzoomについて1が一番ズームアウト
   const roadJsonLst = [trunk, primary, secondary] // 表示する道路について
   const mapMoveRenderInterval_ms = 20;
@@ -37,10 +37,9 @@ export const MapComponent = (props: any) => {
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
   const layerRef = useRef(null);
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
-  // const [season, setSeason] = useState<seasonType>(seasonType.SUMMER);
-  // const [time, setTime] = useState<timeType>(timeType.MORNING);
-  // const [weather, setWeather] = useState<weatherType>(weatherType.SUNNY);
-
+  const [season, setSeason] = useState<number>(seasonType.SUMMER);
+  const [time, setTime] = useState<number>(timeType.MORNING);
+  const [weather, setWeather] = useState<number>(weatherType.SUNNY);
 
   const [isInitMapPlayer, setIsInitMap] = useState<Boolean>(true);
   const lengthKmRef = useRef<number>(-1)
@@ -59,31 +58,31 @@ export const MapComponent = (props: any) => {
   // 初回だけ処理
 
   useEffect(() => {
-    const [features, nodes] = computePath(roadJsonLst, startCoordinate,endCoordinate);
+    const [features, nodes] = computePath(roadJsonLst, startCoordinate, endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
     setRoutePositions(nodes);
     setPathwayFeature(features);
-  }, []); 
+  }, []);
 
   /**
    * Mapから文字を消す処理
    */
-  const RemoveMapTextFunction=() => {
+  const RemoveMapTextFunction = () => {
     const map = useMap();
     useEffect(() => {
-      if (!isInitMap){
+      if (!isInitMap) {
         return
       }
       if (layerRef.current) {
         // 読み込みが2段階ある
-        if(layerRef.current.getMaplibreMap().getStyle()===undefined){
+        if (layerRef.current.getMaplibreMap().getStyle() === undefined) {
           return
         }
         const map = layerRef.current.getMaplibreMap();
         map.getStyle().layers.forEach(l => {
           if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none")
         });
-      isInitMap.current = false
+        isInitMap.current = false
       }
     }, [map]);
     return null;
@@ -94,7 +93,7 @@ export const MapComponent = (props: any) => {
   const AddNotesToMap = () => {
     const map = useMap();
     useEffect(() => {
-      if (props.songnum == -1 || props.songnum == null || !isInitMapPlayer || routePositions.length===0) {
+      if (props.songnum == -1 || props.songnum == null || !isInitMapPlayer || routePositions.length === 0) {
         return
       }
 
@@ -201,7 +200,7 @@ export const MapComponent = (props: any) => {
         // 歌詞の座標に🎵を表示
         const lyricMarker = marker([crtLat, crtLng], { icon: customIcon, opacity: 1 }).addTo(map);
         lyricMarker.bindTooltip(wordTime[index].lyric,
-          { permanent: true, direction: 'center', interactive: true, offset:point(30,0) , className: "label-note" }).openTooltip();
+          { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note" }).openTooltip();
 
         lyricMarker.on('click', function (e) {
           console.log("click")
@@ -210,19 +209,18 @@ export const MapComponent = (props: any) => {
           const content = tooltip.getContent();
           console.log(content);
         });
-        map.on('move', function() {
+        map.on('move', function () {
           // マップの中心座標を取得
           const center = map.getCenter();
           // マーカーの座標を取得
           const markerPos = lyricMarker.getLatLng();
-        
+
           // マップの中心とマーカーの座標が一致するかどうかを確認（ある程度の誤差を許容）
-          if (center.distanceTo(markerPos) < 10) { // 10メートル以内の誤差を許容
+          if (center.distanceTo(markerPos) < 20) { // 10px以内の誤差を許容
             // マーカーをマップから削除
             map.removeLayer(lyricMarker);
           }
         });
-
       });
       // console.log(wordTime)
       console.log(noteCd)
@@ -266,43 +264,43 @@ export const MapComponent = (props: any) => {
   const MoveMapByRoute = () => {
     const map = useMap();
     const animationRef = useRef<number | null>(null);
-  
+
     const loop = useCallback(() => {
-        if (!props.isMoving) {
-          return;
-        }
-  
-        // 曲の全体における位置を確認
-        const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
-  
-        if (rationalPlayerPosition < 1) {
-          const [startNodeIndex, nodeResidue] = getRationalPositonIndex(rationalPlayerPosition, eachRoadLengthRatioRef.current);
-          // 中心にセットする座標を計算
-          map.setView(
-            [
-              routePositions[startNodeIndex][0] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][0] * nodeResidue,
-              routePositions[startNodeIndex][1] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][1] * nodeResidue,
-            ],
-            mapZoom
-          );
-  
-          animationRef.current = requestAnimationFrame(loop);
-        } else {
-          cancelAnimationFrame(animationRef.current!);
-        }
-      }, [props.isMoving, props.player]
+      if (!props.isMoving) {
+        return;
+      }
+
+      // 曲の全体における位置を確認
+      const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
+
+      if (rationalPlayerPosition < 1) {
+        const [startNodeIndex, nodeResidue] = getRationalPositonIndex(rationalPlayerPosition, eachRoadLengthRatioRef.current);
+        // 中心にセットする座標を計算
+        map.setView(
+          [
+            routePositions[startNodeIndex][0] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][0] * nodeResidue,
+            routePositions[startNodeIndex][1] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][1] * nodeResidue,
+          ],
+          mapZoom
+        );
+
+        animationRef.current = requestAnimationFrame(loop);
+      } else {
+        cancelAnimationFrame(animationRef.current!);
+      }
+    }, [props.isMoving, props.player]
     );
-  
+
     useEffect(() => {
       if (props.isMoving) {
         animationRef.current = requestAnimationFrame(loop);
       }
-  
+
       return () => {
         cancelAnimationFrame(animationRef.current!);
       };
     }, [props.isMoving]);
-  
+
     return null;
   };
 
@@ -387,7 +385,7 @@ export const MapComponent = (props: any) => {
           style={mapStyle}
         />
         <GeoJSON
-          data={weather as GeoJSON.GeoJsonObject}
+          data={sky as unknown as GeoJSON.GeoJsonObject}
           style={polygonStyle(
             seasonType.SUMMER,
             timeType.SUNSET,
