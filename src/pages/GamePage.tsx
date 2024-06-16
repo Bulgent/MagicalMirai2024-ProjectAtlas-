@@ -2,6 +2,7 @@ import '../styles/App.css';
 import React from 'react';
 import { Player } from 'textalive-app-api';
 import { useState, useEffect } from "react"
+import { useLocation } from 'react-router-dom';
 import { LyricComponent } from '../components/LyricComponent';
 import { HistoryComponent } from '../components/HistoryComponent';
 import { MapComponent } from '../components/MapComponent'
@@ -12,12 +13,17 @@ import { createHandOverFunction } from "../utils/utils.ts"
 export const GamePage = () => {
   // 開発環境について
   const isDevelopment: boolean = process.env.NODE_ENV === 'development';
+  // welcomePageからの情報取得
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const buttonInfo = queryParams.get('song'); // クエリパラメータからbuttonの値を取得
+  console.log(buttonInfo);
   // TxtAlive周りの変数宣言
   const [lyricChar, setLyricChar] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 })
   const [lyricWord, setLyricWord] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0, pos: "" })
   const [lyricPhrase, setLyricPhrase] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 })
   const [songChord, setSongChord] = useState<string>("")
-  const [songChorus, setSongChorus] = useState<object>({init:true});
+  const [songChorus, setSongChorus] = useState<object>({ init: true });
   const [songBeat, setSongBeat] = useState<string>("")
   const [songInfo, setSongInfo] = useState<number>(-1)
   const [player, setPlayer] = useState<Player | null>(null);
@@ -27,10 +33,10 @@ export const GamePage = () => {
   const [songLength, setSongLength] = useState<number>(0)
   const [playTime, setPlayTime] = useState<number>(0)
   const [mediaElement, setMediaElement] = useState(null);
-  const [songNumber, setSongNumber] = useState(isDevelopment ? 3 : -1);
+  // const [songNumber, setSongNumber] = useState(isDevelopment ? 3 : buttonInfo ? parseInt(buttonInfo) : -1);
+  const [songNumber, setSongNumber] = useState(buttonInfo ? parseInt(buttonInfo) : -1);
   const handOverSongNumber = createHandOverFunction(setSongNumber) // 曲選択をLyricComponentで持たせることを想定
   const handOverMediaElement = createHandOverFunction(setMediaElement)
-
 
   // Map移動に関しての変数宣言
   const [isMoving, setIsMoving] = useState(false);
@@ -39,7 +45,7 @@ export const GamePage = () => {
     setIsMoving((prevIsMoving) => !prevIsMoving);
   };
   // MapComponentからのホバー情報を受け取る
-  const handOverHoverHistory = (hover : historyProperties) => {
+  const handOverHoverHistory = (hover: historyProperties) => {
     //hoverhistory に追加(重複削除)
     setHoverHistory((prev) => [...new Set([...prev, hover])]);
   }
@@ -56,10 +62,10 @@ export const GamePage = () => {
     handOverBeat: createHandOverFunction(setSongBeat),
     handOverChord: createHandOverFunction(setSongChord),
     handOverChorus: createHandOverFunction(setSongChorus),
-    handOverSongTitle:createHandOverFunction(setSongTitle),
-    handOverSongArtist:createHandOverFunction(setSongArtist),
-    handOverSongLength:createHandOverFunction(setSongLength),
-    handOverPlayTime:createHandOverFunction(setPlayTime),
+    handOverSongTitle: createHandOverFunction(setSongTitle),
+    handOverSongArtist: createHandOverFunction(setSongArtist),
+    handOverSongLength: createHandOverFunction(setSongLength),
+    handOverPlayTime: createHandOverFunction(setPlayTime),
     handOverApp: createHandOverFunction(setApp)
   }
 
@@ -67,36 +73,36 @@ export const GamePage = () => {
   useEffect(() => {
     // 曲選択前または画面描画前のときはエラーが出るのでスキップ
     if (songNumber < 0 || typeof window === 'undefined' || !mediaElement) {
-        return;
-      }
+      return;
+    }
     // 音楽取得処理を作成（値は全てhandOverで取得）
     const { playerListener } = createPlayer(createPlayerContent)
     // 再生終了時
     return () => {
-        console.log('--- [app] shutdown ---');
-        player?.removeListener(playerListener);
-        player?.dispose();
-        };
-    }, [mediaElement])
+      console.log('--- [app] shutdown ---');
+      player?.removeListener(playerListener);
+      player?.dispose();
+    };
+  }, [mediaElement])
 
-// FUNFUN度の計算
+  // FUNFUN度の計算
   return (
     <React.Fragment>
       <div id="display" className="soft-gloss">
         <div id="navi" className="split">
           <div id="map">
             {/* 単語:kashiChar, 熟語:kashiWord, フレーズ:kashiPhrase */}
-            <MapComponent 
+            <MapComponent
               kashi={lyricWord}
-              songnum={songInfo}  
-              isMoving={isMoving} 
+              songnum={songInfo}
+              isMoving={isMoving}
               player={player}
               handOverHover={handOverHoverHistory}
             />
           </div>
           <div id="song">
-            <LyricComponent 
-              songNumber={songNumber} 
+            <LyricComponent
+              songNumber={songNumber}
               songTitle={songTitle}
               songArtist={songArtist}
               playTime={playTime}
@@ -109,22 +115,22 @@ export const GamePage = () => {
           </div>
         </div>
         <div id="history" className="split">
-          <HistoryComponent 
-            lyricChar={lyricChar} 
-            lyricWord={lyricWord} 
+          <HistoryComponent
+            lyricChar={lyricChar}
+            lyricWord={lyricWord}
             lyricPhrase={lyricPhrase}
-            songChord={songChord} 
-            songBeat={songBeat} 
+            songChord={songChord}
+            songBeat={songBeat}
             songChorus={songChorus}
-            songnum={songInfo} 
-            player={player} 
-            hoverHistory={hoverHistory} 
+            songnum={songInfo}
+            player={player}
+            hoverHistory={hoverHistory}
           />
           <button onClick={handleMapMove}>
             {isMoving ? '停止' : '地図を移動'}
           </button>
-          </div>
         </div>
+      </div>
     </React.Fragment>
   );
 }

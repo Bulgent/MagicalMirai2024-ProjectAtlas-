@@ -29,6 +29,7 @@ body {
 
 #navi {
   position: relative;
+  background-color: #fff;
   height: 100%;
   -webkit-flex: 3;
   flex: 3;

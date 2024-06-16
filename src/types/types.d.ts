@@ -14,8 +14,8 @@ type handOverString = (string: string) => void;
 type handOverAny = (chorus: any) => void;
 
 type createPlayerContent = {
-    mediaElement:any
-    songNumber:number
+    mediaElement: any
+    songNumber: number
     handOverPlayer: handOverPlayer
     handOverSongInfo: handOverNumber
     handOverChar: handOverLyric
@@ -24,10 +24,10 @@ type createPlayerContent = {
     handOverBeat: handOverString
     handOverChord: handOverString
     handOverChorus: handOverAny
-    handOverSongTitle:handOverString
-    handOverSongArtist:handOverString
-    handOverSongLength:handOverNumber
-    handOverPlayTime:handOverNumber
+    handOverSongTitle: handOverString
+    handOverSongArtist: handOverString
+    handOverSongLength: handOverNumber
+    handOverPlayTime: handOverNumber
     handOverApp: handOverAny
 }
 
@@ -46,4 +46,13 @@ type historyProperties = {
 type PointProperties = {
     name: string
     coordinates: [number, number]
-  }
+}
+
+type NoteCoordinateProperties = {
+    note: string
+    lyric: string
+    lat: number
+    lng: number
+    start: number
+    end: number
+}
