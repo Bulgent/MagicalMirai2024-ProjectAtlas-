@@ -123,8 +123,9 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
   return [feature_ret, nodes_path_feature, nodes_path]
 }
 
-const getNearestPosition=(lon:number, lat:number, links:Link[], )=>{
+export const getNearestPosition=(lon:number, lat:number, links:Link[], )=>{
   let nearestId:string|null = null;
+  let coordinate:[number, number]=[-1, -1];
   let minDistance = 100000000;
   for(let link of links){
     const [lonLink, latLink] = link.from
@@ -132,12 +133,13 @@ const getNearestPosition=(lon:number, lat:number, links:Link[], )=>{
     if (minDistance > tmpDistance){
       minDistance = tmpDistance
       nearestId = link.from_string
+      coordinate = [lonLink, latLink]
     }
   }
-  return nearestId
+  return [nearestId, coordinate]
 }
 
-export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:number], endCoordinate:[lat:number, lon:number]): [any[],any[]] {
+export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:number], endCoordinate:[lat:number, lon:number]): [any[],any[], [number, number]] {
   // jsonからのデータ成形
   console.log("computing pathway")
   let links:Link[] = [];
@@ -145,8 +147,8 @@ export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:
     links = [...links, ...createLinksFromJson(roadJson)];
   }
   // const links = createLinksFromJson(roads)
-  const start_id = getNearestPosition(startCoordinate[1], startCoordinate[0], links)
-  const end_id = getNearestPosition(endCoordinate[1], endCoordinate[0], links)
+  const [start_id, start_coordinate] = getNearestPosition(startCoordinate[1], startCoordinate[0], links)
+  const [end_id, end_coordinate] = getNearestPosition(endCoordinate[1], endCoordinate[0], links)
   // リンクを格納して計算準備
   const graph = createGraph();
   for (const link of links){
@@ -198,5 +200,5 @@ export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:
   // ノードによる描画を実施
   const [feature_ret, nodes_path_feature, nodes_path] = getFeature(node_results, links)
 
-  return [nodes_path_feature, nodes_path]
+  return [nodes_path_feature, nodes_path, start_coordinate]
 }

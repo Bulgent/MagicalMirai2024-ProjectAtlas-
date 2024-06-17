@@ -23,8 +23,6 @@ import songData from '../utils/Song.ts';
 
 import { PointProperties, lyricProperties, historyProperties } from '../types/types';
 
-import { dataUrlToString } from 'textalive-app-api';
-
 type noteTooltip = {
   fwdLength: number; // 前方の距離
   crtLength: number; // 現在の距離
@@ -35,10 +33,10 @@ type noteTooltip = {
 export const MapComponent = (props: any) => {
   // Mapのための定数
   const startCoordinate: [number, number] = [34.503780572499515, 135.5574936226363];
-  const endCoordinate:[number, number] = [34.6379271092576, 135.4196972135114]
+  const endCoordinate:[number, number] = [34.6379271092576, 135.4196972135114];
   const mapZoom: number = 17; // Mapのzoomについて1が一番ズームアウト
   const roadJsonLst = [trunk, primary, secondary] // 表示する道路について
-  const mapMoveRenderInterval_ms = 20;
+  const [mapCenter, setMapCenter] = useState<[number, number]>([-1, -1])
 
   // React Hooks
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([]);
@@ -66,12 +64,13 @@ export const MapComponent = (props: any) => {
   const [noteCoordinates, setNoteCoordinates] = useState<{ note: string, lyric: string, lat: number, lng: number, start: number, end: number }[]>([]);
 
   // 初回だけ処理
-
+  // mapの初期位置、経路の計算
   useEffect(() => {
-    const [features, nodes] = computePath(roadJsonLst, startCoordinate,endCoordinate);
+    const [features, nodes, mapCenterRet] = computePath(roadJsonLst, startCoordinate,endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
     setRoutePositions(nodes);
     setPathwayFeature(features);
+    setMapCenter([mapCenterRet[1],mapCenterRet[0]]);
   }, []); 
 
   /**
@@ -80,9 +79,11 @@ export const MapComponent = (props: any) => {
   const RemoveMapTextFunction=() => {
     const map = useMap();
     useEffect(() => {
-      if (!isInitMap){
+      if (!isInitMap.current){
         return
       }
+      // mapの初期中心座標の決定
+      map.setView(mapCenter)
       if (layerRef.current) {
         // 読み込みが2段階ある
         if(layerRef.current.getMaplibreMap().getStyle()===undefined){
@@ -140,7 +141,6 @@ export const MapComponent = (props: any) => {
 
       // 道路の長さを取得
       const nodes = routePositions;
-      // const [_, nodes] = computePath();
       let routeLength: noteTooltip[] = [];
       let routeEntireLength = 0.0;
       // それぞれの道路の長さを計算
@@ -226,7 +226,6 @@ export const MapComponent = (props: any) => {
 
 
       // console.log(wordTime)
-      console.log(noteCd)
       setNoteCoordinates(noteCd);
       setIsInitMap(false)
       return () => {
@@ -235,7 +234,7 @@ export const MapComponent = (props: any) => {
 
     }, [props.songnum, props.player?.video.wordCount, isInitMapPlayer, routePositions]);
 
-    return <></>;
+    return null;
   };
 
   /**
@@ -268,7 +267,6 @@ export const MapComponent = (props: any) => {
   const MoveMapByRoute = () => {
     const map = useMap();
     const animationRef = useRef<number | null>(null);
-  
     const loop = useCallback(
       () => {
         if (!props.isMoving) {
@@ -376,7 +374,7 @@ export const MapComponent = (props: any) => {
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
 
-      <MapContainer className='mapcomponent' center={startCoordinate} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
+      <MapContainer className='mapcomponent' center={[-1, -1]} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
 
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
