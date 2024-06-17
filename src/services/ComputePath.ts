@@ -33,7 +33,7 @@ const createLinksFromJson = (json: any):Link[] =>{
   const features = json["features"];
   // それぞれのノードの一致度の正確さを決定
   // 値が大きいとより正確な一致度を計算する（完全一致である必要があるため、高すぎると計算してくれない）
-  const position_accuracy = 7
+  const position_accuracy = 6
   for (let feature of features){
       let {properties, geometry } = feature;
       let { name, type } = properties;

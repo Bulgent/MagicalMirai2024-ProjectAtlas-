@@ -15,7 +15,7 @@ import trunk from '../assets/jsons/map_data/trunk.json'
 import primary from '../assets/jsons/map_data/primary.json'
 import secondary from '../assets/jsons/map_data/secondary.json'
 import points from '../assets/jsons/map_data/points.json'
-import areas from '../assets/jsons/map_data/areas.json'
+import areas from '../assets/jsons/map_data/area.json'
 import weather from '../assets/jsons/map_data/polygons.json'
 
 // songDataの導入
