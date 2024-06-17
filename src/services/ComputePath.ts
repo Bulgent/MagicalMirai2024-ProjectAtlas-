@@ -1,6 +1,5 @@
 import {aStar} from 'ngraph.path';
 import createGraph from 'ngraph.graph';
-import roads from '../assets/jsons/map_data/trunk.json';
 import { calculateDistance, roundWithScale } from '../utils/utils.ts'
 
 /*
@@ -34,7 +33,7 @@ const createLinksFromJson = (json: any):Link[] =>{
   const features = json["features"];
   // それぞれのノードの一致度の正確さを決定
   // 値が大きいとより正確な一致度を計算する（完全一致である必要があるため、高すぎると計算してくれない）
-  const position_accuracy = 3
+  const position_accuracy = 7
   for (let feature of features){
       let {properties, geometry } = feature;
       let { name, type } = properties;
@@ -70,7 +69,6 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
   const feature_ret = []
   const nodes_path:[number, number][] = []
   const nodes_path_json:[number, number][] = []
-  console.log(node_results)
   for (let node_result of node_results){
     const targetIndex2 = links.findIndex(link => {
       return link.link_id === node_result.link_id
@@ -170,10 +168,7 @@ export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:
 
   // 計算結果よりリンクidを取得（描画用の座標に変換するため）
   const node_results:NodeResult[] = []
-  console.log(path_lst)
   // 植木算
-  let check_to_lst = []
-  let check_from_lst = []
   for (let i:number=0; i<= path_lst.length-2; i++){
     const path = path_lst[i]
     const path_next = path_lst[i+1]
@@ -204,29 +199,4 @@ export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:
   const [feature_ret, nodes_path_feature, nodes_path] = getFeature(node_results, links)
 
   return [nodes_path_feature, nodes_path]
-}
-
-/*
-確認用、消しても問題ない
-*/
-function countAndFindDifferences(arr1: any[], arr2: any[]): { count: number, diff: any[] } {
-  const set1 = new Set(arr1);
-  const set2 = new Set(arr2);
-  let count = 0;
-  const diff: any[] = [];
-
-  for (const item of set1) {
-    if (set2.has(item)) {
-      count++;
-    } else {
-      diff.push(item);
-    }
-  }
-
-  for (const item of set2) {
-    if (!set1.has(item)) {
-      diff.push(item);
-    }
-  }
-  return { count, diff };
 }
