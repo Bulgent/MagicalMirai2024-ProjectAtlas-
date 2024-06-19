@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker } from 'react-leaflet';
+import React, { useState, useEffect, useCallback, useRef, useMemo, forwardRef } from 'react';
+import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker, Popup } from 'react-leaflet';
 import { LeafletMouseEvent, marker, Map, point, divIcon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
+import { ComputeAhead } from '../services/ComputeAhead.ts'
 import { seasonType, weatherType, timeType, pointToLayer, mapStyle, polygonStyle, mapStylePathWay } from '../utils/MapStyle.ts'
 import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance ,calculateEachRoadLengthRatio, getRationalPositonIndex} from '../utils/utils.ts'
-
+import "leaflet-rotatedmarker";
 import { svgNote, svgAlien, svgUnicorn } from '../assets/marker/markerSVG.ts'
 
 // 地図データの導入
@@ -21,7 +22,7 @@ import weather from '../assets/jsons/map_data/polygons.json'
 // songDataの導入
 import songData from '../utils/Song.ts';
 
-import { PointProperties, lyricProperties, historyProperties } from '../types/types';
+import { PointProperties, lyricProperties, historyProperties, Ahead } from '../types/types';
 
 type noteTooltip = {
   fwdLength: number; // 前方の距離
@@ -29,6 +30,33 @@ type noteTooltip = {
   crtPosStart: [lat: number, lng: number]; // 現在の座標始まり
   crtPosEnd: [lat: number, lng: number]; // 現在の座標終わり
 };
+
+const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
+  const markerRef = useRef(null);
+
+  const { rotationAngle, rotationOrigin } = props;
+  useEffect(() => {
+    const marker = markerRef.current;
+    if (marker) {
+      marker.setRotationAngle(rotationAngle);
+      marker.setRotationOrigin(rotationOrigin);
+    }
+  }, [rotationAngle, rotationOrigin]);
+
+  return (
+    <Marker
+      ref={(ref) => {
+        markerRef.current = ref;
+        if (forwardRef) {
+          forwardRef.current = ref;
+        }
+      }}
+      {...props}
+    >
+      {children}
+    </Marker>
+  );
+});
 
 export const MapComponent = (props: any) => {
   // Mapのための定数
@@ -44,6 +72,9 @@ export const MapComponent = (props: any) => {
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
   const layerRef = useRef(null);
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
+  const aheadsRef = useRef<Ahead[]>([])
+  const cumulativeAheadRatioRef = useRef<number[]>([])
+
   // const [season, setSeason] = useState<seasonType>(seasonType.SUMMER);
   // const [time, setTime] = useState<timeType>(timeType.MORNING);
   // const [weather, setWeather] = useState<weatherType>(weatherType.SUNNY);
@@ -58,6 +89,28 @@ export const MapComponent = (props: any) => {
   const vector_distance_sum = useRef(0)
   const km_distance_sum = useRef(0)
   const eachRoadLengthRatioRef = useRef<number[]>([])
+
+  // お試しの処理↓
+  const [lat, setLat] = useState(34.503780572499515);
+  const [lon, setLon] = useState(135.5574936226363);
+  const [heading, setHeading] = useState(300);
+
+  const myfun = useCallback(() => {
+    setLat((lat) => lat + 0.00001);
+    setLon((lon) => lon + 0.00001);
+    setHeading((heading) => heading + 5);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      myfun();
+    }, 100);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [myfun]);
+  // お試しの処理↑
+
   // このコンポーネントがレンダリングされた初回だけ処理
 
 
@@ -68,6 +121,10 @@ export const MapComponent = (props: any) => {
   useEffect(() => {
     const [features, nodes, mapCenterRet] = computePath(roadJsonLst, startCoordinate,endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
+    const [aheads, cumulativeAheadRatio] = ComputeAhead(nodes)
+    aheadsRef.current = aheads
+    cumulativeAheadRatioRef.current = cumulativeAheadRatio
+    console.log(cumulativeAheadRatioRef.current)
     setRoutePositions(nodes);
     setPathwayFeature(features);
     setMapCenter([mapCenterRet[1],mapCenterRet[0]]);
@@ -272,7 +329,6 @@ export const MapComponent = (props: any) => {
         if (!props.isMoving) {
           return;
         }
-  
         // 曲の全体における位置を確認
         const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
   
@@ -286,7 +342,11 @@ export const MapComponent = (props: any) => {
             ],
             mapZoom
           );
-  
+
+          // ここにアイコンの情報を入れる
+          const [startAheadIndex, aheadResidue] = getRationalPositonIndex(rationalPlayerPosition, eachRoadLengthRatioRef.current);
+          
+
           animationRef.current = requestAnimationFrame(loop);
         } else {
           cancelAnimationFrame(animationRef.current!);
@@ -419,6 +479,28 @@ export const MapComponent = (props: any) => {
         <AddNotesToMap />
         <MapFunctionUpdate />
         <RemoveMapTextFunction />
+        <RotatedMarker
+        position={[lat, lon]}
+        rotationAngle={heading}
+        rotationOrigin="center"
+        >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5l1 3h4l1-3h3a2 2 0 0 1 2 2z" />
+          <circle cx="12" cy="16" r="1" />
+        </svg>
+        <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+        </Popup>
+      </RotatedMarker>
       </MapContainer>
     </>
   );

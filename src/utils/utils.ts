@@ -217,9 +217,9 @@ export const deg2rad = (deg: number): number => {
   return (deg * Math.PI) / 180.0;
 };
 
-/*
-緯度経度から距離kmに変換
-*/
+/**
+ * 緯度経度から距離kmに変換
+ */
 export const calculateDistance = (from_lonlat: [number, number], to_lonlat:[number, number]):number =>{
   const RX: number = 6378.137; // 回転楕円体の長半径（赤道半径）[km]
   const RY: number = 6356.752; // 回転楕円体の短半径（極半径) [km]

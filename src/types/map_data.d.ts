@@ -33,3 +33,8 @@ declare module '*/map_data/*.json' {
     const value: Data;
     export = value;
   }
+
+  type Ahead = {
+    unit_vector: Vector // 地図における頭の向き
+    distance_km: number // その向きでいる距離
+}
