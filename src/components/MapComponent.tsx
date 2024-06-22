@@ -1,68 +1,123 @@
-import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker } from 'react-leaflet';
+import React, { useState, useEffect, useCallback, useRef, useMemo, forwardRef } from 'react';
+import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker, Popup } from 'react-leaflet';
 import { LeafletMouseEvent, marker, Map, point, divIcon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
+import { ComputeAhead } from '../services/ComputeAhead.ts'
 import { seasonType, weatherType, timeType, pointToLayer, mapStyle, polygonStyle, mapStylePathWay } from '../utils/MapStyle.ts'
-import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance, calculateEachRoadLengthRatio, getRationalPositonIndex } from '../utils/utils.ts'
-import { PointProperties, noteProperties, lyricProperties, historyProperties } from '../types/types';
-
-// SVGデータの導入
+import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance ,calculateEachRoadLengthRatio, getRationalPositonIndex} from '../utils/utils.ts'
+import "leaflet-rotatedmarker";
 import { svgNote, svgAlien, svgUnicorn } from '../assets/marker/markerSVG.ts'
-
+// 型データの導入
+import { PointProperties, lyricProperties, historyProperties ,noteTooltip} from '../types/types';
 // 地図データの導入
 import trunk from '../assets/jsons/map_data/trunk.json'
 import primary from '../assets/jsons/map_data/primary.json'
 import secondary from '../assets/jsons/map_data/secondary.json'
 import points from '../assets/jsons/map_data/points.json'
-import areas from '../assets/jsons/map_data/areas.json'
+import areas from '../assets/jsons/map_data/area.json'
 import sky from '../assets/jsons/map_data/polygons.json'
 
 // songDataの導入
 import songData from '../utils/Song.ts';
 
+const carIcon = divIcon({
+  className: 'car-icon', // カスタムクラス名
+  html: svgUnicorn,  // ここに車のアイコンを挿入する
+  iconSize: [50, 50], // アイコンのサイズ
+  iconAnchor: [25, 50] // アイコンのアンカーポイント
+});
+
+// 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
+// HACK: ファイル分割したい
+const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
+  const markerRef = useRef(null);
+
+  const { rotationAngle, rotationOrigin } = props;
+  useEffect(() => {
+    const marker = markerRef.current;
+    if (marker) {
+      marker.setRotationAngle(rotationAngle);
+      marker.setRotationOrigin(rotationOrigin);
+    }
+  }, [rotationAngle, rotationOrigin]);
+
+  return (
+    <Marker
+      ref={(ref) => {
+        markerRef.current = ref;
+        if (forwardRef) {
+          forwardRef.current = ref;
+        }
+      }}
+      icon={carIcon}
+      {...props}
+    >
+      {children}
+    </Marker>
+  );
+});
+
+
+
 export const MapComponent = (props: any) => {
+  /**
+   * 定数
+   */
   // Mapのための定数
   const startCoordinate: [number, number] = [34.503780572499515, 135.5574936226363];
-  const endCoordinate: [number, number] = [34.6379271092576, 135.4196972135114]
+  const endCoordinate:[number, number] = [34.6379271092576, 135.4196972135114];
   const mapZoom: number = 17; // Mapのzoomについて1が一番ズームアウト
   const roadJsonLst = [trunk, primary, secondary] // 表示する道路について
-  const mapMoveRenderInterval_ms = 20;
+  const [mapCenter, setMapCenter] = useState<[number, number]>([-1, -1])
+  const [latOffset, lonOffset]:[number, number] = [-0.0006, 0] // Mapの中心位置を補正
 
-  // React Hooks
+  /**
+   * React Hooks
+   */
+  // ホバーしたオブジェクトの格納
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([]);
+  // 全ての道を表示（デバッグ用）
   const [routePositions, setRoutePositions] = useState<[number, number][]>([]);
+  // 経路計算結果格納
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
-  const layerRef = useRef(null);
+  // TextAliveより得たデータ
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
+  // OpenStreetMapレイヤー
+  const OSMlayerRef = useRef(null);
+  // 初期化処理のフラグ
+  const [isInitMapPlayer, setIsInitMap] = useState<Boolean>(true);
+  const isInitMap = useRef(true)
+  // 車アイコン
+  const [carMapPosition, setCarMapPosition] = useState<[lat:number, lon:number]>([34, 135])
+  const [heading, setHeading] = useState(300);
+  // 音符配置
+  const [noteCoordinates, setNoteCoordinates] = useState<{ note: string, lyric: string, lat: number, lng: number, start: number, end: number }[]>([]);
+  // 移動処理
+  const eachRoadLengthRatioRef = useRef<number[]>([])
+  const degreeAnglesRef = useRef<number[]>([])
+  const cumulativeAheadRatioRef = useRef<number[]>([])
+
   const [season, setSeason] = useState<number>(seasonType.SUMMER);
   const [time, setTime] = useState<number>(timeType.MORNING);
   const [weather, setWeather] = useState<number>(weatherType.SUNNY);
 
-  const [isInitMapPlayer, setIsInitMap] = useState<Boolean>(true);
-  const lengthKmRef = useRef<number>(-1)
-  const moveSpeedRef = useRef<number>(-1)
-  const isInitPlayer = useRef(true)
-  const isInitMap = useRef(true)
-  const moveManageTimerRef = useRef(0)
-  const vector_distance_sum = useRef(0)
-  const km_distance_sum = useRef(0)
-  const eachRoadLengthRatioRef = useRef<number[]>([])
-  // このコンポーネントがレンダリングされた初回だけ処理
-
-
-  const [noteCoordinates, setNoteCoordinates] = useState<{ note: string, lyric: string, lat: number, lng: number, start: number, end: number }[]>([]);
-
   // 初回だけ処理
-
+  // mapの初期位置、経路の計算
   useEffect(() => {
-    const [features, nodes] = computePath(roadJsonLst, startCoordinate, endCoordinate);
+    const [features, nodes, mapCenterRet] = computePath(roadJsonLst, startCoordinate,endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
+    const [aheads, degreeAngles, cumulativeAheadRatio] = ComputeAhead(nodes)
+    degreeAnglesRef.current = degreeAngles
+    cumulativeAheadRatioRef.current = cumulativeAheadRatio
     setRoutePositions(nodes);
     setPathwayFeature(features);
-  }, []);
+    setMapCenter([mapCenterRet[1]+latOffset,mapCenterRet[0]+lonOffset]);
+    setCarMapPosition([mapCenterRet[1],mapCenterRet[0]])
+    setHeading(300)
+  }, []); 
 
   /**
    * Mapから文字を消す処理
@@ -70,15 +125,17 @@ export const MapComponent = (props: any) => {
   const RemoveMapTextFunction = () => {
     const map = useMap();
     useEffect(() => {
-      if (!isInitMap) {
+      if (!isInitMap.current){
         return
       }
-      if (layerRef.current) {
+      // mapの初期中心座標の決定
+      map.setView(mapCenter)
+      if (OSMlayerRef.current) {
         // 読み込みが2段階ある
-        if (layerRef.current.getMaplibreMap().getStyle() === undefined) {
+        if(OSMlayerRef.current.getMaplibreMap().getStyle()===undefined){
           return
         }
-        const map = layerRef.current.getMaplibreMap();
+        const map = OSMlayerRef.current.getMaplibreMap();
         map.getStyle().layers.forEach(l => {
           if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none")
         });
@@ -96,7 +153,6 @@ export const MapComponent = (props: any) => {
       if (props.songnum == -1 || props.songnum == null || !isInitMapPlayer || routePositions.length === 0) {
         return
       }
-
       // 歌詞の時間を取得
       let wordTemp = props.player.video.firstWord
       // 曲の始まりを追加
@@ -222,15 +278,14 @@ export const MapComponent = (props: any) => {
           }
         });
       });
-      // console.log(wordTime)
-      console.log(noteCd)
       setNoteCoordinates(noteCd);
       setIsInitMap(false)
       return () => {
         console.log("unmount note")
       };
     }, [props.songnum, props.player?.video.wordCount, isInitMapPlayer, routePositions]);
-    return <></>;
+
+    return null;
   };
 
   /**
@@ -262,33 +317,35 @@ export const MapComponent = (props: any) => {
 
   // 通る道の計算
   const MoveMapByRoute = () => {
+
     const map = useMap();
     const animationRef = useRef<number | null>(null);
+    const loop = useCallback(
+      () => {
+        if (!props.isMoving) {
+          return;
+        }
+        // 曲の全体における位置を確認
+        const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
+  
+        if (rationalPlayerPosition < 1) {
+          const [startNodeIndex, nodeResidue] = getRationalPositonIndex(rationalPlayerPosition, eachRoadLengthRatioRef.current);
+          // 中心にセットする座標を計算
+          const updatedLat = routePositions[startNodeIndex][0] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][0] * nodeResidue;
+          const updatedLon = routePositions[startNodeIndex][1] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][1] * nodeResidue;
+          map.setView([updatedLat+latOffset, updatedLon+lonOffset], mapZoom);
 
-    const loop = useCallback(() => {
-      if (!props.isMoving) {
-        return;
-      }
+          // ここにアイコンの情報を入れる
+          const [startAheadIndex, aheadResidue] = getRationalPositonIndex(rationalPlayerPosition, cumulativeAheadRatioRef.current);
+          setCarMapPosition([updatedLat, updatedLon])
+          setHeading(degreeAnglesRef.current[startAheadIndex])
 
-      // 曲の全体における位置を確認
-      const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
-
-      if (rationalPlayerPosition < 1) {
-        const [startNodeIndex, nodeResidue] = getRationalPositonIndex(rationalPlayerPosition, eachRoadLengthRatioRef.current);
-        // 中心にセットする座標を計算
-        map.setView(
-          [
-            routePositions[startNodeIndex][0] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][0] * nodeResidue,
-            routePositions[startNodeIndex][1] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][1] * nodeResidue,
-          ],
-          mapZoom
-        );
-
-        animationRef.current = requestAnimationFrame(loop);
-      } else {
-        cancelAnimationFrame(animationRef.current!);
-      }
-    }, [props.isMoving, props.player]
+          animationRef.current = requestAnimationFrame(loop);
+        } else {
+          cancelAnimationFrame(animationRef.current!);
+        }
+      },
+      [props.isMoving, props.player]
     );
 
     useEffect(() => {
@@ -367,7 +424,9 @@ export const MapComponent = (props: any) => {
     <>
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
-      <MapContainer className='mapcomponent' center={startCoordinate} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
+
+      <MapContainer className='mapcomponent' center={[-1, -1]} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
+
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
@@ -405,12 +464,18 @@ export const MapComponent = (props: any) => {
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
-          ref={layerRef}
+          ref={OSMlayerRef}
         />
         <MoveMapByRoute />
         <AddNotesToMap />
         <MapFunctionUpdate />
         <RemoveMapTextFunction />
+        <RotatedMarker
+          position={carMapPosition}
+          rotationAngle={heading}
+          rotationOrigin="center"
+        >
+        </RotatedMarker>
       </MapContainer>
     </>
   );
