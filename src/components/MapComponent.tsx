@@ -458,11 +458,10 @@ export const MapComponent = (props: any) => {
         <MapFunctionUpdate />
         <RemoveMapTextFunction />
         <RotatedMarker
-        position={carMapPosition}
-        rotationAngle={heading}
-        rotationOrigin="center"
+          position={carMapPosition}
+          rotationAngle={heading}
+          rotationOrigin="center"
         >
-          <img src={svgUnicorn} alt="Marker" style={{ width: '30px' }} />
         </RotatedMarker>
       </MapContainer>
     </>
