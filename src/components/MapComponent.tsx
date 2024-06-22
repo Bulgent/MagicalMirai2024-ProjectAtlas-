@@ -72,7 +72,7 @@ export const MapComponent = (props: any) => {
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
   const layerRef = useRef(null);
   const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
-  const aheadsRef = useRef<Ahead[]>([])
+  const degreeAnglesRef = useRef<number[]>([])
   const cumulativeAheadRatioRef = useRef<number[]>([])
 
   // const [season, setSeason] = useState<seasonType>(seasonType.SUMMER);
@@ -95,20 +95,8 @@ export const MapComponent = (props: any) => {
   const [lon, setLon] = useState(135.5574936226363);
   const [heading, setHeading] = useState(300);
 
-  const myfun = useCallback(() => {
-    setLat((lat) => lat + 0.00001);
-    setLon((lon) => lon + 0.00001);
-    setHeading((heading) => heading + 5);
-  }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      myfun();
-    }, 100);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [myfun]);
+
   // お試しの処理↑
 
   // このコンポーネントがレンダリングされた初回だけ処理
@@ -121,10 +109,9 @@ export const MapComponent = (props: any) => {
   useEffect(() => {
     const [features, nodes, mapCenterRet] = computePath(roadJsonLst, startCoordinate,endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
-    const [aheads, cumulativeAheadRatio] = ComputeAhead(nodes)
-    aheadsRef.current = aheads
+    const [aheads, degreeAngles, cumulativeAheadRatio] = ComputeAhead(nodes)
+    degreeAnglesRef.current = degreeAngles
     cumulativeAheadRatioRef.current = cumulativeAheadRatio
-    console.log(cumulativeAheadRatioRef.current)
     setRoutePositions(nodes);
     setPathwayFeature(features);
     setMapCenter([mapCenterRet[1],mapCenterRet[0]]);
@@ -321,7 +308,15 @@ export const MapComponent = (props: any) => {
     }
   };
 
+  const myfun = useCallback((latChange:number, lonChange:number, headingChange:number) => {
+    setLat(latChange);
+    setLon(lonChange);
+    setHeading(headingChange);
+
+  }, [setLat, setLon, setHeading]);
+
   const MoveMapByRoute = () => {
+    console.log(lat, lon)
     const map = useMap();
     const animationRef = useRef<number | null>(null);
     const loop = useCallback(
@@ -344,8 +339,17 @@ export const MapComponent = (props: any) => {
           );
 
           // ここにアイコンの情報を入れる
-          const [startAheadIndex, aheadResidue] = getRationalPositonIndex(rationalPlayerPosition, eachRoadLengthRatioRef.current);
-          
+          const [startAheadIndex, aheadResidue] = getRationalPositonIndex(rationalPlayerPosition, cumulativeAheadRatioRef.current);
+          console.log(
+            routePositions[startNodeIndex][0] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][0] * nodeResidue,
+            routePositions[startNodeIndex][1] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][1] * nodeResidue,
+            degreeAnglesRef.current[startAheadIndex],
+          )
+          myfun(
+            routePositions[startNodeIndex][0] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][0] * nodeResidue,
+            routePositions[startNodeIndex][1] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][1] * nodeResidue,
+            degreeAnglesRef.current[startAheadIndex],
+          )
 
           animationRef.current = requestAnimationFrame(loop);
         } else {

@@ -19,7 +19,7 @@ type Ahead = {
 /**
  * 道の通過点座標(node)より車の頭の向きを決める
  */
-export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[]] => {
+export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[], number[]] => {
     const lstLength:number = nodes.length
     const unit_vectors: Ahead[] = []
     for (let i=0; i<lstLength-1; i++){
@@ -30,11 +30,18 @@ export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[]] => {
     }
     const aheads = smoothBetweenVectors(unit_vectors, 0.005, 10)
     const cumulativeRatioLst = calculateCumulativeRatio(aheads)
-    return [aheads, cumulativeRatioLst]
+    console.log(aheads)
+    const degreeAngles = aheads.map((x) => {
+        const angle = Math.atan2(x.unit_vector[1], x.unit_vector[0]);
+        return angle * (180 / Math.PI); // ラジアンから度数への変換
+      });
+    return [aheads, degreeAngles, cumulativeRatioLst]
 }
 
 /**
  * comprehendBetweenVectorsを全体に適用する
+ * smooth_distance_km: 補完する距離（km）
+ * smooth_plot_count: 補完する点の数
  */
 const smoothBetweenVectors = (unit_vectors:Ahead[], smooth_distance_km:number, smooth_plot_count:number):Ahead[] => {
     const vrctorCount = unit_vectors.length
