@@ -69,6 +69,7 @@ export const MapComponent = (props: any) => {
   const mapZoom: number = 17; // Mapのzoomについて1が一番ズームアウト
   const roadJsonLst = [trunk, primary, secondary] // 表示する道路について
   const [mapCenter, setMapCenter] = useState<[number, number]>([-1, -1])
+  const [latOffset, lonOffset]:[number, number] = [-0.0006, 0] // Mapの中心位置を補正
 
   /**
    * React Hooks
@@ -109,7 +110,7 @@ export const MapComponent = (props: any) => {
     cumulativeAheadRatioRef.current = cumulativeAheadRatio
     setRoutePositions(nodes);
     setPathwayFeature(features);
-    setMapCenter([mapCenterRet[1],mapCenterRet[0]]);
+    setMapCenter([mapCenterRet[1]+latOffset,mapCenterRet[0]+lonOffset]);
     setCarMapPosition([mapCenterRet[1],mapCenterRet[0]])
     setHeading(300)
   }, []); 
@@ -318,7 +319,7 @@ export const MapComponent = (props: any) => {
           // 中心にセットする座標を計算
           const updatedLat = routePositions[startNodeIndex][0] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][0] * nodeResidue;
           const updatedLon = routePositions[startNodeIndex][1] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][1] * nodeResidue;
-          map.setView([updatedLat, updatedLon], mapZoom);
+          map.setView([updatedLat+latOffset, updatedLon+lonOffset], mapZoom);
 
           // ここにアイコンの情報を入れる
           const [startAheadIndex, aheadResidue] = getRationalPositonIndex(rationalPlayerPosition, cumulativeAheadRatioRef.current);
