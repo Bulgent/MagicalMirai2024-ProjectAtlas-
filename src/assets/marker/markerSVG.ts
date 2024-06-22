@@ -8,3 +8,48 @@ export const svgUnicorn = '<svg id="emoji" viewBox="0 0 72 72" xmlns="http://www
 // 🎵
 export const svgNote = '<svg id="emoji" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><g id="color"><polygon fill="#3F3F3F" stroke="none" points="26.324,22.8117 51.6188,17.5516 51.5493,12.875 26.105,18.5407"/><circle cx="20.7561" cy="51.59" r="5.7867" fill="#3F3F3F" stroke="none"/><circle cx="46.2061" cy="46.0127" r="5.787" fill="#3F3F3F" stroke="none"/></g><g id="hair"/><g id="skin"/><g id="skin-shadow"/><g id="line"><polygon fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" points="51.6188,17.5516 26.1735,23.2225 26.105,18.5407 51.5493,12.875"/><circle cx="20.7563" cy="51.5901" r="5.7868" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><line x1="26.105" x2="26.5431" y1="18.5407" y2="51.5901" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><circle cx="46.2063" cy="46.0129" r="5.7868" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><line x1="51.555" x2="51.9931" y1="12.9635" y2="46.0129" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/></g></svg>';
 
+// 🚗
+export const svgCar = '\
+<svg id="emoji" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">\
+  <g id="color">\
+    <path fill="#ea5a47" stroke="none" d="M64.8,44l-1.1-0.6c-0.4-0.2-0.6-0.6-0.5-1c0.3-1.9,0.5-8.5-9.7-11.5c-0.2-0.1-0.4-0.1-0.6-0.1l-19.6,0.1 c-0.4,0-0.8,0.1-1.1,0.3l-10.3,6.9c-0.2,0.1-0.4,0.2-0.6,0.2c-1.9-0.1-3.7,0.1-5.6,0.4c-5.4,1.1-7.6,4-8.4,5.5 c-0.2,0.3-0.2,0.7-0.2,1c0.1,2.4-1.5,5.1,0.9,7.3l19.4-0.1l20.4-0.5l16.1-0.2c0.9-0.1001,2.4-1.4,2.8-2.2001 C68.4,46.8,65,44.1,64.8,44z"/>\
+    <path fill="#9b9b9a" stroke="none" d="M17.3,46.4c-2.2,0-4,1.8-4,4c0,2.2,1.8,4,4,4s4-1.8,4-4C21.3,48.2,19.5,46.4,17.3,46.4z"/>\
+    <path fill="#9b9b9a" stroke="none" d="M57.1,46.4c-2.2,0-4,1.8-4,4c0,2.2,1.8,4,4,4c2.2,0,4-1.8,4-4C61.1,48.2,59.3,46.4,57.1,46.4z"/>\
+    <path fill="#92d3f5" stroke="none" d="M56.1,39.3V35c0-0.9-0.8-1.7-1.7-1.7l0,0H33.2c-0.1,0-0.2,0-0.2,0.1l-8,5.7c-0.2,0.1-0.2,0.4-0.1,0.6 c0.1,0.1,0.2,0.2,0.3,0.2c5.6,0,27.2-0.2,30.4-0.1C55.9,39.8,56.1,39.6,56.1,39.3C56.1,39.4,56.1,39.4,56.1,39.3z"/>\
+    <polygon fill="#fcea2b" stroke="none" points="8.9,40.5 12.9,42.1 10.8,45 5.8,45.1"/>\
+  </g>\
+  <g id="hair"/>\
+  <g id="skin"/>\
+  <g id="skin-shadow"/>\
+  <g id="line">\
+    <line x1="47.6" x2="27" y1="51" y2="51.4" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>\
+    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.1,51.4 c-0.9-0.2-1.7-0.5-1.8-1c-0.1-1-0.3-3.8-0.3-5.1c0-0.5,0.1-1.1,0.4-1.5c1.1-2,4.8-6.8,14.9-6.4l10.3-6.9c0.5-0.3,1.1-0.5,1.6-0.5 l19.6-0.1c0.3,0,0.6,0,0.9,0.1c2.2,0.6,11.7,4,10.4,12.6l1.1,0.6c0.5,0.2,0.9,0.7,1,1.2c0.4,1.4,0.3,2.9-0.2,4.3"/>\
+    <polyline fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="24.9,39.9 55.1,39.7 55.1,35.2"/>\
+    <circle cx="17.3" cy="50.4" r="5" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>\
+    <circle cx="57.1" cy="50.4" r="5" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>\
+    <polyline fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="12.3,42.9 10.5,45.1 6.8,45"/>\
+  </g>\
+</svg>'
+
+// 🐜
+export const svgAnt = '\
+<svg id="emoji" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">\
+  <g id="color">\
+    <ellipse cx="36" cy="29.7632" rx="6.2632" ry="4.0263" fill="#6a462f"/>\
+    <ellipse cx="36" cy="36.9211" rx="4.4737" ry="2.8759" fill="#6a462f"/>\
+    <ellipse cx="36" cy="50.3421" rx="6.2632" ry="10.2895" fill="#6a462f"/>\
+  </g>\
+  <g id="line">\
+    <polyline fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="31.5263 34.6842 23.4737 31.1053 20.7895 23.9474"/>\
+    <polyline fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="40.4737 34.6842 48.5263 31.1053 51.2105 23.9474"/>\
+    <polyline fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="40.4737 38.2632 50.3158 38.2632 53 35.5789"/>\
+    <polyline fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="31.5263 38.2632 21.6842 38.2632 19 35.5789"/>\
+    <polyline fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="32.4211 40.1579 22.5789 49.1053 23.4737 56.2632"/>\
+    <polyline fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="39.5789 40.1579 50.3158 49.1053 49.4211 56.2632"/>\
+    <polyline fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="33.8377 25.7368 32.6711 22.1579 33.5658 20.3684"/>\
+    <polyline fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="37.7895 25.7368 38.9561 22.1579 38.0614 20.3684"/>\
+    <ellipse cx="36" cy="29.7632" rx="6.2632" ry="4.0263" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>\
+    <ellipse cx="36" cy="36.9211" rx="4.4737" ry="2.8759" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>\
+    <ellipse cx="36" cy="50.3421" rx="6.2632" ry="10.2895" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>\
+  </g>\
+</svg>'
