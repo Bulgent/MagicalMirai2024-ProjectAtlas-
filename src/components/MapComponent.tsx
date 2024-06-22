@@ -18,7 +18,8 @@ import primary from '../assets/jsons/map_data/primary.json'
 import secondary from '../assets/jsons/map_data/secondary.json'
 import points from '../assets/jsons/map_data/points.json'
 import areas from '../assets/jsons/map_data/area.json'
-import weather from '../assets/jsons/map_data/polygons.json'
+import sky from '../assets/jsons/map_data/polygons.json'
+
 // songDataの導入
 import songData from '../utils/Song.ts';
 
@@ -59,6 +60,8 @@ const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
   );
 });
 
+
+
 export const MapComponent = (props: any) => {
   /**
    * 定数
@@ -96,9 +99,10 @@ export const MapComponent = (props: any) => {
   const eachRoadLengthRatioRef = useRef<number[]>([])
   const degreeAnglesRef = useRef<number[]>([])
   const cumulativeAheadRatioRef = useRef<number[]>([])
-  // const [season, setSeason] = useState<seasonType>(seasonType.SUMMER);
-  // const [time, setTime] = useState<timeType>(timeType.MORNING);
-  // const [weather, setWeather] = useState<weatherType>(weatherType.SUNNY);
+
+  const [season, setSeason] = useState<number>(seasonType.SUMMER);
+  const [time, setTime] = useState<number>(timeType.MORNING);
+  const [weather, setWeather] = useState<number>(weatherType.SUNNY);
 
   // 初回だけ処理
   // mapの初期位置、経路の計算
@@ -118,7 +122,7 @@ export const MapComponent = (props: any) => {
   /**
    * Mapから文字を消す処理
    */
-  const RemoveMapTextFunction=() => {
+  const RemoveMapTextFunction = () => {
     const map = useMap();
     useEffect(() => {
       if (!isInitMap.current){
@@ -135,20 +139,18 @@ export const MapComponent = (props: any) => {
         map.getStyle().layers.forEach(l => {
           if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none")
         });
-      isInitMap.current = false
+        isInitMap.current = false
       }
     }, [map]);
     return null;
   }
 
-
   // 👽マーカーの表示(単語によって色を変える)👽 
-
   // TODO 歌詞の長さでの配置にする．
   const AddNotesToMap = () => {
     const map = useMap();
     useEffect(() => {
-      if (props.songnum == -1 || props.songnum == null || !isInitMapPlayer || routePositions.length===0) {
+      if (props.songnum == -1 || props.songnum == null || !isInitMapPlayer || routePositions.length === 0) {
         return
       }
       // 歌詞の時間を取得
@@ -182,7 +184,8 @@ export const MapComponent = (props: any) => {
 
       // 道路の長さを取得
       const nodes = routePositions;
-      let routeLength: noteTooltip[] = [];
+      // const [_, nodes] = computePath();
+      let routeLength: noteProperties[] = [];
       let routeEntireLength = 0.0;
       // それぞれの道路の長さを計算
       for (let i = 0; i < nodes.length - 1; i++) {
@@ -247,13 +250,13 @@ export const MapComponent = (props: any) => {
           className: 'custom-icon', // カスタムクラス名
           html: markerSVG, // SVG アイコンの HTML
           iconSize: [50, 50], // アイコンのサイズ
-          iconAnchor: [25, 50] // アイコンのアンカーポイント
+          iconAnchor: [25, 25] // アイコンのアンカーポイント
         });
 
         // 歌詞の座標に🎵を表示
         const lyricMarker = marker([crtLat, crtLng], { icon: customIcon, opacity: 1 }).addTo(map);
         lyricMarker.bindTooltip(wordTime[index].lyric,
-          { permanent: true, direction: 'bottom', interactive: true, className: "label-note" }).openTooltip();
+          { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note" }).openTooltip();
 
         lyricMarker.on('click', function (e) {
           console.log("click")
@@ -262,14 +265,24 @@ export const MapComponent = (props: any) => {
           const content = tooltip.getContent();
           console.log(content);
         });
-      });
+        map.on('move', function () {
+          // マップの中心座標を取得
+          const center = map.getCenter();
+          // マーカーの座標を取得
+          const markerPos = lyricMarker.getLatLng();
 
+          // マップの中心とマーカーの座標が一致するかどうかを確認（ある程度の誤差を許容）
+          if (center.distanceTo(markerPos) < 20) { // 10px以内の誤差を許容
+            // マーカーをマップから削除
+            map.removeLayer(lyricMarker);
+          }
+        });
+      });
       setNoteCoordinates(noteCd);
       setIsInitMap(false)
       return () => {
         console.log("unmount note")
       };
-
     }, [props.songnum, props.player?.video.wordCount, isInitMapPlayer, routePositions]);
 
     return null;
@@ -302,6 +315,7 @@ export const MapComponent = (props: any) => {
     }
   };
 
+  // 通る道の計算
   const MoveMapByRoute = () => {
 
     const map = useMap();
@@ -333,23 +347,21 @@ export const MapComponent = (props: any) => {
       },
       [props.isMoving, props.player]
     );
-  
+
     useEffect(() => {
       if (props.isMoving) {
         animationRef.current = requestAnimationFrame(loop);
       }
-  
+
       return () => {
         cancelAnimationFrame(animationRef.current!);
       };
     }, [props.isMoving]);
-  
+
     return null;
   };
 
   // 👽歌詞表示コンポーネント👽
-  // コンポーネントとして実行しないと動かない?
-
   const addLyricTextToMap = (map: Map) => {
 
     // console.log(map.getSize(), map.getCenter(), map.getBounds())
@@ -386,7 +398,7 @@ export const MapComponent = (props: any) => {
       // 地図の表示範囲内にランダムに歌詞配置
       const markertext = marker(mapCoordinate, { opacity: 0 });
       // 表示する歌詞
-      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi fade-text to_right", direction: "bottom" })
+      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi fade-text to_right", direction: "center" })
       // 地図に追加
       markertext.addTo(map);
 
@@ -432,10 +444,10 @@ export const MapComponent = (props: any) => {
           style={mapStyle}
         />
         <GeoJSON
-          data={weather as GeoJSON.GeoJsonObject}
+          data={sky as unknown as GeoJSON.GeoJsonObject}
           style={polygonStyle(
             seasonType.SUMMER,
-            timeType.NIGHT,
+            timeType.SUNSET,
             weatherType.SUNNY
           )}
         />
