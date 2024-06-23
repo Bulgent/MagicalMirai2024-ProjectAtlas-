@@ -120,8 +120,10 @@ export const MapComponent = (props: any) => {
   }, []); 
 
   /**
-   * Mapから文字を消す処理
+   * Mapから文字を消す処理  
+   * 
    */
+  // TODO: mapの初期スタイルも導入
   const RemoveMapTextFunction = () => {
     const map = useMap();
     useEffect(() => {
