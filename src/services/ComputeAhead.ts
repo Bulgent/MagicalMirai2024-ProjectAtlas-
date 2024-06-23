@@ -16,6 +16,21 @@ type Ahead = {
 }
 
 
+const calculateAngle = (x: number, y: number): number => {
+    // Math.atan2(y, x) は、ベクトル (x, y) のラジアンでの角度を返します
+    let radians: number = Math.atan2(-y, x);
+    
+    // ラジアンを度数法に変換します
+    let degrees: number = radians * (180 / Math.PI);
+    
+    // 負の角度を正確に変換して、0度〜360度の範囲にします
+    if (degrees < 0) {
+        degrees += 360;
+    }
+    
+    return degrees;
+};
+
 /**
  * 道の通過点座標(node)より車の頭の向きを決める
  */
@@ -32,8 +47,7 @@ export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[], number[]] => {
     const cumulativeRatioLst = calculateCumulativeRatio(aheads)
     console.log(aheads)
     const degreeAngles = aheads.map((x) => {
-        const angle = Math.atan2(x.unit_vector[1], x.unit_vector[0]);
-        return angle * (180 / Math.PI); // ラジアンから度数への変換
+        return calculateAngle(x.unit_vector[1], x.unit_vector[0]);
       });
     return [aheads, degreeAngles, cumulativeRatioLst]
 }
