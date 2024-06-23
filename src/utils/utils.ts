@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import songData from './Song.ts'
 
 // 👽歌詞の種類を判別するための正規表現👽
 const hiraganaRegex = /^[ぁ-ん]+$/;
@@ -308,3 +309,6 @@ export const changeColor = (startHex:string, endHex:string, progress:number) => 
   const color = rgbToHex(r, g, b);
   return color
 }
+export const getImage = (songNumber : number): string => {
+  return new URL(`../assets/images/jacket/${songData[songNumber].jacketName}`, import.meta.url).href;
+};

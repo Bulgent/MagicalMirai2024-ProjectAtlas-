@@ -1,0 +1,138 @@
+/* 曲コントロール */
+.mediacircle {
+    display: flex;
+    height: 20vh;
+    width: 90%;
+    border: 20px solid;
+    /* paddig: 0.1em, 0.1em, 0.1em, 0.1em; */
+    border-radius: 15px;
+    /* border-width: 10px; */
+    border-color: #e12885;
+    position: absolute;
+    z-index: 1000000000000000000;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+}
+
+/* 曲情報表示 */
+.media-seek {
+    /* margin: 0.8em; */
+    width: 100%;
+    /* display: flex; */
+    border: 1px solid;
+    /* border-radius: 15px; */
+    background: #373b3e;
+    /* mix-blend-mode: multiply	; */
+    /* clip-path: inset(0px round 0px); */
+    /* align-items: center; */
+    position: relative;
+}
+
+/* ジャケット */
+.media-jacket {
+    height: 100%;
+}
+.jacketpic {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: left;
+    border: 0px;
+}
+
+.transparent {
+    position: relative;
+    /* 基準位置とする */
+}
+
+.transparent::before {
+    content: "";
+    /* 疑似要素に必須 */
+    width: 110%;
+    /* 幅いっぱい */
+    height: 100%;
+    /* 高さいっぱい */
+    display: block;
+    /* 高さを指定するためにブロック要素にする */
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, #373b3e 60%);
+    /* 徐々に透明にする */
+    position: absolute;
+    /*  */
+    top: 0;
+    left: 0;
+}
+
+/* 曲情報 */
+.media-info {
+    margin: 0.8em 1em 0.8em 10em;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.media-jacket,
+.media-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* タイトルとアーティスト */
+.title-artist {
+    display: flex;
+    text-align: bottom;
+}
+
+.songtitle {
+    font-size: 4vh;
+    color: #fff;
+    margin-right: 20px;
+}
+
+.songartist {
+    font-size: 3vh;
+    color: #fff;
+    margin-top: 10px;
+    display: table-cell;
+    text-align: center;
+}
+
+
+
+.playartist {
+    display: table;
+    width: 90%;
+    /* overflow: hidden; */
+}
+
+.time {
+    font-size: 2.5vh;
+    color: #fff;
+    display: table-cell;
+    text-align: left;
+}
+
+.controls{
+    /* display: flex; */
+    position: absolute;
+    left: 0;
+    width: 95%;
+}
+
+.songcontrol {
+    display: flex;
+}
+
+.pausebutton {
+    font-size: smaller;
+    width: 10%;
+}
+
+.seekbar {
+    font-size: 1vh;
+    width: 80%;
+}

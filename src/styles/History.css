@@ -1,0 +1,35 @@
+
+.kashihistory {
+    font-size: 200%;
+    color: #fff;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align:justify;
+    text-align-last:justify;
+    background-color: blue;
+    height: 100%;
+    writing-mode: vertical-rl;
+    /* text-orientation: sideways; */
+    /* transfor14m: translate(-48%, -50%) rotate(90deg); */
+    flex :2;
+    /* transform: rotate(90deg); */
+  }
+  
+  .debughistory{
+    flex: 8;
+    overflow: hidden;
+  }
+  
+  .hoverhistory {
+    background-color: gray;
+    border-color: #e12885;
+    border-width: 2px;
+    border-radius: 15px;
+    padding: .5em;
+    margin: .5em;
+    color: #fff;
+    font-size: 100%;
+    overflow: hidden;
+    animation: fadeInSlideDown 1s ease forwards;
+  }
+  

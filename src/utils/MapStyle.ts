@@ -1,58 +1,64 @@
-import { StyleFunction, LatLngExpression, circleMarker } from 'leaflet';
+import { StyleFunction, LatLngExpression, circleMarker, divIcon, marker } from 'leaflet';
+import { svgBuil } from '../assets/marker/markerSVG.ts'
 
+const circleMarkerOptions = {
+    radius: 10,
+    fillColor: 'white',
+    color: 'red',
+    weight: 2,
+    fillOpacity: 1,
+};
 
 // pointデータを図形として表現
 export const pointToLayer = (feature: any, latlng: LatLngExpression) => {
-    const circleMarkerOptions = {
-        radius: 10,
-        fillColor: 'white',
-        color: 'red',
-        weight: 2,
-        fillOpacity: 1,
-    };
-    const marker = circleMarker(latlng, circleMarkerOptions);
-  
+    const builIcon = divIcon({
+        className: 'buil-icon', // カスタムクラス名
+        html: svgBuil,  // ここに車のアイコンを挿入する
+        iconSize: [50, 50], // アイコンのサイズ
+        iconAnchor: [25, 25] // アイコンのアンカーポイント
+    });
+    // const marker = circleMarker(latlng, circleMarkerOptions);
+    const builMarker = marker(latlng, { icon: builIcon, opacity: 1 })
     // ホバー時のイベントハンドラ
     const onHover = (e: L.LeafletMouseEvent) => {
-      const hoveredMarker = e.target;
-      hoveredMarker.setStyle({
-        fillColor: 'yellow', // ホバー時の色
-      });
-      // ツールチップ表示
-      hoveredMarker.bindTooltip(feature.properties.name, { permanent: true, direction: 'top' }).openTooltip();
-      
+        const hoveredMarker = e.target;
+        //   hoveredMarker.setStyle({
+        //     fillColor: 'yellow', // ホバー時の色
+        //   });
+        // ツールチップ表示
+        hoveredMarker.bindTooltip(feature.properties.name, { permanent: true, direction: 'top' }).openTooltip();
     };
-  
+
     // ホバーが解除された時のイベントハンドラ
     // const onHoverOut = (e: L.LeafletMouseEvent) => {
     //   const hoveredMarker = e.target;
     //   hoveredMarker.setStyle(circleMarkerOptions); // 元のスタイルに戻す
     // };
-  
+
     // イベントリスナーを追加
-    marker.on('mouseover', onHover);
+    builMarker.on('mouseover', onHover);
     // marker.on('mouseout', onHoverOut);
-    return marker;
+    return builMarker;
 };
 
 // line, polygonデータを図形として表現
 export const mapStyle: StyleFunction = (feature) => {
     switch (feature?.geometry?.type) {
         case 'MultiLineString':
-        return {
-            color: '#99abc2',
-            weight: 10,
-        };
+            return {
+                color: '#99abc2',
+                weight: 10,
+            };
         case 'MultiPolygon':
-        return {
-            fillColor: '#90dbee', // 海の色
-            weight: 2,
-            opacity: 0.5,
-            color: '#90dbee',
-            fillOpacity: 1,
-        };
+            return {
+                fillColor: '#90dbee', // 海の色
+                weight: 2,
+                opacity: 0.5,
+                color: '#90dbee',
+                fillOpacity: 1,
+            };
         default:
-        return {};
+            return {};
     }
 };
 
@@ -106,7 +112,7 @@ function addHexColors(hex1: string, hex2: string): string {
 }
 
 // 日本の天気
-export const polygonStyle = (season : number, time : number, weather : number) => {
+export const polygonStyle = (season: number, time: number, weather: number) => {
     // console.log(season, time, weather)
     let seasonColor = '';
     let timeColor = '';
@@ -179,12 +185,12 @@ export const polygonStyle = (season : number, time : number, weather : number) =
 export const mapStylePathWay: StyleFunction = (feature) => {
     switch (feature?.geometry?.type) {
         case 'MultiLineString':
-        return {
-            color: 'blue',
-            weight: 5,
-            opacity: 0.5,
-        };
+            return {
+                color: 'blue',
+                weight: 5,
+                opacity: 0.5,
+            };
         default:
-        return {};
+            return {};
     }
 };

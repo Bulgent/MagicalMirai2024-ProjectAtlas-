@@ -3,6 +3,7 @@ import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker, Popup } from 'r
 import L, { LeafletMouseEvent, marker, Map, point, divIcon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
+import '../styles/Lyrics.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { ComputeAhead } from '../services/ComputeAhead.ts'
@@ -10,7 +11,7 @@ import { seasonType, weatherType, timeType, pointToLayer, mapStyle, polygonStyle
 import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance, 
          calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor} from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
-import { svgNote, svgAlien, svgUnicorn, svgCar } from '../assets/marker/markerSVG.ts'
+import { pngCar, svgNote, svgAlien, svgUnicorn, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
 // 型データの導入
 import { PointProperties, lyricProperties, historyProperties, noteTooltip } from '../types/types';
 // 地図データの導入
@@ -27,7 +28,7 @@ import { Progress } from 'semantic-ui-react';
 
 const carIcon = divIcon({
   className: 'car-icon', // カスタムクラス名
-  html: svgCar,  // ここに車のアイコンを挿入する
+  html: pngCar,  // ここに車のアイコンを挿入する
   iconSize: [50, 50], // アイコンのサイズ
   iconAnchor: [25, 50] // アイコンのアンカーポイント
 });
@@ -62,18 +63,17 @@ const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
   );
 });
 
-
-
 export const MapComponent = (props: any) => {
   /**
    * 定数
    */
   // Mapのための定数
-  const endCoordinate:[number, number] = [34.6379271092576, 135.4196972135114];
+  const startCoordinate: [number, number] = [34.503780572499515, 135.5574936226363];
+  const endCoordinate: [number, number] = [34.6379271092576, 135.4196972135114];
   const mapZoom: number = 17; // Mapのzoomについて1が一番ズームアウト
   const roadJsonLst = [trunk, primary, secondary] // 表示する道路について
-  const mapCenterRef = useRef<[number, number]>([-1, -1]);
-  const [latOffset, lonOffset]:[number, number] = [-0.0006, 0] // Mapの中心位置を補正
+  const [mapCenter, setMapCenter] = useState<[number, number]>([-1, -1])
+  const [latOffset, lonOffset]: [number, number] = [-0.0006, 0] // Mapの中心位置を補正
 
   /**
    * React Hooks
@@ -81,7 +81,7 @@ export const MapComponent = (props: any) => {
   // ホバーしたオブジェクトの格納
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([]);
   // 全ての道を表示（デバッグ用）
-  const nodesRef = useRef<[lat:number, lon:number][]>([]);
+  const [routePositions, setRoutePositions] = useState<[number, number][]>([]);
   // 経路計算結果格納
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
   // TextAliveより得たデータ
@@ -92,7 +92,7 @@ export const MapComponent = (props: any) => {
   const [isInitMapPlayer, setIsInitMap] = useState<Boolean>(true);
   const isInitMap = useRef(true)
   // 車アイコン
-  const [carMapPosition, setCarMapPosition] = useState<[lat:number, lon:number]>([-1, -1])
+  const [carMapPosition, setCarMapPosition] = useState<[lat: number, lon: number]>([34, 135])
   const [heading, setHeading] = useState(300);
   // 音符配置
   const [noteCoordinates, setNoteCoordinates] = useState<{ note: string, lyric: string, lat: number, lng: number, start: number, end: number }[]>([]);
@@ -108,18 +108,18 @@ export const MapComponent = (props: any) => {
 
   // 初回だけ処理
   // mapの初期位置、経路の計算
-  const computePathway = () =>{
-    const [features, nodes, mapCenterRet] = computePath(roadJsonLst, songData[props.songnum].startPosition ,endCoordinate);
+  useEffect(() => {
+    const [features, nodes, mapCenterRet] = computePath(roadJsonLst, startCoordinate, endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
     const [aheads, degreeAngles, cumulativeAheadRatio] = ComputeAhead(nodes)
     degreeAnglesRef.current = degreeAngles
     cumulativeAheadRatioRef.current = cumulativeAheadRatio
-    nodesRef.current = nodes
+    setRoutePositions(nodes);
     setPathwayFeature(features);
-    mapCenterRef.current = [mapCenterRet[1]+latOffset,mapCenterRet[0]+lonOffset];
-    setCarMapPosition([mapCenterRet[1],mapCenterRet[0]])
+    setMapCenter([mapCenterRet[1] + latOffset, mapCenterRet[0] + lonOffset]);
+    setCarMapPosition([mapCenterRet[1], mapCenterRet[0]])
     setHeading(300)
-  }
+  }, []);
 
   /**
    * Mapから文字を消す処理  
@@ -133,7 +133,7 @@ export const MapComponent = (props: any) => {
         return
       }
       // mapの初期中心座標の決定
-      map.setView(mapCenterRef.current)
+      map.setView(mapCenter)
       if (OSMlayerRef.current) {
         // 読み込みが2段階ある
         if (OSMlayerRef.current.getMaplibreMap().getStyle() === undefined) {
@@ -144,11 +144,11 @@ export const MapComponent = (props: any) => {
         map.getStyle().layers.forEach(l => {
           if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none") // 文字を消す
           // 水の色を変更
-          if (["waterway", "water"].includes(l.id) && l.type==="fill"){
+          if (["waterway", "water"].includes(l.id) && l.type === "fill") {
             map.setPaintProperty(l.id, "fill-color", "#90dbee")
           }
           // 道路の色を変更
-          if (l["source-layer"]==="transportation" && l.type==="line"){
+          if (l["source-layer"] === "transportation" && l.type === "line") {
             map.setPaintProperty(l.id, "line-color", "#8995a2")
           }
         });
@@ -161,13 +161,10 @@ export const MapComponent = (props: any) => {
   // 👽マーカーの表示(単語によって色を変える)👽 
   const AddNotesToMap = () => {
     const map = useMap();
-
     useEffect(() => {
-      if (props.songnum === -1 || !isInitMapPlayer) {
+      if (props.songnum == -1 || props.songnum == null || !isInitMapPlayer || routePositions.length === 0) {
         return
       }
-      computePathway()
-      map.setView(mapCenterRef.current, mapZoom)
       // 歌詞の時間を取得
       let wordTemp = props.player.video.firstWord
       // 曲の始まりを追加
@@ -198,7 +195,7 @@ export const MapComponent = (props: any) => {
       })
 
       // 道路の長さを取得
-      const nodes = nodesRef.current;
+      const nodes = routePositions;
       // const [_, nodes] = computePath();
       let routeLength: noteProperties[] = [];
       let routeEntireLength = 0.0;
@@ -240,11 +237,11 @@ export const MapComponent = (props: any) => {
         switch (index) {
           case 0: // 最初
             markerString = "👽"
-            markerSVG = svgAlien
+            markerSVG = svgStart
             break;
           case wordCount + 1: // 最後
             markerString = "🦄"
-            markerSVG = svgUnicorn
+            markerSVG = svgGoal
             break;
           default: // それ以外
             markerString = songData[props.songnum].note
@@ -286,7 +283,7 @@ export const MapComponent = (props: any) => {
           // 正規表現を使用して数字を抽出
           const noteTime = noteClass.match(/\d+/g);
           // マーカーの時間が現在の再生時間よりも前である場合、マーカーを削除します。
-          if (noteTime && noteTime[0] <= props.player.timer.position) {
+          if (noteTime && noteTime[0] != 0 && noteTime[0] != props.player.video.duration && noteTime[0] <= props.player.timer.position) {
             map.removeLayer(lyricMarker);
           }
         }, 250); // 250ミリ秒ごとに実行
@@ -296,7 +293,7 @@ export const MapComponent = (props: any) => {
       return () => {
         console.log("unmount note")
       };
-    }, [props.songnum, props.player?.video.wordCount, isInitMapPlayer, nodesRef.current]);
+    }, [props.songnum, props.player?.video.wordCount, isInitMapPlayer, routePositions]);
 
     return null;
   };
@@ -344,9 +341,9 @@ export const MapComponent = (props: any) => {
         if (rationalPlayerPosition < 1) {
           const [startNodeIndex, nodeResidue] = getRationalPositonIndex(rationalPlayerPosition, eachRoadLengthRatioRef.current);
           // 中心にセットする座標を計算
-          const updatedLat = nodesRef.current[startNodeIndex][0] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][0] * nodeResidue;
-          const updatedLon = nodesRef.current[startNodeIndex][1] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][1] * nodeResidue;
-          map.setView([updatedLat+latOffset, updatedLon+lonOffset], mapZoom);
+          const updatedLat = routePositions[startNodeIndex][0] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][0] * nodeResidue;
+          const updatedLon = routePositions[startNodeIndex][1] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][1] * nodeResidue;
+          map.setView([updatedLat + latOffset, updatedLon + lonOffset], mapZoom);
 
           // ここにアイコンの情報を入れる
           const [startAheadIndex, aheadResidue] = getRationalPositonIndex(rationalPlayerPosition, cumulativeAheadRatioRef.current);
@@ -383,7 +380,7 @@ export const MapComponent = (props: any) => {
       if (props.kashi.text == "" || props.kashi == songKashi) {
         return
       }
-      // console.log(noteCoordinates)
+      console.log(noteCoordinates)
       // TODO ナビゲーションの移動方向によってスライド方向を変える
       // TODO noteCoordinatesで歌詞の表示位置を変える
       setKashi(props.kashi)
@@ -396,22 +393,25 @@ export const MapComponent = (props: any) => {
       printKashi += "</div>";
       // console.log(printKashi);
       // 歌詞を表示する座標をランダムに決定
-      const conversionFactor = [0.0, 0.0];
-      // 座標の範囲を調整
-      const adjustedNorth = map.getBounds().getNorth() - conversionFactor[0];
-      const adjustedSouth = map.getBounds().getSouth() + conversionFactor[0];
-      const adjustedEast = map.getBounds().getEast() - conversionFactor[1];
-      const adjustedWest = map.getBounds().getWest() + conversionFactor[1];
+      // const conversionFactor = [0.0, 0.0];
+      // // 座標の範囲を調整
+      // const adjustedNorth = map.getBounds().getNorth() - conversionFactor[0];
+      // const adjustedSouth = map.getBounds().getSouth() + conversionFactor[0];
+      // const adjustedEast = map.getBounds().getEast() - conversionFactor[1];
+      // const adjustedWest = map.getBounds().getWest() + conversionFactor[1];
 
-      // 調整された範囲を使用してランダムな座標を生成
-      const mapCoordinate: [number, number] = [
-        Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
-        Math.random() * (adjustedEast - adjustedWest) + adjustedWest
-      ];
+      // // 調整された範囲を使用してランダムな座標を生成
+      // const mapCoordinate: [number, number] = [
+      //   Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
+      //   Math.random() * (adjustedEast - adjustedWest) + adjustedWest
+      // ];
+      const randomNumber = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
+      document.documentElement.style.setProperty('--random-number', randomNumber.toString());
+      const mapCoordinate: [number, number] = [map.getCenter().lat - latOffset, map.getCenter().lng - lonOffset]
       // 地図の表示範囲内にランダムに歌詞配置
       const markertext = marker(mapCoordinate, { opacity: 0 });
       // 表示する歌詞
-      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi fade-text to_right", direction: "center" })
+      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi fade-text to_right", direction: "center"})
       // 地図に追加
       markertext.addTo(map);
 
@@ -526,9 +526,7 @@ export const MapComponent = (props: any) => {
     <>
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
-
       <MapContainer className='mapcomponent' center={[-1, -1]} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
-
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}

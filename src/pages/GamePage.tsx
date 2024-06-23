@@ -1,4 +1,6 @@
 import '../styles/App.css';
+import '../styles/Game.css';
+import '../styles/Map.css';
 import React from 'react';
 import { Player } from 'textalive-app-api';
 import { useState, useEffect } from "react"
@@ -12,7 +14,7 @@ import { createHandOverFunction } from "../utils/utils.ts"
 
 export const GamePage = () => {
   // 開発環境について
-  const isDevelopment: boolean = process.env.NODE_ENV === 'development';
+  // const isDevelopment: boolean = process.env.NODE_ENV === 'development';
   // welcomePageからの情報取得
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);

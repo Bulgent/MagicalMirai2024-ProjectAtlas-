@@ -1,0 +1,201 @@
+/* 歌詞のスタイル(important付けないと他のが優先されりゅ) */
+.label-kashi {
+  background-color: transparent !important;
+  border: 0px !important;
+  box-shadow: none !important;
+  font-size: 200% !important;
+  /* animation: fadeIn 0.255s ease;
+  transition: transform 1s ease; */
+  /* transform: translate(0px, 0px); */
+  /* animation: fadeInSlideUp 2s ease-in-out none */
+}
+
+/* 歌詞のアニメーションを司る */
+.tooltip-lyric {
+  animation-name: fadeInSlideRight;
+  /* アニメーション名 */
+  animation-duration: 0.5s;
+  /* アニメーションの持続時間 */
+  animation-fill-mode: forwards;
+  /* アニメーション完了後の状態を保持 */
+  animation-iteration-count: 1;
+  /* アニメーションを1回だけ実行 */
+
+}
+
+/* 歌詞の色（ミク） */
+.hiragana.miku {
+  color: #373b3e !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+.katakana.miku {
+  color: #137a7f !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+.kanji.miku {
+  color: #e12885 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 120% !important;
+}
+
+.english.miku {
+  color: #137a7f !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 120% !important;
+}
+
+.number.miku {
+  color: #137a7f !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 150% !important;
+}
+
+.symbol.miku {
+  color: #373b3e !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+.space.miku {
+  color: #373b3e !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+.other.miku {
+  color: #373b3e !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+/* 歌詞の色（レン） */
+.hiragana.len {
+  color: #555658 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+.katakana.len {
+  color: #2b90a2 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+.kanji.len {
+  color: #ffd98c !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 120% !important;
+}
+
+.english.len {
+  color: #2b90a2 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 120% !important;
+}
+
+.number.len {
+  color: #2b90a2 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 150% !important;
+}
+
+.symbol.len {
+  color: #555658 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+.space.len {
+  color: #555658 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+.other.len {
+  color: #555658 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+/* ISSUE:既存のtranslate3dがあとに実行されてしまうので，座標がおかしくなる */
+@keyframes fadeInSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+@keyframes fadeInSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+@keyframes fadeInSlideRight {
+  0% {
+    opacity: 0.5;
+    transform: translateX(00%);
+    transform: translateY(00%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(calc(var(--random-number) * 1%));
+    /* transform: translateY(100%); */
+    /* animation-play-state: paused; */
+    /* calc(var(--random-number) * 1%)) */
+  }
+}
+
+@keyframes fadeInSlideLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
