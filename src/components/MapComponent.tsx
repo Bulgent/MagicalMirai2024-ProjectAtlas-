@@ -119,8 +119,10 @@ export const MapComponent = (props: any) => {
   }
 
   /**
-   * Mapから文字を消す処理
+   * Mapから文字を消す処理  
+   * 
    */
+  // TODO: mapの初期スタイルも導入
   const RemoveMapTextFunction = () => {
     const map = useMap();
     useEffect(() => {
@@ -135,8 +137,17 @@ export const MapComponent = (props: any) => {
           return
         }
         const map = OSMlayerRef.current.getMaplibreMap();
+        // ここでスタイルを変更
         map.getStyle().layers.forEach(l => {
-          if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none")
+          if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none") // 文字を消す
+          // 水の色を変更
+          if (["waterway", "water"].includes(l.id) && l.type==="fill"){
+            map.setPaintProperty(l.id, "fill-color", "#90dbee")
+          }
+          // 道路の色を変更
+          if (l["source-layer"]==="transportation" && l.type==="line"){
+            map.setPaintProperty(l.id, "line-color", "#8995a2")
+          }
         });
         isInitMap.current = false
       }
@@ -431,18 +442,6 @@ export const MapComponent = (props: any) => {
           style={mapStyle}
         />
         <GeoJSON
-          data={trunk as GeoJSON.GeoJsonObject}
-          style={mapStyle}
-        />
-        <GeoJSON
-          data={primary as GeoJSON.GeoJsonObject}
-          style={mapStyle}
-        />
-        <GeoJSON
-          data={secondary as GeoJSON.GeoJsonObject}
-          style={mapStyle}
-        />
-        <GeoJSON
           data={sky as unknown as GeoJSON.GeoJsonObject}
           style={polygonStyle(
             seasonType.SUMMER,
@@ -459,7 +458,7 @@ export const MapComponent = (props: any) => {
             });
           }}
         />
-        <PathWay />
+        {/* <PathWay /> */}
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得

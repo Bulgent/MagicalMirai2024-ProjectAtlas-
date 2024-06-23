@@ -45,10 +45,10 @@ export const mapStyle: StyleFunction = (feature) => {
         };
         case 'MultiPolygon':
         return {
-            fillColor: '#90dbee',
+            fillColor: '#90dbee', // 海の色
             weight: 2,
             opacity: 0.5,
-            color: 'gray',
+            color: '#90dbee',
             fillOpacity: 1,
         };
         default:
