@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo, forwardRef } from 'react';
 import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker, Popup } from 'react-leaflet';
-import L, { LeafletMouseEvent, marker, Map, point, divIcon, geoJSON } from 'leaflet';
+import L, { LeafletMouseEvent, marker, Map, point, divIcon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
@@ -433,114 +433,93 @@ export const MapComponent = (props: any) => {
     props.handOverHover(e.sourceTarget.feature)
   }
 
-
   /**
-   * 間奏中のオーバーレイの変更
+   * 間奏中に色が変わるオーバーレイのレイヤ
    */
-  const turnOverlayAnimation = () => {
-    if (!props.isMoving) {
-      return;
-    }
-    const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
-    const turningStantPoint1To2 = songData[props.songnum].turningPoint1![0] / props.player.video.duration;
-    const turningEndPoint1To2 = songData[props.songnum].turningPoint1![1] / props.player.video.duration;
-    const turningStantPoint2To3 = songData[props.songnum].turningPoint2![0] / props.player.video.duration;
-    const turningEndPoint2To3 = songData[props.songnum].turningPoint2![1] / props.player.video.duration;
+  const UpdatingOverlayLayer = () => {
+    const overlayOpacity = 0.5
+    // 曲を3区切りにした際のオーバーレイの色
     const style1 = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY).fillColor;
     const style2 = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY).fillColor;
     const style3 = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY).fillColor;
-    let progress;
-    if (
-      rationalPlayerPosition >= turningStantPoint1To2 &&
-      rationalPlayerPosition < turningEndPoint1To2
-    ) {
-      var states = [{
-        "type": "Feature",
-        "properties": {"party": "Republican"},
-        "geometry": {
-            "type": "Polygon",
-            "coordinates": [[
-                [-104.05, 48.99],
-                [-97.22,  48.98],
-                [-96.58,  45.94],
-                [-104.03, 45.94],
-                [-104.05, 48.99]
-            ]]
-        }
-    }, {
-        "type": "Feature",
-        "properties": {"party": "Democrat"},
-        "geometry": {
-            "type": "Polygon",
-            "coordinates": [[
-                [-109.05, 41.00],
-                [-102.06, 40.99],
-                [-102.03, 36.99],
-                [-109.04, 36.99],
-                [-109.05, 41.00]
-            ]]
-        }
-    }];
-      console.log(
-        L.geoJSON(
-          states,
-          // {
-          //   style:{
-          //     fillColor: "#ffffff",
-          //     opacity: 0.5
-          //   }
-          // }
-        )
-      )
-      const layer = overlayGeoJsonRef.current;
-      progress = (rationalPlayerPosition - turningStantPoint1To2) / (turningEndPoint1To2 - turningStantPoint1To2);
-      layer.clearLayers();
-      overlayGeoJsonRef.current.addData(
-        L.geoJSON(
-          states,
+    const updateLayer = (layer, hexColor, overlayOpacity) =>{
+      if (layer) {
+        layer.clearLayers().addData(sky)
+        layer.setStyle(
           {
-            style:{
-              fillColor: changeColor(style1, style2, progress),
-              opacity: 0.5
-            }
+            fillColor: hexColor,
+            fillOpacity: overlayOpacity,
           }
         )
-      )
-      console.log(overlayGeoJsonRef.current)
-
-      setOverlayStyle(changeColor(style1, style2, progress));
-    } else if (
-      rationalPlayerPosition >= turningEndPoint1To2 &&
-      rationalPlayerPosition < turningStantPoint2To3
-    ) {
-      setOverlayStyle(style2);
-    } else if (
-      rationalPlayerPosition >= turningStantPoint2To3 &&
-      rationalPlayerPosition < turningEndPoint2To3
-    ) {
-      progress = (rationalPlayerPosition - turningStantPoint2To3) / (turningEndPoint2To3 - turningStantPoint2To3);
-      setOverlayStyle(changeColor(style2, style3, progress));
-    } else if (rationalPlayerPosition >= turningEndPoint2To3) {
-      setOverlayStyle(style3);
-    } else {
-      setOverlayStyle(style1);
+      }
     }
-  
-    turnOverlayAnimationRef.current = requestAnimationFrame(turnOverlayAnimation);
-  };
-  // オーバーレイ変更のためのトリガー
-  const turnOverlayAnimationRef = useRef<number | null>(null);
-  const overlayGeoJsonRef = useRef<GeoJSON | null>(null);
-  useEffect(() => {
-    if (props.isMoving) {
-      turnOverlayAnimation();
-    } else {
-      cancelAnimationFrame(turnOverlayAnimationRef.current!);
-    }
-    return () => {
-      cancelAnimationFrame(turnOverlayAnimationRef.current!);
+    const turnOverlayAnimation = () => {
+      if (!props.isMoving) {
+        return;
+      }
+      const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
+      const turningStantPoint1To2 = songData[props.songnum].turningPoint1![0] / props.player.video.duration;
+      const turningEndPoint1To2 = songData[props.songnum].turningPoint1![1] / props.player.video.duration;
+      const turningStantPoint2To3 = songData[props.songnum].turningPoint2![0] / props.player.video.duration;
+      const turningEndPoint2To3 = songData[props.songnum].turningPoint2![1] / props.player.video.duration;
+      let progress;
+      
+      const layer = layerRef.current;
+      if (rationalPlayerPosition < turningStantPoint1To2){
+        updateLayer(layer, style1, overlayOpacity)
+      }else if (
+        rationalPlayerPosition >= turningStantPoint1To2 &&
+        rationalPlayerPosition < turningEndPoint1To2
+      ) {
+        progress = (rationalPlayerPosition - turningStantPoint1To2) / (turningEndPoint1To2 - turningStantPoint1To2);
+        updateLayer(layer, changeColor(style1, style2, progress), overlayOpacity)
+      }  else if (
+        rationalPlayerPosition >= turningEndPoint1To2 &&
+        rationalPlayerPosition < turningStantPoint2To3
+      ) {
+        updateLayer(layer, style2, overlayOpacity)
+      }  else if (
+        rationalPlayerPosition >= turningStantPoint2To3 &&
+        rationalPlayerPosition < turningEndPoint2To3
+      ) {
+        progress = (rationalPlayerPosition - turningStantPoint2To3) / (turningEndPoint2To3 - turningStantPoint2To3);
+        const layer = layerRef.current;
+        updateLayer(layer, changeColor(style2, style3, progress), overlayOpacity)
+      } else if (
+        rationalPlayerPosition >= turningEndPoint2To3
+      ) {
+        updateLayer(layer, style3, overlayOpacity)
+      } 
+    
+      turnOverlayAnimationRef.current = requestAnimationFrame(turnOverlayAnimation);
     };
-  }, [props.isMoving]);
+  
+    const turnOverlayAnimationRef = useRef<number | null>(null);
+    const layerRef = useRef<GeoJSON | null>(null);
+    // オーバーレイ変更のためのトリガー
+    useEffect(() => {
+      if (props.isMoving) {
+        turnOverlayAnimation();
+      } else {
+        cancelAnimationFrame(turnOverlayAnimationRef.current!);
+      }
+      return () => {
+        cancelAnimationFrame(turnOverlayAnimationRef.current!);
+      };
+    }, [props.isMoving]);
+
+    return (
+      <GeoJSON
+      data={sky as unknown as GeoJSON.GeoJsonObject}
+      style={{
+        fillColor: style1,
+        fillOpacity: overlayOpacity,
+      }}
+      ref = { layerRef }
+    />
+    )
+  }
+
 
 
   return (
@@ -554,14 +533,14 @@ export const MapComponent = (props: any) => {
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
         />
-        <GeoJSON
+        {/* <GeoJSON
           data={sky as unknown as GeoJSON.GeoJsonObject}
           style={{
             fillColor: overlayStyle,
             opacity: 0.5,
           }}
-          ref = { overlayGeoJsonRef }
-        />
+        /> */}
+        <UpdatingOverlayLayer/>
         <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
           pointToLayer={pointToLayer}

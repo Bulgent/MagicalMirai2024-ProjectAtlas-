@@ -59,7 +59,9 @@ const song1: SongData = {
     },
     jacketName: "superhero.png",
     note: "🎵",
-    startPosition:[34.51961796222499, 135.44388626567633] // 鴨公園
+    startPosition:[34.51961796222499, 135.44388626567633], // 鴨公園
+    turningPoint1:[97000, 122000], 
+    turningPoint2:[15700, 173000],
 };
 
 const song2: SongData = {
@@ -84,7 +86,7 @@ const song2: SongData = {
     jacketName: "itsuka_kimi_to_hanashita_mirai_wa.png",
     note: "🎵",
     startPosition:[34.53924831533973, 135.52058805420313], // 出雲大社大阪分祠
-    turningPoint1:[1000, 82000],  // :[73000, 82000]
+    turningPoint1:[73000, 82000], 
     turningPoint2:[142000, 161000],
 };
 
@@ -109,7 +111,9 @@ const song3: SongData = {
     },
     jacketName: "future_notes.png",
     note: "🎵",
-    startPosition:[34.65358988491993, 135.5119111348351] // 通天閣
+    startPosition:[34.65358988491993, 135.5119111348351], // 通天閣
+    turningPoint1:[52000, 61000], 
+    turningPoint2:[84000, 94000],
 };
 
 const song4: SongData = {
@@ -133,7 +137,9 @@ const song4: SongData = {
     },
     jacketName: "mirai_koukyoukyoku.png",
     note: "🎵",
-    startPosition:[34.6862484259693, 135.5245488140691] // 大阪城
+    startPosition:[34.6862484259693, 135.5245488140691], // 大阪城
+    turningPoint1:[84000, 91000], 
+    turningPoint2:[173000, 189000],
 };
 
 const song5: SongData = {
@@ -157,7 +163,9 @@ const song5: SongData = {
     },
     jacketName: "reality.png",
     note: "🎵",
-    startPosition:[34.56316397827468, 135.48654690775095] // 仁徳天皇陵古墳
+    startPosition:[34.56316397827468, 135.48654690775095], // 仁徳天皇陵古墳
+    turningPoint1:[52000, 60000], 
+    turningPoint2:[111000, 126000],
 };
 
 const song6: SongData = {
@@ -181,7 +189,9 @@ const song6: SongData = {
     },
     jacketName: "the_marks.png",
     note: "🎵",
-    startPosition:[34.53734513653503, 135.46062151011384] // 大鳥大社
+    startPosition:[34.53734513653503, 135.46062151011384], // 大鳥大社
+    turningPoint1:[67000, 84000], 
+    turningPoint2:[137000, 150000],
 };
 
 // 曲配列
