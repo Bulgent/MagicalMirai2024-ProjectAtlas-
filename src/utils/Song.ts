@@ -20,6 +20,8 @@ interface SongData {
     jacketName: string;
     note: string;
     startPosition: [lat: number, lng: number];
+    turningPoint1?:[startMs: number, endMs: number];
+    turningPoint2?:[startMs: number, endMs:number];
 }
 
 enum vocaloidNum {
@@ -81,7 +83,9 @@ const song2: SongData = {
     },
     jacketName: "itsuka_kimi_to_hanashita_mirai_wa.png",
     note: "🎵",
-    startPosition:[34.53924831533973, 135.52058805420313] // 出雲大社大阪分祠
+    startPosition:[34.53924831533973, 135.52058805420313], // 出雲大社大阪分祠
+    turningPoint1:[1000, 82000],  // :[73000, 82000]
+    turningPoint2:[142000, 161000],
 };
 
 const song3: SongData = {
