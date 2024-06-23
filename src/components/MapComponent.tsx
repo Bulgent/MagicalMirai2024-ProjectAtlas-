@@ -8,12 +8,8 @@ import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { ComputeAhead } from '../services/ComputeAhead.ts'
 import { seasonType, weatherType, timeType, pointToLayer, mapStyle, polygonStyle, mapStylePathWay } from '../utils/MapStyle.ts'
-<<<<<<< HEAD
-import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance, calculateEachRoadLengthRatio, getRationalPositonIndex, cssSlide } from '../utils/utils.ts'
-=======
 import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance, 
-         calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor} from '../utils/utils.ts'
->>>>>>> b4a29bd2163c83129209b9144072b195acfe90f8
+         calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor, cssSlide } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
 import { pngCar, svgNote, svgAlien, svgUnicorn, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
 // 型データの導入
@@ -104,14 +100,11 @@ export const MapComponent = (props: any) => {
   const eachRoadLengthRatioRef = useRef<number[]>([])
   const degreeAnglesRef = useRef<number[]>([])
   const cumulativeAheadRatioRef = useRef<number[]>([])
-<<<<<<< HEAD
 
   const kashicount = useRef(0)
 
-=======
   // オーバーレイの色
   const [overlayStyle, setOverlayStyle] = useState<string>("#ffffff");
->>>>>>> b4a29bd2163c83129209b9144072b195acfe90f8
   const [season, setSeason] = useState<number>(seasonType.SUMMER);
   const [time, setTime] = useState<number>(timeType.MORNING);
   const [weather, setWeather] = useState<number>(weatherType.SUNNY);
