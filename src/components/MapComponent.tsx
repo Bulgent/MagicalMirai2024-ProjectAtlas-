@@ -143,11 +143,11 @@ export const MapComponent = (props: any) => {
         map.getStyle().layers.forEach(l => {
           if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none") // 文字を消す
           // 水の色を変更
-          if (["waterway", "water"].includes(l.id) && l.type==="fill"){
+          if (["waterway", "water"].includes(l.id) && l.type === "fill") {
             map.setPaintProperty(l.id, "fill-color", "#90dbee")
           }
           // 道路の色を変更
-          if (l["source-layer"]==="transportation" && l.type==="line"){
+          if (l["source-layer"] === "transportation" && l.type === "line") {
             map.setPaintProperty(l.id, "line-color", "#8995a2")
           }
         });
@@ -283,6 +283,7 @@ export const MapComponent = (props: any) => {
           const noteTime = noteClass.match(/\d+/g);
           // マーカーの時間が現在の再生時間よりも前である場合、マーカーを削除します。
           if (noteTime && noteTime[0] <= props.player.timer.position) {
+            // console.log(lyricMarker.getTooltip())
             map.removeLayer(lyricMarker);
           }
         }, 250); // 250ミリ秒ごとに実行
@@ -379,7 +380,7 @@ export const MapComponent = (props: any) => {
       if (props.kashi.text == "" || props.kashi == songKashi) {
         return
       }
-      // console.log(noteCoordinates)
+      console.log(noteCoordinates)
       // TODO ナビゲーションの移動方向によってスライド方向を変える
       // TODO noteCoordinatesで歌詞の表示位置を変える
       setKashi(props.kashi)
@@ -392,22 +393,25 @@ export const MapComponent = (props: any) => {
       printKashi += "</div>";
       // console.log(printKashi);
       // 歌詞を表示する座標をランダムに決定
-      const conversionFactor = [0.0, 0.0];
-      // 座標の範囲を調整
-      const adjustedNorth = map.getBounds().getNorth() - conversionFactor[0];
-      const adjustedSouth = map.getBounds().getSouth() + conversionFactor[0];
-      const adjustedEast = map.getBounds().getEast() - conversionFactor[1];
-      const adjustedWest = map.getBounds().getWest() + conversionFactor[1];
+      // const conversionFactor = [0.0, 0.0];
+      // // 座標の範囲を調整
+      // const adjustedNorth = map.getBounds().getNorth() - conversionFactor[0];
+      // const adjustedSouth = map.getBounds().getSouth() + conversionFactor[0];
+      // const adjustedEast = map.getBounds().getEast() - conversionFactor[1];
+      // const adjustedWest = map.getBounds().getWest() + conversionFactor[1];
 
-      // 調整された範囲を使用してランダムな座標を生成
-      const mapCoordinate: [number, number] = [
-        Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
-        Math.random() * (adjustedEast - adjustedWest) + adjustedWest
-      ];
+      // // 調整された範囲を使用してランダムな座標を生成
+      // const mapCoordinate: [number, number] = [
+      //   Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
+      //   Math.random() * (adjustedEast - adjustedWest) + adjustedWest
+      // ];
+      const randomNumber = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
+      document.documentElement.style.setProperty('--random-number', randomNumber.toString());
+      const mapCoordinate: [number, number] = [map.getCenter().lat - latOffset, map.getCenter().lng - lonOffset]
       // 地図の表示範囲内にランダムに歌詞配置
       const markertext = marker(mapCoordinate, { opacity: 0 });
       // 表示する歌詞
-      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi fade-text to_right", direction: "center" })
+      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi fade-text to_right", direction: "center"})
       // 地図に追加
       markertext.addTo(map);
 
