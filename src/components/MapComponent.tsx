@@ -288,7 +288,7 @@ export const MapComponent = (props: any) => {
           // 正規表現を使用して数字を抽出
           const noteTime = noteClass.match(/\d+/g);
           // マーカーの時間が現在の再生時間よりも前である場合、マーカーを削除します。
-          if (noteTime && noteTime[0] != 0 && noteTime[0] != props.player.video.duration && noteTime[0] <= props.player.timer.position) {
+          if (noteTime && noteTime[0] != 0 && noteTime[0] != props.player.video.duration && noteTime[0] <= props.player.timer?.position) {
             map.removeLayer(lyricMarker);
           }
         }, 250); // 250ミリ秒ごとに実行

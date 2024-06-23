@@ -99,6 +99,8 @@ export const GamePage = () => {
   return (
     <React.Fragment>
       <div id="display" className="soft-gloss">
+        {/* OSMのクレジットいれる, OEmoJiも leaflet textalive */}
+        {/* "All emojis designed by OpenMoji – the open-source emoji and icon project. License: CC BY-SA 4.0" */}
         <div id = 'overlay' className='reading-overlay active'>
           曲を読み込んでいます...
         </div>
