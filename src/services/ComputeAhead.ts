@@ -16,6 +16,20 @@ type Ahead = {
 }
 
 
+const calculateAngle = (x: number, y: number): number => {
+    // Math.atan2(y, x) は、ベクトル (x, y) のラジアンでの角度を返します
+    let radians: number = Math.atan2(-y, x);
+    
+    // ラジアンを度数法に変換します
+    let degrees: number = radians * (180 / Math.PI);
+    
+    // 負の角度を正確に変換して、0度〜360度の範囲にします
+    if (degrees < 0) {
+        degrees += 360;
+    }
+    return degrees;
+};
+
 /**
  * 道の通過点座標(node)より車の頭の向きを決める
  */
@@ -28,11 +42,10 @@ export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[], number[]] => {
         const distance_km = calculateDistance(nodes[i], nodes[i+1]);
         unit_vectors.push({ unit_vector, distance_km });
     }
-    const aheads = smoothBetweenVectors(unit_vectors, 0.005, 10)
+    const aheads = smoothBetweenVectors(unit_vectors, 0.005, 2) // 2に設定する必要あり
     const cumulativeRatioLst = calculateCumulativeRatio(aheads)
     const degreeAngles = aheads.map((x) => {
-        const angle = Math.atan2(x.unit_vector[1], x.unit_vector[0]);
-        return angle * (180 / Math.PI); // ラジアンから度数への変換
+        return calculateAngle(x.unit_vector[1], x.unit_vector[0]);
       });
     return [aheads, degreeAngles, cumulativeRatioLst]
 }
@@ -42,6 +55,7 @@ export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[], number[]] => {
  * smooth_distance_km: 補完する距離（km）
  * smooth_plot_count: 補完する点の数
  */
+// TODO: 角度計算がおかしい（2ならなんとか使えるが、補完処理は結局無理）
 const smoothBetweenVectors = (unit_vectors:Ahead[], smooth_distance_km:number, smooth_plot_count:number):Ahead[] => {
     const vrctorCount = unit_vectors.length
     const aheads:Ahead[] = []
@@ -76,7 +90,8 @@ const smoothBetweenVectors = (unit_vectors:Ahead[], smooth_distance_km:number, s
 
 
 /**
- * ベクトル間をスムーズにする
+ * ベクトル間をスムーズにした度数角度（0<degree<360）を返す
+ * 角度は北向きを0度とし、反時計回りの角度系
  * plot_count(2以上)を大きくすると滑らかになる
  */
 const comprehendBetweenVectors = (unit_vector_start: Vector, unit_vector_end: Vector, plot_count: number): Vector[] => {
@@ -91,8 +106,11 @@ const comprehendBetweenVectors = (unit_vector_start: Vector, unit_vector_end: Ve
     const [end_x, end_y] = unit_vector_end;
     const angle_start = Math.atan2(start_y, start_x);
     const angle_end = Math.atan2(end_y, end_x);
-    const angle_diff = angle_end - angle_start;
-
+    // let angle_diff = calculateCounterClockwiseAngle(unit_vector_start, unit_vector_end)
+    let angle_diff = angle_end - angle_start
+    if (angle_diff>180){
+        console.warn(angle_diff)
+    }
     // その角度をplots_countで分割し、間のベクトルを補完する
     const angle_step = angle_diff / (plot_count - 1);
     let current_angle = angle_start;
