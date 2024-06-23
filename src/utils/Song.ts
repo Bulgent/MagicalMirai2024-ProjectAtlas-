@@ -19,6 +19,7 @@ interface SongData {
     },
     jacketName: string;
     note: string;
+    startPosition: [lat: number, lng: number];
 }
 
 enum vocaloidNum {
@@ -55,7 +56,8 @@ const song1: SongData = {
         lyricDiffId: 13962
     },
     jacketName: "superhero.png",
-    note: "🎵"
+    note: "🎵",
+    startPosition:[34.51961796222499, 135.44388626567633] // 鴨公園
 };
 
 const song2: SongData = {
@@ -78,7 +80,8 @@ const song2: SongData = {
         lyricDiffId: 13963
     },
     jacketName: "itsuka_kimi_to_hanashita_mirai_wa.png",
-    note: "🎵"
+    note: "🎵",
+    startPosition:[34.53924831533973, 135.52058805420313] // 出雲大社大阪分祠
 };
 
 const song3: SongData = {
@@ -101,7 +104,8 @@ const song3: SongData = {
         lyricDiffId: 13964
     },
     jacketName: "future_notes.png",
-    note: "🎵"
+    note: "🎵",
+    startPosition:[34.65358988491993, 135.5119111348351] // 通天閣
 };
 
 const song4: SongData = {
@@ -124,7 +128,8 @@ const song4: SongData = {
         lyricDiffId: 13965
     },
     jacketName: "mirai_koukyoukyoku.png",
-    note: "🎵"
+    note: "🎵",
+    startPosition:[34.6862484259693, 135.5245488140691] // 大阪城
 };
 
 const song5: SongData = {
@@ -147,7 +152,8 @@ const song5: SongData = {
         lyricDiffId: 13966
     },
     jacketName: "reality.png",
-    note: "🎵"
+    note: "🎵",
+    startPosition:[34.56316397827468, 135.48654690775095] // 仁徳天皇陵古墳
 };
 
 const song6: SongData = {
@@ -170,7 +176,8 @@ const song6: SongData = {
         lyricDiffId: 13967
     },
     jacketName: "the_marks.png",
-    note: "🎵"
+    note: "🎵",
+    startPosition:[34.53734513653503, 135.46062151011384] // 大鳥大社
 };
 
 // 曲配列
