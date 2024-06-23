@@ -28,7 +28,7 @@ const carIcon = divIcon({
   className: 'car-icon', // カスタムクラス名
   html: pngCar,  // ここに車のアイコンを挿入する
   iconSize: [50, 50], // アイコンのサイズ
-  iconAnchor: [25, 25] // アイコンのアンカーポイント
+  iconAnchor: [15, 45] // アイコンのアンカーポイント
 });
 
 // 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
@@ -456,7 +456,7 @@ export const MapComponent = (props: any) => {
             });
           }}
         />
-        {/* <PathWay /> */}
+        <PathWay />
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
