@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo, forwardRef } from 'react';
 import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker, Popup } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map, point, divIcon } from 'leaflet';
+import L, { LeafletMouseEvent, marker, Map, point, divIcon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -8,7 +8,12 @@ import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { ComputeAhead } from '../services/ComputeAhead.ts'
 import { seasonType, weatherType, timeType, pointToLayer, mapStyle, polygonStyle, mapStylePathWay } from '../utils/MapStyle.ts'
+<<<<<<< HEAD
 import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance, calculateEachRoadLengthRatio, getRationalPositonIndex, cssSlide } from '../utils/utils.ts'
+=======
+import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance, 
+         calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor} from '../utils/utils.ts'
+>>>>>>> b4a29bd2163c83129209b9144072b195acfe90f8
 import "leaflet-rotatedmarker";
 import { pngCar, svgNote, svgAlien, svgUnicorn, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
 // 型データの導入
@@ -23,6 +28,7 @@ import sky from '../assets/jsons/map_data/polygons.json'
 
 // songDataの導入
 import songData from '../utils/Song.ts';
+import { Progress } from 'semantic-ui-react';
 
 const carIcon = divIcon({
   className: 'car-icon', // カスタムクラス名
@@ -98,9 +104,14 @@ export const MapComponent = (props: any) => {
   const eachRoadLengthRatioRef = useRef<number[]>([])
   const degreeAnglesRef = useRef<number[]>([])
   const cumulativeAheadRatioRef = useRef<number[]>([])
+<<<<<<< HEAD
 
   const kashicount = useRef(0)
 
+=======
+  // オーバーレイの色
+  const [overlayStyle, setOverlayStyle] = useState<string>("#ffffff");
+>>>>>>> b4a29bd2163c83129209b9144072b195acfe90f8
   const [season, setSeason] = useState<number>(seasonType.SUMMER);
   const [time, setTime] = useState<number>(timeType.MORNING);
   const [weather, setWeather] = useState<number>(weatherType.SUNNY);
@@ -426,6 +437,95 @@ export const MapComponent = (props: any) => {
     props.handOverHover(e.sourceTarget.feature)
   }
 
+  /**
+   * 間奏中に色が変わるオーバーレイのレイヤ
+   */
+  const UpdatingOverlayLayer = () => {
+    const overlayOpacity = 0.5
+    // 曲を3区切りにした際のオーバーレイの色
+    const style1 = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY).fillColor;
+    const style2 = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY).fillColor;
+    const style3 = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY).fillColor;
+    const updateLayer = (layer, hexColor, overlayOpacity) =>{
+      if (layer) {
+        layer.clearLayers().addData(sky)
+        layer.setStyle(
+          {
+            fillColor: hexColor,
+            fillOpacity: overlayOpacity,
+          }
+        )
+      }
+    }
+    const turnOverlayAnimation = () => {
+      if (!props.isMoving) {
+        return;
+      }
+      const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
+      const turningStantPoint1To2 = songData[props.songnum].turningPoint1![0] / props.player.video.duration;
+      const turningEndPoint1To2 = songData[props.songnum].turningPoint1![1] / props.player.video.duration;
+      const turningStantPoint2To3 = songData[props.songnum].turningPoint2![0] / props.player.video.duration;
+      const turningEndPoint2To3 = songData[props.songnum].turningPoint2![1] / props.player.video.duration;
+      let progress;
+      
+      const layer = layerRef.current;
+      if (rationalPlayerPosition < turningStantPoint1To2){
+        updateLayer(layer, style1, overlayOpacity)
+      }else if (
+        rationalPlayerPosition >= turningStantPoint1To2 &&
+        rationalPlayerPosition < turningEndPoint1To2
+      ) {
+        progress = (rationalPlayerPosition - turningStantPoint1To2) / (turningEndPoint1To2 - turningStantPoint1To2);
+        updateLayer(layer, changeColor(style1, style2, progress), overlayOpacity)
+      }  else if (
+        rationalPlayerPosition >= turningEndPoint1To2 &&
+        rationalPlayerPosition < turningStantPoint2To3
+      ) {
+        updateLayer(layer, style2, overlayOpacity)
+      }  else if (
+        rationalPlayerPosition >= turningStantPoint2To3 &&
+        rationalPlayerPosition < turningEndPoint2To3
+      ) {
+        progress = (rationalPlayerPosition - turningStantPoint2To3) / (turningEndPoint2To3 - turningStantPoint2To3);
+        const layer = layerRef.current;
+        updateLayer(layer, changeColor(style2, style3, progress), overlayOpacity)
+      } else if (
+        rationalPlayerPosition >= turningEndPoint2To3
+      ) {
+        updateLayer(layer, style3, overlayOpacity)
+      } 
+    
+      turnOverlayAnimationRef.current = requestAnimationFrame(turnOverlayAnimation);
+    };
+  
+    const turnOverlayAnimationRef = useRef<number | null>(null);
+    const layerRef = useRef<GeoJSON | null>(null);
+    // オーバーレイ変更のためのトリガー
+    useEffect(() => {
+      if (props.isMoving) {
+        turnOverlayAnimation();
+      } else {
+        cancelAnimationFrame(turnOverlayAnimationRef.current!);
+      }
+      return () => {
+        cancelAnimationFrame(turnOverlayAnimationRef.current!);
+      };
+    }, [props.isMoving]);
+
+    return (
+      <GeoJSON
+      data={sky as unknown as GeoJSON.GeoJsonObject}
+      style={{
+        fillColor: style1,
+        fillOpacity: overlayOpacity,
+      }}
+      ref = { layerRef }
+    />
+    )
+  }
+
+
+
   return (
     <>
       {/* centerは[緯度, 経度] */}
@@ -435,14 +535,14 @@ export const MapComponent = (props: any) => {
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
         />
-        <GeoJSON
+        {/* <GeoJSON
           data={sky as unknown as GeoJSON.GeoJsonObject}
-          style={polygonStyle(
-            seasonType.SUMMER,
-            timeType.SUNSET,
-            weatherType.SUNNY
-          )}
-        />
+          style={{
+            fillColor: overlayStyle,
+            opacity: 0.5,
+          }}
+        /> */}
+        <UpdatingOverlayLayer/>
         <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
           pointToLayer={pointToLayer}

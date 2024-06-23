@@ -30,7 +30,6 @@ export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[], number[]] => {
     }
     const aheads = smoothBetweenVectors(unit_vectors, 0.005, 10)
     const cumulativeRatioLst = calculateCumulativeRatio(aheads)
-    console.log(aheads)
     const degreeAngles = aheads.map((x) => {
         const angle = Math.atan2(x.unit_vector[1], x.unit_vector[0]);
         return angle * (180 / Math.PI); // ラジアンから度数への変換
