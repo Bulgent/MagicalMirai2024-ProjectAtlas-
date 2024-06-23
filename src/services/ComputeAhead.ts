@@ -18,7 +18,7 @@ type Ahead = {
 
 const calculateAngle = (x: number, y: number): number => {
     // Math.atan2(y, x) は、ベクトル (x, y) のラジアンでの角度を返します
-    let radians: number = Math.atan2(-y, x);
+    let radians: number = Math.atan2(y, x);
     
     // ラジアンを度数法に変換します
     let degrees: number = radians * (180 / Math.PI);
@@ -27,7 +27,6 @@ const calculateAngle = (x: number, y: number): number => {
     if (degrees < 0) {
         degrees += 360;
     }
-    
     return degrees;
 };
 
@@ -43,12 +42,14 @@ export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[], number[]] => {
         const distance_km = calculateDistance(nodes[i], nodes[i+1]);
         unit_vectors.push({ unit_vector, distance_km });
     }
+    console.log(unit_vectors)
     const aheads = smoothBetweenVectors(unit_vectors, 0.005, 10)
     const cumulativeRatioLst = calculateCumulativeRatio(aheads)
     console.log(aheads)
     const degreeAngles = aheads.map((x) => {
         return calculateAngle(x.unit_vector[1], x.unit_vector[0]);
       });
+    console.log(degreeAngles)
     return [aheads, degreeAngles, cumulativeRatioLst]
 }
 
@@ -89,9 +90,13 @@ const smoothBetweenVectors = (unit_vectors:Ahead[], smooth_distance_km:number, s
     return aheads
 }
 
+const validateAngle = (angle:number) => {
+    return angle%360
+}
 
 /**
- * ベクトル間をスムーズにする
+ * ベクトル間をスムーズにした度数角度（0<degree<360）を返す
+ * 角度は北向きを0度とし、時計回りの角度系
  * plot_count(2以上)を大きくすると滑らかになる
  */
 const comprehendBetweenVectors = (unit_vector_start: Vector, unit_vector_end: Vector, plot_count: number): Vector[] => {
@@ -104,8 +109,8 @@ const comprehendBetweenVectors = (unit_vector_start: Vector, unit_vector_end: Ve
     // 2つのベクトルの間の角度を計算
     const [start_x, start_y] = unit_vector_start;
     const [end_x, end_y] = unit_vector_end;
-    const angle_start = Math.atan2(start_y, start_x);
-    const angle_end = Math.atan2(end_y, end_x);
+    const angle_start = calculateAngle(start_y, start_x);
+    const angle_end = calculateAngle(end_y, end_x);
     const angle_diff = angle_end - angle_start;
 
     // その角度をplots_countで分割し、間のベクトルを補完する
