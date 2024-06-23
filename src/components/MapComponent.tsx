@@ -443,6 +443,14 @@ export const MapComponent = (props: any) => {
           style={mapStyle}
         />
         <GeoJSON
+          data={sky as unknown as GeoJSON.GeoJsonObject}
+          style={polygonStyle(
+            seasonType.SUMMER,
+            timeType.SUNSET,
+            weatherType.SUNNY
+          )}
+        />
+        <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
           pointToLayer={pointToLayer}
           onEachFeature={(_, layer) => {
@@ -451,7 +459,7 @@ export const MapComponent = (props: any) => {
             });
           }}
         />
-        <PathWay />
+        {/* <PathWay /> */}
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
