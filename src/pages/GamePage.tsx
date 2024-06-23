@@ -99,13 +99,16 @@ export const GamePage = () => {
   return (
     <React.Fragment>
       <div id="display" className="soft-gloss">
+        <div id = 'overlay' className='reading-overlay active'>
+          曲を読み込んでいます...
+        </div>
         <div id="navi" className="split">
           <div id="map">
             {/* 単語:kashiChar, 熟語:kashiWord, フレーズ:kashiPhrase */}
             <MapComponent
               kashi={lyricWord}
-              songnum={songInfo}  
-              isMoving={isMapMove} 
+              songnum={songInfo}
+              isMoving={isMapMove}
               player={player}
               handOverHover={handOverHoverHistory}
             />
@@ -137,8 +140,8 @@ export const GamePage = () => {
             player={player}
             hoverHistory={hoverHistory}
           />
-          </div>
         </div>
+      </div>
     </React.Fragment>
   );
 }

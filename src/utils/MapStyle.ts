@@ -41,6 +41,36 @@ export const pointToLayer = (feature: any, latlng: LatLngExpression) => {
     return builMarker;
 };
 
+// pointデータを図形として表現
+export const showDetail = (feature: any, latlng: LatLngExpression) => {
+    const builIcon = divIcon({
+        className: 'buil-icon', // カスタムクラス名
+        html: svgBuil,  // ここにビルのアイコンを挿入する
+        iconSize: [50, 50], // アイコンのサイズ
+        iconAnchor: [25, 25] // アイコンのアンカーポイント
+    });
+    // const marker = circleMarker(latlng, circleMarkerOptions);
+    const builMarker = marker(latlng, { icon: builIcon, opacity: 1 })
+    // ホバー時のイベントハンドラ
+    const onHover = (e: L.LeafletMouseEvent) => {
+        const hoveredMarker = e.target;
+        console.log(feature)
+        // ツールチップ表示
+        hoveredMarker.bindTooltip(feature.properties.event_place, { permanent: true, direction: 'top' }).openTooltip();
+    };
+
+    // ホバーが解除された時のイベントハンドラ
+    // const onHoverOut = (e: L.LeafletMouseEvent) => {
+    //   const hoveredMarker = e.target;
+    //   hoveredMarker.setStyle(circleMarkerOptions); // 元のスタイルに戻す
+    // };
+
+    // イベントリスナーを追加
+    builMarker.on('mouseover', onHover);
+    // marker.on('mouseout', onHoverOut);
+    return builMarker;
+};
+
 // line, polygonデータを図形として表現
 export const mapStyle: StyleFunction = (feature) => {
     switch (feature?.geometry?.type) {
@@ -59,6 +89,13 @@ export const mapStyle: StyleFunction = (feature) => {
             };
         default:
             return {};
+    }
+};
+
+// line, polygonデータを図形として表現
+export const overlayStyle: StyleFunction = (feature) => {
+    return{
+        fillColor: 'white',
     }
 };
 

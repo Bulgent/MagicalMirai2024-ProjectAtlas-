@@ -9,7 +9,7 @@ export const HistoryComponent = (props: any) => {
     const showHover = () => {
         return (
             <>{[...props.hoverHistory].reverse().map((hover: any, index: number) => (
-                <div key={index} className='hoverhistory'>{hover.properties.name} {checkArchType(hover.properties.type)}</div>
+                <div key={index} className='hoverhistory'>{hover.properties.name} {checkArchType(hover.properties.type)} {hover.properties.event_place} {hover.properties.event_detail}</div>
             ))}</>
         )
     }

@@ -7,9 +7,11 @@ import '../styles/Lyrics.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { ComputeAhead } from '../services/ComputeAhead.ts'
-import { seasonType, weatherType, timeType, pointToLayer, mapStyle, polygonStyle, mapStylePathWay } from '../utils/MapStyle.ts'
-import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance, 
-         calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor, cssSlide } from '../utils/utils.ts'
+import { seasonType, weatherType, timeType, pointToLayer, mapStyle, polygonStyle, mapStylePathWay, overlayStyle, showDetail } from '../utils/MapStyle.ts'
+import {
+  KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance,
+  calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor, cssSlide
+} from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
 import { pngCar, svgNote, svgAlien, svgUnicorn, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
 // 型データの導入
@@ -19,6 +21,7 @@ import trunk from '../assets/jsons/map_data/trunk.json'
 import primary from '../assets/jsons/map_data/primary.json'
 import secondary from '../assets/jsons/map_data/secondary.json'
 import points from '../assets/jsons/map_data/points.json'
+import sight from '../assets/jsons/map_data/sightseeing.json'
 import areas from '../assets/jsons/map_data/area.json'
 import sky from '../assets/jsons/map_data/polygons.json'
 
@@ -292,6 +295,8 @@ export const MapComponent = (props: any) => {
       });
       setNoteCoordinates(noteCd);
       setIsInitMap(false)
+      // 曲読み込み画面を隠す
+      document.querySelector("#overlay").className = "inactive";
       return () => {
         console.log("unmount note")
       };
@@ -401,7 +406,7 @@ export const MapComponent = (props: any) => {
       const styleTag = document.createElement('style');
       styleTag.innerHTML = fadeInSlideRightKeyframes;
       document.head.appendChild(styleTag);
-      
+
       // 地図の表示範囲内にランダムに歌詞配置
       const markertext = marker(mapCoordinate, { opacity: 0 });
       // 表示する歌詞
@@ -429,6 +434,15 @@ export const MapComponent = (props: any) => {
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
     props.handOverHover(e.sourceTarget.feature)
   }
+  const onSightHover = (e: LeafletMouseEvent) => {
+    console.log(e.sourceTarget.feature.properties.event_place)
+    // オフ会0人かどうか
+    if (e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
+      console.log("オイイイッス！👽")
+    }
+    setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
+    props.handOverHover(e.sourceTarget.feature)
+  }
 
   /**
    * 間奏中に色が変わるオーバーレイのレイヤ
@@ -439,7 +453,7 @@ export const MapComponent = (props: any) => {
     const style1 = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY).fillColor;
     const style2 = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY).fillColor;
     const style3 = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY).fillColor;
-    const updateLayer = (layer, hexColor, overlayOpacity) =>{
+    const updateLayer = (layer, hexColor, overlayOpacity) => {
       if (layer) {
         layer.clearLayers().addData(sky)
         layer.setStyle(
@@ -460,22 +474,22 @@ export const MapComponent = (props: any) => {
       const turningStantPoint2To3 = songData[props.songnum].turningPoint2![0] / props.player.video.duration;
       const turningEndPoint2To3 = songData[props.songnum].turningPoint2![1] / props.player.video.duration;
       let progress;
-      
+
       const layer = layerRef.current;
-      if (rationalPlayerPosition < turningStantPoint1To2){
+      if (rationalPlayerPosition < turningStantPoint1To2) {
         updateLayer(layer, style1, overlayOpacity)
-      }else if (
+      } else if (
         rationalPlayerPosition >= turningStantPoint1To2 &&
         rationalPlayerPosition < turningEndPoint1To2
       ) {
         progress = (rationalPlayerPosition - turningStantPoint1To2) / (turningEndPoint1To2 - turningStantPoint1To2);
         updateLayer(layer, changeColor(style1, style2, progress), overlayOpacity)
-      }  else if (
+      } else if (
         rationalPlayerPosition >= turningEndPoint1To2 &&
         rationalPlayerPosition < turningStantPoint2To3
       ) {
         updateLayer(layer, style2, overlayOpacity)
-      }  else if (
+      } else if (
         rationalPlayerPosition >= turningStantPoint2To3 &&
         rationalPlayerPosition < turningEndPoint2To3
       ) {
@@ -486,11 +500,11 @@ export const MapComponent = (props: any) => {
         rationalPlayerPosition >= turningEndPoint2To3
       ) {
         updateLayer(layer, style3, overlayOpacity)
-      } 
-    
+      }
+
       turnOverlayAnimationRef.current = requestAnimationFrame(turnOverlayAnimation);
     };
-  
+
     const turnOverlayAnimationRef = useRef<number | null>(null);
     const layerRef = useRef<GeoJSON | null>(null);
     // オーバーレイ変更のためのトリガー
@@ -507,23 +521,22 @@ export const MapComponent = (props: any) => {
 
     return (
       <GeoJSON
-      data={sky as unknown as GeoJSON.GeoJsonObject}
-      style={{
-        fillColor: style1,
-        fillOpacity: overlayOpacity,
-      }}
-      ref = { layerRef }
-    />
+        data={sky as unknown as GeoJSON.GeoJsonObject}
+        style={{
+          fillColor: style1,
+          fillOpacity: overlayOpacity,
+        }}
+        ref={layerRef}
+      />
     )
   }
-
-
 
   return (
     <>
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
       <MapContainer className='mapcomponent' center={[-1, -1]} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
+        
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
@@ -535,13 +548,22 @@ export const MapComponent = (props: any) => {
             opacity: 0.5,
           }}
         /> */}
-        <UpdatingOverlayLayer/>
-        <GeoJSON
+        <UpdatingOverlayLayer />
+        {/* <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
           pointToLayer={pointToLayer}
           onEachFeature={(_, layer) => {
             layer.on({
-              mouseover: onPointHover, // ポイントにマウスが乗ったときに呼び出される関数
+              mouseover: onPointHover, // ポイントにマウスが乗っかったときに呼び出される関数
+            });
+          }}
+        /> */}
+        <GeoJSON
+          data={sight as GeoJSON.GeoJsonObject}
+          pointToLayer={showDetail}
+          onEachFeature={(_, layer) => {
+            layer.on({
+              mouseover: onSightHover, // ポイントにマウスが乗っかったときに呼び出される関数
             });
           }}
         />
@@ -561,6 +583,8 @@ export const MapComponent = (props: any) => {
           rotationOrigin="center"
         >
         </RotatedMarker>
+        {/* 曲の開始まで表示するレイヤ */}
+
       </MapContainer>
     </>
   );
