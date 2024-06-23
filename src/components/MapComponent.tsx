@@ -7,11 +7,11 @@ import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { ComputeAhead } from '../services/ComputeAhead.ts'
 import { seasonType, weatherType, timeType, pointToLayer, mapStyle, polygonStyle, mapStylePathWay } from '../utils/MapStyle.ts'
-import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance ,calculateEachRoadLengthRatio, getRationalPositonIndex} from '../utils/utils.ts'
+import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance, calculateEachRoadLengthRatio, getRationalPositonIndex } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
-import { svgNote, svgAlien, svgUnicorn } from '../assets/marker/markerSVG.ts'
+import { svgNote, svgAlien, svgUnicorn, svgCar } from '../assets/marker/markerSVG.ts'
 // 型データの導入
-import { PointProperties, lyricProperties, historyProperties ,noteTooltip} from '../types/types';
+import { PointProperties, lyricProperties, historyProperties, noteTooltip } from '../types/types';
 // 地図データの導入
 import trunk from '../assets/jsons/map_data/trunk.json'
 import primary from '../assets/jsons/map_data/primary.json'
@@ -25,7 +25,7 @@ import songData from '../utils/Song.ts';
 
 const carIcon = divIcon({
   className: 'car-icon', // カスタムクラス名
-  html: svgUnicorn,  // ここに車のアイコンを挿入する
+  html: svgCar,  // ここに車のアイコンを挿入する
   iconSize: [50, 50], // アイコンのサイズ
   iconAnchor: [25, 50] // アイコンのアンカーポイント
 });
@@ -39,8 +39,8 @@ const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
   useEffect(() => {
     const marker = markerRef.current;
     if (marker) {
-      marker.setRotationAngle(rotationAngle);
-      marker.setRotationOrigin(rotationOrigin);
+      marker.setRotationAngle(-rotationAngle);
+      marker.setRotationOrigin(-rotationOrigin);
     }
   }, [rotationAngle, rotationOrigin]);
 
@@ -105,10 +105,6 @@ export const MapComponent = (props: any) => {
 
   // 初回だけ処理
   // mapの初期位置、経路の計算
-  // useEffect(() => {
-  //   computePathway()
-  // }, []); 
-
   const computePathway = () =>{
     const [features, nodes, mapCenterRet] = computePath(roadJsonLst, songData[props.songnum].startPosition ,endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
@@ -128,14 +124,14 @@ export const MapComponent = (props: any) => {
   const RemoveMapTextFunction = () => {
     const map = useMap();
     useEffect(() => {
-      if (!isInitMap.current){
+      if (!isInitMap.current) {
         return
       }
       // mapの初期中心座標の決定
       map.setView(mapCenterRef.current)
       if (OSMlayerRef.current) {
         // 読み込みが2段階ある
-        if(OSMlayerRef.current.getMaplibreMap().getStyle()===undefined){
+        if (OSMlayerRef.current.getMaplibreMap().getStyle() === undefined) {
           return
         }
         const map = OSMlayerRef.current.getMaplibreMap();
@@ -149,7 +145,6 @@ export const MapComponent = (props: any) => {
   }
 
   // 👽マーカーの表示(単語によって色を変える)👽 
-  // TODO 歌詞の長さでの配置にする．
   const AddNotesToMap = () => {
     const map = useMap();
 
@@ -262,7 +257,7 @@ export const MapComponent = (props: any) => {
         // 歌詞の座標に🎵を表示
         const lyricMarker = marker([crtLat, crtLng], { icon: customIcon, opacity: 1 }).addTo(map);
         lyricMarker.bindTooltip(wordTime[index].lyric,
-          { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note" }).openTooltip();
+          { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note " + wordTime[index].start }).openTooltip();
 
         lyricMarker.on('click', function (e) {
           console.log("click")
@@ -272,17 +267,15 @@ export const MapComponent = (props: any) => {
           console.log(content);
         });
         map.on('move', function () {
-          // マップの中心座標を取得
-          const center = map.getCenter();
-          // マーカーの座標を取得
-          const markerPos = lyricMarker.getLatLng();
-
-          // マップの中心とマーカーの座標が一致するかどうかを確認（ある程度の誤差を許容）
-          if (center.distanceTo(markerPos) < 20) { // 10px以内の誤差を許容
-            // マーカーをマップから削除
+          // ツールチップのDOM要素を取得
+          const noteClass = lyricMarker.getTooltip()._container.className;
+          // 正規表現を使用して数字を抽出
+          const noteTime = noteClass.match(/\d+/g);
+          // マーカーの時間が現在の再生時間よりも前である場合、マーカーを削除します。
+          if (noteTime && noteTime[0] <= props.player.timer.position) {
             map.removeLayer(lyricMarker);
           }
-        });
+        }, 250); // 250ミリ秒ごとに実行
       });
       setNoteCoordinates(noteCd);
       setIsInitMap(false)
@@ -333,7 +326,7 @@ export const MapComponent = (props: any) => {
         }
         // 曲の全体における位置を確認
         const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
-  
+
         if (rationalPlayerPosition < 1) {
           const [startNodeIndex, nodeResidue] = getRationalPositonIndex(rationalPlayerPosition, eachRoadLengthRatioRef.current);
           // 中心にセットする座標を計算
