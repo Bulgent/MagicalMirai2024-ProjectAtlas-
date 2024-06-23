@@ -280,6 +280,35 @@ export const getRationalPositonIndex = (ratio:number, ratioLst:number[]):[number
   }
 }
 
+export const hexToRgb = (hex:string) =>{
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+      }
+    : null;
+}
+
+export const rgbToHex = (r:number, g:number, b:number) => {
+  return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+/**
+ * 色の継時変化を計算  
+ * 色はhexを想定  
+ * progressは0-1
+ */
+export const changeColor = (startHex:string, endHex:string, progress:number) => {
+  const startColor = hexToRgb(startHex)!;
+  const endColor = hexToRgb(endHex)!;
+  const r = Math.round(startColor.r + (endColor.r - startColor.r) * progress);
+  const g = Math.round(startColor.g + (endColor.g - startColor.g) * progress);
+  const b = Math.round(startColor.b + (endColor.b - startColor.b) * progress);
+  const color = rgbToHex(r, g, b);
+  return color
+}
 export const getImage = (songNumber : number): string => {
   return new URL(`../assets/images/jacket/${songData[songNumber].jacketName}`, import.meta.url).href;
 };
