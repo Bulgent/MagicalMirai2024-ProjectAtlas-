@@ -10,7 +10,7 @@ import { ComputeAhead } from '../services/ComputeAhead.ts'
 import { seasonType, weatherType, timeType, pointToLayer, mapStyle, polygonStyle, mapStylePathWay } from '../utils/MapStyle.ts'
 import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance, calculateEachRoadLengthRatio, getRationalPositonIndex } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
-import { svgNote, svgAlien, svgUnicorn, svgCar, svgAnt, pngCar } from '../assets/marker/markerSVG.ts'
+import { pngCar, svgNote, svgAlien, svgUnicorn, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
 // 型データの導入
 import { PointProperties, lyricProperties, historyProperties, noteTooltip } from '../types/types';
 // 地図データの導入
@@ -60,8 +60,6 @@ const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
     </Marker>
   );
 });
-
-
 
 export const MapComponent = (props: any) => {
   /**
@@ -236,11 +234,11 @@ export const MapComponent = (props: any) => {
         switch (index) {
           case 0: // 最初
             markerString = "👽"
-            markerSVG = svgAlien
+            markerSVG = svgStart
             break;
           case wordCount + 1: // 最後
             markerString = "🦄"
-            markerSVG = svgUnicorn
+            markerSVG = svgGoal
             break;
           default: // それ以外
             markerString = songData[props.songnum].note
@@ -282,8 +280,7 @@ export const MapComponent = (props: any) => {
           // 正規表現を使用して数字を抽出
           const noteTime = noteClass.match(/\d+/g);
           // マーカーの時間が現在の再生時間よりも前である場合、マーカーを削除します。
-          if (noteTime && noteTime[0] <= props.player.timer.position) {
-            // console.log(lyricMarker.getTooltip())
+          if (noteTime && noteTime[0] != 0 && noteTime[0] != props.player.video.duration && noteTime[0] <= props.player.timer.position) {
             map.removeLayer(lyricMarker);
           }
         }, 250); // 250ミリ秒ごとに実行
@@ -437,9 +434,7 @@ export const MapComponent = (props: any) => {
     <>
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
-
       <MapContainer className='mapcomponent' center={[-1, -1]} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
-
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
