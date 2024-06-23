@@ -151,40 +151,69 @@ export const checkPartOfSpeech = (PoS: string) => {
   // S: 記号 (Symbol)
   // X: その他 (other)
   switch (PoS) {
-      case "N":
-          return "名詞";
-      case "PN":
-          return "代名詞";
-      case "V":
-          return "動詞";
-      case "R":
-          return "副詞";
-      case "J":
-          return "形容詞";
-      case "A":
-          return "連体詞";
-      case "P":
-          return "助詞";
-      case "M":
-          return "助動詞";
-      case "W":
-          return "疑問詞";
-      case "D":
-          return "冠詞";
-      case "I":
-          return "接続詞";
-      case "U":
-          return "感動詞";
-      case "F":
-          return "接頭詞";
-      case "S":
-          return "記号";
-      case "X":
-          return "その他";
-      default:
-          return "不明";
+    case "N":
+      return "名詞";
+    case "PN":
+      return "代名詞";
+    case "V":
+      return "動詞";
+    case "R":
+      return "副詞";
+    case "J":
+      return "形容詞";
+    case "A":
+      return "連体詞";
+    case "P":
+      return "助詞";
+    case "M":
+      return "助動詞";
+    case "W":
+      return "疑問詞";
+    case "D":
+      return "冠詞";
+    case "I":
+      return "接続詞";
+    case "U":
+      return "感動詞";
+    case "F":
+      return "接頭詞";
+    case "S":
+      return "記号";
+    case "X":
+      return "その他";
+    default:
+      return "不明";
   }
 }
+
+export const cssSlide = (animationNum: number): string => {
+  let randomX: number;
+  let randomY: number;
+
+  // X軸の乱数を生成
+  if (Math.random() < 0.5) {
+    randomX = Math.floor(Math.random() * (-101 - (-300) + 1)) + (-300); // -500から-101
+  } else {
+    randomX = Math.floor(Math.random() * (300 - 101 + 1)) + 101; // 101から500
+  }
+
+  // Y軸の乱数を生成(下は控えめ)
+  if (Math.random() < 0.5) {
+    randomY = Math.floor(Math.random() * (-101 - (-700) + 1)) + (-700); // -500から-101
+  } else {
+    randomY = Math.floor(Math.random() * (200 - 101 + 1)) + 101; // 101から200
+  }
+  return `@keyframes fadeInSlideXY${animationNum} {
+      0% {
+        opacity: 0.5;
+        transform: translate3d(0%, 0%, 0);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(${randomX}%, ${randomY}%, 0);
+      }
+    }`;
+};
 
 /**
  * @return
@@ -224,7 +253,7 @@ export const deg2rad = (deg: number): number => {
  * メルカトル系では縦横比がいびつなのでkmではなく、緯度経度をベクトルとした距離計算に変更  
  * HACK: 別関数に適用したい
  */
-export const calculateDistance = (from_lonlat: [number, number], to_lonlat:[number, number]):number =>{
+export const calculateDistance = (from_lonlat: [number, number], to_lonlat: [number, number]): number => {
   const RX: number = 6378.137; // 回転楕円体の長半径（赤道半径）[km]
   const RY: number = 6356.752; // 回転楕円体の短半径（極半径) [km]
   const dx = deg2rad(from_lonlat[0]) - deg2rad(to_lonlat[0]);
@@ -236,7 +265,7 @@ export const calculateDistance = (from_lonlat: [number, number], to_lonlat:[numb
   const N = RX / W; // 卯酉線曲率半径
   const distance_km = Math.sqrt(Math.pow(M * dy, 2.0) + Math.pow(N * dx * Math.cos(mu), 2.0));
   const distance_vector: number = Math.sqrt((from_lonlat[0] - to_lonlat[0]) ** 2 + (from_lonlat[1] - to_lonlat[1]) ** 2)
-  return  distance_vector// 距離[km]
+  return distance_vector// 距離[km]
 }
 
 /**
@@ -244,17 +273,17 @@ export const calculateDistance = (from_lonlat: [number, number], to_lonlat:[numb
  * @param nodes 経由地点の緯度経度ペアの配列
  * @returns 各道路の距離の割合の配列 (例: [0, 0.1, 0.5, 0.9, 1])
  */
-export const calculateEachRoadLengthRatio = (nodes:any[]):number[] => {
+export const calculateEachRoadLengthRatio = (nodes: any[]): number[] => {
   let eachRoadLengthRatio = [];
   let roadLengthSum = 0;
   const lstLength = nodes.length
 
-  for(let i=0; i<lstLength-1; i++){
-    const roadLength = calculateDistance(nodes[i], nodes[i+1])
-    roadLengthSum+=roadLength
+  for (let i = 0; i < lstLength - 1; i++) {
+    const roadLength = calculateDistance(nodes[i], nodes[i + 1])
+    roadLengthSum += roadLength
     eachRoadLengthRatio.push(roadLengthSum)
   }
-  eachRoadLengthRatio = eachRoadLengthRatio.map(x => x/roadLengthSum)
+  eachRoadLengthRatio = eachRoadLengthRatio.map(x => x / roadLengthSum)
   return eachRoadLengthRatio
 }
 
@@ -264,22 +293,22 @@ export const calculateEachRoadLengthRatio = (nodes:any[]):number[] => {
  * @param ratioLst 各道路の距離の割合の配列
  * @returns 現在の経由地点のインデックスと残り距離の割合の配列 [インデックス, 残り距離の割合]
  */
-export const getRationalPositonIndex = (ratio:number, ratioLst:number[]):[number, number] =>{
+export const getRationalPositonIndex = (ratio: number, ratioLst: number[]): [number, number] => {
   const lstLength = ratioLst.length
-  for (let i=0; i<=lstLength-2; i++){
-    if (ratioLst[i]<=ratio && ratio<ratioLst[i+1]){
-      return [i+1, (ratio-ratioLst[i])/(ratioLst[i+1]-ratioLst[i])]
-    } 
+  for (let i = 0; i <= lstLength - 2; i++) {
+    if (ratioLst[i] <= ratio && ratio < ratioLst[i + 1]) {
+      return [i + 1, (ratio - ratioLst[i]) / (ratioLst[i + 1] - ratioLst[i])]
+    }
   }
-  if (ratio < ratioLst[0]){
-    return [0, ratio/ratioLst[0]]
-  } else if (ratioLst[lstLength-1] <= ratio && ratio<=1){
-    return [lstLength-1, (ratio-ratioLst[lstLength-1])/(ratioLst[lstLength-1]-ratioLst[lstLength-2])]
+  if (ratio < ratioLst[0]) {
+    return [0, ratio / ratioLst[0]]
+  } else if (ratioLst[lstLength - 1] <= ratio && ratio <= 1) {
+    return [lstLength - 1, (ratio - ratioLst[lstLength - 1]) / (ratioLst[lstLength - 1] - ratioLst[lstLength - 2])]
   } else {
     throw new Error("値が見つかりません")
   }
 }
 
-export const getImage = (songNumber : number): string => {
+export const getImage = (songNumber: number): string => {
   return new URL(`../assets/images/jacket/${songData[songNumber].jacketName}`, import.meta.url).href;
 };

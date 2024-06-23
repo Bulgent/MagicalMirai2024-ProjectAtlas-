@@ -8,7 +8,7 @@ import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { ComputeAhead } from '../services/ComputeAhead.ts'
 import { seasonType, weatherType, timeType, pointToLayer, mapStyle, polygonStyle, mapStylePathWay } from '../utils/MapStyle.ts'
-import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance, calculateEachRoadLengthRatio, getRationalPositonIndex } from '../utils/utils.ts'
+import { KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance, calculateEachRoadLengthRatio, getRationalPositonIndex, cssSlide } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
 import { pngCar, svgNote, svgAlien, svgUnicorn, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
 // 型データの導入
@@ -98,6 +98,8 @@ export const MapComponent = (props: any) => {
   const eachRoadLengthRatioRef = useRef<number[]>([])
   const degreeAnglesRef = useRef<number[]>([])
   const cumulativeAheadRatioRef = useRef<number[]>([])
+
+  const kashicount = useRef(0)
 
   const [season, setSeason] = useState<number>(seasonType.SUMMER);
   const [time, setTime] = useState<number>(timeType.MORNING);
@@ -264,8 +266,7 @@ export const MapComponent = (props: any) => {
 
         // 歌詞の座標に🎵を表示
         const lyricMarker = marker([crtLat, crtLng], { icon: customIcon, opacity: 1 }).addTo(map);
-        lyricMarker.bindTooltip(wordTime[index].lyric,
-          { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note " + wordTime[index].start }).openTooltip();
+        lyricMarker.bindTooltip(wordTime[index].lyric, { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note " + wordTime[index].start }).closeTooltip();
 
         lyricMarker.on('click', function (e) {
           console.log("click")
@@ -370,47 +371,42 @@ export const MapComponent = (props: any) => {
 
   // 👽歌詞表示コンポーネント👽
   const addLyricTextToMap = (map: Map) => {
-
     // console.log(map.getSize(), map.getCenter(), map.getBounds())
     // 歌詞が変わったら実行 ボカロによって色を変える
     useEffect(() => {
       if (props.kashi.text == "" || props.kashi == songKashi) {
         return
       }
-      console.log(noteCoordinates)
+      kashicount.current += 1
+      // console.log(noteCoordinates)
       // TODO ナビゲーションの移動方向によってスライド方向を変える
       // TODO noteCoordinatesで歌詞の表示位置を変える
       setKashi(props.kashi)
-      let printKashi: string = "<div class = 'tooltip-lyric'>";
+      const slideClass = 'slide' + kashicount.current
+      let printKashi: string = "<div class = 'tooltip-lyric " + slideClass + "'>";
       props.kashi.text.split('').forEach((char: string) => {
         printKashi += "<span class='";
         printKashi += formatKashi(char);
         printKashi += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
       });
       printKashi += "</div>";
-      // console.log(printKashi);
-      // 歌詞を表示する座標をランダムに決定
-      // const conversionFactor = [0.0, 0.0];
-      // // 座標の範囲を調整
-      // const adjustedNorth = map.getBounds().getNorth() - conversionFactor[0];
-      // const adjustedSouth = map.getBounds().getSouth() + conversionFactor[0];
-      // const adjustedEast = map.getBounds().getEast() - conversionFactor[1];
-      // const adjustedWest = map.getBounds().getWest() + conversionFactor[1];
 
-      // // 調整された範囲を使用してランダムな座標を生成
-      // const mapCoordinate: [number, number] = [
-      //   Math.random() * (adjustedNorth - adjustedSouth) + adjustedSouth,
-      //   Math.random() * (adjustedEast - adjustedWest) + adjustedWest
-      // ];
-      const randomNumber = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
-      document.documentElement.style.setProperty('--random-number', randomNumber.toString());
       const mapCoordinate: [number, number] = [map.getCenter().lat - latOffset, map.getCenter().lng - lonOffset]
+      const fadeInSlideRightKeyframes = cssSlide(kashicount.current);
+      // <style>タグを生成して、生成した@keyframes定義を追加
+      const styleTag = document.createElement('style');
+      styleTag.innerHTML = fadeInSlideRightKeyframes;
+      document.head.appendChild(styleTag);
+      
       // 地図の表示範囲内にランダムに歌詞配置
       const markertext = marker(mapCoordinate, { opacity: 0 });
       // 表示する歌詞
-      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi fade-text to_right", direction: "center"})
+      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi", direction: "center" })
       // 地図に追加
       markertext.addTo(map);
+      // アニメーション
+      // document.querySelector('.' + slideClass).style.animation = 'parabolaSlideXY' + kashicount.current + ' 0.5s ease-in-out forwards';
+      document.querySelector('.' + slideClass).style.animation = 'fadeInSlideXY' + kashicount.current + ' 0.5s ease forwards';
 
       return () => {
         //markertext.remove();

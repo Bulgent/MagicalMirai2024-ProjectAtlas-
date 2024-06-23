@@ -12,15 +12,22 @@
 
 /* 歌詞のアニメーションを司る */
 .tooltip-lyric {
-  animation-name: fadeInSlideRight;
+  /* animation-name: fadeInSlideRight; */
   /* アニメーション名 */
-  animation-duration: 0.5s;
+  /* animation-duration: 0.5s; */
   /* アニメーションの持続時間 */
-  animation-fill-mode: forwards;
+  /* animation-fill-mode: forwards; */
   /* アニメーション完了後の状態を保持 */
-  animation-iteration-count: 1;
+  /* animation-iteration-count: 1; */
   /* アニメーションを1回だけ実行 */
+}
 
+.miku,.len{
+  text-shadow:
+    -0.1px -0.1px 0 gray,  
+    0.1px -0.1px 0 gray,
+    -0.1px  0.1px 0 gray,
+    0.1px  0.1px 0 gray; /* フチの色と太さ */
 }
 
 /* 歌詞の色（ミク） */
@@ -171,7 +178,7 @@
 
   100% {
     opacity: 1;
-    transform: translateX(calc(var(--random-number) * 1%));
+    transform: translateX(100%);
     /* transform: translateY(100%); */
     /* animation-play-state: paused; */
     /* calc(var(--random-number) * 1%)) */
