@@ -138,8 +138,17 @@ export const MapComponent = (props: any) => {
           return
         }
         const map = OSMlayerRef.current.getMaplibreMap();
+        // ここでスタイルを変更
         map.getStyle().layers.forEach(l => {
-          if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none")
+          if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none") // 文字を消す
+          // 水の色を変更
+          if (["waterway", "water"].includes(l.id) && l.type==="fill"){
+            map.setPaintProperty(l.id, "fill-color", "#90dbee")
+          }
+          // 道路の色を変更
+          if (l["source-layer"]==="transportation" && l.type==="line"){
+            map.setPaintProperty(l.id, "line-color", "#8995a2")
+          }
         });
         isInitMap.current = false
       }
@@ -432,26 +441,6 @@ export const MapComponent = (props: any) => {
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
-        />
-        <GeoJSON
-          data={trunk as GeoJSON.GeoJsonObject}
-          style={mapStyle}
-        />
-        <GeoJSON
-          data={primary as GeoJSON.GeoJsonObject}
-          style={mapStyle}
-        />
-        <GeoJSON
-          data={secondary as GeoJSON.GeoJsonObject}
-          style={mapStyle}
-        />
-        <GeoJSON
-          data={sky as unknown as GeoJSON.GeoJsonObject}
-          style={polygonStyle(
-            seasonType.SUMMER,
-            timeType.SUNSET,
-            weatherType.SUNNY
-          )}
         />
         <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
