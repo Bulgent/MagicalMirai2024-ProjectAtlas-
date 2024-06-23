@@ -1,4 +1,5 @@
 import '../styles/App.css';
+import '../styles/History.css';
 import { useCallback, useState, useEffect } from 'react';
 import songRead from '../utils/Song.ts';
 import { checkPartOfSpeech, checkArchType } from "../utils/utils.ts"
