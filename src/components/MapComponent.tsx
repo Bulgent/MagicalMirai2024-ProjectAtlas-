@@ -30,7 +30,7 @@ const carIcon = divIcon({
   className: 'car-icon', // カスタムクラス名
   html: pngCar,  // ここに車のアイコンを挿入する
   iconSize: [50, 50], // アイコンのサイズ
-  iconAnchor: [25, 50] // アイコンのアンカーポイント
+  iconAnchor: [15, 45] // アイコンのアンカーポイント
 });
 
 // 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
@@ -93,7 +93,7 @@ export const MapComponent = (props: any) => {
   const isInitMap = useRef(true)
   // 車アイコン
   const [carMapPosition, setCarMapPosition] = useState<[lat: number, lon: number]>([34, 135])
-  const [heading, setHeading] = useState(300);
+  const [heading, setHeading] = useState(180);
   // 音符配置
   const [noteCoordinates, setNoteCoordinates] = useState<{ note: string, lyric: string, lat: number, lng: number, start: number, end: number }[]>([]);
   // 移動処理
@@ -121,7 +121,7 @@ export const MapComponent = (props: any) => {
     setPathwayFeature(features);
     setMapCenter([mapCenterRet[1] + latOffset, mapCenterRet[0] + lonOffset]);
     setCarMapPosition([mapCenterRet[1], mapCenterRet[0]])
-    setHeading(300)
+    setHeading(0)
   }, []);
 
   /**
@@ -545,7 +545,7 @@ export const MapComponent = (props: any) => {
             });
           }}
         />
-        {/* <PathWay /> */}
+        <PathWay />
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
