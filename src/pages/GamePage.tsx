@@ -27,7 +27,7 @@ export const GamePage = () => {
   const [lyricPhrase, setLyricPhrase] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 })
   const [songChord, setSongChord] = useState<string>("")
   const [songChorus, setSongChorus] = useState<object>({ init: true });
-  const [songBeat, setSongBeat] = useState<string>("")
+  const [songBeat, setSongBeat] = useState(-1)
   const [songInfo, setSongInfo] = useState<number>(-1)
   const [player, setPlayer] = useState<Player | null>(null);
   const [app, setApp] = useState<any>()
@@ -37,15 +37,12 @@ export const GamePage = () => {
   const [playTime, setPlayTime] = useState<number>(0)
   const [mediaElement, setMediaElement] = useState(null);
   const [isMapMove, setIsMapMove] = useState<Boolean>(false);
-
-
   const handOverIsMapMove = createHandOverFunction(setIsMapMove)
 
   // const [songNumber, setSongNumber] = useState(isDevelopment ? 3 : buttonInfo ? parseInt(buttonInfo) : -1);
   const [songNumber, setSongNumber] = useState(buttonInfo ? parseInt(buttonInfo) : -1);
   const handOverSongNumber = createHandOverFunction(setSongNumber) // 曲選択をLyricComponentで持たせることを想定
   const handOverMediaElement = createHandOverFunction(setMediaElement)
-
 
   // Map移動に関しての変数宣言
   const [isMoving, setIsMoving] = useState(false);
@@ -101,10 +98,11 @@ export const GamePage = () => {
       <div id="display" className="soft-gloss">
         {/* OSMのクレジットいれる, OEmoJiも leaflet textalive */}
         {/* "All emojis designed by OpenMoji – the open-source emoji and icon project. License: CC BY-SA 4.0" */}
-        <div id = 'overlay' className='reading-overlay active'>
-          曲を読み込んでいます...
-        </div>
+
         <div id="navi" className="split">
+          <div id='overlay' className='reading-overlay active'>
+            曲を読み込んでいます...
+          </div>
           <div id="map">
             {/* 単語:kashiChar, 熟語:kashiWord, フレーズ:kashiPhrase */}
             <MapComponent
@@ -122,6 +120,7 @@ export const GamePage = () => {
               songArtist={songArtist}
               playTime={playTime}
               songLength={songLength}
+              lyricPhrase={lyricPhrase}
               player={player}
               app={app}
               handOverSongNumber={handOverSongNumber}

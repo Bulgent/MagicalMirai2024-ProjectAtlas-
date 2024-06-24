@@ -29,7 +29,7 @@ type createPlayerContent = {
     handOverChar: handOverLyric
     handOverWord: handOverLyric
     handOverPhrase: handOverLyric
-    handOverBeat: handOverString
+    handOverBeat: handOverAny
     handOverChord: handOverString
     handOverChorus: handOverAny
     handOverSongTitle: handOverString

@@ -1,6 +1,6 @@
 import { Player } from 'textalive-app-api';
 import songData from '../utils/Song.ts';
-import {  createPlayerContent, handOverLyric } from '../types/types';
+import { createPlayerContent, handOverLyric } from '../types/types';
 
 /**
  * 曲が流れている最中に取得できる歌詞情報を外部に渡す処理
@@ -9,7 +9,7 @@ const getLyricElement = (lyric: any, player: Player, handover: handOverLyric) =>
     while (lyric && lyric.next) {
         let isFirstPhrase: boolean = true;
         // フレーズ
-        lyric.animate = (currentLyric:any, entireLyric:any) => {
+        lyric.animate = (currentLyric: any, entireLyric: any) => {
             // 文字が時間内の時
             if (entireLyric.contains(currentLyric) && isFirstPhrase) {
                 // 歌詞の更新
@@ -21,12 +21,12 @@ const getLyricElement = (lyric: any, player: Player, handover: handOverLyric) =>
     }
     // 最後の歌詞
     lyric = player.video.lastPhrase;
-    lyric.animate = (currentLyric:any, entireLyric:any) => {
+    lyric.animate = (currentLyric: any, entireLyric: any) => {
         // 文字が時間内の時
         if (entireLyric.startTime <= currentLyric && entireLyric.endTime > currentLyric) {
-        // console.log(uWord.text)
-        // 歌詞の更新
-        handover(entireLyric); // 歌詞を親に渡す
+            // console.log(uWord.text)
+            // 歌詞の更新
+            handover(entireLyric); // 歌詞を親に渡す
         }
     };
 }
@@ -38,23 +38,23 @@ const getLyricElement = (lyric: any, player: Player, handover: handOverLyric) =>
 export const createPlayer = (createPlayerContent: createPlayerContent) => {
     const player = new Player({
         app: {
-          token: 'elLljAkPmCHHiGDP', // トークンは https://developer.textalive.jp/profile で取得したものを使う
+            token: 'elLljAkPmCHHiGDP', // トークンは https://developer.textalive.jp/profile で取得したものを使う
         },
         mediaElement: createPlayerContent.mediaElement,
     });
 
-    const onAppReady = (app:any) =>{
+    const onAppReady = (app: any) => {
         console.log('--- [app] initialized as TextAlive app ---');
         console.log('managed:', app.managed);
         player.createFromSongUrl(songData[createPlayerContent.songNumber].songURL, {
             video: {
-            // 音楽地図訂正履歴
-            beatId: songData[createPlayerContent.songNumber].video.beatId,
-            chordId: songData[createPlayerContent.songNumber].video.chordId,
-            repetitiveSegmentId: songData[createPlayerContent.songNumber].video.repetitiveSegmentId,
-            // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FhZ35%2F20240130103028
-            lyricId: songData[createPlayerContent.songNumber].video.lyricId,
-            lyricDiffId: songData[createPlayerContent.songNumber].video.lyricDiffId,
+                // 音楽地図訂正履歴
+                beatId: songData[createPlayerContent.songNumber].video.beatId,
+                chordId: songData[createPlayerContent.songNumber].video.chordId,
+                repetitiveSegmentId: songData[createPlayerContent.songNumber].video.repetitiveSegmentId,
+                // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FhZ35%2F20240130103028
+                lyricId: songData[createPlayerContent.songNumber].video.lyricId,
+                lyricDiffId: songData[createPlayerContent.songNumber].video.lyricDiffId,
             },
         });
         createPlayerContent.handOverApp(app);
@@ -93,13 +93,15 @@ export const createPlayer = (createPlayerContent: createPlayerContent) => {
         createPlayerContent.handOverChord(player.findChord(position).name);
         // ビートの更新
         const beat = player.findBeat(position);
-        if (beat.position === prevBeatPosition) return;
-        let beatText = '';
-        for (let i = 0; i < beat.position; i++) {
-            beatText += '* ';
+        if (beat.position != prevBeatPosition) {
+            console.log(beat)
+            let beatText = '';
+            for (let i = 0; i < beat.position; i++) {
+                beatText += '* ';
+            }
+            createPlayerContent.handOverBeat(beat);
+            prevBeatPosition = beat.position;
         }
-        createPlayerContent.handOverBeat(beatText);
-        prevBeatPosition = beat.position;
         // コーラスの更新
         createPlayerContent.handOverChorus(player.findChorus(position));
     }

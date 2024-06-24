@@ -18,7 +18,7 @@ export const HistoryComponent = (props: any) => {
     if ((props.player) != null) {
         return (
             <>
-                <div className='kashihistory'> {props.lyricPhrase.text} </div>
+                {/* <div className='kashihistory'> {props.lyricPhrase.text} </div> */}
                 <div className='debughistory'>
                     {/* <div>URL：{songRead[props.songnum].songURL}</div> */}
                     {/* <div>曲名：{props.player.data.song.name}</div>
@@ -30,7 +30,7 @@ export const HistoryComponent = (props: any) => {
                     <div>文字：{props.lyricChar.text}</div>
                     <div>-----------------------------</div>
                     <div>ｺｰﾄﾞ：{props.songChord}</div>
-                    <div>ﾋﾞｰﾄ：{props.songBeat}</div>
+                    <div>ﾋﾞｰﾄ：{props.songBeat.position}/{props.songBeat.length}:{props.songBeat.index}</div>
                     <div>ｻﾋﾞ?：{(props.songChorus == null || props.songChorus.init) ? "NO" : "YES"}</div>
                     <div>経過：{Math.floor(props.player.timer.position / 1000 * 100) / 100} 秒</div>
                     <div>長さ：{props.player.data.song.length} 秒</div>

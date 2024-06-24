@@ -1,16 +1,14 @@
 /* 曲コントロール */
-.mediacircle {
+.control-border {
     display: flex;
-    height: 20vh;
+    height: 15vh;
     width: 90%;
-    border: 20px solid;
-    /* paddig: 0.1em, 0.1em, 0.1em, 0.1em; */
-    border-radius: 15px;
-    /* border-width: 10px; */
+    border: 1vw solid;
+    border-radius: 1vw;
     border-color: #e12885;
     position: absolute;
     z-index: 100000;
-    bottom: 3%;
+    bottom: 1%;
     left: 50%;
     transform: translateX(-50%);
     -webkit-transform: translateX(-50%);
@@ -18,64 +16,57 @@
 }
 
 /* 曲情報表示 */
-.media-seek {
-    /* margin: 0.8em; */
+.control-box {
     width: 100%;
-    /* display: flex; */
+    height: 100%;
     border: 1px solid;
-    /* border-radius: 15px; */
     background: #373b3e;
-    /* mix-blend-mode: multiply	; */
-    /* clip-path: inset(0px round 0px); */
-    /* align-items: center; */
     position: relative;
 }
 
 /* ジャケット */
-.media-jacket {
+.song-jacket {
     height: 100%;
 }
+
 .jacketpic {
-    width: 100%;
     height: 100%;
     object-fit: contain;
     object-position: left;
-    border: 0px;
 }
 
 .transparent {
     position: relative;
-    /* 基準位置とする */
 }
 
 .transparent::before {
     content: "";
     /* 疑似要素に必須 */
     width: 110%;
-    /* 幅いっぱい */
     height: 100%;
-    /* 高さいっぱい */
     display: block;
-    /* 高さを指定するためにブロック要素にする */
     background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, #373b3e 60%);
-    /* 徐々に透明にする */
     position: absolute;
-    /*  */
     top: 0;
     left: 0;
 }
 
 /* 曲情報 */
-.media-info {
-    margin: 0.8em 1em 0.8em 10em;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
+.song-info {
+    margin: 0vh 1vw 0vh 10vw;
+    width: calc(100% - 11vw);
+    display: flex;
+    /* 左のmargin分を引く */
+    flex-direction: column;
+    /*垂直方向に子要素を配置 */
+    justify-content: space-evenly;
+    /*子要素間のスペースを垂直方向に均等に分配 */
+    align-items: center;
+    height: 100%;
 }
 
-.media-jacket,
-.media-info {
+.song-jacket,
+.song-info {
     position: absolute;
     top: 0;
     left: 0;
@@ -84,92 +75,126 @@
 /* タイトルとアーティスト */
 .title-artist {
     display: flex;
-    text-align: bottom;
+    flex-direction: row;
+    justify-content: space-between;
+    /* アイテム間に均等なスペースを配置 */
+    align-items: center;
+    /* アイテムを垂直方向の中央に配置 */
+    width: 100%;
 }
 
-.songtitle {
-    font-size: 4vh;
+.song-title {
+    font-size: 2vw;
     color: #fff;
-    margin-right: 20px;
 }
 
-.songartist {
-    font-size: 3vh;
+.song-artist {
+    font-size: 1.5vw;
     color: #fff;
-    margin-top: 10px;
-    display: table-cell;
+    margin-right: 4.5vw;
+}
+
+.seekbar {
+    align-items: center;
+    /* 垂直方向の中央配置を追加 */
+    font-size: 1.25vw;
+    color: #fff;
     text-align: center;
 }
 
-
-
-.playartist {
-    display: table;
-    width: 90%;
-    /* overflow: hidden; */
-}
-
-.time {
-    font-size: 2.5vh;
+.song-time {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 1vw;
     color: #fff;
-    display: table-cell;
-    text-align: left;
+    text-align: center;
+    margin-right: 2.5vw;
 }
 
-.controls{
-    /* display: flex; */
-    position: absolute;
-    left: 0;
-    width: 95%;
+.controls {
+    width: 100%;
 }
 
 .songcontrol {
     display: flex;
 }
 
-.pausebutton {
-    font-size: smaller;
-    width: 10%;
-}
-
 .seekbar {
     font-size: 1vh;
-    width: 80%;
+    width: 95%;
+}
+
+.pausebutton {
+    font-size: smaller;
+    width: 5%;
 }
 
 #overlay {
     position: absolute;
     top: 0;
-    right: 0;
-    bottom: 0;
     left: 0;
-    background: rgba(0, 0, 0, 1);
-    color: rgba(255, 255, 255);
-    display: flex;
-    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: gray;
+    color: white;
     z-index: 100000000000000;
     justify-content: center;
-      align-items: center;
-  }
+    display: grid;
+    place-items: center;
+}
 
-/* .reading-overlay {
-    position: 'absolute';
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 20px;
-  } */
-
-  .inactive {
-    display: none !important;
-  }
-  .active {
+.active {
     display: block !important;
-  }
+}
+
+.inactive {
+    display: none !important;
+}
+
+.lyric-phrase {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* アイテム間に均等なスペースを配置 */
+    align-items: flex-end;
+    /* アイテムを垂直方向の中央に配置 */
+    /* width: 90%; */
+    color: white;
+    text-align: center;
+}
+
+.phrase-previous {
+    display: flex;
+    flex-direction: column-reverse;
+    direction: rtl;
+    overflow-x: auto;
+    text-align: right;
+}
+.phrase-next{
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.phrase-previous,
+.phrase-next {
+    font-size: 0.90vw;
+    color: gray;
+    /* text-align: center; */
+    white-space: nowrap;
+    /* テキストを改行させない */
+    overflow: hidden;
+    /* コンテンツがオーバーフローした部分を隠す */
+    /* text-overflow: ellipsis; */
+    /*オーバーフローしたテキストの末尾に省略記号を表示 */
+    width: 5vw;
+}
+
+.phrase-current {
+    font-size: 1.2vw;
+    color: white;
+    text-align: center;
+    margin: 0 auto;
+    white-space: nowrap;
+    /* テキストを改行させない */
+}

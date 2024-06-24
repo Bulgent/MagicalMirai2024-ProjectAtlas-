@@ -1,3 +1,8 @@
+:root {
+  --min-font-size: 16px;
+  --max-font-size: 24px;
+}
+
 /* Responsive */
 html,
 body {

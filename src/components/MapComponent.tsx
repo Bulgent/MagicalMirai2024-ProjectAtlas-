@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback, useRef, useMemo, forwardRef } from 'react';
-import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker, Popup } from 'react-leaflet';
+import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
+import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
 import L, { LeafletMouseEvent, marker, Map, point, divIcon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
@@ -7,15 +7,15 @@ import '../styles/Lyrics.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { ComputeAhead } from '../services/ComputeAhead.ts'
-import { seasonType, weatherType, timeType, pointToLayer, mapStyle, polygonStyle, mapStylePathWay, overlayStyle, showDetail } from '../utils/MapStyle.ts'
+import { seasonType, weatherType, timeType, mapStyle, polygonStyle, mapStylePathWay, showDetail } from '../utils/MapStyle.ts'
 import {
-  KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance,
+  checkArchType, formatKashi, calculateDistance,
   calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor, cssSlide
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
-import { pngCar, svgNote, svgAlien, svgUnicorn, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
+import { pngCar, svgNote, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
 // 型データの導入
-import { PointProperties, lyricProperties, historyProperties, noteTooltip } from '../types/types';
+import { lyricProperties, historyProperties, noteProperties } from '../types/types';
 // 地図データの導入
 import trunk from '../assets/jsons/map_data/trunk.json'
 import primary from '../assets/jsons/map_data/primary.json'
@@ -27,13 +27,12 @@ import sky from '../assets/jsons/map_data/polygons.json'
 
 // songDataの導入
 import songData from '../utils/Song.ts';
-import { Progress } from 'semantic-ui-react';
 
-const carIcon = divIcon({
+const carIcon = divIcon({ // 31x65px
   className: 'car-icon', // カスタムクラス名
   html: pngCar,  // ここに車のアイコンを挿入する
-  iconSize: [50, 50], // アイコンのサイズ
-  iconAnchor: [15, 45] // アイコンのアンカーポイント
+  iconSize: [31, 65], // アイコンのサイズ
+  iconAnchor: [31 / 2, 65 / 2] // アイコンのアンカーポイント
 });
 
 // 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
@@ -103,14 +102,7 @@ export const MapComponent = (props: any) => {
   const eachRoadLengthRatioRef = useRef<number[]>([])
   const degreeAnglesRef = useRef<number[]>([])
   const cumulativeAheadRatioRef = useRef<number[]>([])
-
-  const kashicount = useRef(0)
-
-  // オーバーレイの色
-  const [overlayStyle, setOverlayStyle] = useState<string>("#ffffff");
-  const [season, setSeason] = useState<number>(seasonType.SUMMER);
-  const [time, setTime] = useState<number>(timeType.MORNING);
-  const [weather, setWeather] = useState<number>(weatherType.SUNNY);
+  const kashicount = useRef<number>(0) // 触れた音符の数
 
   // 初回だけ処理
   // mapの初期位置、経路の計算
@@ -225,8 +217,6 @@ export const MapComponent = (props: any) => {
       const noteGain = routeEntireLength / props.player.video.duration;
       const noteLength = wordTime.map((word) => word.start * noteGain);
       let noteCd: { note: string; lyric: string; lat: number; lng: number; start: number, end: number }[] = [];
-      // console.log("gain", noteGain)
-      // console.log("noteLength", noteLength)
 
       // 歌詞の時間を元に🎵を配置
       noteLength.forEach((noteLen, index) => {
@@ -436,10 +426,6 @@ export const MapComponent = (props: any) => {
   }
   const onSightHover = (e: LeafletMouseEvent) => {
     console.log(e.sourceTarget.feature.properties.event_place)
-    // オフ会0人かどうか
-    if (e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
-      console.log("オイイイッス！👽")
-    }
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
     props.handOverHover(e.sourceTarget.feature)
   }
@@ -453,7 +439,7 @@ export const MapComponent = (props: any) => {
     const style1 = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY).fillColor;
     const style2 = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY).fillColor;
     const style3 = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY).fillColor;
-    const updateLayer = (layer, hexColor, overlayOpacity) => {
+    const updateLayer = (layer: any, hexColor: string, overlayOpacity: number) => {
       if (layer) {
         layer.clearLayers().addData(sky)
         layer.setStyle(
@@ -536,18 +522,11 @@ export const MapComponent = (props: any) => {
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
       <MapContainer className='mapcomponent' center={[-1, -1]} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
-        
+
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
         />
-        {/* <GeoJSON
-          data={sky as unknown as GeoJSON.GeoJsonObject}
-          style={{
-            fillColor: overlayStyle,
-            opacity: 0.5,
-          }}
-        /> */}
         <UpdatingOverlayLayer />
         {/* <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
