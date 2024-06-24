@@ -17,8 +17,8 @@ body {
 
 #display {
   border-image-slice: 1;
-  border-width: 30px;
-  border-radius: 15px;
+  border-width: 2vw;
+  border-radius: 2vw;
   /* width: 100%; */
   width: 90vmax;
   /* 横幅の計算 */
@@ -40,7 +40,7 @@ body {
   width: 100%;
   -webkit-flex: 3;
   flex: 3;
-  border-radius: 3px;
+  border-radius: 0.1vw;
 }
 
 #history {

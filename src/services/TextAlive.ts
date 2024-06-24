@@ -20,7 +20,6 @@ const getLyricElement = (lyric: any, player: Player, handover: handOverLyric) =>
         lyric = lyric.next;  // 次の文字
     }
     // 最後の歌詞
-    lyric = player.video.lastPhrase;
     lyric.animate = (currentLyric: any, entireLyric: any) => {
         // 文字が時間内の時
         if (entireLyric.startTime <= currentLyric && entireLyric.endTime > currentLyric) {

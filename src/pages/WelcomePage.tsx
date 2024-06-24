@@ -1,9 +1,9 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getImage } from '../utils/utils';
 import songData from '../utils/Song';
 import '../styles/App.css';
 import '../styles/Welcome.css';
-import { getImage } from '../utils/utils';
+
 export const WelcomePage = () => {
     const navigate = useNavigate();
 
@@ -19,10 +19,11 @@ export const WelcomePage = () => {
                     {/* ボタンをsongData分追加 */}
                     {songData.map((song, index) => (
                         <button key={index} className='selectSong' onClick={() => goToGamePage(index)}>
-                            <img src={getImage(index)} alt='' style={{width: '160px', height: '90px'}} />
-                            <p>{song.title}</p>
-                            <br/>
-                            <p>{song.artist}</p>
+                            <img className='selectJacket' src={getImage(index)} alt='' />
+                            <div className='selectSongInfo'>
+                                <div className='selectSongTitle'>{song.title}</div>
+                                <div className='selectSongArtist'>{song.artist}</div>
+                            </div>
                         </button>
                     ))}
                 </div>
