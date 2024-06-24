@@ -56,7 +56,7 @@ type PointProperties = {
     coordinates: [number, number]
 }
 
-type NoteCoordinateProperties = {
+type noteCoordinateProperties = {
     note: string
     lyric: string
     lat: number
@@ -65,9 +65,15 @@ type NoteCoordinateProperties = {
     end: number
 }
 
+type wordTimeProperties = {
+    lyric: string;
+    start: number;
+    end: number
+}
+
 type noteTooltip = {
     fwdLength: number; // 前方の距離
     crtLength: number; // 現在の距離
     crtPosStart: [lat: number, lng: number]; // 現在の座標始まり
     crtPosEnd: [lat: number, lng: number]; // 現在の座標終わり
-  };
+};

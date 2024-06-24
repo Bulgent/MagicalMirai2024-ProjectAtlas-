@@ -15,7 +15,7 @@ import {
 import "leaflet-rotatedmarker";
 import { pngCar, svgNote, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
 // 型データの導入
-import { lyricProperties, historyProperties, noteProperties } from '../types/types';
+import { lyricProperties, historyProperties, noteProperties, noteCoordinateProperties, wordTimeProperties } from '../types/types';
 // 地図データの導入
 import trunk from '../assets/jsons/map_data/trunk.json'
 import primary from '../assets/jsons/map_data/primary.json'
@@ -97,7 +97,7 @@ export const MapComponent = (props: any) => {
   const [carMapPosition, setCarMapPosition] = useState<[lat: number, lon: number]>([34, 135])
   const [heading, setHeading] = useState(180);
   // 音符配置
-  const [noteCoordinates, setNoteCoordinates] = useState<{ note: string, lyric: string, lat: number, lng: number, start: number, end: number }[]>([]);
+  const noteCoordinates = useRef<noteCoordinateProperties[]>([]);
   // 移動処理
   const eachRoadLengthRatioRef = useRef<number[]>([])
   const degreeAnglesRef = useRef<number[]>([])
@@ -165,7 +165,7 @@ export const MapComponent = (props: any) => {
       // 歌詞の時間を取得
       let wordTemp = props.player.video.firstWord
       // 曲の始まりを追加
-      let wordTime: { lyric: string, start: number, end: number }[] = [{
+      let wordTime: wordTimeProperties[] = [{
         lyric: "",
         start: 0,
         end: wordTemp.startTime
@@ -215,7 +215,7 @@ export const MapComponent = (props: any) => {
       const wordCount = props.player.video.wordCount;
       const noteGain = routeEntireLength / props.player.video.duration;
       const noteLength = wordTime.map((word) => word.start * noteGain);
-      let noteCd: { note: string; lyric: string; lat: number; lng: number; start: number, end: number }[] = [];
+      let noteCd: noteCoordinateProperties[] = [];
 
       // 歌詞の時間を元に🎵を配置
       noteLength.forEach((noteLen, index) => {
@@ -227,20 +227,24 @@ export const MapComponent = (props: any) => {
         const crtDistance = noteLen - crtRoute.fwdLength;
         const crtLat = crtRoute.crtPosStart[0] + (crtRoute.crtPosEnd[0] - crtRoute.crtPosStart[0]) * (crtDistance / crtRoute.crtLength);
         const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
-        let markerString = "🎵" // 表示する文字
-        let markerSVG = "" // 表示するSVG
+        let markerString: string = "🎵" // 表示する文字
+        let markerSVG: string = svgNote // 表示するSVG
+        let markerClass: string = "icon-note" // 表示するクラス
         switch (index) {
           case 0: // 最初
             markerString = "👽"
             markerSVG = svgStart
+            markerClass = "icon-start"
             break;
           case wordCount + 1: // 最後
             markerString = "🦄"
             markerSVG = svgGoal
+            markerClass = "icon-goal"
             break;
           default: // それ以外
             markerString = songData[props.songnum].note
             markerSVG = svgNote
+            markerClass = "icon-note"
             break;
         }
         noteCd.push({
@@ -253,15 +257,16 @@ export const MapComponent = (props: any) => {
         })
 
         // L.icon を使用してカスタムアイコンを設定
-        const customIcon = divIcon({
-          className: 'custom-icon', // カスタムクラス名
+        const noteIcon = divIcon({
+          className: markerClass, // カスタムクラス名
           html: markerSVG, // SVG アイコンの HTML
           iconSize: [50, 50], // アイコンのサイズ
           iconAnchor: [25, 25] // アイコンのアンカーポイント
         });
 
         // 歌詞の座標に🎵を表示
-        const lyricMarker = marker([crtLat, crtLng], { icon: customIcon, opacity: 1 }).addTo(map);
+        const lyricMarker = marker([crtLat, crtLng], { icon: noteIcon, opacity: 1 }).addTo(map);
+        // 時間に応じたクラスを追加したツールチップを追加
         lyricMarker.bindTooltip(wordTime[index].lyric, { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note " + wordTime[index].start }).closeTooltip();
 
         lyricMarker.on('click', function (e) {
@@ -282,7 +287,7 @@ export const MapComponent = (props: any) => {
           }
         }, 250); // 250ミリ秒ごとに実行
       });
-      setNoteCoordinates(noteCd);
+      noteCoordinates.current = noteCd;
       setIsInitMap(false)
       // 曲読み込み画面を隠す
       const overlay = document.querySelector("#overlay");

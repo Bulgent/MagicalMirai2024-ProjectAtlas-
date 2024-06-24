@@ -30,3 +30,9 @@
   font-size: 200% !important;
 }
 
+/* 🎵がFANFUN TRIP */
+.icon-note {
+  width: calc(40px + 15px * var(--beat))!important;
+  transform-origin: center !important;
+  /* アイコンの幅 '+' の間にスペースないと動かない*/
+  }

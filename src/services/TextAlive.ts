@@ -100,6 +100,8 @@ export const createPlayer = (createPlayerContent: createPlayerContent) => {
         }
         // コーラスの更新
         createPlayerContent.handOverChorus(player.findChorus(position));
+        const relativePosition = 1 * (position - beat.startTime) / beat.duration;
+        document.documentElement.style.setProperty('--beat', relativePosition.toString());
     }
     // 曲イベント
     const playerListener = {
