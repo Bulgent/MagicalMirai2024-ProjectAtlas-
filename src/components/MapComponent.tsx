@@ -121,7 +121,6 @@ export const MapComponent = (props: any) => {
 
   /**
    * Mapから文字を消す処理  
-   * 
    */
   // TODO: mapの初期スタイルも導入
   const RemoveMapTextFunction = () => {
@@ -286,7 +285,10 @@ export const MapComponent = (props: any) => {
       setNoteCoordinates(noteCd);
       setIsInitMap(false)
       // 曲読み込み画面を隠す
-      document.querySelector("#overlay").className = "inactive";
+      const overlay = document.querySelector("#overlay");
+      if (overlay) {
+        overlay.className = "inactive";
+      }
       return () => {
         console.log("unmount note")
       };

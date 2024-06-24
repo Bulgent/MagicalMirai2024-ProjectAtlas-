@@ -24,7 +24,6 @@ const getLyricElement = (lyric: any, player: Player, handover: handOverLyric) =>
     lyric.animate = (currentLyric: any, entireLyric: any) => {
         // 文字が時間内の時
         if (entireLyric.startTime <= currentLyric && entireLyric.endTime > currentLyric) {
-            // console.log(uWord.text)
             // 歌詞の更新
             handover(entireLyric); // 歌詞を親に渡す
         }
@@ -76,11 +75,9 @@ export const createPlayer = (createPlayerContent: createPlayerContent) => {
         let kashiChar = player.video.firstChar; // 最初の文字(好)
         let kashiWord = player.video.firstWord; // 最初の熟語(好き)
         let kashiPhrase = player.video.firstPhrase; // 最初の歌詞(好きの伝え方は一つじゃないから)
-        // setChord(playerListener.findChord(playerListener.timer.position).name + " → " + playerListener.findChord(playerListener.timer.position).next.name);
-        // setChorus(getSegNumber(now).join())
         console.log(player, kashiChar.text, kashiWord.text, kashiPhrase.text)
         // 音楽が流れている間のそれぞれの歌詞情報取得処理
-        // Char: 1文字, Word: 単語, Phrase: 短文
+        // Char: 文字, Word: 単語, Phrase: 歌詞
         getLyricElement(kashiChar, player, createPlayerContent.handOverChar)
         getLyricElement(kashiWord, player, createPlayerContent.handOverWord)
         getLyricElement(kashiPhrase, player, createPlayerContent.handOverPhrase)

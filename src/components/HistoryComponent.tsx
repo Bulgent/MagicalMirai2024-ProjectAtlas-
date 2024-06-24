@@ -1,11 +1,9 @@
 import '../styles/App.css';
 import '../styles/History.css';
-import { useCallback, useState, useEffect } from 'react';
-import songRead from '../utils/Song.ts';
 import { checkPartOfSpeech, checkArchType } from "../utils/utils.ts"
 
 export const HistoryComponent = (props: any) => {
-
+    // ホバーされた情報表示
     const showHover = () => {
         return (
             <>{[...props.hoverHistory].reverse().map((hover: any, index: number) => (
