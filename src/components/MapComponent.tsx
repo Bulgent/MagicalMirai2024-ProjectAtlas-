@@ -526,7 +526,7 @@ export const MapComponent = (props: any) => {
     <>
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
-      <MapContainer className='mapcomponent' center={[-1, -1]} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
+      <MapContainer className='mapcomponent' center={[-1, -1]} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} zoomControl={false} attributionControl={false}>
 
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}

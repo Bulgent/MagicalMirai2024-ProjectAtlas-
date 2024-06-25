@@ -113,6 +113,21 @@ export const GamePage = () => {
               handOverHover={handOverHoverHistory}
             />
           </div>
+          <div id="mapinfo">
+            <div className='mapinfo-compass'>
+              <div className='mapinfo-compass-north'>N</div>
+            </div>
+            <div className='mapinfo-destination'>
+              <div className='mapinfo-destination-text'>インデックスオオサカまでxkm</div>
+            </div>
+            <div className='mapinfo-scale'>
+              <div className='mapinfo-scale-text'>縮尺1:10000</div>
+              <div className='mapinfo-scale-button'>
+                <button className='mapinfo-scale-button zoom-in'>+</button>
+                <button className='mapinfo-scale-button zoom-out'>-</button>
+              </div>
+            </div>
+          </div>
           <div id="song">
             <LyricComponent
               songNumber={songNumber}
