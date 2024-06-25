@@ -87,7 +87,7 @@ export const MapComponent = (props: any) => {
   // 経路計算結果格納
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
   // TextAliveより得たデータ
-  const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
+  const songKashi = useRef<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
   // OpenStreetMapレイヤー
   const OSMlayerRef = useRef(null);
   // 初期化処理のフラグ
@@ -380,14 +380,12 @@ export const MapComponent = (props: any) => {
     // console.log(map.getSize(), map.getCenter(), map.getBounds())
     // 歌詞が変わったら実行 ボカロによって色を変える
     useEffect(() => {
-      if (props.kashi.text == "" || props.kashi == songKashi) {
+      if (props.kashi.text == "" || props.kashi == songKashi.current) {
         return
       }
-      kashicount.current += 1
-      // console.log(noteCoordinates)
+      kashicount.current += 1;
       // TODO ナビゲーションの移動方向によってスライド方向を変える
-      // TODO noteCoordinatesで歌詞の表示位置を変える
-      setKashi(props.kashi)
+      songKashi.current = props.kashi
       const slideClass = 'slide' + kashicount.current
       let printKashi: string = "<div class = 'tooltip-lyric " + slideClass + "'>";
       props.kashi.text.split('').forEach((char: string) => {
@@ -417,7 +415,7 @@ export const MapComponent = (props: any) => {
       return () => {
         //markertext.remove();
       }
-    }, [map, props.kashi, songKashi, props.songnum]);
+    }, [map, props.kashi, songKashi.current, props.songnum]);
     return null;
   };
 

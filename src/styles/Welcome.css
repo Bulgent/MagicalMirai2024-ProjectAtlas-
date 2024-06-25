@@ -1,12 +1,27 @@
+.jacket-song {
+  display: flex;
+  /* Flexコンテナを有効化 */
+  flex-direction: row;
+  /* 子要素を横方向に配置 */
+  justify-content: space-evenly;
+  /* 子要素を中央に配置 */
+  height: 100%;
+}
+
+.selectJacket {
+  flex: 1;
+  width: 25%;
+  height: 100%;
+  object-fit: contain;
+  background-color: blueviolet;
+}
+
 /* 3x2のボタン配置 */
 .grid-song {
-  display: grid;
-  height: 25vh;
+  flex: 3;
+  display: flex;
+  flex-direction: column;
   padding: 1vh;
-  grid-template-columns: repeat(3, 1fr);
-  /* 3列 */
-  grid-template-rows: repeat(2, 1fr);
-  /* 2行 */
   gap: 1vh;
   /* ボタン間の隙間 */
   place-items: center;
@@ -18,16 +33,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 25vw;
-  height: 25vh;
+  width: 100%;
+  height: 100%;
   border: none;
   cursor: pointer;
   background-color: gray;
 }
 
-.selectJacket {
-  height: 20vh;
-}
+
 
 .selectSongInfo {
   display: flex;

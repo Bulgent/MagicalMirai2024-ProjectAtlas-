@@ -12,22 +12,25 @@ export const WelcomePage = () => {
     };
 
     return (
-        <div id="display" className="soft-gloss">
-            <div id="navi">
-                <h1>Select Song</h1>
-                <div className="grid-song">
-                    {/* ボタンをsongData分追加 */}
-                    {songData.map((song, index) => (
-                        <button key={index} className='selectSong' onClick={() => goToGamePage(index)}>
-                            <img className='selectJacket' src={getImage(index)} alt='' />
-                            <div className='selectSongInfo'>
-                                <div className='selectSongTitle'>{song.title}</div>
-                                <div className='selectSongArtist'>{song.artist}</div>
-                            </div>
-                        </button>
-                    ))}
+            <div id="display" className="soft-gloss">
+                <div id="navi" className="split">
+                    {/* <h1>Select Song</h1> */}
+                    <div className="jacket-song">
+                        <div className="grid-song">
+                            {/* ボタンをsongData分追加 */}
+                            {songData.map((song, index) => (
+                                <button key={index} className='selectSong' onClick={() => goToGamePage(index)}>
+                                    <div className='selectSongInfo'>
+                                        <div className='selectSongTitle'>{song.title}</div>
+                                        <div className='selectSongArtist'>{song.artist}</div>
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                        <img className='selectJacket' src={getImage(0)} alt='' />
+                    </div>
                 </div>
+                <img id='logo' src='src\assets\images\logo.png' alt='' />
             </div>
-        </div>
     );
 };
