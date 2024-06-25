@@ -8,15 +8,6 @@
   height: 100%;
 }
 
-.selectJacket {
-  flex: 1;
-  width: 25%;
-  height: 100%;
-  object-fit: contain;
-  background-color: blueviolet;
-}
-
-/* 3x2のボタン配置 */
 .grid-song {
   flex: 3;
   display: flex;
@@ -40,11 +31,21 @@
   background-color: gray;
 }
 
-
-
-.selectSongInfo {
+.selectSongInfo{
+  flex: 1;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-evenly
+  justify-content: center;
+  padding: 1vh;
+  background-color: blueviolet;
 }
+
+.selectJacket {
+  width: 100%;
+  object-fit: contain;
+}
+
+
+
+

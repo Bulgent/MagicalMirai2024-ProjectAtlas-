@@ -142,7 +142,7 @@ export const GamePage = () => {
             hoverHistory={hoverHistory}
           />
         </div>
-        <img id='logo' src='src\assets\images\logo.png' alt='' />
+        <img id='logo' src='src/assets/images/logo.png' alt='' />
       </div>
     </React.Fragment>
   );
