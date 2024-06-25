@@ -101,7 +101,7 @@ export const GamePage = () => {
 
         <div id="navi" className="split">
           <div id='overlay' className='reading-overlay active'>
-            曲を読み込んでいます...
+            目的地へのルート探索中...
           </div>
           <div id="map">
             {/* 単語:kashiChar, 熟語:kashiWord, フレーズ:kashiPhrase */}

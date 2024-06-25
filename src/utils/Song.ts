@@ -5,7 +5,7 @@ interface SongData {
     artist: string;
     vocaloid: {
         name: string;
-        japanese?: string;
+        japanese: string;
         num: number;
     },
     songURL: string;
@@ -20,9 +20,9 @@ interface SongData {
     jacketName: string;
     note: string;
     startPosition: [lat: number, lng: number];
-    turningPoint1?:[startMs: number, endMs: number];
-    turningPoint2?:[startMs: number, endMs:number];
-    duration?: number;
+    turningPoint1:[startMs: number, endMs: number];
+    turningPoint2:[startMs: number, endMs:number];
+    duration: number;
 }
 
 enum vocaloidNum {

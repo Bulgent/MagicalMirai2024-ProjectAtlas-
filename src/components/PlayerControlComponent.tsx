@@ -66,14 +66,12 @@ export const PlayerControl = (props: any) => {
         </div>
         <PlayerSeekbar player={!props.disabled && props.player} />
       </div>
-      <div className="pausebutton">
-        <input type="button"
+        <input className='pausebutton' type="button"
           value={status !== 'play' ? '▷' : '❘❘'}
           onClick={status !== 'play' ? handlePlay : handlePause}
           // size="small"
           disabled={props.disabled}
         />
-      </div>
     </div>
   );
 };

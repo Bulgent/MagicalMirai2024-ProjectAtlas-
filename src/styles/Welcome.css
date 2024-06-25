@@ -1,11 +1,11 @@
 .jacket-song {
   display: flex;
-  /* Flexコンテナを有効化 */
   flex-direction: row;
-  /* 子要素を横方向に配置 */
+  border-radius: 2vh;
   justify-content: space-evenly;
-  /* 子要素を中央に配置 */
   height: 100%;
+  background: linear-gradient(to bottom, #000023 0%, #004466 100%);
+  /* カーナビ風のダークなグラデーション背景 */
 }
 
 .grid-song {
@@ -14,31 +14,46 @@
   flex-direction: column;
   padding: 1vh;
   gap: 1vh;
-  /* ボタン間の隙間 */
   place-items: center;
   align-items: center;
 }
 
-.selectSong {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  border: none;
-  cursor: pointer;
-  background-color: gray;
+.select-song-text {
+  font-size: 4vh; /* フォントサイズを大きく */
+  color: #ffffff; /* 白色のテキスト */
+  text-align: center;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
 }
 
-.selectSongInfo{
+.select-song-button {
+  background-color: #1a1a1a; /* 濃いグレーの背景 */
+  color: #ffffff; /* 白色のテキスト */
+  padding: 2vh 5vw; /* パディングを増やす */
+  border: 0.3vh solid #007ACC; /* カーナビ風の青色の枠線を追加 */
+  cursor: pointer;
+  border-radius: 2vh; /* 角をより丸く */
+  transition: transform 0.3s ease-in-out; /* ホバー時の変化をtransformに変更 */
+  font-size: 4vh; /* フォントサイズを大きく */
+  width: 60%; /* 幅を広げる */
+  height: 100%; /* 高さを内容に合わせる */
+  margin: 0.5vh; /* ボタン間の隙間を増やす */
+  text-align: left; /* テキストを中央揃えに */
+}
+
+.select-song-button:hover {
+  background-color: #333; /* ホバー時の背景色を少し明るく */
+  transform: scale(1.05); /* ホバー時に少し大きくする */
+}
+
+.selectSongInfo {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 1vh;
-  background-color: blueviolet;
+  background-color: transparent;
 }
 
 .selectJacket {
@@ -46,6 +61,38 @@
   object-fit: contain;
 }
 
+.selectSongInfo {
+  background-color: #2a2a2a; /* ダークグレーの背景 */
+  color: #ffffff; /* 白色のテキスト */
+  padding: 2vh; /* 内側の余白 */
+  border-radius: 0vh; /* 角を丸く */
+  margin: 0px 0; /* 上下の余白 */
+  display: flex; /* フレックスボックスを使用 */
+  align-items: center; /* アイテムを中央揃え */
+  gap: 3vh; /* アイテム間の間隔 */
+}
 
+.selectJacket {
+  width: 16vw; /* ジャケット画像の幅 */
+  height: 9vw; /* ジャケット画像の高さ */
+  object-fit: cover; /* 画像のサイズを調整 */
+  border-radius: 2vh; /* 画像の角を丸く */
+}
 
+.selectTitle, .selectArtist, .selectVocaloid, .selectLength {
+  font-size: 3.5vh; /* フォントサイズを大きく */
+  color: #007ACC; /* カーナビ風の青色のテキストに変更 */
+}
 
+.selectTitle {
+  font-weight: bold; /* タイトルを太字に */
+}
+
+.selectArtist, .selectVocaloid {
+  font-size: 3vh; /* アーティストとボーカロイドのフォントサイズを少し小さく */
+}
+
+.selectLength {
+  font-size: 2.5vh; /* 再生時間のフォントサイズを標準に */
+  color: #ffffff; /* 再生時間のテキスト色を白に */
+}
