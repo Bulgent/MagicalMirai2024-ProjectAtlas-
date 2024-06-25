@@ -75,7 +75,7 @@ export const MapComponent = (props: any) => {
   const endCoordinate: [number, number] = [34.6379271092576, 135.4196972135114];
   const mapZoom: number = 17; // Mapのzoomについて1が一番ズームアウト
   const roadJsonLst = [trunk, primary, secondary] // 表示する道路について
-  const [mapCenter, setMapCenter] = useState<[number, number]>([-1, -1])
+  const mapCenterRef = useRef<[number, number]>([-1, -1]);
   const [latOffset, lonOffset]: [number, number] = [-0.0006, 0] // Mapの中心位置を補正
 
   /**
@@ -84,7 +84,7 @@ export const MapComponent = (props: any) => {
   // ホバーしたオブジェクトの格納
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([]);
   // 全ての道を表示（デバッグ用）
-  const [routePositions, setRoutePositions] = useState<[number, number][]>([]);
+  const nodesRef = useRef<[lat:number, lon:number][]>([]);
   // 経路計算結果格納
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
   // TextAliveより得たデータ
@@ -95,7 +95,7 @@ export const MapComponent = (props: any) => {
   const [isInitMapPlayer, setIsInitMap] = useState<Boolean>(true);
   const isInitMap = useRef(true)
   // 車アイコン
-  const [carMapPosition, setCarMapPosition] = useState<[lat: number, lon: number]>([34, 135])
+  const [carMapPosition, setCarMapPosition] = useState<[lat:number, lon:number]>([-1, -1])
   const [heading, setHeading] = useState(180);
   // 音符配置
   const [noteCoordinates, setNoteCoordinates] = useState<{ note: string, lyric: string, lat: number, lng: number, start: number, end: number }[]>([]);
@@ -114,18 +114,18 @@ export const MapComponent = (props: any) => {
 
   // 初回だけ処理
   // mapの初期位置、経路の計算
-  useEffect(() => {
-    const [features, nodes, mapCenterRet] = computePath(roadJsonLst, startCoordinate, endCoordinate);
+  const computePathway = () =>{
+    const [features, nodes, mapCenterRet] = computePath(roadJsonLst, songData[props.songnum].startPosition, endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
     const [aheads, degreeAngles, cumulativeAheadRatio] = ComputeAhead(nodes)
     degreeAnglesRef.current = degreeAngles
     cumulativeAheadRatioRef.current = cumulativeAheadRatio
-    setRoutePositions(nodes);
+    nodesRef.current = nodes
     setPathwayFeature(features);
-    setMapCenter([mapCenterRet[1] + latOffset, mapCenterRet[0] + lonOffset]);
+    mapCenterRef.current = [mapCenterRet[1]+latOffset,mapCenterRet[0]+lonOffset];
     setCarMapPosition([mapCenterRet[1], mapCenterRet[0]])
     setHeading(0)
-  }, []);
+  };
 
   /**
    * Mapから文字を消す処理  
@@ -139,7 +139,7 @@ export const MapComponent = (props: any) => {
         return
       }
       // mapの初期中心座標の決定
-      map.setView(mapCenter)
+      map.setView(mapCenterRef.current)
       if (OSMlayerRef.current) {
         // 読み込みが2段階ある
         if (OSMlayerRef.current.getMaplibreMap().getStyle() === undefined) {
@@ -168,9 +168,11 @@ export const MapComponent = (props: any) => {
   const AddNotesToMap = () => {
     const map = useMap();
     useEffect(() => {
-      if (props.songnum == -1 || props.songnum == null || !isInitMapPlayer || routePositions.length === 0) {
+      if (props.songnum === -1 || !isInitMapPlayer) {
         return
       }
+      computePathway()
+      map.setView(mapCenterRef.current, mapZoom)
       // 歌詞の時間を取得
       let wordTemp = props.player.video.firstWord
       // 曲の始まりを追加
@@ -201,7 +203,7 @@ export const MapComponent = (props: any) => {
       })
 
       // 道路の長さを取得
-      const nodes = routePositions;
+      const nodes = nodesRef.current;
       // const [_, nodes] = computePath();
       let routeLength: noteProperties[] = [];
       let routeEntireLength = 0.0;
@@ -300,7 +302,7 @@ export const MapComponent = (props: any) => {
       return () => {
         console.log("unmount note")
       };
-    }, [props.songnum, props.player?.video.wordCount, isInitMapPlayer, routePositions]);
+    }, [props.songnum, props.player?.video.wordCount, isInitMapPlayer, nodesRef.current]);
 
     return null;
   };
@@ -348,8 +350,8 @@ export const MapComponent = (props: any) => {
         if (rationalPlayerPosition < 1) {
           const [startNodeIndex, nodeResidue] = getRationalPositonIndex(rationalPlayerPosition, eachRoadLengthRatioRef.current);
           // 中心にセットする座標を計算
-          const updatedLat = routePositions[startNodeIndex][0] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][0] * nodeResidue;
-          const updatedLon = routePositions[startNodeIndex][1] * (1 - nodeResidue) + routePositions[startNodeIndex + 1][1] * nodeResidue;
+          const updatedLat = nodesRef.current[startNodeIndex][0] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][0] * nodeResidue;
+          const updatedLon = nodesRef.current[startNodeIndex][1] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][1] * nodeResidue;
           map.setView([updatedLat + latOffset, updatedLon + lonOffset], mapZoom);
 
           // ここにアイコンの情報を入れる
