@@ -34,7 +34,7 @@
   cursor: pointer;
   border-radius: 2vh; /* 角をより丸く */
   transition: transform 0.3s ease-in-out; /* ホバー時の変化をtransformに変更 */
-  font-size: 4vh; /* フォントサイズを大きく */
+  font-size: 2vw; /* フォントサイズを大きく */
   width: 60%; /* 幅を広げる */
   height: 100%; /* 高さを内容に合わせる */
   margin: 0.5vh; /* ボタン間の隙間を増やす */

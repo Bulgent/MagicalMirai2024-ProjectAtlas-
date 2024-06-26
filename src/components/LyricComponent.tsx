@@ -34,19 +34,19 @@ export const LyricComponent = (props: any) => {
       <>
         <div className='control-border'>
           <div className="control-box">
-            <div className='song-jacket transparent'>
-              <img className='jacketpic' src={getImage(props.songNumber)} alt='' />
-            </div>
             <div className='song-info'>
               <div className='title-artist'>
-                <div className='song-title'>♪{props.songTitle}</div>
-                <div className='song-artist'>{props.songArtist}</div>
+                <div className='song-title'>{props.songTitle}</div>
+                {/* <div className='song-artist'>{props.songArtist}</div> */}
               </div>
               <div className="controls">
                 {props.player && props.app && (
-                  <PlayerControl disabled={props.app.managed} player={props.player} handOverIsMapMove={props.handOverIsMapMove} lyricPhrase={props.lyricPhrase}/>
+                  <PlayerControl disabled={props.app.managed} player={props.player} handOverIsMapMove={props.handOverIsMapMove} lyricPhrase={props.lyricPhrase} />
                 )}
               </div>
+              {/* <div className='song-jacket transparent'>
+                <img className='jacketpic' src={getImage(props.songNumber)} alt='' />
+              </div> */}
             </div>
             {div}
           </div>
