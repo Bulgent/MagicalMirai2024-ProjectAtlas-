@@ -28,7 +28,7 @@ const creditData: credit[] = [
     {
         name: 'ゲーム名',
         credit: 'Team AHEAD, Project Atlas,  🦄 & 👽, 2024',
-        link: 'https://example.com/'
+        link: ''
     }
 ];
 

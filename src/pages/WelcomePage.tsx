@@ -52,9 +52,9 @@ export const WelcomePage = () => {
                         <div className='tooltip'>
                             {creditData.map((credit, index) => (
                                 <div key={index} className='credit'>
-                                    {credit.name}
+                                    <a href={credit.link} target="_blank" rel="noopener noreferrer">{credit.name}</a>
                                     <span key={index} className='tooltiptext'>
-                                        {credit.credit}
+                                        {credit.credit}{credit.link != '' ? ' (' + credit.link + ')' : ''}
                                     </span>
                                 </div>
                             ))}
