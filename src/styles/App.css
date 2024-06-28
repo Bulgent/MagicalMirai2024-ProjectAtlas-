@@ -1,3 +1,22 @@
+/* Robot */
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+*/
+
+/* Open Sans */
+/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap'); */
+
+/* Lato */
+/* @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap'); */
+
+/* Montserrat */
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap'); */
+
+/* Noto Sans */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+
+/* Raleway */
+/* @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap'); */
+
 :root {
   --min-font-size: 16px;
   --max-font-size: 24px;
@@ -9,6 +28,8 @@ body {
   height: 100%;
   display: grid;
   place-items: center;
+  font-family: 'Roboto', sans-serif;
+
 }
 
 body {
