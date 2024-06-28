@@ -1,6 +1,7 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { PlayerSeekbar } from 'textalive-react-api';
 import '../styles/SongControl.css';
+import { msToMs } from '../utils/utils';
 
 export const PlayerControl = (props: any) => {
   const [status, setStatus] = useState('stop');
@@ -57,7 +58,7 @@ export const PlayerControl = (props: any) => {
           <PlayerSeekbar player={!props.disabled && props.player} />
           <div className='song-time'>
             <div className="time-elapsed">
-              {('00' + Math.floor((props.player.timer.position / 1000) / 60)).slice(-2)}:{('00' + Math.floor((props.player.timer.position / 1000) % 60)).slice(-2)}
+              {msToMs(props.player.timer.position)}
             </div>
             <div className="lyric-phrase">
               <div className="phrase-current">
@@ -65,7 +66,7 @@ export const PlayerControl = (props: any) => {
               </div>
             </div>
             <div className="time-duration">
-              {('00' + Math.floor(props.player.data.song.length / 60)).slice(-2)}:{('00' + Math.floor(props.player.data.song.length % 60)).slice(-2)}
+              {msToMs(props.player.data.song.length * 1000)}
             </div>
           </div>
         </div>

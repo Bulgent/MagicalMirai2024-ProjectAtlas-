@@ -5,6 +5,7 @@ import creditData from '../utils/credits';
 import '../styles/App.css';
 import '../styles/Welcome.css';
 import { useState } from 'react';
+import { msToMs } from '../utils/utils';
 
 export const WelcomePage = () => {
     const [songIndex, setSongIndex] = useState(-1);
@@ -14,14 +15,6 @@ export const WelcomePage = () => {
     const [songLength, setSongLength] = useState<number>(1224000);
 
     const navigate = useNavigate();
-
-    // ミリ秒を分:秒に変換する関数
-    const msToMs = (milliseconds: number) => {
-        const totalSeconds = Math.floor(milliseconds / 1000);
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    };
 
     // ゲームページに遷移する関数
     const goToGamePage = (buttonInfo: number) => {

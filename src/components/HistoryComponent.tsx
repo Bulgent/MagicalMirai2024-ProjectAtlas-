@@ -1,6 +1,7 @@
 import '../styles/App.css';
 import '../styles/History.css';
 import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
+import { msToMs } from '../utils/utils';
 
 export const HistoryComponent = (props: any) => {
     // ホバーされた情報表示
