@@ -409,8 +409,10 @@ export const MapComponent = (props: any) => {
       // 地図に追加
       markertext.addTo(map);
       // アニメーション
-      // document.querySelector('.' + slideClass).style.animation = 'parabolaSlideXY' + kashicount.current + ' 0.5s ease-in-out forwards';
       document.querySelector('.' + slideClass).style.animation = 'fadeInSlideXY' + kashicount.current + ' 0.5s ease forwards';
+
+      // FanFun度を増やす
+      props.handOverFanFun(1000)
 
       return () => {
         //markertext.remove();
@@ -431,9 +433,12 @@ export const MapComponent = (props: any) => {
   }
   // 👽観光地にマウスが乗ったときに呼び出される関数👽
   const onSightHover = (e: LeafletMouseEvent) => {
-    console.log(e.sourceTarget.feature.properties.event_place)
+    console.log(props) // TODO playerがnullになって曲の時間が取得できない
+    // console.log(e.sourceTarget.feature.properties.event_place)
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
     props.handOverHover(e.sourceTarget.feature)
+    // TODO 異界だけにする
+    props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
   }
 
   /**

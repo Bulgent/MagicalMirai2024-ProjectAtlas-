@@ -65,9 +65,16 @@
   font-size: 1vw;
 }
 
-.funfun {
+.fanfun {
   display: 2;
+  width: calc(100% - 1vw);
+  padding: 0vh 1vw;
+  text-align: right;
   font-size: 2.5vw;
+}
+.unit {
+  font-size: 75%;
+  /* 例: 元のフォントサイズの75%に設定 */
 }
 
 @keyframes fadeInSlideDown {

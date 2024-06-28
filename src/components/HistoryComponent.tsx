@@ -4,6 +4,8 @@ import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'rea
 import { msToMs } from '../utils/utils';
 
 export const HistoryComponent = (props: any) => {
+    const [fanfun, setFanfun] = useState<number>(0);
+
     // ホバーされた情報表示
     const showHover = () => {
         if (props.hoverHistory.length === 0) {
@@ -20,18 +22,21 @@ export const HistoryComponent = (props: any) => {
         }
         else {
             return (
-                <>{[...props.hoverHistory].reverse().map((hover: any, index: number) => (
-                    <div key={index} className='hoverhistory'>
-                        <div className='historyname'>
-                            {props.hoverHistory.length - index}-
-                            {/* {hover.properties.index} */}
-                            {hover.properties.event_place}
+                <>
+                    {[...props.hoverHistory].reverse().map((hover: any, index: number) => (
+                        <div key={index} className='hoverhistory'>
+                            <div className='historyname'>
+                                {props.hoverHistory.length - index}-
+                                {/* {hover.properties.index} */}
+                                {hover.properties.event_place}
+                                {/* TODO ここに訪問時間表示 */}
+                            </div>
+                            <div className='historydetail'>
+                                {hover.properties.event_detail}
+                            </div>
                         </div>
-                        <div className='historydetail'>
-                            {hover.properties.event_detail}
-                        </div>
-                    </div>
-                ))}</>
+                    ))}
+                </>
             )
         }
     }
@@ -41,15 +46,15 @@ export const HistoryComponent = (props: any) => {
         return (
             <div className='hover'>
                 <div className='hovertext'>
-                Trip Memories
+                    Trip Memories
                     <div className='hoverline'></div>
                 </div>
                 <div className='hovercomponent' >
                     {showHover()}
                 </div>
                 <div className='hoverline'></div>
-                <div className='funfun' >
-                    FUNFUN SCORE
+                <div className='fanfun' >
+                    {props.fanfun}<span className="unit">FF</span>
                 </div>
             </div>
         )

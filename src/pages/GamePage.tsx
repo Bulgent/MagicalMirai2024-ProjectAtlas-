@@ -8,10 +8,11 @@ import { useLocation } from 'react-router-dom';
 import { LyricComponent } from '../components/LyricComponent';
 import { HistoryComponent } from '../components/HistoryComponent';
 import { MapComponent } from '../components/MapComponent'
-import {MapInfoComponent} from '../components/MapInfoComponent' 
+import { MapInfoComponent } from '../components/MapInfoComponent'
 import { createPlayerContent, lyricProperties, historyProperties } from '../types/types';
 import { createPlayer } from "../services/TextAlive.ts"
 import { createHandOverFunction } from "../utils/utils.ts"
+import { point } from 'leaflet';
 
 export const GamePage = () => {
   // 開発環境について
@@ -38,6 +39,7 @@ export const GamePage = () => {
   const [playTime, setPlayTime] = useState<number>(0)
   const [mediaElement, setMediaElement] = useState(null);
   const [isMapMove, setIsMapMove] = useState<Boolean>(false);
+  const [fanfun, setFanfun] = useState<number>(0);
   const handOverIsMapMove = createHandOverFunction(setIsMapMove)
 
   // const [songNumber, setSongNumber] = useState(isDevelopment ? 3 : buttonInfo ? parseInt(buttonInfo) : -1);
@@ -53,8 +55,12 @@ export const GamePage = () => {
   };
   // MapComponentからのホバー情報を受け取る
   const handOverHoverHistory = (hover: historyProperties) => {
-    //hoverhistory に追加(重複削除)
+    // hoverhistory に追加(重複削除)
     setHoverHistory((prev) => [...new Set([...prev, hover])]);
+  }
+  const handOverFanFun = (point: number) => {
+    // fanfun に追加
+    setFanfun(prevFanfun => prevFanfun + point);
   }
 
   // PlayerLister作成のための変数
@@ -74,7 +80,6 @@ export const GamePage = () => {
     handOverSongLength: createHandOverFunction(setSongLength),
     handOverPlayTime: createHandOverFunction(setPlayTime),
     handOverApp: createHandOverFunction(setApp)
-
   }
 
   // Txtaliveから情報取得開始
@@ -112,6 +117,7 @@ export const GamePage = () => {
               isMoving={isMapMove}
               player={player}
               handOverHover={handOverHoverHistory}
+              handOverFanFun={handOverFanFun}
             />
           </div>
           <div id="mapinfo">
@@ -145,6 +151,7 @@ export const GamePage = () => {
             songnum={songInfo}
             player={player}
             hoverHistory={hoverHistory}
+            fanfun={fanfun}
           />
         </div>
         <img id='logo' src='src/assets/images/logo.png' alt='' />
