@@ -30,13 +30,17 @@ export const WelcomePage = () => {
         setSongLength(songData[index].duration);
     };
 
-    window.addEventListener('orientationchange', function () {
-        if (window.orientation === 0) {
-            // 縦向きの場合
-            document.querySelector('.rotate-device').style.display = 'block';
-        } else {
-            // 横向きの場合
-            document.querySelector('.rotate-device').style.display = 'none';
+    // 画面の向きが変わった時の処理
+    window.addEventListener('resize', function () {
+        const rotateDeviceElement = document.querySelector('.rotate-device') as HTMLDivElement;
+        if (rotateDeviceElement) { // nullでないことを確認
+            if (window.matchMedia("(orientation: portrait)").matches) {
+                // 縦向きの場合
+                rotateDeviceElement.style.display = 'block';
+            } else {
+                // 横向きの場合
+                rotateDeviceElement.style.display = 'none';
+            }
         }
     });
 
@@ -59,7 +63,7 @@ export const WelcomePage = () => {
                         ))}
                     </div>
                     <div className='selectSongInfo'>
-                        <img className='selectJacket' src={songIndex.current != -1 ? getImage(songIndex.current) : 'src/assets/images/project.png'} alt='' />
+                        <img className='selectJacket' src={songIndex.current != -1 ? getImage(songIndex.current) : 'src/assets/images/project.png'} alt='jacket' />
                         <div className='selectTitle'>{songTitle}</div>
                         <div className='selectArtist'>{songArtist}</div>
                         <div className='selectVocaloid'>{songVocaloid}</div>
