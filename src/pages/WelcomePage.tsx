@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { getImage } from '../utils/utils';
 import songData from '../utils/Song';
+import creditData from '../utils/credits';
 import '../styles/App.css';
 import '../styles/Welcome.css';
 import { useState } from 'react';
@@ -21,7 +22,7 @@ export const WelcomePage = () => {
         const seconds = totalSeconds % 60;
         return `${minutes}:${seconds.toString().padStart(2, '0')}`;
     };
-    
+
     // ゲームページに遷移する関数
     const goToGamePage = (buttonInfo: number) => {
         navigate(`/navi?song=${buttonInfo}`); // GamePage へのパスとクエリパラメータを指定
@@ -55,6 +56,16 @@ export const WelcomePage = () => {
                         <div className='selectArtist'>{songArtist}</div>
                         <div className='selectVocaloid'>{songVocaloid}</div>
                         <div className='selectLength'>{msToMs(songLength)}</div>
+                        <div className='tooltip'>
+                            {creditData.map((credit, index) => (
+                                <div key={index} className='credit'>
+                                    {credit.name}
+                                    <span key={index} className='tooltiptext'>
+                                        {credit.credit}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

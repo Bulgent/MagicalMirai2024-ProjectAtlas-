@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 import { LyricComponent } from '../components/LyricComponent';
 import { HistoryComponent } from '../components/HistoryComponent';
 import { MapComponent } from '../components/MapComponent'
+import {MapInfoComponent} from '../components/MapInfoComponent' 
 import { createPlayerContent, lyricProperties, historyProperties } from '../types/types';
 import { createPlayer } from "../services/TextAlive.ts"
 import { createHandOverFunction } from "../utils/utils.ts"
@@ -114,19 +115,8 @@ export const GamePage = () => {
             />
           </div>
           <div id="mapinfo">
-            <div className='mapinfo-compass'>
-              <div className='mapinfo-compass-north'>N</div>
-            </div>
-            <div className='mapinfo-destination'>
-              <div className='mapinfo-destination-text'>インデックスオオサカまでxkm</div>
-            </div>
-            <div className='mapinfo-scale'>
-              <div className='mapinfo-scale-text'>縮尺1:10000</div>
-              <div className='mapinfo-scale-button'>
-                <button className='mapinfo-scale-button zoom-in'>+</button>
-                <button className='mapinfo-scale-button zoom-out'>-</button>
-              </div>
-            </div>
+            <MapInfoComponent
+            />
           </div>
           <div id="song">
             <LyricComponent
