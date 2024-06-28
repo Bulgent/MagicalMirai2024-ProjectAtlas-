@@ -429,6 +429,7 @@ export const MapComponent = (props: any) => {
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
     props.handOverHover(e.sourceTarget.feature)
   }
+  // 👽観光地にマウスが乗ったときに呼び出される関数👽
   const onSightHover = (e: LeafletMouseEvent) => {
     console.log(e.sourceTarget.feature.properties.event_place)
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
@@ -455,6 +456,7 @@ export const MapComponent = (props: any) => {
         )
       }
     }
+
     const turnOverlayAnimation = () => {
       if (!props.isMoving) {
         return;

@@ -98,8 +98,42 @@
 }
 
 a{
+  color: inherit; /* 親要素から色を継承 */
   text-decoration: none; /* ハイパーリンクの下線を消す */
 }
 a:visited {
   color: inherit; /* 親要素から色を継承 */
+}
+
+.tooltip-credit {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  bottom: 0;
+  font-size: 0.7vw;
+  color: #999;
+  text-align: center;
+  margin-top: 2em;
+  width: 25%;
+}
+
+.tooltip-credit .tooltiptext {
+  visibility: hidden;
+  width: 100%;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* ツールチップの位置を調整 */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 0%;
+}
+
+.credit:hover .tooltiptext {
+  visibility: visible;
 }

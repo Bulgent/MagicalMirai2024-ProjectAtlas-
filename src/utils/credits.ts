@@ -7,23 +7,28 @@ type credit = {
 const creditData: credit[] = [
     {
         name: 'Leaflet',
-        credit: 'Map data',
+        credit: 'Map Control',
         link: 'https://leafletjs.com/'
     },
     {
         name: 'OpenStreetMap',
-        credit: 'contributors',
+        credit: 'Map Data',
         link: 'https://www.openstreetmap.org/'
     },
     {
         name: 'OpenEmoji',
-        credit: 'Emoji data',
+        credit: 'Emoji Data',
         link: 'https://openmoji.org/'
     },
     {
+        name: 'Songle',
+        credit: 'Lyrics Data',
+        link: 'https://api.songle.jp/'
+    },
+    {
         name: 'TextAlive',
-        credit: 'Lyrics synchronization API',
-        link: 'https://textalive.jp/'
+        credit: 'Lyrics Control',
+        link: 'https://developer.textalive.jp/'
     },
     {
         name: 'ゲーム名',

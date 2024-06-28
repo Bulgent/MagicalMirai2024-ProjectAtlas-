@@ -49,10 +49,10 @@ export const WelcomePage = () => {
                         <div className='selectArtist'>{songArtist}</div>
                         <div className='selectVocaloid'>{songVocaloid}</div>
                         <div className='selectLength'>{msToMs(songLength)}</div>
-                        <div className='tooltip'>
+                        <div className='tooltip-credit'>
                             {creditData.map((credit, index) => (
                                 <div key={index} className='credit'>
-                                    <a href={credit.link} target="_blank" rel="noopener noreferrer">{credit.name}</a>
+                                    <a href={credit.link} target="_blank" rel="noopener noreferrer">{credit.name}{index != creditData.length - 1 ? ',' : null}</a>
                                     <span key={index} className='tooltiptext'>
                                         {credit.credit}{credit.link != '' ? ' (' + credit.link + ')' : ''}
                                     </span>

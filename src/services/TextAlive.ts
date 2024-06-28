@@ -90,7 +90,7 @@ export const createPlayer = (createPlayerContent: createPlayerContent) => {
         // ビートの更新
         const beat = player.findBeat(position);
         if (beat.position != prevBeatPosition) {
-            console.log(beat)
+            // console.log(beat)
             let beatText = '';
             for (let i = 0; i < beat.position; i++) {
                 beatText += '* ';
