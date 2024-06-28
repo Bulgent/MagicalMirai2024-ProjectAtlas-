@@ -53,29 +53,25 @@ export const PlayerControl = (props: any) => {
             {props.player.data.song.artist.name}
           </div>
         </div>
-        <div className='song-time'>
-          <div className="time-elapsed">
-            {('00' + Math.floor((props.player.timer.position / 1000) / 60)).slice(-2)}:{('00' + Math.floor((props.player.timer.position / 1000) % 60)).slice(-2)}
-          </div>
-          <div className="time-duration">
-            {('00' + Math.floor(props.player.data.song.length / 60)).slice(-2)}:{('00' + Math.floor(props.player.data.song.length % 60)).slice(-2)}
+        <div className='seek'>
+          <PlayerSeekbar player={!props.disabled && props.player} />
+          <div className='song-time'>
+            <div className="time-elapsed">
+              {('00' + Math.floor((props.player.timer.position / 1000) / 60)).slice(-2)}:{('00' + Math.floor((props.player.timer.position / 1000) % 60)).slice(-2)}
+            </div>
+            <div className="lyric-phrase">
+              <div className="phrase-current">
+                {props.lyricPhrase.text ? props.lyricPhrase?.text : props.player.video.firstPhrase.text}
+              </div>
+            </div>
+            <div className="time-duration">
+              {('00' + Math.floor(props.player.data.song.length / 60)).slice(-2)}:{('00' + Math.floor(props.player.data.song.length % 60)).slice(-2)}
+            </div>
           </div>
         </div>
-        <PlayerSeekbar player={!props.disabled && props.player} />
-        <div className="lyric-phrase">
-          <div className="phrase-current">
-            {props.lyricPhrase?.text}
-          </div>
-        </div>
+
       </div>
       <div className='right'>
-        {/* <img className='jacketpic' src={props.jacketPic} alt="jacket" /> */}
-        {/* <input className='pausebutton' type="button"
-          value={status !== 'play' ? '▷' : '❘❘'}
-          onClick={status !== 'play' ? handlePlay : handlePause}
-          // size="small"
-          disabled={props.disabled}
-        /> */}
         <button className='pausebutton' onClick={status !== 'play' ? handlePlay : handlePause} disabled={props.disabled}>
           <img className='jacketbutton' src={props.jacketPic} alt={status !== 'play' ? 'Play' : 'Pause'} />
           <div className='textbutton'>

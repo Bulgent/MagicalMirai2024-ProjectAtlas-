@@ -34,7 +34,7 @@ export const LyricComponent = (props: any) => {
       <>
         <div className="control-box">
               {props.player && props.app && (
-                <PlayerControl disabled={props.app.managed} player={props.player} handOverIsMapMove={props.handOverIsMapMove} lyricPhrase={props.lyricPhrase} jacketPic={getImage(0)} />
+                <PlayerControl disabled={props.app.managed} player={props.player} handOverIsMapMove={props.handOverIsMapMove} lyricPhrase={props.lyricPhrase} jacketPic={getImage(props.songNumber)} />
               )}
         </div>
         {div}

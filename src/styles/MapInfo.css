@@ -12,7 +12,7 @@
 }
 
 .compass {
-    background-color: #2a2a2a;
+    background-color: rgba(0, 0, 0, 0.8); 
     border-radius: 1vh;
     align-items: center;
     justify-content: center;
@@ -51,7 +51,7 @@
 }
 
 .infobox {
-    background-color: #2a2a2a;
+    background-color: rgba(0, 0, 0, 0.8); 
     border-top: 3vh solid;
     border-radius: 1vh;
     position: relative;

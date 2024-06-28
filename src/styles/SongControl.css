@@ -1,37 +1,44 @@
+/* Song Control Container */
 .songcontrol {
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
+/* Left Section */
 .left {
     display: flex;
-    flex: 9;
+    width: calc(100% - 15vh);
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    padding: 1vh 1vw;
 }
 
+/* Title and Artist Section */
 .title-artist {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    align-items: flex-end;
-    width:100%;
+    align-items: center;
+    width: 100%;
 }
 
+/* Song Title */
 .song-title {
     text-align: center;
     font-size: 2vw;
     color: #fff;
 }
 
+/* Song Artist */
 .song-artist {
     font-size: 1.5vw;
     color: #fff;
 }
 
+/* Song Time Section */
 .song-time {
     display: flex;
     flex-direction: row;
@@ -39,62 +46,84 @@
     font-size: 1vw;
     color: #fff;
     text-align: center;
-    width: 90%;
+    width: 100%;
 }
 
+/* Seek Bar */
+.seek {
+    width: 100%;
+}
 
-
+/* Seek Bar Container */
 .seekbar {
     align-items: center;
-    font-size: 1.25vw;
+    font-size: 1.25vh;
     color: #fff;
     text-align: center;
-    width: 90%;
+    width: 100%;
 }
 
-
-
+/* Lyric Phrase Section */
 .lyric-phrase {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    /* アイテム間に均等なスペースを配置 */
     align-items: flex-end;
-    /* アイテムを垂直方向の中央に配置 */
-    /* width: 90%; */
     color: white;
     text-align: center;
 }
 
+/* Current Phrase */
 .phrase-current {
     font-size: 1.2vw;
     color: white;
     text-align: center;
     margin: 0 auto;
     white-space: nowrap;
-    /* テキストを改行させない */
+    /* Prevent text from wrapping */
 }
 
+/* Right Section */
 .right {
+    height:15vh;
     display: flex;
-    flex: 1;
 }
 
+/* Pause Button */
 .pausebutton {
-    border: 'none';
-    background: 'none';
+    border: none;
+    background: none;
     padding: 0;
     position: relative;
+    background-color: transparent;
+    border-radius: 1vw;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* トランジション効果を追加 */
 }
 
-.jacketbutton {
-    height: 100%;
-    width: 100%;
-    object-fit: contain;
-    object-position: left;
-    border-radius: 20%;
+.pausebutton:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* ホバー時の背景色を変更 */
+    transform: scale(0.95); /* ホバー時に少し小きくする */
 }
-.textbutton{
+
+.pausebutton:active {
+    transform: scale(0.9); /* クリック時にさらに小さくする */
+    transition: transform 0.1s ease; /* トランジションを速くして反応を良くする */
+}
+
+/* Jacket Button */
+.jacketbutton {
+    height: 15vh;
+    width: 15vh;
+    background-color: transparent;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 1vw;
+    filter: brightness(50%);
+}
+
+/* Text Button */
+.textbutton {
     position: absolute;
     top: 0;
     left: 0;
@@ -103,6 +132,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
-    font-size: 20px;
+    color: #FFFFFF; /* テキストの色を白に変更 */
+    font-size: 5vh;
+    text-shadow: 2px 2px 4px #000000; /* テキストの影を追加 */
+    font-weight: bold; /* フォントウェイトを太くする */
 }
