@@ -1,3 +1,26 @@
+/* 横向き表示を促すメッセージのスタイル */
+.rotate-device {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  text-align: center;
+  padding-top: 50vh;
+  z-index: 1000;
+}
+
+/* スマートフォンが縦向きのときにのみメッセージを表示 */
+@media screen and (orientation: portrait) {
+  .rotate-device {
+    display: block;
+  }
+}
+
+
 .jacket-song {
   display: flex;
   flex-direction: row;
@@ -16,34 +39,65 @@
   gap: 1vh;
   place-items: center;
   align-items: center;
+  overflow: auto;
+  /* Add overflow property to enable scrolling */
+  scrollbar-width: thin;
+  scrollbar-color: #7bcac9 transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #7bcac9;
+  border-radius: 10px;
+  border: none;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #5ca2a0;
 }
 
 .select-song-text {
-  font-size: 4vh; /* フォントサイズを大きく */
-  color: #ffffff; /* 白色のテキスト */
+  font-size: 4vh;
+  /* フォントサイズを大きく */
+  color: #ffffff;
+  /* 白色のテキスト */
   text-align: center;
   margin-top: 2vh;
   margin-bottom: 2vh;
 }
 
 .select-song-button {
-  background-color: #1a1a1a; /* 濃いグレーの背景 */
-  color: #ffffff; /* 白色のテキスト */
-  padding: 2vh 5vw; /* パディングを増やす */
-  border: 0.3vh solid #007ACC; /* カーナビ風の青色の枠線を追加 */
+  background-color: #1a1a1a;
+  /* 濃いグレーの背景 */
+  color: #ffffff;
+  /* 白色のテキスト */
+  padding: 2vh 5vw;
+  /* パディングを増やす */
+  border: 0.3vh solid #007ACC;
+  /* カーナビ風の青色の枠線を追加 */
   cursor: pointer;
-  border-radius: 2vh; /* 角をより丸く */
-  transition: transform 0.3s ease-in-out; /* ホバー時の変化をtransformに変更 */
-  font-size: 2vw; /* フォントサイズを大きく */
-  width: 60%; /* 幅を広げる */
-  height: 100%; /* 高さを内容に合わせる */
-  margin: 0.5vh; /* ボタン間の隙間を増やす */
-  text-align: left; /* テキストを中央揃えに */
+  border-radius: 2vh;
+  /* 角をより丸く */
+  transition: transform 0.3s ease-in-out;
+  /* ホバー時の変化をtransformに変更 */
+  font-size: 2vw;
+  /* フォントサイズを大きく */
+  width: 60%;
+  /* 幅を広げる */
+  height: 100%;
+  /* 高さを内容に合わせる */
+  margin: 0.5vh;
+  /* ボタン間の隙間を増やす */
+  text-align: left;
+  /* テキストを中央揃えに */
 }
 
 .select-song-button:hover {
-  background-color: #333; /* ホバー時の背景色を少し明るく */
-  transform: scale(1.05); /* ホバー時に少し大きくする */
+  background-color: #333;
+  /* ホバー時の背景色を少し明るく */
+  transform: scale(1.05);
+  /* ホバー時に少し大きくする */
 }
 
 .selectSongInfo {
@@ -52,57 +106,63 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1vh;
-  background-color: transparent;
+  text-align: center;
+  background-color: #2a2a2a;
+  color: #ffffff;
+  padding: 2vh;
+  gap: 3vh;
 }
 
 .selectJacket {
-  width: 100%;
-  object-fit: contain;
+  width: 16vw;
+  /* ジャケット画像の幅 */
+  height: 9vw;
+  /* ジャケット画像の高さ */
+  object-fit: cover;
+  /* 画像のサイズを調整 */
+  border-radius: 2vh;
+  /* 画像の角を丸く */
 }
 
-.selectSongInfo {
-  background-color: #2a2a2a; /* ダークグレーの背景 */
-  color: #ffffff; /* 白色のテキスト */
-  padding: 2vh; /* 内側の余白 */
-  border-radius: 0vh; /* 角を丸く */
-  margin: 0px 0; /* 上下の余白 */
-  display: flex; /* フレックスボックスを使用 */
-  align-items: center; /* アイテムを中央揃え */
-  gap: 3vh; /* アイテム間の間隔 */
-}
-
-.selectJacket {
-  width: 16vw; /* ジャケット画像の幅 */
-  height: 9vw; /* ジャケット画像の高さ */
-  object-fit: cover; /* 画像のサイズを調整 */
-  border-radius: 2vh; /* 画像の角を丸く */
-}
-
-.selectTitle, .selectArtist, .selectVocaloid, .selectLength {
-  font-size: 3.5vh; /* フォントサイズを大きく */
-  color: #007ACC; /* カーナビ風の青色のテキストに変更 */
+.selectTitle,
+.selectArtist,
+.selectVocaloid,
+.selectLength {
+  font-size: 1.7vw;
+  /* フォントサイズを大きく */
+  color: #007ACC;
+  /* カーナビ風の青色のテキストに変更 */
+  text-align: center;
 }
 
 .selectTitle {
-  font-weight: bold; /* タイトルを太字に */
+  font-weight: bold;
+  /* タイトルを太字に */
 }
 
-.selectArtist, .selectVocaloid {
-  font-size: 3vh; /* アーティストとボーカロイドのフォントサイズを少し小さく */
+.selectArtist,
+.selectVocaloid {
+  font-size: 1.6vw;
+  /* アーティストとボーカロイドのフォントサイズを少し小さく */
 }
 
 .selectLength {
-  font-size: 2.5vh; /* 再生時間のフォントサイズを標準に */
-  color: #ffffff; /* 再生時間のテキスト色を白に */
+  font-size: 1.5vw;
+  /* 再生時間のフォントサイズを標準に */
+  color: #ffffff;
+  /* 再生時間のテキスト色を白に */
 }
 
-a{
-  color: inherit; /* 親要素から色を継承 */
-  text-decoration: none; /* ハイパーリンクの下線を消す */
+a {
+  color: inherit;
+  /* 親要素から色を継承 */
+  text-decoration: none;
+  /* ハイパーリンクの下線を消す */
 }
+
 a:visited {
-  color: inherit; /* 親要素から色を継承 */
+  color: inherit;
+  /* 親要素から色を継承 */
 }
 
 .tooltip-credit {
