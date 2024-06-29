@@ -549,6 +549,7 @@ export const MapComponent = (props: any) => {
        inertiaMaxSpeed = {500} inertiaDeceleration = {1000}
        dragging={true} zoomControl={false} attributionControl={false}
        maxBoundsViscosity={1.0}
+       preferCanvas={true}
       >
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
