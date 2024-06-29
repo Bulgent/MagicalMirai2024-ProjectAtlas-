@@ -66,9 +66,9 @@ const createLinksFromJson = (json: any):Link[] =>{
 
 
 function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[]]{
-  const feature_ret = []
-  const nodes_path:[number, number][] = []
-  const nodes_path_json:[number, number][] = []
+  let feature_ret = []
+  let nodes_path:[number, number][] = []
+  let nodes_path_json:[number, number][] = []
   for (let node_result of node_results){
     const targetIndex2 = links.findIndex(link => {
       return link.link_id === node_result.link_id
@@ -105,8 +105,10 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
       nodes_path.push([to[1], to[0]])
     }
   }
+  nodes_path_json = nodes_path_json.slice(0, -1)
+  nodes_path = nodes_path.slice(0, -1)
   // インテックス大阪までの道を増やす
-  const extra_coordinates:[lat:number, lon:number][] = [[34.63770689844046, 135.42285667579964],]
+  const extra_coordinates:[lat:number, lon:number][] = [[34.63605408951977, 135.42027421844344],]
   for(let coordinate of extra_coordinates){
     nodes_path_json.push([coordinate[1], coordinate[0]])
     nodes_path.push([coordinate[0], coordinate[1]])
