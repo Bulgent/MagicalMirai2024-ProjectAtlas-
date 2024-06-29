@@ -1,7 +1,9 @@
-import { useCallback, useState, useEffect ,useRef} from 'react';
+import { useCallback, useState, useEffect, useRef } from 'react';
 import { PlayerSeekbar } from 'textalive-react-api';
+import '../styles/SongControl.css';
+import { msToMs } from '../utils/utils';
 
-export const PlayerControl = (props:any) => {
+export const PlayerControl = (props: any) => {
   const [status, setStatus] = useState('stop');
   const isInitPlay = useRef(true);
 
@@ -18,7 +20,7 @@ export const PlayerControl = (props:any) => {
   const handlePlay = useCallback(
     () => {
       if (props.player) {
-        if(isInitPlay.current){
+        if (isInitPlay.current) {
           props.player.timer.seek(0);
           console.log("initialize playing")
           isInitPlay.current = false
@@ -43,16 +45,40 @@ export const PlayerControl = (props:any) => {
 
   return (
     <div className="songcontrol">
-      <div className="seekbar">
-        <PlayerSeekbar player={!props.disabled && props.player}  />
+      <div className='left'>
+        <div className='title-artist'>
+          <div className='song-title'>
+            {props.player.data.song.name}
+          </div>
+          <div className='song-artist'>
+            {props.player.data.song.artist.name}
+          </div>
+        </div>
+        <div className='seek'>
+          <PlayerSeekbar player={!props.disabled && props.player} />
+          <div className='song-time'>
+            <div className="time-elapsed">
+              {msToMs(props.player.timer.position)}
+            </div>
+            <div className="lyric-phrase">
+              <div className="phrase-current">
+                {props.lyricPhrase.text ? props.lyricPhrase?.text : props.player.video.firstPhrase.text}
+              </div>
+            </div>
+            <div className="time-duration">
+              {msToMs(props.player.data.song.length * 1000)}
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div className="pausebutton">
-        <input type="button"
-          value={status !== 'play' ? '▷' : '❘❘'}
-          onClick={status !== 'play' ? handlePlay : handlePause}
-          // size="small"
-          disabled={props.disabled}
-        />
+      <div className='right'>
+        <button className='pausebutton' onClick={status !== 'play' ? handlePlay : handlePause} disabled={props.disabled}>
+          <img className='jacketbutton' src={props.jacketPic} alt={status !== 'play' ? 'Play' : 'Pause'} />
+          <div className='textbutton'>
+            {status !== 'play' ? '▷' : '❘❘'}
+          </div>
+        </button>
       </div>
     </div>
   );

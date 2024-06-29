@@ -1,9 +1,35 @@
+/* Robot */
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+*/
+
+/* Open Sans */
+/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap'); */
+
+/* Lato */
+/* @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap'); */
+
+/* Montserrat */
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap'); */
+
+/* Noto Sans */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+
+/* Raleway */
+/* @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap'); */
+
+:root {
+  --min-font-size: 16px;
+  --max-font-size: 24px;
+}
+
 /* Responsive */
 html,
 body {
   height: 100%;
   display: grid;
   place-items: center;
+  font-family: 'Roboto', sans-serif;
+
 }
 
 body {
@@ -12,8 +38,8 @@ body {
 
 #display {
   border-image-slice: 1;
-  border-width: 30px;
-  border-radius: 15px;
+  border-width: 2vw;
+  border-radius: 2vw;
   /* width: 100%; */
   width: 90vmax;
   /* 横幅の計算 */
@@ -25,27 +51,45 @@ body {
   align-items: center;
   box-sizing: border-box;
   background-color: black;
+  position: relative;
+}
+
+#logo{
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  max-height: 2vw;
+  object-fit: contain; /* アスペクト比を保持 */
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  transform: translate(-50%, 100%);
+  filter: brightness(50%); /* 画像の明るさを50%に設定 */
 }
 
 #navi {
   position: relative;
+  border-radius: 2vw;
   display: block;
-  background-color: #86cecb;
+  background-color: black;
   height: 100%;
   width: 100%;
   -webkit-flex: 3;
   flex: 3;
-  border-radius: 3px;
+  border-radius: 0.1vw;
 }
 
 #history {
   height: 100%;
   -webkit-flex: 1;
   flex: 1;
-  background-color: #86cecb;
+  border-radius: 0vw;
+  background-color: #2a2a2a;
+  color: #ffffff;
   box-sizing: border-box;
-  padding: 0%1%0%1%;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .soft-gloss {

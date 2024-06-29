@@ -8,9 +8,11 @@ import { useLocation } from 'react-router-dom';
 import { LyricComponent } from '../components/LyricComponent';
 import { HistoryComponent } from '../components/HistoryComponent';
 import { MapComponent } from '../components/MapComponent'
+import { MapInfoComponent } from '../components/MapInfoComponent'
 import { createPlayerContent, lyricProperties, historyProperties } from '../types/types';
 import { createPlayer } from "../services/TextAlive.ts"
 import { createHandOverFunction } from "../utils/utils.ts"
+import { point } from 'leaflet';
 
 export const GamePage = () => {
   // 開発環境について
@@ -27,7 +29,7 @@ export const GamePage = () => {
   const [lyricPhrase, setLyricPhrase] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 })
   const [songChord, setSongChord] = useState<string>("")
   const [songChorus, setSongChorus] = useState<object>({ init: true });
-  const [songBeat, setSongBeat] = useState<string>("")
+  const [songBeat, setSongBeat] = useState(-1)
   const [songInfo, setSongInfo] = useState<number>(-1)
   const [player, setPlayer] = useState<Player | null>(null);
   const [app, setApp] = useState<any>()
@@ -37,15 +39,13 @@ export const GamePage = () => {
   const [playTime, setPlayTime] = useState<number>(0)
   const [mediaElement, setMediaElement] = useState(null);
   const [isMapMove, setIsMapMove] = useState<Boolean>(false);
-
-
+  const [fanfun, setFanfun] = useState<number>(0);
   const handOverIsMapMove = createHandOverFunction(setIsMapMove)
 
   // const [songNumber, setSongNumber] = useState(isDevelopment ? 3 : buttonInfo ? parseInt(buttonInfo) : -1);
   const [songNumber, setSongNumber] = useState(buttonInfo ? parseInt(buttonInfo) : -1);
   const handOverSongNumber = createHandOverFunction(setSongNumber) // 曲選択をLyricComponentで持たせることを想定
   const handOverMediaElement = createHandOverFunction(setMediaElement)
-
 
   // Map移動に関しての変数宣言
   const [isMoving, setIsMoving] = useState(false);
@@ -55,8 +55,12 @@ export const GamePage = () => {
   };
   // MapComponentからのホバー情報を受け取る
   const handOverHoverHistory = (hover: historyProperties) => {
-    //hoverhistory に追加(重複削除)
+    // hoverhistory に追加(重複削除)
     setHoverHistory((prev) => [...new Set([...prev, hover])]);
+  }
+  const handOverFanFun = (point: number) => {
+    // fanfun に追加
+    setFanfun(prevFanfun => prevFanfun + point);
   }
 
   // PlayerLister作成のための変数
@@ -76,7 +80,6 @@ export const GamePage = () => {
     handOverSongLength: createHandOverFunction(setSongLength),
     handOverPlayTime: createHandOverFunction(setPlayTime),
     handOverApp: createHandOverFunction(setApp)
-
   }
 
   // Txtaliveから情報取得開始
@@ -101,10 +104,11 @@ export const GamePage = () => {
       <div id="display" className="soft-gloss">
         {/* OSMのクレジットいれる, OEmoJiも leaflet textalive */}
         {/* "All emojis designed by OpenMoji – the open-source emoji and icon project. License: CC BY-SA 4.0" */}
-        <div id = 'overlay' className='reading-overlay active'>
-          曲を読み込んでいます...
-        </div>
+
         <div id="navi" className="split">
+          <div id='overlay' className='reading-overlay active'>
+            目的地へのルート探索中...
+          </div>
           <div id="map">
             {/* 単語:kashiChar, 熟語:kashiWord, フレーズ:kashiPhrase */}
             <MapComponent
@@ -113,6 +117,11 @@ export const GamePage = () => {
               isMoving={isMapMove}
               player={player}
               handOverHover={handOverHoverHistory}
+              handOverFanFun={handOverFanFun}
+            />
+          </div>
+          <div id="mapinfo">
+            <MapInfoComponent
             />
           </div>
           <div id="song">
@@ -122,6 +131,7 @@ export const GamePage = () => {
               songArtist={songArtist}
               playTime={playTime}
               songLength={songLength}
+              lyricPhrase={lyricPhrase}
               player={player}
               app={app}
               handOverSongNumber={handOverSongNumber}
@@ -141,8 +151,10 @@ export const GamePage = () => {
             songnum={songInfo}
             player={player}
             hoverHistory={hoverHistory}
+            fanfun={fanfun}
           />
         </div>
+        <img id='logo' src='src/assets/images/logo.png' alt='' />
       </div>
     </React.Fragment>
   );

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback, useRef, useMemo, forwardRef } from 'react';
-import { MapContainer, GeoJSON, Circle, Tooltip, useMap, Marker, Popup } from 'react-leaflet';
+import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
+import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
 import L, { LeafletMouseEvent, marker, Map, point, divIcon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
@@ -7,15 +7,15 @@ import '../styles/Lyrics.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { ComputeAhead } from '../services/ComputeAhead.ts'
-import { seasonType, weatherType, timeType, pointToLayer, mapStyle, polygonStyle, mapStylePathWay, overlayStyle, showDetail } from '../utils/MapStyle.ts'
+import { seasonType, weatherType, timeType, mapStyle, polygonStyle, mapStylePathWay, showDetail } from '../utils/MapStyle.ts'
 import {
-  KashiType, checkKashiType, ArchType, checkArchType, formatKashi, calculateVector, calculateDistance,
+  checkArchType, formatKashi, calculateDistance,
   calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor, cssSlide
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
-import { pngCar, svgNote, svgAlien, svgUnicorn, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
+import { pngCar, svgNote, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
 // 型データの導入
-import { PointProperties, lyricProperties, historyProperties, noteTooltip } from '../types/types';
+import { lyricProperties, historyProperties, noteProperties, noteCoordinateProperties, wordTimeProperties } from '../types/types';
 // 地図データの導入
 import trunk from '../assets/jsons/map_data/trunk.json'
 import primary from '../assets/jsons/map_data/primary.json'
@@ -27,13 +27,12 @@ import sky from '../assets/jsons/map_data/polygons.json'
 
 // songDataの導入
 import songData from '../utils/Song.ts';
-import { Progress } from 'semantic-ui-react';
 
-const carIcon = divIcon({
+const carIcon = divIcon({ // 31x65px
   className: 'car-icon', // カスタムクラス名
   html: pngCar,  // ここに車のアイコンを挿入する
-  iconSize: [50, 50], // アイコンのサイズ
-  iconAnchor: [15, 45] // アイコンのアンカーポイント
+  iconSize: [31, 65], // アイコンのサイズ
+  iconAnchor: [31 / 2, 65 / 2] // アイコンのアンカーポイント
 });
 
 // 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
@@ -88,7 +87,7 @@ export const MapComponent = (props: any) => {
   // 経路計算結果格納
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
   // TextAliveより得たデータ
-  const [songKashi, setKashi] = useState<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
+  const songKashi = useRef<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
   // OpenStreetMapレイヤー
   const OSMlayerRef = useRef(null);
   // 初期化処理のフラグ
@@ -98,19 +97,12 @@ export const MapComponent = (props: any) => {
   const [carMapPosition, setCarMapPosition] = useState<[lat:number, lon:number]>([-1, -1])
   const [heading, setHeading] = useState(180);
   // 音符配置
-  const [noteCoordinates, setNoteCoordinates] = useState<{ note: string, lyric: string, lat: number, lng: number, start: number, end: number }[]>([]);
+  const noteCoordinates = useRef<noteCoordinateProperties[]>([]);
   // 移動処理
   const eachRoadLengthRatioRef = useRef<number[]>([])
   const degreeAnglesRef = useRef<number[]>([])
   const cumulativeAheadRatioRef = useRef<number[]>([])
-
-  const kashicount = useRef(0)
-
-  // オーバーレイの色
-  const [overlayStyle, setOverlayStyle] = useState<string>("#ffffff");
-  const [season, setSeason] = useState<number>(seasonType.SUMMER);
-  const [time, setTime] = useState<number>(timeType.MORNING);
-  const [weather, setWeather] = useState<number>(weatherType.SUNNY);
+  const kashicount = useRef<number>(0) // 触れた音符の数
 
   // 初回だけ処理
   // mapの初期位置、経路の計算
@@ -129,7 +121,6 @@ export const MapComponent = (props: any) => {
 
   /**
    * Mapから文字を消す処理  
-   * 
    */
   // TODO: mapの初期スタイルも導入
   const RemoveMapTextFunction = () => {
@@ -176,7 +167,7 @@ export const MapComponent = (props: any) => {
       // 歌詞の時間を取得
       let wordTemp = props.player.video.firstWord
       // 曲の始まりを追加
-      let wordTime: { lyric: string, start: number, end: number }[] = [{
+      let wordTime: wordTimeProperties[] = [{
         lyric: "",
         start: 0,
         end: wordTemp.startTime
@@ -226,9 +217,7 @@ export const MapComponent = (props: any) => {
       const wordCount = props.player.video.wordCount;
       const noteGain = routeEntireLength / props.player.video.duration;
       const noteLength = wordTime.map((word) => word.start * noteGain);
-      let noteCd: { note: string; lyric: string; lat: number; lng: number; start: number, end: number }[] = [];
-      // console.log("gain", noteGain)
-      // console.log("noteLength", noteLength)
+      let noteCd: noteCoordinateProperties[] = [];
 
       // 歌詞の時間を元に🎵を配置
       noteLength.forEach((noteLen, index) => {
@@ -240,20 +229,24 @@ export const MapComponent = (props: any) => {
         const crtDistance = noteLen - crtRoute.fwdLength;
         const crtLat = crtRoute.crtPosStart[0] + (crtRoute.crtPosEnd[0] - crtRoute.crtPosStart[0]) * (crtDistance / crtRoute.crtLength);
         const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
-        let markerString = "🎵" // 表示する文字
-        let markerSVG = "" // 表示するSVG
+        let markerString: string = "🎵" // 表示する文字
+        let markerSVG: string = svgNote // 表示するSVG
+        let markerClass: string = "icon-note" // 表示するクラス
         switch (index) {
           case 0: // 最初
             markerString = "👽"
             markerSVG = svgStart
+            markerClass = "icon-start"
             break;
           case wordCount + 1: // 最後
             markerString = "🦄"
             markerSVG = svgGoal
+            markerClass = "icon-goal"
             break;
           default: // それ以外
             markerString = songData[props.songnum].note
             markerSVG = svgNote
+            markerClass = "icon-note"
             break;
         }
         noteCd.push({
@@ -266,15 +259,16 @@ export const MapComponent = (props: any) => {
         })
 
         // L.icon を使用してカスタムアイコンを設定
-        const customIcon = divIcon({
-          className: 'custom-icon', // カスタムクラス名
+        const noteIcon = divIcon({
+          className: markerClass, // カスタムクラス名
           html: markerSVG, // SVG アイコンの HTML
           iconSize: [50, 50], // アイコンのサイズ
           iconAnchor: [25, 25] // アイコンのアンカーポイント
         });
 
         // 歌詞の座標に🎵を表示
-        const lyricMarker = marker([crtLat, crtLng], { icon: customIcon, opacity: 1 }).addTo(map);
+        const lyricMarker = marker([crtLat, crtLng], { icon: noteIcon, opacity: 1 }).addTo(map);
+        // 時間に応じたクラスを追加したツールチップを追加
         lyricMarker.bindTooltip(wordTime[index].lyric, { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note " + wordTime[index].start }).closeTooltip();
 
         lyricMarker.on('click', function (e) {
@@ -295,10 +289,13 @@ export const MapComponent = (props: any) => {
           }
         }, 250); // 250ミリ秒ごとに実行
       });
-      setNoteCoordinates(noteCd);
+      noteCoordinates.current = noteCd;
       setIsInitMap(false)
       // 曲読み込み画面を隠す
-      document.querySelector("#overlay").className = "inactive";
+      const overlay = document.querySelector("#overlay");
+      if (overlay) {
+        overlay.className = "inactive";
+      }
       return () => {
         console.log("unmount note")
       };
@@ -385,14 +382,12 @@ export const MapComponent = (props: any) => {
     // console.log(map.getSize(), map.getCenter(), map.getBounds())
     // 歌詞が変わったら実行 ボカロによって色を変える
     useEffect(() => {
-      if (props.kashi.text == "" || props.kashi == songKashi) {
+      if (props.kashi.text == "" || props.kashi == songKashi.current) {
         return
       }
-      kashicount.current += 1
-      // console.log(noteCoordinates)
+      kashicount.current += 1;
       // TODO ナビゲーションの移動方向によってスライド方向を変える
-      // TODO noteCoordinatesで歌詞の表示位置を変える
-      setKashi(props.kashi)
+      songKashi.current = props.kashi
       const slideClass = 'slide' + kashicount.current
       let printKashi: string = "<div class = 'tooltip-lyric " + slideClass + "'>";
       props.kashi.text.split('').forEach((char: string) => {
@@ -416,13 +411,15 @@ export const MapComponent = (props: any) => {
       // 地図に追加
       markertext.addTo(map);
       // アニメーション
-      // document.querySelector('.' + slideClass).style.animation = 'parabolaSlideXY' + kashicount.current + ' 0.5s ease-in-out forwards';
       document.querySelector('.' + slideClass).style.animation = 'fadeInSlideXY' + kashicount.current + ' 0.5s ease forwards';
+
+      // FanFun度を増やす
+      props.handOverFanFun(1000)
 
       return () => {
         //markertext.remove();
       }
-    }, [map, props.kashi, songKashi, props.songnum]);
+    }, [map, props.kashi, songKashi.current, props.songnum]);
     return null;
   };
 
@@ -436,14 +433,14 @@ export const MapComponent = (props: any) => {
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
     props.handOverHover(e.sourceTarget.feature)
   }
+  // 👽観光地にマウスが乗ったときに呼び出される関数👽
   const onSightHover = (e: LeafletMouseEvent) => {
-    console.log(e.sourceTarget.feature.properties.event_place)
-    // オフ会0人かどうか
-    if (e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
-      console.log("オイイイッス！👽")
-    }
+    console.log(props) // TODO playerがnullになって曲の時間が取得できない
+    // console.log(e.sourceTarget.feature.properties.event_place)
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
     props.handOverHover(e.sourceTarget.feature)
+    // TODO 異界だけにする
+    props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
   }
 
   /**
@@ -455,7 +452,7 @@ export const MapComponent = (props: any) => {
     const style1 = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY).fillColor;
     const style2 = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY).fillColor;
     const style3 = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY).fillColor;
-    const updateLayer = (layer, hexColor, overlayOpacity) => {
+    const updateLayer = (layer: any, hexColor: string, overlayOpacity: number) => {
       if (layer) {
         layer.clearLayers().addData(sky)
         layer.setStyle(
@@ -466,6 +463,7 @@ export const MapComponent = (props: any) => {
         )
       }
     }
+
     const turnOverlayAnimation = () => {
       if (!props.isMoving) {
         return;
@@ -537,19 +535,12 @@ export const MapComponent = (props: any) => {
     <>
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
-      <MapContainer className='mapcomponent' center={[-1, -1]} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} attributionControl={false}>
-        
+      <MapContainer className='mapcomponent' center={[-1, -1]} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} zoomControl={false} attributionControl={false}>
+
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
         />
-        {/* <GeoJSON
-          data={sky as unknown as GeoJSON.GeoJsonObject}
-          style={{
-            fillColor: overlayStyle,
-            opacity: 0.5,
-          }}
-        /> */}
         <UpdatingOverlayLayer />
         {/* <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
@@ -574,6 +565,7 @@ export const MapComponent = (props: any) => {
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
           ref={OSMlayerRef}
+          style={{ name: "Stadia Maps", version: 8, sources: {}, layers: [] }}
         />
         <MoveMapByRoute />
         <AddNotesToMap />

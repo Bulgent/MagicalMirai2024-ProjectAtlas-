@@ -1,0 +1,139 @@
+#mapinfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 15vh;
+    height: 70%;
+    color: white;
+    position: absolute;
+    z-index: 10000000;
+    top: 0;
+    left: 1%;
+}
+
+.compass {
+    background-color: rgba(0, 0, 0, 0.8); 
+    border-radius: 1vh;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1vh;
+    display: flex;
+}
+
+.compass-circle {
+    width: 8vh; /* 親要素に合わせる */
+    height: 8vh; /* 親要素に合わせる */
+    border-radius: 50%; /* 丸形にする */
+    background-color: #FFF; /* 背景色 */
+    position: relative; /* 疑似要素の基準点 */
+}
+
+.compass-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 1.8vh solid transparent; /* 三角形の左側 */
+    border-right: 1.8vh solid transparent; /* 三角形の右側 */
+    border-bottom: 6vh solid red; /* 三角形の底辺（北を示す赤い部分） */
+    top: 12.5%; /* 三角形の位置調整 */
+    left: 50%; /* 中央に配置 */
+    transform: translateX(-50%); /* 中央に正確に配置するための調整 */
+}
+
+.compass-north{
+    position: absolute;
+    bottom: -6.5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2vh;
+    color: white;
+}
+
+.infobox {
+    background-color: rgba(0, 0, 0, 0.8); 
+    border-top: 3vh solid;
+    border-radius: 1vh;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+
+.goal.infobox {
+    border-color: #cb213c;
+}
+
+.waypoint.infobox {
+    border-color: #e12885;
+}
+
+.vics.infobox {
+    border-color: #413a87;
+}
+
+.scale.infobox {
+    border-color: #0097a7;
+}
+
+.infotitle {
+    position: absolute;
+    width: 100%;
+    font-size: 2.5vh;
+    top: -3vh;
+    left: 0;
+}
+
+.infotext {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    font-size: 3vh;
+    margin: 1vh;
+}
+
+.unit {
+    font-size: 75%;
+    /* 例: 元のフォントサイズの75%に設定 */
+}
+
+.scale-line {
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 0vh;
+    margin-bottom: 1vh;
+    position: relative;
+    /* 追加 */
+}
+
+.scale-line::before,
+.scale-line::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    /* 下の線と同じ高さに配置 */
+    width: 2px;
+    /* 端の線の幅 */
+    height: 5px;
+    /* 端の線の高さ */
+    background: white;
+}
+
+.scale-line::before {
+    left: -2px;
+    /* 左端に配置 */
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}
+
+.scale-line::after {
+    right: -2px;
+    /* 右端に配置 */
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}

@@ -1,26 +1,199 @@
-/* 3x2のボタン配置 */
+/* 横向き表示を促すメッセージのスタイル */
+.rotate-device {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  text-align: center;
+  padding-top: 50vh;
+  z-index: 1000;
+}
+
+/* スマートフォンが縦向きのときにのみメッセージを表示 */
+@media screen and (orientation: portrait) {
+  .rotate-device {
+    display: block;
+  }
+}
+
+
+.jacket-song {
+  display: flex;
+  flex-direction: row;
+  border-radius: 2vh;
+  justify-content: space-evenly;
+  height: 100%;
+  background: linear-gradient(to bottom, #000023 0%, #004466 100%);
+  /* カーナビ風のダークなグラデーション背景 */
+}
+
 .grid-song {
-    display: grid;
-    height: 50%;
-    padding: 1em;
-    grid-template-columns: repeat(3, 1fr); /* 3列 */
-    grid-template-rows: repeat(2, 1fr); /* 2行 */
-    gap: 10px; /* ボタン間の隙間 */
-    place-items: center;
-    align-items: center;
-  }
-  
-  .selectSong{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 70%; /* ボタンの幅 */
-    height: 100%; /* ボタンの高さ */
-    background-color: #22b674; /* ボタンの背景色 */
-    color: white; /* テキスト色 */
-    border: none; /* 枠線なし */
-    border-radius: 5px; /* 角の丸み */
-    cursor: pointer; /* ホバー時のカーソル変更 */
-    margin: 5px; /* ボタン間の余白 */
-    font-size: larger; /* テキストサイズ */
-  }
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  padding: 1vh;
+  gap: 1vh;
+  place-items: center;
+  align-items: center;
+  overflow: auto;
+  /* Add overflow property to enable scrolling */
+  scrollbar-width: thin;
+  scrollbar-color: #7bcac9 transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #7bcac9;
+  border-radius: 10px;
+  border: none;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #5ca2a0;
+}
+
+.select-song-text {
+  font-size: 4vh;
+  /* フォントサイズを大きく */
+  color: #ffffff;
+  /* 白色のテキスト */
+  text-align: center;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}
+
+.select-song-button {
+  background-color: #1a1a1a;
+  /* 濃いグレーの背景 */
+  color: #ffffff;
+  /* 白色のテキスト */
+  padding: 2vh 5vw;
+  /* パディングを増やす */
+  border: 0.3vh solid #007ACC;
+  /* カーナビ風の青色の枠線を追加 */
+  cursor: pointer;
+  border-radius: 2vh;
+  /* 角をより丸く */
+  transition: transform 0.3s ease-in-out;
+  /* ホバー時の変化をtransformに変更 */
+  font-size: 2vw;
+  /* フォントサイズを大きく */
+  width: 60%;
+  /* 幅を広げる */
+  height: 100%;
+  /* 高さを内容に合わせる */
+  margin: 0.5vh;
+  /* ボタン間の隙間を増やす */
+  text-align: left;
+  /* テキストを中央揃えに */
+}
+
+.select-song-button:hover {
+  background-color: #333;
+  /* ホバー時の背景色を少し明るく */
+  transform: scale(1.05);
+  /* ホバー時に少し大きくする */
+}
+
+.selectSongInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #2a2a2a;
+  color: #ffffff;
+  padding: 2vh;
+  gap: 3vh;
+}
+
+.selectJacket {
+  width: 16vw;
+  /* ジャケット画像の幅 */
+  height: 9vw;
+  /* ジャケット画像の高さ */
+  object-fit: cover;
+  /* 画像のサイズを調整 */
+  border-radius: 2vh;
+  /* 画像の角を丸く */
+}
+
+.selectTitle,
+.selectArtist,
+.selectVocaloid,
+.selectLength {
+  font-size: 1.7vw;
+  /* フォントサイズを大きく */
+  color: #007ACC;
+  /* カーナビ風の青色のテキストに変更 */
+  text-align: center;
+}
+
+.selectTitle {
+  font-weight: bold;
+  /* タイトルを太字に */
+}
+
+.selectArtist,
+.selectVocaloid {
+  font-size: 1.6vw;
+  /* アーティストとボーカロイドのフォントサイズを少し小さく */
+}
+
+.selectLength {
+  font-size: 1.5vw;
+  /* 再生時間のフォントサイズを標準に */
+  color: #ffffff;
+  /* 再生時間のテキスト色を白に */
+}
+
+a {
+  color: inherit;
+  /* 親要素から色を継承 */
+  text-decoration: none;
+  /* ハイパーリンクの下線を消す */
+}
+
+a:visited {
+  color: inherit;
+  /* 親要素から色を継承 */
+}
+
+.tooltip-credit {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  bottom: 0;
+  font-size: 0.7vw;
+  color: #999;
+  text-align: center;
+  margin-top: 2em;
+  width: 25%;
+}
+
+.tooltip-credit .tooltiptext {
+  visibility: hidden;
+  width: 100%;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* ツールチップの位置を調整 */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 0%;
+}
+
+.credit:hover .tooltiptext {
+  visibility: visible;
+}

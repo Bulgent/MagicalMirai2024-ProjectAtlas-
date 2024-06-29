@@ -341,3 +341,12 @@ export const changeColor = (startHex:string, endHex:string, progress:number) => 
 export const getImage = (songNumber : number): string => {
   return new URL(`../assets/images/jacket/${songData[songNumber].jacketName}`, import.meta.url).href;
 };
+
+
+// ミリ秒を分:秒に変換する関数
+export const msToMs = (milliseconds: number) => {
+  const totalSeconds = Math.floor(milliseconds / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+};
