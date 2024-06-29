@@ -1,6 +1,43 @@
 import { useCallback } from 'react'
 import songData from './Song.ts'
 
+// 観光名所の種類
+export const enum sightType {
+  sports = 0, // スポーツ
+  eat = 1, // 食事
+  movie = 2, // 映画館
+  aqua = 3, // 水族館
+  zoo = 4, // 動物園
+  depart = 5, // 買い物
+  castle = 6, // 史跡名勝
+  hotspring = 7, // 温泉
+  amusement = 8, // 遊園地
+  festival = 9, // 祭り
+  factory = 10, // 工場見学
+  buil = 11 // その他
+}
+export const enum sightSeason{
+  spring = 0, // 春
+  summer = 1, // 夏
+  autumn = 2, // 秋
+  winter = 3, // 冬
+  all = 4 // 通年
+}
+export const enum sightTime{
+  morning = 0,  // 朝
+  noon = 1, // 昼
+  sunset = 2, // 夕方
+  night = 3, // 夜
+  all = 4 // 通年
+}
+export const enum sightWeather{
+  sunny = 0, // 晴れ
+  cloudy = 1, // 曇り
+  rainy = 2, // 雨
+  snow = 3, // 雪
+  all = 4 // 通年
+}
+
 // 👽歌詞の種類を判別するための正規表現👽
 const hiraganaRegex = /^[ぁ-ん]+$/;
 const katakanaRegex = /^[ァ-ン]+$/;

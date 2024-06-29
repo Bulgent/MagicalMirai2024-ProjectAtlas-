@@ -29,7 +29,7 @@ export const HistoryComponent = (props: any) => {
                                 {props.hoverHistory.length - index}-
                                 {/* {hover.properties.index} */}
                                 {hover.properties.event_place}
-                                {hover.properties.playerPosition}
+                                {msToMs(hover.properties.playerPosition)}
                             </div>
                             <div className='historydetail'>
                                 {hover.properties.event_detail}

@@ -1,19 +1,12 @@
 import { StyleFunction, LatLngExpression, circleMarker, divIcon, marker } from 'leaflet';
-import { svgBuil } from '../assets/marker/markerSVG.ts'
+import { svgSight } from '../assets/marker/markerSVG.ts'
+import { sightType, sightSeason, sightTime, sightWeather } from './utils.ts';
 
-const circleMarkerOptions = {
-    radius: 10,
-    fillColor: 'white',
-    color: 'red',
-    weight: 2,
-    fillOpacity: 1,
-};
-
-// pointデータを図形として表現
+// pointデータを図形として表現(固定式観光地)
 export const pointToLayer = (feature: any, latlng: LatLngExpression) => {
     const builIcon = divIcon({
         className: 'buil-icon', // カスタムクラス名
-        html: svgBuil,  // ここに車のアイコンを挿入する
+        html: svgSight[svgSight.length - 1],  // ここに車のアイコンを挿入する
         iconSize: [50, 50], // アイコンのサイズ
         iconAnchor: [25, 25] // アイコンのアンカーポイント
     });
@@ -41,11 +34,12 @@ export const pointToLayer = (feature: any, latlng: LatLngExpression) => {
     return builMarker;
 };
 
-// pointデータを図形として表現
+// pointデータを図形として表現(移動式観光地)
 export const showDetail = (feature: any, latlng: LatLngExpression) => {
+    console.log(latlng, feature)
     const builIcon = divIcon({
         className: 'buil-icon', // カスタムクラス名
-        html: svgBuil,  // ここにビルのアイコンを挿入する
+        html: svgSight[feature.properties.event_type],  // ここにビルのアイコンを挿入する
         iconSize: [50, 50], // アイコンのサイズ
         iconAnchor: [25, 25] // アイコンのアンカーポイント
     });
@@ -54,7 +48,7 @@ export const showDetail = (feature: any, latlng: LatLngExpression) => {
     // ホバー時のイベントハンドラ
     const onHover = (e: L.LeafletMouseEvent) => {
         const hoveredMarker = e.target;
-        console.log(feature)
+        // console.log(feature)
         // ツールチップ表示
         hoveredMarker.bindTooltip(feature.properties.event_place, { permanent: true, direction: 'top' }).openTooltip();
     };
@@ -62,12 +56,13 @@ export const showDetail = (feature: any, latlng: LatLngExpression) => {
     // ホバーが解除された時のイベントハンドラ
     // const onHoverOut = (e: L.LeafletMouseEvent) => {
     //   const hoveredMarker = e.target;
-    //   hoveredMarker.setStyle(circleMarkerOptions); // 元のスタイルに戻す
+    //   // ツールチップ閉じる
+    //   hoveredMarker.unbindTooltip();
     // };
 
     // イベントリスナーを追加
     builMarker.on('mouseover', onHover);
-    // marker.on('mouseout', onHoverOut);
+    // builMarker.on('mouseout', onHoverOut);
     return builMarker;
 };
 
@@ -94,7 +89,7 @@ export const mapStyle: StyleFunction = (feature) => {
 
 // line, polygonデータを図形として表現
 export const overlayStyle: StyleFunction = (feature) => {
-    return{
+    return {
         fillColor: 'white',
     }
 };
