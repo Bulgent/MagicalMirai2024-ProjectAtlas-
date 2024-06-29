@@ -105,6 +105,13 @@ function getFeature(node_results:NodeResult[], links:Link[]):[any[], any[], any[
       nodes_path.push([to[1], to[0]])
     }
   }
+  // インテックス大阪までの道を増やす
+  const extra_coordinates:[lat:number, lon:number][] = [[34.63770689844046, 135.42285667579964],]
+  for(let coordinate of extra_coordinates){
+    nodes_path_json.push([coordinate[1], coordinate[0]])
+    nodes_path.push([coordinate[0], coordinate[1]])
+  }
+
   const nodes_path_feature = [
     {
       type: "Feature",
