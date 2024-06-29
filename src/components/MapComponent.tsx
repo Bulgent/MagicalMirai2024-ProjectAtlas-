@@ -559,7 +559,7 @@ export const MapComponent = (props: any) => {
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
         />
-        <UpdatingOverlayLayer />
+        
         {/* <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
           pointToLayer={pointToLayer}
@@ -579,7 +579,6 @@ export const MapComponent = (props: any) => {
             });
           }}
         />
-
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
@@ -598,6 +597,7 @@ export const MapComponent = (props: any) => {
         </RotatedMarker>
         {/* 曲の開始まで表示するレイヤ */}
         <PathWay />
+        <UpdatingOverlayLayer />
       </MapContainer>
     </>
   );
