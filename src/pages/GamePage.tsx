@@ -131,6 +131,7 @@ export const GamePage = () => {
           <div id="mapinfo">
             <MapInfoComponent
               mikuMile={mikuMile}
+              player={player}
             />
           </div>
           <div id="song">
