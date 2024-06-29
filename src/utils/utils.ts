@@ -413,6 +413,10 @@ export const createLatLngBounds = (json:any) => {
   return latLngBounds(locationCoords);
 }
 
+/**
+ * MikuMileを計算する
+ * allNodesVectorScalar: calculateRoadLengthSum(nodes)の出力値を使用
+ */
 export const calculateMikuMile = (playerPosition:number, playerDuration:number, allNodesVectorScalar:number) =>{
-  return  allNodesVectorScalar*(playerPosition/playerDuration)*1.6
+  return  allNodesVectorScalar*(playerPosition/playerDuration)*393
 }
