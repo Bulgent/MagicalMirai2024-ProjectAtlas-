@@ -83,7 +83,7 @@ export const MapComponent = (props: any) => {
   // ホバーしたオブジェクトの格納
   const hoverHistory = useRef<historyProperties[]>([]);
   // 全ての道を表示（デバッグ用）
-  const nodesRef = useRef<[lat:number, lon:number][]>([]);
+  const nodesRef = useRef<[lat: number, lon: number][]>([]);
   // 経路計算結果格納
   const [pathwayFeature, setPathwayFeature] = useState<any[]>([]);
   // TextAliveより得たデータ
@@ -94,7 +94,7 @@ export const MapComponent = (props: any) => {
   const [isInitMapPlayer, setIsInitMap] = useState<Boolean>(true);
   const isInitMap = useRef(true)
   // 車アイコン
-  const [carMapPosition, setCarMapPosition] = useState<[lat:number, lon:number]>([-1, -1])
+  const [carMapPosition, setCarMapPosition] = useState<[lat: number, lon: number]>([-1, -1])
   const [heading, setHeading] = useState(180);
   // 音符配置
   const noteCoordinates = useRef<noteCoordinateProperties[]>([]);
@@ -108,7 +108,7 @@ export const MapComponent = (props: any) => {
 
   // 初回だけ処理
   // mapの初期位置、経路の計算
-  const computePathway = () =>{
+  const computePathway = () => {
     const [features, nodes, mapCenterRet] = computePath(roadJsonLst, songData[props.songnum].startPosition, endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
     const [aheads, degreeAngles, cumulativeAheadRatio] = ComputeAhead(nodes)
@@ -116,7 +116,7 @@ export const MapComponent = (props: any) => {
     cumulativeAheadRatioRef.current = cumulativeAheadRatio
     nodesRef.current = nodes
     setPathwayFeature(features);
-    mapCenterRef.current = [mapCenterRet[1]+latOffset,mapCenterRet[0]+lonOffset];
+    mapCenterRef.current = [mapCenterRet[1] + latOffset, mapCenterRet[0] + lonOffset];
     setCarMapPosition([mapCenterRet[1], mapCenterRet[0]])
     setHeading(0)
   };
@@ -439,17 +439,13 @@ export const MapComponent = (props: any) => {
   const onSightHover = (e: LeafletMouseEvent) => {
     // hoverhistoryに重複しないように追加
     if (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.index == e.sourceTarget.feature.properties.index)) {
-      //hoverHistory.current.push(e.sourceTarget.feature.properties);
-      //props.handOverHover(e.sourceTarget.feature)
-      //props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
-    // TODO: e.sourceTarget.featureはhistoryPropertiesではないため、書き方は不適（型チェックが甘いだけで、実装はできている）
-    const historyProperty: historyProperties = e.sourceTarget.feature
-    historyProperty.properties.playerPosition = playerPositionRef.current
-    setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
-    props.handOverHover(e.sourceTarget.feature)
-    // TODO 1回だけにする
-    props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
-      }
+      hoverHistory.current.push(e.sourceTarget.feature.properties);
+      // TODO: e.sourceTarget.featureはhistoryPropertiesではないため、書き方は不適（型チェックが甘いだけで、実装はできている）
+      const historyProperty: historyProperties = e.sourceTarget.feature
+      historyProperty.properties.playerPosition = playerPositionRef.current
+      props.handOverHover(e.sourceTarget.feature)
+      props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
+    }
   }
 
   /**
@@ -569,7 +565,7 @@ export const MapComponent = (props: any) => {
             });
           }}
         />
-        
+
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
