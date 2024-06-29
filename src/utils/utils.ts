@@ -326,6 +326,21 @@ export const calculateEachRoadLengthRatio = (nodes: any[]): number[] => {
 }
 
 /**
+ * nodesから道路の長さを計算
+ * @param nodes 経由地点の緯度経度ペアの配列
+ * @returns 道路の長さ
+ */
+export const calculateRoadLengthSum = (nodes: any[]): number => {
+  let roadLengthSum = 0;
+  const lstLength = nodes.length
+  for (let i = 0; i < lstLength - 1; i++) {
+    const roadLength = calculateDistance(nodes[i], nodes[i + 1])
+    roadLengthSum += roadLength
+  }
+  return roadLengthSum
+}
+
+/**
  * 曲の進行状況に応じて、現在の経由地点のインデックスと次のインデックスまでの残り距離の割合を返す
  * @param ratio 曲の全体に対する現在の進行状況 (0 ~ 1)
  * @param ratioLst 各道路の距離の割合の配列
@@ -396,4 +411,8 @@ export const createLatLngBounds = (json:any) => {
   const coordinates: [lng:number, lat:number][] = json.features[0].geometry.coordinates[0][0]
   const locationCoords = coordinates.map(loc => latLng(loc[1], loc[0]));
   return latLngBounds(locationCoords);
+}
+
+export const calculateMikuMile = (playerPosition:number, playerDuration:number, allNodesVectorScalar:number) =>{
+  return  allNodesVectorScalar*(playerPosition/playerDuration)*1.6
 }
