@@ -104,7 +104,7 @@ export const MapComponent = (props: any) => {
   const degreeAnglesRef = useRef<number[]>([])
   const cumulativeAheadRatioRef = useRef<number[]>([])
   const goallineRef = useRef(null); // goallineをuseRefで保持
-  const kashicount = useRef<number>(0) // 触れた音符の数
+  const lyricCount = useRef<number>(0) // 触れた音符の数
 
   // MikuMile計算
   const roadLengthSumRef = useRef<number>(0);
@@ -379,7 +379,6 @@ export const MapComponent = (props: any) => {
       }
     }, [map]);
 
-    // ポリラインを作成し、地図に追加
     const animationRef = useRef<number | null>(null);
     const loop = useCallback(
       () => {
@@ -403,7 +402,6 @@ export const MapComponent = (props: any) => {
             [updatedLat, updatedLon],
             [nodesRef.current[nodesRef.current.length - 1][0], nodesRef.current[nodesRef.current.length - 1][1]]
           ]);
-
 
           // ここにアイコンの情報を入れる
           const [startAheadIndex, aheadResidue] = getRationalPositonIndex(rationalPlayerPosition, cumulativeAheadRatioRef.current);
@@ -436,26 +434,25 @@ export const MapComponent = (props: any) => {
 
   // 👽歌詞表示コンポーネント👽
   const addLyricTextToMap = (map: Map) => {
-    // console.log(map.getSize(), map.getCenter(), map.getBounds())
     // 歌詞が変わったら実行 ボカロによって色を変える
     useEffect(() => {
       if (props.kashi.text == "" || props.kashi == songKashi.current) {
         return
       }
-      kashicount.current += 1;
+      lyricCount.current += 1;
       // TODO ナビゲーションの移動方向によってスライド方向を変える
       songKashi.current = props.kashi
-      const slideClass = 'slide' + kashicount.current
-      let printKashi: string = "<div class = 'tooltip-lyric " + slideClass + "'>";
+      const slideClass = 'slide' + lyricCount.current
+      let printLyrics: string = "<div class = 'tooltip-lyric " + slideClass + "'>";
       props.kashi.text.split('').forEach((char: string) => {
-        printKashi += "<span class='";
-        printKashi += formatKashi(char);
-        printKashi += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
+        printLyrics += "<span class='";
+        printLyrics += formatKashi(char);
+        printLyrics += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
       });
-      printKashi += "</div>";
+      printLyrics += "</div>";
 
       const mapCoordinate: [number, number] = [map.getCenter().lat - latOffset, map.getCenter().lng - lonOffset]
-      const fadeInSlideRightKeyframes = cssSlide(kashicount.current);
+      const fadeInSlideRightKeyframes = cssSlide(lyricCount.current, props.kashi.text);
       // <style>タグを生成して、生成した@keyframes定義を追加
       const styleTag = document.createElement('style');
       styleTag.innerHTML = fadeInSlideRightKeyframes;
@@ -464,11 +461,11 @@ export const MapComponent = (props: any) => {
       // 地図の表示範囲内にランダムに歌詞配置
       const markertext = marker(mapCoordinate, { opacity: 0 });
       // 表示する歌詞
-      markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi", direction: "center" })
+      markertext.bindTooltip(printLyrics, { permanent: true, sticky: true, interactive: false, className: "label-kashi", direction: "center" })
       // 地図に追加
       markertext.addTo(map);
       // アニメーション
-      document.querySelector('.' + slideClass).style.animation = 'fadeInSlideXY' + kashicount.current + ' 0.5s ease forwards';
+      document.querySelector('.' + slideClass).style.animation = 'fadeInSlideXY' + lyricCount.current + ' 0.5s ease forwards';
 
       // FanFun度を増やす
       props.handOverFanFun(1000)
@@ -550,32 +547,38 @@ export const MapComponent = (props: any) => {
         if (!isFirstPlayRef.current && rationalPlayerPosition === 0) {
           // 曲が終了した後にrationalPlayerPosition=0となり、天気がリセットされることを防ぐ
           updateLayer(layer, style3, overlayOpacity)
+          document.documentElement.style.setProperty('--weather', '10');
         } else {
           updateLayer(layer, style1, overlayOpacity)
           isFirstPlayRef.current = false
+          document.documentElement.style.setProperty('--weather', '40');
         }
       } else if (
         rationalPlayerPosition >= turningStantPoint1To2 &&
         rationalPlayerPosition < turningEndPoint1To2
       ) {
         progress = (rationalPlayerPosition - turningStantPoint1To2) / (turningEndPoint1To2 - turningStantPoint1To2);
-        updateLayer(layer, changeColor(style1, style2, progress), overlayOpacity)
+        updateLayer(layer, changeColor(style1, style2, progress), overlayOpacity);
+        document.documentElement.style.setProperty('--weather', (40 + (50 - 40) * progress).toString());
       } else if (
         rationalPlayerPosition >= turningEndPoint1To2 &&
         rationalPlayerPosition < turningStantPoint2To3
       ) {
         updateLayer(layer, style2, overlayOpacity)
+        document.documentElement.style.setProperty('--weather', '50');
       } else if (
         rationalPlayerPosition >= turningStantPoint2To3 &&
         rationalPlayerPosition < turningEndPoint2To3
       ) {
         progress = (rationalPlayerPosition - turningStantPoint2To3) / (turningEndPoint2To3 - turningStantPoint2To3);
         const layer = layerRef.current;
-        updateLayer(layer, changeColor(style2, style3, progress), overlayOpacity)
+        updateLayer(layer, changeColor(style2, style3, progress), overlayOpacity);
+        document.documentElement.style.setProperty('--weather', (50 - (50 - 10) * progress).toString());
       } else if (
         rationalPlayerPosition >= turningEndPoint2To3
       ) {
         updateLayer(layer, style3, overlayOpacity)
+        document.documentElement.style.setProperty('--weather', '10');
       }
 
       turnOverlayAnimationRef.current = requestAnimationFrame(turnOverlayAnimation);

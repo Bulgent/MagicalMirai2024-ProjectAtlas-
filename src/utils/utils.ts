@@ -224,33 +224,35 @@ export const checkPartOfSpeech = (PoS: string) => {
   }
 }
 
-export const cssSlide = (animationNum: number): string => {
+export const cssSlide = (animationNum: number, printKashi: string): string => {
   let randomX: number;
   let randomY: number;
-
-  // X軸の乱数を生成
+  const lengthModifier = Math.max(50, 300 - Math.log(printKashi.length + 1) * 10);
+  // X軸の乱数を生成（文字数を考慮）
+  
   if (Math.random() < 0.5) {
-    randomX = Math.floor(Math.random() * (-101 - (-300) + 1)) + (-300); // -500から-101
+    randomX = Math.floor(Math.random() * (-101 - (-lengthModifier) + 1)) + (-lengthModifier);
   } else {
-    randomX = Math.floor(Math.random() * (300 - 101 + 1)) + 101; // 101から500
+    randomX = Math.floor(Math.random() * (lengthModifier - 101 + 1)) + 101;
   }
 
-  // Y軸の乱数を生成(下は控えめ)
+  // Y軸の乱数を生成（文字数を考慮、下は控えめに）
   if (Math.random() < 0.5) {
-    randomY = Math.floor(Math.random() * (-101 - (-700) + 1)) + (-700); // -500から-101
+    randomY = Math.floor(Math.random() * (-101 - (-lengthModifier) + 1)) + (-lengthModifier);
   } else {
-    randomY = Math.floor(Math.random() * (200 - 101 + 1)) + 101; // 101から200
+    randomY = Math.floor(Math.random() * (200 - 101 + 1)) + 101; // Y軸は上方向に大きく動かさないため、修正係数を適用しない
   }
+  
   return `@keyframes fadeInSlideXY${animationNum} {
-      0% {
-        opacity: 0.5;
-        transform: translate3d(0%, 0%, 0);
-      }
-      100% {
-        opacity: 1;
-        transform: translate3d(${randomX}%, ${randomY}%, 0);
-      }
-    }`;
+    0% {
+      opacity: 0.5;
+      transform: translate3d(0%, 0%, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(${randomX}%, ${randomY}%, 0);
+    }
+  }`;
 };
 
 /**
@@ -437,7 +439,7 @@ export const calculateMikuMile = (playerPosition: number, playerDuration: number
  * @param html HTML文字列
  * @returns {Element} 
  */
-export const createElementFromHTML = (html : string) => {
+export const createElementFromHTML = (html: string) => {
   const tempEl = document.createElement('div');
   tempEl.innerHTML = html;
   return tempEl.firstElementChild;

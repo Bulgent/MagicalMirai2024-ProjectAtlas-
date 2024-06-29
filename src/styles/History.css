@@ -92,11 +92,11 @@
   display: flex;
   flex-direction: row;
   justify-content: right;
-  display: 2;
   width: calc(100% - 1vw);
   padding: 0vh 1vw;
-  text-align: right;
-  font-size: 2.25vw;
+  text-align: justify;
+  text-align-last:justify;
+  font-size: 2vw;
 }
 
 .fanfununit {

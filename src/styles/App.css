@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Hachi+Maru+Pop&family=Noto+Color+Emoji&family=Noto+Emoji&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Zen+Maru+Gothic&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Hachi+Maru+Pop&family=Noto+Color+Emoji&family=Noto+Emoji&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Zen+Maru+Gothic&family=BIZ+UDPGothic&family=Kosugi&family=Mochiy+Pop+One&family=Zen+Kaku+Gothic+New&display=swap');
 
 :root {
   --min-font-size: 16px;
@@ -41,6 +41,30 @@
 
 .zenmaru-gothic {
   font-family: "Zen Maru Gothic", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.zen-kaku-gothic-new-regular {
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.biz-udpgothic-regular {
+  font-family: "BIZ UDPGothic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.mochiy-pop-one-regular {
+  font-family: "Mochiy Pop One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.kosugi-regular {
+  font-family: "Kosugi", sans-serif;
   font-weight: 400;
   font-style: normal;
 }

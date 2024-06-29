@@ -144,7 +144,7 @@ export const PlayerControl = (props: any) => {
               <img className='progress-handle' src='src\assets\images\carIcon_r.png' />
             </div>
           </div>
-          {/* <PlayerSeekbar player={!props.disabled && props.player} /> */}
+          <PlayerSeekbar player={!props.disabled && props.player} />
           <div className='song-time'>
             <div className="time-elapsed">
               {msToMs(props.player.timer.position)}
