@@ -44,6 +44,7 @@ type historyProperties = {
     properties: {
         type: number
         name: string
+        playerPosition: number
     }
     geometry: {
         type: string
