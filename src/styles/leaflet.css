@@ -23,3 +23,7 @@
 .leaflet-pathway-pane {
     z-index: 300;
 }
+
+.leaflet-marker-pane {
+	z-index: 350 !important;
+}
