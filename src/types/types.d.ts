@@ -42,6 +42,7 @@ type createPlayerContent = {
 type historyProperties = {
     type: string
     properties: {
+        index: number
         event_type: number
         event_place: string
         event_title: string
