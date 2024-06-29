@@ -104,8 +104,6 @@ export const MapComponent = (props: any) => {
   const cumulativeAheadRatioRef = useRef<number[]>([])
   const kashicount = useRef<number>(0) // 触れた音符の数
 
-  const playerPositionRef = useRef<number>(0)
-
   // 初回だけ処理
   // mapの初期位置、経路の計算
   const computePathway = () =>{
@@ -345,7 +343,7 @@ export const MapComponent = (props: any) => {
         }
         // 曲の全体における位置を確認
         const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
-        playerPositionRef.current = props.player.timer.position
+
         if (rationalPlayerPosition < 1) {
           const [startNodeIndex, nodeResidue] = getRationalPositonIndex(rationalPlayerPosition, eachRoadLengthRatioRef.current);
           // 中心にセットする座標を計算
@@ -437,12 +435,11 @@ export const MapComponent = (props: any) => {
   }
   // 👽観光地にマウスが乗ったときに呼び出される関数👽
   const onSightHover = (e: LeafletMouseEvent) => {
-    // TODO: e.sourceTarget.featureはhistoryPropertiesではないため、書き方は不適（型チェックが甘いだけで、実装はできている）
-    const historyProperty: historyProperties = e.sourceTarget.feature
-    historyProperty.properties.playerPosition = playerPositionRef.current
+    console.log(props) // TODO playerがnullになって曲の時間が取得できない
+    // console.log(e.sourceTarget.feature.properties.event_place)
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
     props.handOverHover(e.sourceTarget.feature)
-    // TODO 1回だけにする
+    // TODO 異界だけにする
     props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
   }
 
@@ -563,7 +560,7 @@ export const MapComponent = (props: any) => {
             });
           }}
         />
-        
+        <PathWay />
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
@@ -581,7 +578,7 @@ export const MapComponent = (props: any) => {
         >
         </RotatedMarker>
         {/* 曲の開始まで表示するレイヤ */}
-        <PathWay />
+
       </MapContainer>
     </>
   );
