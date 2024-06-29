@@ -1,11 +1,12 @@
+import '../styles/App.css';
+import '../styles/Welcome.css';
 import { useNavigate } from 'react-router-dom';
 import { getImage } from '../utils/utils';
 import songData from '../utils/Song';
 import creditData from '../utils/credits';
-import '../styles/App.css';
-import '../styles/Welcome.css';
 import { useState, useRef } from 'react';
 import { msToMs } from '../utils/utils';
+
 
 export const WelcomePage = () => {
     const songIndex = useRef(-1);
@@ -64,10 +65,30 @@ export const WelcomePage = () => {
                     </div>
                     <div className='selectSongInfo'>
                         <img className='selectJacket' src={songIndex.current != -1 ? getImage(songIndex.current) : 'src/assets/images/project.png'} alt='jacket' />
-                        <div className='selectTitle'>{songTitle}</div>
-                        <div className='selectArtist'>{songArtist}</div>
-                        <div className='selectVocaloid'>{songVocaloid}</div>
-                        <div className='selectLength'>{msToMs(songLength)}</div>
+                        <div className='selectTitle'>
+                            <span className="material-symbols-outlined title">
+                                music_note
+                            </span>
+                            {songTitle}
+                        </div>
+                        <div className='selectArtist'>
+                            <span className="material-symbols-outlined artist">
+                                lyrics
+                            </span>
+                            {songArtist}
+                        </div>
+                        <div className='selectVocaloid'>
+                            <span className="material-symbols-outlined vocaloid">
+                                artist
+                            </span>
+                            {songVocaloid}
+                        </div>
+                        <div className='selectLength'>
+                            <span className="material-symbols-outlined length">
+                                timer
+                            </span>
+                            {msToMs(songLength)}
+                        </div>
                         <div className='tooltip-credit'>
                             {creditData.map((credit, index) => (
                                 <div key={index} className='credit'>

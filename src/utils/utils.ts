@@ -405,7 +405,9 @@ export const msToMs = (milliseconds: number) => {
 };
 
 /**
- * マップの制限領域を作成
+ * マップの制限領域を作成する関数です。
+ * @param json 制限領域の座標データが含まれるJSONオブジェクト
+ * @returns 制限領域を表すlatLngBoundsオブジェクト
  */
 export const createLatLngBounds = (json: any) => {
   const coordinates: [lng: number, lat: number][] = json.features[0].geometry.coordinates[0][0]
@@ -414,8 +416,11 @@ export const createLatLngBounds = (json: any) => {
 }
 
 /**
- * MikuMileを計算する
- * allNodesVectorScalar: calculateRoadLengthSum(nodes)の出力値を使用
+ * Calculates MikuMile.
+ * @param playerPosition The current position of the player.
+ * @param playerDuration The total duration of the player.
+ * @param allNodesVectorScalar The output value of calculateRoadLengthSum(nodes).
+ * @returns The calculated MikuMile value.
  */
 export const calculateMikuMile = (playerPosition: number, playerDuration: number, allNodesVectorScalar: number) => {
   if (playerDuration === 0) {
@@ -425,3 +430,18 @@ export const calculateMikuMile = (playerPosition: number, playerDuration: number
     return allNodesVectorScalar * (playerPosition / playerDuration) * 393
   }
 }
+
+
+/**
+ * HTML文字列をElementへ変換する。
+ * @param html HTML文字列
+ * @returns {Element} 
+ */
+export const createElementFromHTML = (html : string) => {
+  const tempEl = document.createElement('div');
+  tempEl.innerHTML = html;
+  return tempEl.firstElementChild;
+};
+
+// 呼び出し例
+// createElementFromHTML('<div style="width: 300px;"></div>');

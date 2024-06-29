@@ -15,11 +15,11 @@ const creditData: credit[] = [
         credit: 'Map Data',
         link: 'https://www.openstreetmap.org/'
     },
-    {
-        name: 'OpenEmoji',
-        credit: 'Emoji Data',
-        link: 'https://openmoji.org/'
-    },
+    // {
+    //     name: 'OpenEmoji',
+    //     credit: 'Emoji Data',
+    //     link: 'https://openmoji.org/'
+    // },
     {
         name: 'Songle',
         credit: 'Lyrics Data',

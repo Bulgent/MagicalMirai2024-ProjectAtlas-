@@ -45,7 +45,7 @@
   background-color: #5ca2a0;
 }
 
-.nohoverhistory{
+.nohoverhistory {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -65,8 +65,8 @@
   /* animation: fadeInSlideDown 1s ease forwards; */
 }
 
-.historycaption{
-  display:flex;
+.historycaption {
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -77,7 +77,8 @@
   font-size: 1.2vw;
   font-weight: bold;
 }
-.historytime{
+
+.historytime {
   font-size: 1vw;
 
 }
@@ -87,15 +88,22 @@
 }
 
 .fanfun {
+  font-family: "Hachi Maru Pop", cursive;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
   display: 2;
   width: calc(100% - 1vw);
   padding: 0vh 1vw;
   text-align: right;
   font-size: 2.5vw;
 }
-.unit {
-  font-size: 75%;
-  /* 例: 元のフォントサイズの75%に設定 */
+
+.fanfununit {
+  height: 2vw;
+  font-size: 1.25vw;
+  line-height: 1vw;
+  padding: 0.85vw 0.1vw;
 }
 
 @keyframes fadeInSlideDown {

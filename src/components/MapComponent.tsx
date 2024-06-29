@@ -14,7 +14,7 @@ import {
   createLatLngBounds, calculateMikuMile, calculateRoadLengthSum
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
-import { pngCar, svgNote, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
+import { pngCar, emojiNote, emojiStart, emojiGoal } from '../assets/marker/markerSVG.ts'
 // 型データの導入
 import { lyricProperties, historyProperties, noteProperties, noteCoordinateProperties, wordTimeProperties } from '../types/types';
 // 地図データの導入
@@ -254,22 +254,22 @@ export const MapComponent = (props: any) => {
         const crtLat = crtRoute.crtPosStart[0] + (crtRoute.crtPosEnd[0] - crtRoute.crtPosStart[0]) * (crtDistance / crtRoute.crtLength);
         const crtLng = crtRoute.crtPosStart[1] + (crtRoute.crtPosEnd[1] - crtRoute.crtPosStart[1]) * (crtDistance / crtRoute.crtLength);
         let markerString: string = "🎵" // 表示する文字
-        let markerSVG: string = svgNote // 表示するSVG
+        let markerSVG: string = emojiNote // 表示するSVG
         let markerClass: string = "icon-note" // 表示するクラス
         switch (index) {
           case 0: // 最初
             markerString = "👽"
-            markerSVG = svgStart
+            markerSVG = emojiStart
             markerClass = "icon-start"
             break;
           case wordCount + 1: // 最後
             markerString = "🦄"
-            markerSVG = svgGoal
+            markerSVG = emojiGoal
             markerClass = "icon-goal"
             break;
           default: // それ以外
             markerString = songData[props.songnum].note
-            markerSVG = svgNote
+            markerSVG = emojiNote, // 絵文字を表示 // svgNote
             markerClass = "icon-note"
             break;
         }

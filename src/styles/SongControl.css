@@ -27,7 +27,7 @@
     width: 100%;
     position: relative;
     height: 2vw;
-    padding-top:1.75vh;
+    padding-top: 1.75vh;
 }
 
 /* Song Title */
@@ -107,14 +107,15 @@
 }
 
 .flag-start {
+    font-family: "Noto Color Emoji", sans-serif;
     position: absolute;
     left: 0;
     transform: translateY(-100%);
-
     text-align: left;
 }
 
 .flag-waypoint {
+    font-family: "Noto Color Emoji", sans-serif;
     position: absolute;
     left: 0;
     text-align: right;
@@ -122,6 +123,7 @@
 }
 
 .flag-end {
+    font-family: "Noto Color Emoji", sans-serif;
     position: absolute;
     right: 0;
     transform: translate(50%, -100%);
@@ -221,11 +223,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.ppbutton.material-symbols-outlined {
     color: #FFFFFF;
-    /* テキストの色を白に変更 */
-    font-size: 5vh;
+    font-size: 7vh;
+    font-weight: normal;
     text-shadow: 2px 2px 4px #000000;
-    /* テキストの影を追加 */
-    font-weight: bold;
-    /* フォントウェイトを太くする */
 }

@@ -1,12 +1,12 @@
 import { StyleFunction, LatLngExpression, circleMarker, divIcon, marker } from 'leaflet';
-import { svgSight } from '../assets/marker/markerSVG.ts'
+import { emojiSight } from '../assets/marker/markerSVG.ts'
 import { sightType, sightSeason, sightTime, sightWeather } from './utils.ts';
 
 // pointデータを図形として表現(固定式観光地)
 export const pointToLayer = (feature: any, latlng: LatLngExpression) => {
     const builIcon = divIcon({
         className: 'buil-icon', // カスタムクラス名
-        html: svgSight[svgSight.length - 1],  // ここに車のアイコンを挿入する
+        html: emojiSight[emojiSight.length - 1],  // ここに車のアイコンを挿入する
         iconSize: [50, 50], // アイコンのサイズ
         iconAnchor: [25, 25] // アイコンのアンカーポイント
     });
@@ -39,7 +39,7 @@ export const showDetail = (feature: any, latlng: LatLngExpression) => {
     // console.log(latlng, feature)
     const builIcon = divIcon({
         className: 'buil-icon', // カスタムクラス名
-        html: svgSight[feature.properties.event_type],  // ここにビルのアイコンを挿入する
+        html: emojiSight[feature.properties.event_type],  // ここにビルのアイコンを挿入する
         iconSize: [50, 50], // アイコンのサイズ
         iconAnchor: [25, 25] // アイコンのアンカーポイント
     });

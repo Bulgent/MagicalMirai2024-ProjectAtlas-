@@ -4,7 +4,7 @@ import '../styles/Map.css';
 import React from 'react';
 import { Player } from 'textalive-app-api';
 import { useState, useEffect } from "react"
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { LyricComponent } from '../components/LyricComponent';
 import { HistoryComponent } from '../components/HistoryComponent';
 import { MapComponent } from '../components/MapComponent'
@@ -12,11 +12,23 @@ import { MapInfoComponent } from '../components/MapInfoComponent'
 import { createPlayerContent, lyricProperties, historyProperties } from '../types/types';
 import { createPlayer } from "../services/TextAlive.ts"
 import { createHandOverFunction } from "../utils/utils.ts"
-import { point } from 'leaflet';
+import songData from '../utils/Song.ts';
+
 
 export const GamePage = () => {
-  // 開発環境について
-  // const isDevelopment: boolean = process.env.NODE_ENV === 'development';
+  // サイトを離れるときにルートにリダイレクト
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+  //     event.preventDefault();
+  //     navigate('/'); // ルートにリダイレクト
+  //   };
+  //   window.addEventListener('beforeunload', handleBeforeUnload);
+  //   return () => {
+  //     window.removeEventListener('beforeunload', handleBeforeUnload);
+  //   };
+  // }, [navigate]);
+
   // welcomePageからの情報取得
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -100,12 +112,9 @@ export const GamePage = () => {
   return (
     <React.Fragment>
       <div id="display" className="soft-gloss">
-        {/* OSMのクレジットいれる, OEmoJiも leaflet textalive */}
-        {/* "All emojis designed by OpenMoji – the open-source emoji and icon project. License: CC BY-SA 4.0" */}
-
         <div id="navi" className="split">
           <div id='overlay' className='reading-overlay active'>
-            目的地へのルート探索中...
+            {(songNumber == -1) || (songNumber < 0) || (songData.length - 1 < songNumber) ? '曲選択エラー' : '目的地へのルート探索中...'}
           </div>
           <div id="map">
             {/* 単語:kashiChar, 熟語:kashiWord, フレーズ:kashiPhrase */}

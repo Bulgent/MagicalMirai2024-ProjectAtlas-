@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { PlayerSeekbar } from 'textalive-react-api';
 import '../styles/SongControl.css';
-import { msToMs } from '../utils/utils';
+import { createElementFromHTML, msToMs } from '../utils/utils';
 import { pngCar, svgStart, svgGoal } from '../assets/marker/markerSVG';
 import { sightType } from '../utils/utils';
 
@@ -34,31 +34,31 @@ export const PlayerControl = (props: any) => {
     const percentage = (hover.properties.playerPosition / songLength) * 100;
     switch (hover.properties.event_type) {
       case sightType.sports:
-        showSVG = '🚗'
+        showSVG = '🏟️'
         break;
       case sightType.eat:
-        showSVG = '🍔'
+        showSVG = '🍽'
         break;
       case sightType.movie:
-        showSVG = '🎬'
+        showSVG = '📽️'
         break;
       case sightType.aqua:
-        showSVG = '🏊'
+        showSVG = '🐬'
         break;
       case sightType.zoo:
         showSVG = '🦁'
         break;
       case sightType.depart:
-        showSVG = '🚂'
+        showSVG = '🏬'
         break;
       case sightType.castle:
-        showSVG = '🏰'
+        showSVG = '🏯'
         break;
       case sightType.hotspring:
         showSVG = '♨'
         break;
       case sightType.amusement:
-        showSVG = '🎢'
+        showSVG = '🎡'
         break;
       case sightType.festival:
         showSVG = '🎆'
@@ -67,7 +67,7 @@ export const PlayerControl = (props: any) => {
         showSVG = '🏭'
         break;
       default:
-        showSVG = '🚩'
+        showSVG = '🏛'
     }
 
     return (
@@ -76,6 +76,8 @@ export const PlayerControl = (props: any) => {
       </div>
     )
   }) : 'のだた';
+
+  const setButtonText = true ? '🔒' : '';
 
   useEffect(() => {
     const listener = {
@@ -128,7 +130,9 @@ export const PlayerControl = (props: any) => {
           {/* 元パステルにミクいろ */}
           <div className='seek-bar-container' style={{ width: '100%' }}>
             <div className='flags'>
-              <div className='flag-start'>🚩</div>
+              <div className='flag-start'>
+                🚩
+              </div>
               {FlagComponent}
               <div className='flag-end'>🏁</div>
             </div>
@@ -161,7 +165,9 @@ export const PlayerControl = (props: any) => {
         <button className='pausebutton' onClick={status !== 'play' ? handlePlay : handlePause} disabled={props.disabled}>
           <img className='jacketbutton' src={props.jacketPic} alt={status !== 'play' ? 'Play' : 'Pause'} />
           <div className='textbutton'>
-            {status !== 'play' ? '▷' : '❘❘'}
+            <span className="material-symbols-outlined ppbutton">
+              {status !== 'play' ? 'play_arrow' : 'pause'}
+            </span>
           </div>
         </button>
       </div>
