@@ -488,7 +488,7 @@ export const MapComponent = (props: any) => {
     // 初期値設定
     overlayStyleRef.current = style1
     const turnOverlayAnimation = () => {
-      console.log("rendering")
+      console.log(props.player.timer.position)
       const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
       const turningStantPoint1To2 = songData[props.songnum].turningPoint1![0] / props.player.video.duration;
       const turningEndPoint1To2 = songData[props.songnum].turningPoint1![1] / props.player.video.duration;
@@ -530,12 +530,10 @@ export const MapComponent = (props: any) => {
     const layerRef = useRef<GeoJSON | null>(null);
     // オーバーレイ変更のためのトリガー
     useEffect(() => {
-      console.log(!isInitPlayRef.current)
       if (props.isMoving || !isInitPlayRef.current) {
         isInitPlayRef.current = false
         turnOverlayAnimation();
       } else {
-        console.log("stop")
         cancelAnimationFrame(turnOverlayAnimationRef.current!);
       }
       return () => {
