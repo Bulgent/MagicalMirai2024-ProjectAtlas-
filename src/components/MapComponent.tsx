@@ -106,8 +106,13 @@ export const MapComponent = (props: any) => {
 
   const playerPositionRef = useRef<number>(0)
   const mapIsMovingRef = useRef<Boolean>(false)
+
+  // 天気の状態保持
   const overlayStyleRef = useRef<string|null>('#ffffff')
-  const isInitPlayRef = useRef<Boolean>(true)
+  const isInitPlayRef = useRef<Boolean>(true) // 曲を再生したら止まらないように
+  // 曲が終了したらplayerPosition=0になり天気リセットになるのを防ぐ
+  // 2回目の再生をそのまましないことを仮定
+  const isFirstPlayRef = useRef<Boolean>(true) 
 
   // 初回だけ処理
   // mapの初期位置、経路の計算
