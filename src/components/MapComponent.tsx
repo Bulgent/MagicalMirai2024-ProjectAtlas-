@@ -437,9 +437,9 @@ export const MapComponent = (props: any) => {
   }
   // 👽観光地にマウスが乗ったときに呼び出される関数👽
   const onSightHover = (e: LeafletMouseEvent) => {
-    console.log(props) // TODO playerがnullになって曲の時間が取得できない
-    console.log(playerPositionRef.current)
-    // console.log(e.sourceTarget.feature.properties.event_place)
+    // TODO: e.sourceTarget.featureはhistoryPropertiesではないため、書き方は不適（型チェックが甘いだけで、実装はできている）
+    const historyProperty: historyProperties = e.sourceTarget.feature
+    historyProperty.properties.playerPosition = playerPositionRef.current
     setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
     props.handOverHover(e.sourceTarget.feature)
     // TODO 1回だけにする
