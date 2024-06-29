@@ -61,6 +61,7 @@ const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
       }}
       icon={carIcon}
       {...props}
+      pane="car"
     >
       {children}
     </Marker>
@@ -139,6 +140,10 @@ export const MapComponent = (props: any) => {
       if (!isInitMap.current) {
         return
       }
+      // paneの作成
+      map.createPane('sky');
+      map.createPane('car');
+      map.createPane('pathway');
       // mapの初期中心座標の決定
       map.setView(mapCenterRef.current)
       // TODO: mapの表示領域を制限
@@ -336,6 +341,7 @@ export const MapComponent = (props: any) => {
         <GeoJSON
           data={geojson as GeoJSON.GeoJsonObject}
           style={mapStylePathWay}
+          pane="pathway"
         />
       );
     } else {
@@ -483,6 +489,7 @@ export const MapComponent = (props: any) => {
     const style3 = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY).fillColor;
     const updateLayer = (layer: any, hexColor: string, overlayOpacity: number) => {
       if (layer) {
+        layer.bringToFront()
         layer.clearLayers().addData(sky)
         layer.setStyle(
           {
@@ -543,6 +550,10 @@ export const MapComponent = (props: any) => {
       } else {
         cancelAnimationFrame(turnOverlayAnimationRef.current!);
       }
+      // レイヤーを最前面に移動
+      // if (layerRef.current) {
+      //   layerRef.current.bringToFront();
+      // }
       return () => {
         cancelAnimationFrame(turnOverlayAnimationRef.current!);
       };
@@ -556,6 +567,7 @@ export const MapComponent = (props: any) => {
           fillOpacity: overlayOpacity,
         }}
         ref={layerRef}
+        pane="sky"
       />
     )
   }
