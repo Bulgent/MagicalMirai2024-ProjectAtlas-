@@ -348,7 +348,7 @@ export const MapComponent = (props: any) => {
     const animationRef = useRef<number | null>(null);
     const loop = useCallback(
       () => {
-        if (!props.isMoving) {
+        if (!props.isMoving || (props.player.timer.position===0 && !isFirstPlayRef.current)) {
           return;
         }
         // 曲の全体における位置を確認
