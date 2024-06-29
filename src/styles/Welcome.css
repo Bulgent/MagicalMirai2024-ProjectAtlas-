@@ -112,26 +112,31 @@
 .selectArtist,
 .selectVocaloid,
 .selectLength {
-  font-size: 1.7vw;
   /* フォントサイズを大きく */
   color: #007ACC;
   /* カーナビ風の青色のテキストに変更 */
   text-align: center;
 }
 
-.selectTitle {
+.selectTitle,
+.title {
+  font-size: 1.55vw;
   font-weight: bold;
   /* タイトルを太字に */
 }
 
+
 .selectArtist,
-.selectVocaloid {
-  font-size: 1.6vw;
+.selectVocaloid,
+.artist,
+.vocaloid {
+  font-size: 1.5vw;
   /* アーティストとボーカロイドのフォントサイズを少し小さく */
 }
 
-.selectLength{
-  font-size: 1.5vw;
+.selectLength,
+.length {
+  font-size: 1.4vw;
   /* 再生時間のフォントサイズを標準に */
   color: #ffffff;
   /* 再生時間のテキスト色を白に */
