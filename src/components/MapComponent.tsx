@@ -540,12 +540,15 @@ export const MapComponent = (props: any) => {
     <>
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
-      <MapContainer className='mapcomponent' center={[-1, -1]} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} zoomControl={false} attributionControl={false}>
+      <MapContainer className='mapcomponent' style={{ backgroundColor: '#f5f3f3' }}
+       center={[-1, -1]} zoom={mapZoom} 
+       minZoom = {14} maxZoom={17}
+       zoomSnap={0.1} zoomDelta={0.5} trackResize={false}
+       inertiaMaxSpeed = {500} inertiaDeceleration = {1000}
+       dragging={true} zoomControl={false} attributionControl={false}
+      >
 
-        <GeoJSON
-          data={areas as GeoJSON.GeoJsonObject}
-          style={mapStyle}
-        />
+
         <UpdatingOverlayLayer />
         {/* <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
