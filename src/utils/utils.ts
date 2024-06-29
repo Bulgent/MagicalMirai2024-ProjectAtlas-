@@ -17,21 +17,21 @@ export const enum sightType {
   factory = 10, // 工場見学
   buil = 11 // その他
 }
-export const enum sightSeason{
+export const enum sightSeason {
   spring = 0, // 春
   summer = 1, // 夏
   autumn = 2, // 秋
   winter = 3, // 冬
   all = 4 // 通年
 }
-export const enum sightTime{
+export const enum sightTime {
   morning = 0,  // 朝
   noon = 1, // 昼
   sunset = 2, // 夕方
   night = 3, // 夜
   all = 4 // 通年
 }
-export const enum sightWeather{
+export const enum sightWeather {
   sunny = 0, // 晴れ
   cloudy = 1, // 曇り
   rainy = 2, // 雨
@@ -362,18 +362,18 @@ export const getRationalPositonIndex = (ratio: number, ratioLst: number[]): [num
   }
 }
 
-export const hexToRgb = (hex:string) =>{
+export const hexToRgb = (hex: string) => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result
     ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16),
-      }
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16),
+    }
     : null;
 }
 
-export const rgbToHex = (r:number, g:number, b:number) => {
+export const rgbToHex = (r: number, g: number, b: number) => {
   return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
 
@@ -382,7 +382,7 @@ export const rgbToHex = (r:number, g:number, b:number) => {
  * 色はhexを想定  
  * progressは0-1
  */
-export const changeColor = (startHex:string, endHex:string, progress:number) => {
+export const changeColor = (startHex: string, endHex: string, progress: number) => {
   const startColor = hexToRgb(startHex)!;
   const endColor = hexToRgb(endHex)!;
   const r = Math.round(startColor.r + (endColor.r - startColor.r) * progress);
@@ -391,7 +391,7 @@ export const changeColor = (startHex:string, endHex:string, progress:number) => 
   const color = rgbToHex(r, g, b);
   return color
 }
-export const getImage = (songNumber : number): string => {
+export const getImage = (songNumber: number): string => {
   return new URL(`../assets/images/jacket/${songData[songNumber].jacketName}`, import.meta.url).href;
 };
 
@@ -407,8 +407,8 @@ export const msToMs = (milliseconds: number) => {
 /**
  * マップの制限領域を作成
  */
-export const createLatLngBounds = (json:any) => {
-  const coordinates: [lng:number, lat:number][] = json.features[0].geometry.coordinates[0][0]
+export const createLatLngBounds = (json: any) => {
+  const coordinates: [lng: number, lat: number][] = json.features[0].geometry.coordinates[0][0]
   const locationCoords = coordinates.map(loc => latLng(loc[1], loc[0]));
   return latLngBounds(locationCoords);
 }
@@ -417,6 +417,11 @@ export const createLatLngBounds = (json:any) => {
  * MikuMileを計算する
  * allNodesVectorScalar: calculateRoadLengthSum(nodes)の出力値を使用
  */
-export const calculateMikuMile = (playerPosition:number, playerDuration:number, allNodesVectorScalar:number) =>{
-  return  allNodesVectorScalar*(playerPosition/playerDuration)*393
+export const calculateMikuMile = (playerPosition: number, playerDuration: number, allNodesVectorScalar: number) => {
+  if (playerDuration === 0) {
+    return allNodesVectorScalar * (playerPosition) * 393
+  }
+  else {
+    return allNodesVectorScalar * (playerPosition / playerDuration) * 393
+  }
 }

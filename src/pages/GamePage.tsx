@@ -39,13 +39,15 @@ export const GamePage = () => {
   const [playTime, setPlayTime] = useState<number>(0)
   const [mediaElement, setMediaElement] = useState(null);
   const [isMapMove, setIsMapMove] = useState<Boolean>(false);
-  const [fanfun, setFanfun] = useState<number>(0);
-  const handOverIsMapMove = createHandOverFunction(setIsMapMove)
+  const [fanFun, setFanFun] = useState<number>(0);
+  const [mikuMile, setMikuMile] = useState<[number, number]>([0, 0]);
+  const handOverIsMapMove = createHandOverFunction(setIsMapMove);
 
   // const [songNumber, setSongNumber] = useState(isDevelopment ? 3 : buttonInfo ? parseInt(buttonInfo) : -1);
   const [songNumber, setSongNumber] = useState(buttonInfo ? parseInt(buttonInfo) : -1);
   const handOverSongNumber = createHandOverFunction(setSongNumber) // 曲選択をLyricComponentで持たせることを想定
   const handOverMediaElement = createHandOverFunction(setMediaElement)
+  const handOverMikuMile = createHandOverFunction(setMikuMile)
 
   // Map移動に関しての変数宣言
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([])
@@ -56,7 +58,7 @@ export const GamePage = () => {
   }
   const handOverFanFun = (point: number) => {
     // fanfun に追加
-    setFanfun(prevFanfun => prevFanfun + point);
+    setFanFun(prevFanFun => prevFanFun + point);
   }
 
   // PlayerLister作成のための変数
@@ -114,11 +116,12 @@ export const GamePage = () => {
               player={player}
               handOverHover={handOverHoverHistory}
               handOverFanFun={handOverFanFun}
+              handOverMikuMile={handOverMikuMile}
             />
           </div>
           <div id="mapinfo">
             <MapInfoComponent
-              hoverHistory={hoverHistory}
+              mikuMile={mikuMile}
             />
           </div>
           <div id="song">
@@ -130,6 +133,7 @@ export const GamePage = () => {
               songLength={songLength}
               lyricPhrase={lyricPhrase}
               hoverHistory={hoverHistory}
+              mikuMile={mikuMile}
               player={player}
               app={app}
               handOverSongNumber={handOverSongNumber}
@@ -149,7 +153,7 @@ export const GamePage = () => {
             songnum={songInfo}
             player={player}
             hoverHistory={hoverHistory}
-            fanfun={fanfun}
+            fanfun={fanFun}
           />
         </div>
         <img id='logo' src='src/assets/images/logo.png' alt='' />

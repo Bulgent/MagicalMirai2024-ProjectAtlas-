@@ -13,7 +13,7 @@ export const MapInfoComponent = (props: any) => {
             <div className='goal infobox'>
                 <div className='goal infotitle'>GOAL</div>
                 <div className='goal infotext'>
-                    x&nbsp;
+                    {(props.mikuMile[1] - props.mikuMile[0]).toFixed(0)}&nbsp;
                     <span className="unit">MM</span>
                 </div>
             </div>
