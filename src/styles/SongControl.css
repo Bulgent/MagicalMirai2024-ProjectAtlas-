@@ -10,20 +10,24 @@
 .left {
     display: flex;
     width: calc(100% - 15vh);
-    margin-right:2vw;
+    margin-left: 1vw;
+    margin-right: 2vw;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 1vh 1vw;
+    padding: 0.5vh 1vw;
 }
 
 /* Title and Artist Section */
 .title-artist {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-end;
     width: 100%;
+    position: relative;
+    height: 2vw;
+    padding-top:1.75vh;
 }
 
 /* Song Title */
@@ -31,12 +35,17 @@
     text-align: center;
     font-size: 2vw;
     color: #fff;
+    position: absolute;
+    width: 100%;
 }
 
 /* Song Artist */
 .song-artist {
     font-size: 1.5vw;
     color: #fff;
+    position: absolute;
+    text-align: right;
+    width: 100%;
 }
 
 /* Song Time Section */
@@ -96,23 +105,26 @@
     transform: translateY(-100%);
     font-size: 2vh;
 }
-.flag-start{
+
+.flag-start {
     position: absolute;
     left: 0;
     transform: translateY(-100%);
 
     text-align: left;
 }
-.flag-waypoint{
+
+.flag-waypoint {
     position: absolute;
     left: 0;
     text-align: right;
     transform: translateY(-100%);
 }
-.flag-end{
+
+.flag-end {
     position: absolute;
     right: 0;
-    transform: translateY(-100%);
+    transform: translate(50%, -100%);
     text-align: right;
 }
 

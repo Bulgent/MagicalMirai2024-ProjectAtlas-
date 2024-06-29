@@ -45,7 +45,16 @@
   background-color: #5ca2a0;
 }
 
-.hoverhistory {
+.nohoverhistory{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+  width: 100%;
+}
+
+.historybox {
   background-color: #7bcac9;
   border-radius: 1.5vh;
   font-size: 1vh;
@@ -56,9 +65,21 @@
   /* animation: fadeInSlideDown 1s ease forwards; */
 }
 
+.historycaption{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
 .historyname {
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   font-weight: bold;
+}
+.historytime{
+  font-size: 1vw;
+
 }
 
 .historydetail {
