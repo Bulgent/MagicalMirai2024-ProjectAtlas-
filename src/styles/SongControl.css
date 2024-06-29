@@ -52,15 +52,65 @@
 /* Seek Bar */
 .seek {
     width: 100%;
+    display: flex align-items: center;
+    text-align: center;
 }
 
 /* Seek Bar Container */
-.seekbar {
+.seek-bar {
     align-items: center;
     font-size: 1.25vh;
     color: #fff;
     text-align: center;
     width: 100%;
+    background-color: #fff;
+}
+
+.seek-bar-container {
+    /* width: 100%; */
+    background-color: #ccc;
+    cursor: auto;
+    height: 20px;
+    align-items: center;
+    position: relative;
+}
+
+.running-mm {
+    position: absolute;
+    left: 0;
+    margin-left: 0.5vw;
+    width: 7vw;
+    text-align: left;
+}
+
+.flags {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    top: 0;
+    left: 0;
+    transform: translateY(-100%);
+    font-size: 2vh;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #007bff;
+    /* width: 0%; */
+    position: relative;
+}
+
+.progress-handle {
+    width: 6vh;
+    height: 3vh;
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    transform: translate(70%, -50%);
+    cursor: pointer;
+    filter: brightness(75%);
 }
 
 /* Lyric Phrase Section */
@@ -85,7 +135,7 @@
 
 /* Right Section */
 .right {
-    height:15vh;
+    height: 15vh;
     display: flex;
 }
 
@@ -98,17 +148,22 @@
     background-color: transparent;
     border-radius: 1vw;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease; /* トランジション効果を追加 */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    /* トランジション効果を追加 */
 }
 
 .pausebutton:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* ホバー時の背景色を変更 */
-    transform: scale(0.95); /* ホバー時に少し小きくする */
+    background-color: rgba(0, 0, 0, 0.1);
+    /* ホバー時の背景色を変更 */
+    transform: scale(0.95);
+    /* ホバー時に少し小きくする */
 }
 
 .pausebutton:active {
-    transform: scale(0.9); /* クリック時にさらに小さくする */
-    transition: transform 0.1s ease; /* トランジションを速くして反応を良くする */
+    transform: scale(0.9);
+    /* クリック時にさらに小さくする */
+    transition: transform 0.1s ease;
+    /* トランジションを速くして反応を良くする */
 }
 
 /* Jacket Button */
@@ -132,8 +187,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #FFFFFF; /* テキストの色を白に変更 */
+    color: #FFFFFF;
+    /* テキストの色を白に変更 */
     font-size: 5vh;
-    text-shadow: 2px 2px 4px #000000; /* テキストの影を追加 */
-    font-weight: bold; /* フォントウェイトを太くする */
+    text-shadow: 2px 2px 4px #000000;
+    /* テキストの影を追加 */
+    font-weight: bold;
+    /* フォントウェイトを太くする */
 }
