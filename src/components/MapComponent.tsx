@@ -103,7 +103,7 @@ export const MapComponent = (props: any) => {
   const degreeAnglesRef = useRef<number[]>([])
   const cumulativeAheadRatioRef = useRef<number[]>([])
   const kashicount = useRef<number>(0) // 触れた音符の数
-
+  // 再生時点を共有
   const playerPositionRef = useRef<number>(0)
 
   // 初回だけ処理
