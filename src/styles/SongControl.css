@@ -87,12 +87,31 @@
     position: absolute;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: none;
     width: 100%;
     top: 0;
     left: 0;
     transform: translateY(-100%);
     font-size: 2vh;
+}
+.flag-start{
+    position: absolute;
+    left: 0;
+    transform: translateY(-100%);
+
+    text-align: left;
+}
+.flag-waypoint{
+    position: absolute;
+    left: 0;
+    text-align: right;
+    transform: translateY(-100%);
+}
+.flag-end{
+    position: absolute;
+    right: 0;
+    transform: translateY(-100%);
+    text-align: right;
 }
 
 .progress-bar {

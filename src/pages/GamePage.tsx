@@ -118,6 +118,7 @@ export const GamePage = () => {
           </div>
           <div id="mapinfo">
             <MapInfoComponent
+              hoverHistory={hoverHistory}
             />
           </div>
           <div id="song">
@@ -128,6 +129,7 @@ export const GamePage = () => {
               playTime={playTime}
               songLength={songLength}
               lyricPhrase={lyricPhrase}
+              hoverHistory={hoverHistory}
               player={player}
               app={app}
               handOverSongNumber={handOverSongNumber}
