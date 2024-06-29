@@ -48,11 +48,7 @@ export const GamePage = () => {
   const handOverMediaElement = createHandOverFunction(setMediaElement)
 
   // Map移動に関しての変数宣言
-  const [isMoving, setIsMoving] = useState(false);
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([])
-  const handleMapMove = () => {
-    setIsMoving((prevIsMoving) => !prevIsMoving);
-  };
   // MapComponentからのホバー情報を受け取る
   const handOverHoverHistory = (hover: historyProperties) => {
     // hoverhistory に追加(重複削除)
