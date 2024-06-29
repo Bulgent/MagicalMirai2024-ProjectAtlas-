@@ -10,12 +10,12 @@ export const HistoryComponent = (props: any) => {
     const showHover = () => {
         if (props.hoverHistory.length === 0) {
             return (
-                <div className='hoverhistory'>
+                <div className='nohoverhistory'>
                     <div className='historyname'>
-                        No Waypoint
+                        No Waypoint Arrived
                     </div>
                     <div className='historydetail'>
-                        Please hover over the map
+                        Please hover map icon
                     </div>
                 </div>
             )
@@ -24,12 +24,16 @@ export const HistoryComponent = (props: any) => {
             return (
                 <>
                     {[...props.hoverHistory].reverse().map((hover: any, index: number) => (
-                        <div key={index} className='hoverhistory'>
-                            <div className='historyname'>
-                                {props.hoverHistory.length - index}-
-                                {/* {hover.properties.index} */}
-                                {hover.properties.event_place}
-                                {msToMs(hover.properties.playerPosition)}
+                        <div key={index} className='historybox'>
+                            <div className='historycaption'>
+                                <div className='historyname'>
+                                    {props.hoverHistory.length - index}
+                                    -
+                                    {hover.properties.event_place}
+                                </div>
+                                <div className='historytime'>
+                                    {msToMs(hover.properties.playerPosition)}
+                                </div>
                             </div>
                             <div className='historydetail'>
                                 {hover.properties.event_detail}

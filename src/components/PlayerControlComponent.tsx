@@ -29,7 +29,7 @@ export const PlayerControl = (props: any) => {
   }
 
   const FlagComponent = props.hoverHistory ? props.hoverHistory.map((hover: any, index: number) => {
-    console.log(hover.properties.playerPosition, hover.properties.event_type)
+    // console.log(hover.properties.playerPosition, hover.properties.event_type)
     let showSVG = ''
     const percentage = (hover.properties.playerPosition / songLength) * 100;
     switch (hover.properties.event_type) {
@@ -134,7 +134,8 @@ export const PlayerControl = (props: any) => {
             </div>
             <div className='progress-bar' style={{ width: '0%' }}>
               <div className='running-mm'>
-                走行距離:{msToMs(props.player.timer.position)}
+                {props.mikuMile[0].toFixed(0)}
+                <span className="unit">MM</span>
               </div>
               <img className='progress-handle' src='src\assets\images\carIcon_r.png' />
             </div>

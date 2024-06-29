@@ -36,7 +36,7 @@ export const pointToLayer = (feature: any, latlng: LatLngExpression) => {
 
 // pointデータを図形として表現(移動式観光地)
 export const showDetail = (feature: any, latlng: LatLngExpression) => {
-    console.log(latlng, feature)
+    // console.log(latlng, feature)
     const builIcon = divIcon({
         className: 'buil-icon', // カスタムクラス名
         html: svgSight[feature.properties.event_type],  // ここにビルのアイコンを挿入する

@@ -135,6 +135,11 @@ export const MapComponent = (props: any) => {
     mapCenterRef.current = [mapCenterRet[1] + latOffset, mapCenterRet[0] + lonOffset];
     setCarMapPosition([mapCenterRet[1], mapCenterRet[0]])
     setHeading(0)
+    // MikuMikuMile初期化
+    props.handOverMikuMile([
+      calculateMikuMile(0, props.player.video.duration, roadLengthSumRef.current),
+      calculateMikuMile(props.player.video.duration, props.player.video.duration, roadLengthSumRef.current)
+    ])
   };
 
   /**
@@ -306,7 +311,13 @@ export const MapComponent = (props: any) => {
           if (noteTime && noteTime[0] != 0 && noteTime[0] != props.player.video.duration && noteTime[0] <= props.player.timer?.position) {
             map.removeLayer(lyricMarker);
           }
-        }, 250); // 250ミリ秒ごとに実行
+          // mikuMile計算
+          props.handOverMikuMile([
+            calculateMikuMile(playerPositionRef.current, playerDurationRef.current, roadLengthSumRef.current),
+            calculateMikuMile(playerDurationRef.current, playerDurationRef.current, roadLengthSumRef.current)
+          ])
+          // console.log("MikuMile (MM): ", calculateMikuMile(playerPositionRef.current, playerDurationRef.current, roadLengthSumRef.current))
+        }); // 250ミリ秒ごとに実行
       });
       noteCoordinates.current = noteCd;
       setIsInitMap(false)
@@ -462,7 +473,7 @@ export const MapComponent = (props: any) => {
     // hoverhistoryに重複しないように追加
     // console.log(mapIsMovingRef.current)
     if (mapIsMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.index == e.sourceTarget.feature.properties.index))) {
-      console.log("MikuMile (MM): " ,calculateMikuMile(playerPositionRef.current, playerDurationRef.current, roadLengthSumRef.current))
+      // console.log("MikuMile (MM): " ,calculateMikuMile(playerPositionRef.current, playerDurationRef.current, roadLengthSumRef.current))
       hoverHistory.current.push(e.sourceTarget.feature.properties);
       const historyProperty: historyProperties = e.sourceTarget.feature
       historyProperty.properties.playerPosition = playerPositionRef.current

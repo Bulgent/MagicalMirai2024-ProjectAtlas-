@@ -12,10 +12,20 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap'); */
 
 /* Noto Sans */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap'); */
 
 /* Raleway */
 /* @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap'); */
+
+/* Hachi Maru Pop */
+@import url('https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap');
+
+/* DotGothic */
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+/* Zen Maru Gothic */
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap');
+
 
 :root {
   --min-font-size: 16px;
@@ -28,8 +38,7 @@ body {
   height: 100%;
   display: grid;
   place-items: center;
-  font-family: 'Roboto', sans-serif;
-
+  font-family: "Zen Maru Gothic", serif;
 }
 
 body {
