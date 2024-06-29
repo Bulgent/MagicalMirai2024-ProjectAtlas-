@@ -289,7 +289,7 @@ export const MapComponent = (props: any) => {
 
         // 歌詞の座標に🎵を表示
         // TODO: zindex note
-        const lyricMarker = marker([crtLat, crtLng], { icon: noteIcon, opacity: 1 }).addTo(map);
+        const lyricMarker = marker([crtLat, crtLng], { icon: noteIcon, opacity: 1, pane: "note" }).addTo(map);
         // 時間に応じたクラスを追加したツールチップを追加
         lyricMarker.bindTooltip(wordTime[index].lyric, { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note " + wordTime[index].start }).closeTooltip();
 
@@ -433,7 +433,7 @@ export const MapComponent = (props: any) => {
 
       // 地図の表示範囲内にランダムに歌詞配置
       // TODO: zindex lyric
-      const markertext = marker(mapCoordinate, { opacity: 0 });
+      const markertext = marker(mapCoordinate, { opacity: 0, pane: "lyric" });
       // 表示する歌詞
       markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi", direction: "center" })
       // 地図に追加
@@ -475,6 +475,7 @@ export const MapComponent = (props: any) => {
       props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
     }
   }
+
   const onSightHoverOut = (e: LeafletMouseEvent) => {
     // 動いてない時かつ未訪問の時
     if (!mapIsMovingRef.current && !hoverHistory.current.some(history => history.index == e.sourceTarget.feature.properties.index)) {
@@ -490,12 +491,13 @@ export const MapComponent = (props: any) => {
   const UpdatingOverlayLayer = () => {
     const overlayOpacity = 0.5
     // 曲を3区切りにした際のオーバーレイの色
-    const style1 = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY).fillColor;
+    // const style1 = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY).fillColor;
+    const style1 = "#000000"
     const style2 = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY).fillColor;
     const style3 = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY).fillColor;
     const updateLayer = (layer: any, hexColor: string, overlayOpacity: number) => {
       if (layer) {
-        layer.bringToFront()
+        // layer.bringToFront()
         layer.clearLayers().addData(sky)
         layer.setStyle(
           {
@@ -604,17 +606,6 @@ export const MapComponent = (props: any) => {
             });
           }}
         /> */}
-        <GeoJSON
-          data={sight as GeoJSON.GeoJsonObject}
-          pointToLayer={showDetail}
-          onEachFeature={(_, layer) => {
-            layer.on({
-              mouseover: onSightHover, // ポイントにマウスが乗っかったときに呼び出される関数
-              mouseout: onSightHoverOut
-            });
-          }}
-          pane="waypoint"
-        />
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
@@ -634,6 +625,16 @@ export const MapComponent = (props: any) => {
         {/* 曲の開始まで表示するレイヤ */}
         <PathWay />
         <UpdatingOverlayLayer />
+        <GeoJSON
+          data={sight as GeoJSON.GeoJsonObject}
+          pointToLayer={showDetail}
+          onEachFeature={(_, layer) => {
+            layer.on({
+              mouseover: onSightHover, // ポイントにマウスが乗っかったときに呼び出される関数
+              mouseout: onSightHoverOut
+            });
+          }}
+        />
       </MapContainer>
     </>
   );
