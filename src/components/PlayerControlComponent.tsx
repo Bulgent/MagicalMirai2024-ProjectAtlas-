@@ -3,6 +3,7 @@ import { PlayerSeekbar } from 'textalive-react-api';
 import '../styles/SongControl.css';
 import { msToMs } from '../utils/utils';
 import { pngCar, svgStart, svgGoal } from '../assets/marker/markerSVG';
+import { sightType } from '../utils/utils';
 
 export const PlayerControl = (props: any) => {
   const [status, setStatus] = useState('stop');
@@ -26,6 +27,55 @@ export const PlayerControl = (props: any) => {
     currentPosition.current = props.player.timer.position;
     updateProgressBar();
   }
+
+  const FlagComponent = props.hoverHistory ? props.hoverHistory.map((hover: any, index: number) => {
+    console.log(hover.properties.playerPosition, hover.properties.event_type)
+    let showSVG = ''
+    const percentage = (hover.properties.playerPosition / songLength) * 100;
+    switch (hover.properties.event_type) {
+      case sightType.sports:
+        showSVG = '🚗'
+        break;
+      case sightType.eat:
+        showSVG = '🍔'
+        break;
+      case sightType.movie:
+        showSVG = '🎬'
+        break;
+      case sightType.aqua:
+        showSVG = '🏊'
+        break;
+      case sightType.zoo:
+        showSVG = '🦁'
+        break;
+      case sightType.depart:
+        showSVG = '🚂'
+        break;
+      case sightType.castle:
+        showSVG = '🏰'
+        break;
+      case sightType.hotspring:
+        showSVG = '♨'
+        break;
+      case sightType.amusement:
+        showSVG = '🎢'
+        break;
+      case sightType.festival:
+        showSVG = '🎆'
+        break;
+      case sightType.factory:
+        showSVG = '🏭'
+        break;
+      default:
+        showSVG = '🚩'
+    }
+
+    return (
+      <div key={index} className='flag-waypoint' style={{ width: `${percentage}%` }}>
+        {showSVG}
+      </div>
+    )
+  }) : 'のだた';
 
   useEffect(() => {
     const listener = {
@@ -79,6 +129,7 @@ export const PlayerControl = (props: any) => {
           <div className='seek-bar-container' style={{ width: '100%' }}>
             <div className='flags'>
               <div className='flag-start'>🚩</div>
+              {FlagComponent}
               <div className='flag-end'>🏁</div>
             </div>
             <div className='progress-bar' style={{ width: '0%' }}>
