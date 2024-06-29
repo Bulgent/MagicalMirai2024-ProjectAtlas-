@@ -114,6 +114,13 @@ export const MapComponent = (props: any) => {
 
   const mapIsMovingRef = useRef<Boolean>(false)
 
+  // 天気の状態保持
+  const overlayStyleRef = useRef<string|null>('#ffffff')
+  const isInitPlayRef = useRef<Boolean>(true) // 曲を再生したら止まらないように
+  // 曲が終了したらplayerPosition=0になり天気リセットになるのを防ぐ
+  // 2回目の再生をそのまましないことを仮定
+  const isFirstPlayRef = useRef<Boolean>(true) 
+
   // 初回だけ処理
   // mapの初期位置、経路の計算
   const computePathway = () => {
@@ -350,7 +357,7 @@ export const MapComponent = (props: any) => {
     const animationRef = useRef<number | null>(null);
     const loop = useCallback(
       () => {
-        if (!props.isMoving) {
+        if (!props.isMoving || (props.player.timer.position===0 && !isFirstPlayRef.current)) {
           return;
         }
         // 曲の全体における位置を確認
@@ -482,6 +489,7 @@ export const MapComponent = (props: any) => {
     const style2 = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY).fillColor;
     const style3 = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY).fillColor;
     const updateLayer = (layer: any, hexColor: string, overlayOpacity: number) => {
+      overlayStyleRef.current = hexColor;
       if (layer) {
         layer.clearLayers().addData(sky)
         layer.setStyle(
@@ -492,11 +500,10 @@ export const MapComponent = (props: any) => {
         )
       }
     }
-
+   
+    // 初期値設定
+    overlayStyleRef.current = style1
     const turnOverlayAnimation = () => {
-      if (!props.isMoving) {
-        return;
-      }
       const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
       const turningStantPoint1To2 = songData[props.songnum].turningPoint1![0] / props.player.video.duration;
       const turningEndPoint1To2 = songData[props.songnum].turningPoint1![1] / props.player.video.duration;
@@ -506,7 +513,13 @@ export const MapComponent = (props: any) => {
 
       const layer = layerRef.current;
       if (rationalPlayerPosition < turningStantPoint1To2) {
-        updateLayer(layer, style1, overlayOpacity)
+        if (!isFirstPlayRef.current && rationalPlayerPosition===0){
+          // 曲が終了した後にrationalPlayerPosition=0となり、天気がリセットされることを防ぐ
+          updateLayer(layer, style3, overlayOpacity)
+        }else{
+          updateLayer(layer, style1, overlayOpacity)
+          isFirstPlayRef.current = false
+        }
       } else if (
         rationalPlayerPosition >= turningStantPoint1To2 &&
         rationalPlayerPosition < turningEndPoint1To2
@@ -538,7 +551,9 @@ export const MapComponent = (props: any) => {
     const layerRef = useRef<GeoJSON | null>(null);
     // オーバーレイ変更のためのトリガー
     useEffect(() => {
-      if (props.isMoving) {
+      if (props.isMoving || !isInitPlayRef.current) {
+        isInitPlayRef.current = false
+        
         turnOverlayAnimation();
       } else {
         cancelAnimationFrame(turnOverlayAnimationRef.current!);
@@ -552,7 +567,7 @@ export const MapComponent = (props: any) => {
       <GeoJSON
         data={sky as unknown as GeoJSON.GeoJsonObject}
         style={{
-          fillColor: style1,
+          fillColor: overlayStyleRef.current,
           fillOpacity: overlayOpacity,
         }}
         ref={layerRef}
