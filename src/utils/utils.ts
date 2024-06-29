@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import songData from './Song.ts'
+import { latLng, latLngBounds } from 'leaflet'
 
 // 観光名所の種類
 export const enum sightType {
@@ -387,3 +388,12 @@ export const msToMs = (milliseconds: number) => {
   const seconds = totalSeconds % 60;
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 };
+
+/**
+ * マップの制限領域を作成
+ */
+export const createLatLngBounds = (json:any) => {
+  const coordinates: [lng:number, lat:number][] = json.features[0].geometry.coordinates[0][0]
+  const locationCoords = coordinates.map(loc => latLng(loc[1], loc[0]));
+  return latLngBounds(locationCoords);
+}

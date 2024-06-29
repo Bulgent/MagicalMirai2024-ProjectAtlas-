@@ -10,7 +10,8 @@ import { ComputeAhead } from '../services/ComputeAhead.ts'
 import { seasonType, weatherType, timeType, mapStyle, polygonStyle, mapStylePathWay, showDetail } from '../utils/MapStyle.ts'
 import {
   checkArchType, formatKashi, calculateDistance,
-  calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor, cssSlide
+  calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor, cssSlide,
+  createLatLngBounds
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
 import { pngCar, svgNote, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
@@ -24,6 +25,7 @@ import points from '../assets/jsons/map_data/points.json'
 import sight from '../assets/jsons/map_data/sightseeing.json'
 import areas from '../assets/jsons/map_data/area.json'
 import sky from '../assets/jsons/map_data/polygons.json'
+import restrictedArea from '../assets/jsons/map_data/restrictedArea.json'
 
 // songDataの導入
 import songData from '../utils/Song.ts';
@@ -70,7 +72,6 @@ export const MapComponent = (props: any) => {
    * 定数
    */
   // Mapのための定数
-  const startCoordinate: [number, number] = [34.503780572499515, 135.5574936226363];
   const endCoordinate: [number, number] = [34.6379271092576, 135.4196972135114];
   const mapZoom: number = 17; // Mapのzoomについて1が一番ズームアウト
   const roadJsonLst = [trunk, primary, secondary] // 表示する道路について
@@ -125,7 +126,6 @@ export const MapComponent = (props: any) => {
   /**
    * Mapから文字を消す処理  
    */
-  // TODO: mapの初期スタイルも導入
   const RemoveMapTextFunction = () => {
     const map = useMap();
     useEffect(() => {
@@ -134,6 +134,8 @@ export const MapComponent = (props: any) => {
       }
       // mapの初期中心座標の決定
       map.setView(mapCenterRef.current)
+      // TODO: mapの表示領域を制限
+      map.setMaxBounds(createLatLngBounds(restrictedArea))
       if (OSMlayerRef.current) {
         // 読み込みが2段階ある
         if (OSMlayerRef.current.getMaplibreMap().getStyle() === undefined) {
@@ -553,13 +555,19 @@ export const MapComponent = (props: any) => {
     <>
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
-      <MapContainer className='mapcomponent' center={[-1, -1]} zoom={mapZoom} style={{ backgroundColor: '#f5f3f3' }} dragging={true} zoomControl={false} attributionControl={false}>
-
+      <MapContainer className='mapcomponent' style={{ backgroundColor: '#f5f3f3' }}
+       center={[-1, -1]} zoom={mapZoom} 
+       minZoom = {14} maxZoom={17}
+       zoomSnap={0.1} zoomDelta={0.5} trackResize={false}
+       inertiaMaxSpeed = {500} inertiaDeceleration = {1000}
+       dragging={true} zoomControl={false} attributionControl={false}
+       maxBoundsViscosity={1.0}
+       preferCanvas={true}
+      >
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
         />
-        
         {/* <GeoJSON
           data={points as GeoJSON.GeoJsonObject}
           pointToLayer={pointToLayer}
