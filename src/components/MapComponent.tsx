@@ -493,7 +493,6 @@ export const MapComponent = (props: any) => {
     // 初期値設定
     overlayStyleRef.current = style1
     const turnOverlayAnimation = () => {
-      console.log(props.player.timer.position)
       const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
       const turningStantPoint1To2 = songData[props.songnum].turningPoint1![0] / props.player.video.duration;
       const turningEndPoint1To2 = songData[props.songnum].turningPoint1![1] / props.player.video.duration;
@@ -552,7 +551,7 @@ export const MapComponent = (props: any) => {
         cancelAnimationFrame(turnOverlayAnimationRef.current!);
       };
     }, [props.isMoving]);
-    // updateLayer(layerRef.current, overlayStyleRef.current, overlayOpacity)
+
     return (
       <GeoJSON
         data={sky as unknown as GeoJSON.GeoJsonObject}
