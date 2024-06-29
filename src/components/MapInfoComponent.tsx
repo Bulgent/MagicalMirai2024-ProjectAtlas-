@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 export const MapInfoComponent = (props: any) => {
     // 表示する値を保存するための状態を初期化
     const [displayValue, setDisplayValue] = useState<number>(0);
-
+    // VICS 更新
     useEffect(() => {
         const interval = setInterval(() => {
             // 0から9までの乱数を生成
