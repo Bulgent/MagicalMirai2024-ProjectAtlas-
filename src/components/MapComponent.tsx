@@ -10,7 +10,8 @@ import { ComputeAhead } from '../services/ComputeAhead.ts'
 import { seasonType, weatherType, timeType, mapStyle, polygonStyle, mapStylePathWay, showDetail } from '../utils/MapStyle.ts'
 import {
   checkArchType, formatKashi, calculateDistance,
-  calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor, cssSlide
+  calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor, cssSlide,
+  createLatLngBounds
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
 import { pngCar, svgNote, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
@@ -24,6 +25,7 @@ import points from '../assets/jsons/map_data/points.json'
 import sight from '../assets/jsons/map_data/sightseeing.json'
 import areas from '../assets/jsons/map_data/area.json'
 import sky from '../assets/jsons/map_data/polygons.json'
+import restrictedArea from '../assets/jsons/map_data/restrictedArea.json'
 
 // songDataの導入
 import songData from '../utils/Song.ts';
@@ -123,7 +125,6 @@ export const MapComponent = (props: any) => {
   /**
    * Mapから文字を消す処理  
    */
-  // TODO: mapの初期スタイルも導入
   const RemoveMapTextFunction = () => {
     const map = useMap();
     useEffect(() => {
@@ -132,6 +133,8 @@ export const MapComponent = (props: any) => {
       }
       // mapの初期中心座標の決定
       map.setView(mapCenterRef.current)
+      // TODO: mapの表示領域を制限
+      map.setMaxBounds(createLatLngBounds(restrictedArea))
       if (OSMlayerRef.current) {
         // 読み込みが2段階ある
         if (OSMlayerRef.current.getMaplibreMap().getStyle() === undefined) {
@@ -535,19 +538,6 @@ export const MapComponent = (props: any) => {
     )
   }
 
-  const locations = [
-    { "lat": 34.503, "lng": 135.5574 }, 
-    { "lat": 34.502, "lng": 135.5575 }, 
-    { "lat": 34.501, "lng": 135.5575 }, 
-    { "lat": 34.500, "lng": 135.5574 } 
-  ];
-  
-  // 各地点の座標を取得し、配列に格納
-  const locationCoords = locations.map(loc => L.latLng(loc.lat, loc.lng));
-  
-  // 最小・最大の座標を持つ境界ボックスを作成
-  const bounds = L.latLngBounds(locationCoords);
-
   return (
     <>
       {/* centerは[緯度, 経度] */}
@@ -558,9 +548,12 @@ export const MapComponent = (props: any) => {
        zoomSnap={0.1} zoomDelta={0.5} trackResize={false}
        inertiaMaxSpeed = {500} inertiaDeceleration = {1000}
        dragging={true} zoomControl={false} attributionControl={false}
-       maxBounds={bounds}
+       maxBoundsViscosity={1.0}
       >
-
+        <GeoJSON
+          data={areas as GeoJSON.GeoJsonObject}
+          style={mapStyle}
+        />
 
         <UpdatingOverlayLayer />
         {/* <GeoJSON
