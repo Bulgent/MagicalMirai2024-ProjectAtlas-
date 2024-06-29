@@ -70,7 +70,6 @@ export const MapComponent = (props: any) => {
    * 定数
    */
   // Mapのための定数
-  const startCoordinate: [number, number] = [34.503780572499515, 135.5574936226363];
   const endCoordinate: [number, number] = [34.6379271092576, 135.4196972135114];
   const mapZoom: number = 17; // Mapのzoomについて1が一番ズームアウト
   const roadJsonLst = [trunk, primary, secondary] // 表示する道路について
