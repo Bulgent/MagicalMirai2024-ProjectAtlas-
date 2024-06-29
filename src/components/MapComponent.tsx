@@ -4,6 +4,7 @@ import L, { LeafletMouseEvent, marker, Map, point, divIcon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
+import '../styles/leaflet.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { ComputeAhead } from '../services/ComputeAhead.ts'
@@ -141,8 +142,11 @@ export const MapComponent = (props: any) => {
         return
       }
       // paneの作成
+      map.createPane('lyric');
+      map.createPane('waypoint');
       map.createPane('sky');
       map.createPane('car');
+      map.createPane('note');
       map.createPane('pathway');
       // mapの初期中心座標の決定
       map.setView(mapCenterRef.current)
@@ -284,6 +288,7 @@ export const MapComponent = (props: any) => {
         });
 
         // 歌詞の座標に🎵を表示
+        // TODO: zindex note
         const lyricMarker = marker([crtLat, crtLng], { icon: noteIcon, opacity: 1 }).addTo(map);
         // 時間に応じたクラスを追加したツールチップを追加
         lyricMarker.bindTooltip(wordTime[index].lyric, { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note " + wordTime[index].start }).closeTooltip();
@@ -427,6 +432,7 @@ export const MapComponent = (props: any) => {
       document.head.appendChild(styleTag);
 
       // 地図の表示範囲内にランダムに歌詞配置
+      // TODO: zindex lyric
       const markertext = marker(mapCoordinate, { opacity: 0 });
       // 表示する歌詞
       markertext.bindTooltip(printKashi, { permanent: true, sticky: true, interactive: false, className: "label-kashi", direction: "center" })
@@ -607,6 +613,7 @@ export const MapComponent = (props: any) => {
               mouseout: onSightHoverOut
             });
           }}
+          pane="waypoint"
         />
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
