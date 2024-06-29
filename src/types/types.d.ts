@@ -42,14 +42,22 @@ type createPlayerContent = {
 type historyProperties = {
     type: string
     properties: {
-        type: number
-        name: string
+        event_type: number
+        event_place: string
+        event_title: string
+        event_detail: string
+        want_score: number
+        cost: number
+        weather: number
+        season: number
+        time: number
     }
     geometry: {
         type: string
         coordinates: [number, number]
     }
 }
+
 
 type PointProperties = {
     name: string
