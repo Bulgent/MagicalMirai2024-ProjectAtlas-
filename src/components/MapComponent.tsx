@@ -455,6 +455,7 @@ export const MapComponent = (props: any) => {
     // hoverhistoryに重複しないように追加
     // console.log(mapIsMovingRef.current)
     if (mapIsMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.index == e.sourceTarget.feature.properties.index))) {
+      console.log("MikuMile (MM): " ,calculateMikuMile(playerPositionRef.current, playerDurationRef.current, roadLengthSumRef.current))
       hoverHistory.current.push(e.sourceTarget.feature.properties);
       const historyProperty: historyProperties = e.sourceTarget.feature
       historyProperty.properties.playerPosition = playerPositionRef.current
