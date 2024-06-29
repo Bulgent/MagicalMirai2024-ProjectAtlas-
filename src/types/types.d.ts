@@ -51,6 +51,7 @@ type historyProperties = {
         weather: number
         season: number
         time: number
+        playerPosition: number
     }
     geometry: {
         type: string
