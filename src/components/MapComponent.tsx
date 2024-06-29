@@ -11,7 +11,7 @@ import { seasonType, weatherType, timeType, mapStyle, polygonStyle, mapStylePath
 import {
   checkArchType, formatKashi, calculateDistance,
   calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor, cssSlide,
-  createLatLngBounds
+  createLatLngBounds, calculateMikuMile, calculateRoadLengthSum
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
 import { pngCar, svgNote, svgStart, svgGoal } from '../assets/marker/markerSVG.ts'
@@ -105,7 +105,13 @@ export const MapComponent = (props: any) => {
   const cumulativeAheadRatioRef = useRef<number[]>([])
   const kashicount = useRef<number>(0) // 触れた音符の数
 
-  const playerPositionRef = useRef<number>(0)
+  
+
+  // MikuMile計算
+  const roadLengthSumRef = useRef<number>(0);
+  const playerPositionRef = useRef<number>(0);
+  const playerDurationRef = useRef<number>(0);
+
   const mapIsMovingRef = useRef<Boolean>(false)
 
   // 初回だけ処理
@@ -113,6 +119,7 @@ export const MapComponent = (props: any) => {
   const computePathway = () => {
     const [features, nodes, mapCenterRet] = computePath(roadJsonLst, songData[props.songnum].startPosition, endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
+    roadLengthSumRef.current = calculateRoadLengthSum(nodes)
     const [aheads, degreeAngles, cumulativeAheadRatio] = ComputeAhead(nodes)
     degreeAnglesRef.current = degreeAngles
     cumulativeAheadRatioRef.current = cumulativeAheadRatio
@@ -347,6 +354,7 @@ export const MapComponent = (props: any) => {
           return;
         }
         // 曲の全体における位置を確認
+        playerDurationRef.current = props.player.video.duration
         const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
         playerPositionRef.current = props.player.timer.position
         if (rationalPlayerPosition < 1) {
@@ -447,6 +455,7 @@ export const MapComponent = (props: any) => {
     // hoverhistoryに重複しないように追加
     // console.log(mapIsMovingRef.current)
     if (mapIsMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.index == e.sourceTarget.feature.properties.index))) {
+      console.log("MikuMile (MM): " ,calculateMikuMile(playerPositionRef.current, playerDurationRef.current, roadLengthSumRef.current))
       hoverHistory.current.push(e.sourceTarget.feature.properties);
       const historyProperty: historyProperties = e.sourceTarget.feature
       historyProperty.properties.playerPosition = playerPositionRef.current
