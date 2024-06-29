@@ -106,6 +106,8 @@ export const MapComponent = (props: any) => {
 
   const playerPositionRef = useRef<number>(0)
   const mapIsMovingRef = useRef<Boolean>(false)
+  const overlayStyleRef = useRef<string|null>('#ffffff')
+  const isInitPlayRef = useRef<Boolean>(true)
 
   // 初回だけ処理
   // mapの初期位置、経路の計算
@@ -471,6 +473,7 @@ export const MapComponent = (props: any) => {
     const style2 = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY).fillColor;
     const style3 = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY).fillColor;
     const updateLayer = (layer: any, hexColor: string, overlayOpacity: number) => {
+      overlayStyleRef.current = hexColor;
       if (layer) {
         layer.clearLayers().addData(sky)
         layer.setStyle(
@@ -481,11 +484,11 @@ export const MapComponent = (props: any) => {
         )
       }
     }
-
+   
+    // 初期値設定
+    overlayStyleRef.current = style1
     const turnOverlayAnimation = () => {
-      if (!props.isMoving) {
-        return;
-      }
+      console.log("rendering")
       const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
       const turningStantPoint1To2 = songData[props.songnum].turningPoint1![0] / props.player.video.duration;
       const turningEndPoint1To2 = songData[props.songnum].turningPoint1![1] / props.player.video.duration;
@@ -527,21 +530,24 @@ export const MapComponent = (props: any) => {
     const layerRef = useRef<GeoJSON | null>(null);
     // オーバーレイ変更のためのトリガー
     useEffect(() => {
-      if (props.isMoving) {
+      console.log(!isInitPlayRef.current)
+      if (props.isMoving || !isInitPlayRef.current) {
+        isInitPlayRef.current = false
         turnOverlayAnimation();
       } else {
+        console.log("stop")
         cancelAnimationFrame(turnOverlayAnimationRef.current!);
       }
       return () => {
         cancelAnimationFrame(turnOverlayAnimationRef.current!);
       };
     }, [props.isMoving]);
-
+    // updateLayer(layerRef.current, overlayStyleRef.current, overlayOpacity)
     return (
       <GeoJSON
         data={sky as unknown as GeoJSON.GeoJsonObject}
         style={{
-          fillColor: style1,
+          fillColor: overlayStyleRef.current,
           fillOpacity: overlayOpacity,
         }}
         ref={layerRef}
