@@ -1,12 +1,25 @@
 /* MapContainer内の順番固定 */
+
+.leaflet-lyric-pane {
+    z-index: 800;
+}
+
+.leaflet-tooltip-pane {
+    z-index: 700;
+}
+
+.leaflet-sky-pane {
+    z-index: 600;
+}
+
 .leaflet-car-pane {
     z-index: 500;
-  }
-  
-  .leaflet-sky-pane {
-    z-index: 600;
-  }
-  
-  .leaflet-pathway-pane {
+}
+
+.leaflet-note-pane {
     z-index: 400;
-  }
+}
+
+.leaflet-pathway-pane {
+    z-index: 300;
+}
