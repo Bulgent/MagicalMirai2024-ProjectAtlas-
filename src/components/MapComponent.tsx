@@ -81,7 +81,7 @@ export const MapComponent = (props: any) => {
    * React Hooks
    */
   // ホバーしたオブジェクトの格納
-  const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([]);
+  const hoverHistory = useRef<historyProperties[]>([]);
   // 全ての道を表示（デバッグ用）
   const nodesRef = useRef<[lat:number, lon:number][]>([]);
   // 経路計算結果格納
@@ -426,17 +426,22 @@ export const MapComponent = (props: any) => {
   };
 
   // 👽ポイントにマウスが乗ったときに呼び出される関数👽
-  const onPointHover = (e: LeafletMouseEvent) => {
-    console.log(e.sourceTarget.feature.properties.name, checkArchType(e.sourceTarget.feature.properties.type))
-    // オフ会0人かどうか
-    if (e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
-      console.log("オイイイッス！👽")
-    }
-    setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
-    props.handOverHover(e.sourceTarget.feature)
-  }
+  // const onPointHover = (e: LeafletMouseEvent) => {
+  //   console.log(e.sourceTarget.feature.properties.name, checkArchType(e.sourceTarget.feature.properties.type))
+  //   // オフ会0人かどうか
+  //   if (e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
+  //     console.log("オイイイッス！👽")
+  //   }
+  //   setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
+  //   props.handOverHover(e.sourceTarget.feature)
+  // }
   // 👽観光地にマウスが乗ったときに呼び出される関数👽
   const onSightHover = (e: LeafletMouseEvent) => {
+    // hoverhistoryに重複しないように追加
+    if (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.index == e.sourceTarget.feature.properties.index)) {
+      //hoverHistory.current.push(e.sourceTarget.feature.properties);
+      //props.handOverHover(e.sourceTarget.feature)
+      //props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
     // TODO: e.sourceTarget.featureはhistoryPropertiesではないため、書き方は不適（型チェックが甘いだけで、実装はできている）
     const historyProperty: historyProperties = e.sourceTarget.feature
     historyProperty.properties.playerPosition = playerPositionRef.current
@@ -444,6 +449,7 @@ export const MapComponent = (props: any) => {
     props.handOverHover(e.sourceTarget.feature)
     // TODO 1回だけにする
     props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
+      }
   }
 
   /**
