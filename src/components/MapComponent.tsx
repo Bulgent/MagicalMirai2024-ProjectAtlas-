@@ -491,8 +491,7 @@ export const MapComponent = (props: any) => {
   const UpdatingOverlayLayer = () => {
     const overlayOpacity = 0.5
     // 曲を3区切りにした際のオーバーレイの色
-    // const style1 = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY).fillColor;
-    const style1 = "#000000"
+    const style1 = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY).fillColor;
     const style2 = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY).fillColor;
     const style3 = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY).fillColor;
     const updateLayer = (layer: any, hexColor: string, overlayOpacity: number) => {
