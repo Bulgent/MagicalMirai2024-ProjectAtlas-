@@ -503,7 +503,13 @@ export const MapComponent = (props: any) => {
 
       const layer = layerRef.current;
       if (rationalPlayerPosition < turningStantPoint1To2) {
-        updateLayer(layer, style1, overlayOpacity)
+        if (!isFirstPlayRef.current && rationalPlayerPosition===0){
+          // 曲が終了した後にrationalPlayerPosition=0となり、天気がリセットされることを防ぐ
+          updateLayer(layer, style3, overlayOpacity)
+        }else{
+          updateLayer(layer, style1, overlayOpacity)
+          isFirstPlayRef.current = false
+        }
       } else if (
         rationalPlayerPosition >= turningStantPoint1To2 &&
         rationalPlayerPosition < turningEndPoint1To2
@@ -537,6 +543,7 @@ export const MapComponent = (props: any) => {
     useEffect(() => {
       if (props.isMoving || !isInitPlayRef.current) {
         isInitPlayRef.current = false
+        
         turnOverlayAnimation();
       } else {
         cancelAnimationFrame(turnOverlayAnimationRef.current!);
