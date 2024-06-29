@@ -75,8 +75,7 @@ export const PlayerControl = (props: any) => {
           </div>
         </div>
         <div className='seek'>
-          {/* disabledオプションで無効化できる． 
-        TODO シークバーの改造（余裕があれば） */}
+          {/* 元パステルにミクいろ */}
           <div className='seek-bar-container' style={{ width: '100%' }}>
             <div className='flags'>
               <div className='flag-start'>🚩</div>
