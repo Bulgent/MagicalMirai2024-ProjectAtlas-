@@ -536,6 +536,19 @@ export const MapComponent = (props: any) => {
     )
   }
 
+  const locations = [
+    { "lat": 34.503, "lng": 135.5574 }, 
+    { "lat": 34.502, "lng": 135.5575 }, 
+    { "lat": 34.501, "lng": 135.5575 }, 
+    { "lat": 34.500, "lng": 135.5574 } 
+  ];
+  
+  // 各地点の座標を取得し、配列に格納
+  const locationCoords = locations.map(loc => L.latLng(loc.lat, loc.lng));
+  
+  // 最小・最大の座標を持つ境界ボックスを作成
+  const bounds = L.latLngBounds(locationCoords);
+
   return (
     <>
       {/* centerは[緯度, 経度] */}
@@ -546,6 +559,7 @@ export const MapComponent = (props: any) => {
        zoomSnap={0.1} zoomDelta={0.5} trackResize={false}
        inertiaMaxSpeed = {500} inertiaDeceleration = {1000}
        dragging={true} zoomControl={false} attributionControl={false}
+       maxBounds={bounds}
       >
 
 
