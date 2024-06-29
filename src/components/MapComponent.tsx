@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
 import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
-import L, { LeafletMouseEvent, marker, Map, point, divIcon } from 'leaflet';
+import L, { LeafletMouseEvent, marker, Map, point, divIcon, polyline } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -103,9 +103,8 @@ export const MapComponent = (props: any) => {
   const eachRoadLengthRatioRef = useRef<number[]>([])
   const degreeAnglesRef = useRef<number[]>([])
   const cumulativeAheadRatioRef = useRef<number[]>([])
+  const goallineRef = useRef(null); // goallineをuseRefで保持
   const kashicount = useRef<number>(0) // 触れた音符の数
-
-  
 
   // MikuMile計算
   const roadLengthSumRef = useRef<number>(0);
@@ -115,11 +114,11 @@ export const MapComponent = (props: any) => {
   const mapIsMovingRef = useRef<Boolean>(false)
 
   // 天気の状態保持
-  const overlayStyleRef = useRef<string|null>('#ffffff')
+  const overlayStyleRef = useRef<string | null>('#ffffff')
   const isInitPlayRef = useRef<Boolean>(true) // 曲を再生したら止まらないように
   // 曲が終了したらplayerPosition=0になり天気リセットになるのを防ぐ
   // 2回目の再生をそのまましないことを仮定
-  const isFirstPlayRef = useRef<Boolean>(true) 
+  const isFirstPlayRef = useRef<Boolean>(true)
 
   // 初回だけ処理
   // mapの初期位置、経路の計算
@@ -270,7 +269,7 @@ export const MapComponent = (props: any) => {
           default: // それ以外
             markerString = songData[props.songnum].note
             markerSVG = emojiNote, // 絵文字を表示 // svgNote
-            markerClass = "icon-note"
+              markerClass = "icon-note"
             break;
         }
         noteCd.push({
@@ -363,14 +362,31 @@ export const MapComponent = (props: any) => {
 
   // 通る道の計算
   const MoveMapByRoute = () => {
-
     const map = useMap();
+
+    const updatePolyline = useCallback((coordinates) => {
+      // 以前の線があれば座標更新
+      if (goallineRef.current) {
+        goallineRef.current.setLatLngs(coordinates);
+      }
+      else {
+        // 新しい線を作成し、goallineRefに設定
+        goallineRef.current = polyline(coordinates, {
+          color: 'red',
+          weight: 1,
+          dashArray: '3, 3',
+        }).addTo(map);
+      }
+    }, [map]);
+
+    // ポリラインを作成し、地図に追加
     const animationRef = useRef<number | null>(null);
     const loop = useCallback(
       () => {
-        if (!props.isMoving || (props.player.timer.position===0 && !isFirstPlayRef.current)) {
+        if (!props.isMoving || (props.player.timer.position === 0 && !isFirstPlayRef.current)) {
           return;
         }
+
         // 曲の全体における位置を確認
         playerDurationRef.current = props.player.video.duration
         const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
@@ -381,6 +397,13 @@ export const MapComponent = (props: any) => {
           const updatedLat = nodesRef.current[startNodeIndex][0] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][0] * nodeResidue;
           const updatedLon = nodesRef.current[startNodeIndex][1] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][1] * nodeResidue;
           map.setView([updatedLat + latOffset, updatedLon + lonOffset], mapZoom);
+
+          // 車が移動したらポリラインの座標を変化させる
+          updatePolyline([
+            [updatedLat, updatedLon],
+            [nodesRef.current[nodesRef.current.length - 1][0], nodesRef.current[nodesRef.current.length - 1][1]]
+          ]);
+
 
           // ここにアイコンの情報を入れる
           const [startAheadIndex, aheadResidue] = getRationalPositonIndex(rationalPlayerPosition, cumulativeAheadRatioRef.current);
@@ -511,7 +534,7 @@ export const MapComponent = (props: any) => {
         )
       }
     }
-   
+
     // 初期値設定
     overlayStyleRef.current = style1
     const turnOverlayAnimation = () => {
@@ -524,10 +547,10 @@ export const MapComponent = (props: any) => {
 
       const layer = layerRef.current;
       if (rationalPlayerPosition < turningStantPoint1To2) {
-        if (!isFirstPlayRef.current && rationalPlayerPosition===0){
+        if (!isFirstPlayRef.current && rationalPlayerPosition === 0) {
           // 曲が終了した後にrationalPlayerPosition=0となり、天気がリセットされることを防ぐ
           updateLayer(layer, style3, overlayOpacity)
-        }else{
+        } else {
           updateLayer(layer, style1, overlayOpacity)
           isFirstPlayRef.current = false
         }
@@ -564,7 +587,7 @@ export const MapComponent = (props: any) => {
     useEffect(() => {
       if (props.isMoving || !isInitPlayRef.current) {
         isInitPlayRef.current = false
-        
+
         turnOverlayAnimation();
       } else {
         cancelAnimationFrame(turnOverlayAnimationRef.current!);
@@ -591,13 +614,13 @@ export const MapComponent = (props: any) => {
       {/* centerは[緯度, 経度] */}
       {/* zoomは16くらいがgood */}
       <MapContainer className='mapcomponent' style={{ backgroundColor: '#f5f3f3' }}
-       center={[-1, -1]} zoom={mapZoom} 
-       minZoom = {14} maxZoom={17}
-       zoomSnap={0.1} zoomDelta={0.5} trackResize={false}
-       inertiaMaxSpeed = {500} inertiaDeceleration = {1000}
-       dragging={true} zoomControl={false} attributionControl={false}
-       maxBoundsViscosity={1.0}
-       preferCanvas={true}
+        center={[-1, -1]} zoom={mapZoom}
+        minZoom={14} maxZoom={17}
+        zoomSnap={0.1} zoomDelta={0.5} trackResize={false}
+        inertiaMaxSpeed={500} inertiaDeceleration={1000}
+        dragging={true} zoomControl={false} attributionControl={false}
+        maxBoundsViscosity={1.0}
+        preferCanvas={true}
       >
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
