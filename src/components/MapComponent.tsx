@@ -586,6 +586,15 @@ export const MapComponent = (props: any) => {
     )
   }
 
+  const GetZoomLevel = () =>{
+    const map = useMap();
+    map.on('zoom', function() {
+      // スケール変更時の処理をここに記述
+      console.log('Tew zoom level: ' + map.getZoom());
+  });
+  return null
+  }
+
   return (
     <>
       {/* centerは[緯度, 経度] */}
@@ -599,6 +608,7 @@ export const MapComponent = (props: any) => {
        maxBoundsViscosity={1.0}
        preferCanvas={true}
       >
+        <GetZoomLevel/>
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
