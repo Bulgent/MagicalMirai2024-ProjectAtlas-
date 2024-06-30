@@ -1,9 +1,8 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { PlayerSeekbar } from 'textalive-react-api';
 import '../styles/SongControl.css';
-import { createElementFromHTML, msToMs } from '../utils/utils';
-import { pngCar, svgStart, svgGoal } from '../assets/marker/markerSVG';
-import { sightType } from '../utils/utils';
+import { msToMs, sightType } from '../utils/utils';
+import songData from '../utils/Song';
 
 export const PlayerControl = (props: any) => {
   const [status, setStatus] = useState('stop');
@@ -75,9 +74,46 @@ export const PlayerControl = (props: any) => {
         {showSVG}
       </div>
     )
-  }) : 'のだた';
+  }) : '';
 
-  const setButtonText = true ? '🔒' : '';
+  const GetWeather = () => {
+    // morning{songData[props.songnum].turningPoint1![0]}
+    const morningToNoon = {
+      start: songData[props.songnum].turningPoint1![0] / props.player.video.duration,
+      end: songData[props.songnum].turningPoint1![1] / props.player.video.duration
+    }
+    const noonToNight = {
+      start: songData[props.songnum].turningPoint2![0] / props.player.video.duration,
+      end: songData[props.songnum].turningPoint2![1] / props.player.video.duration
+    }
+    const current = props.player.timer.position / props.player.video.duration
+    // console.log(current, props.player.timer.position, props.player.video.duration)
+    if (current < morningToNoon.start) {
+      return ('🌅 Morning') // 朝
+    } else if (current < morningToNoon.end) {
+      return (<>
+        🌅Morning
+        <span className="material-symbols-outlined weather-arrow">
+          double_arrow
+        </span>
+        🌞Noon
+      </>) // 朝から昼
+    } else if (current < noonToNight.start) {
+      return ('🌞 Noon') // 昼
+    } else if (current < noonToNight.end) {
+      return (<>
+        🌆Noon
+        <span className="material-symbols-outlined weather-arrow">
+          double_arrow
+        </span>
+        🌇Night
+      </>) // 昼から夜
+    } else {
+      return ('🌕️ Night') // 夜
+      // TODO 曲最後まで行くと朝に戻ってしまう
+    }
+  }
+
 
   useEffect(() => {
     const listener = {
@@ -128,11 +164,12 @@ export const PlayerControl = (props: any) => {
         </div>
         <div className='seek'>
           {/* 元パステルにミクいろ */}
-          <div className='seek-bar-container' style={{ width: '100%' }}>
+          <div className='seek-bar-container'>
+            <div className='progress-weather'>
+              <GetWeather />
+            </div>
             <div className='flags'>
-              <div className='flag-start'>
-                🚩
-              </div>
+              <div className='flag-start'>🚩</div>
               {FlagComponent}
               <div className='flag-end'>🏁</div>
             </div>
@@ -141,17 +178,19 @@ export const PlayerControl = (props: any) => {
                 {props.mikuMile[0].toFixed(0)}
                 <span className="unit">MM</span>
               </div>
-              <img className='progress-handle' src='src\assets\images\carIcon_r.png' />
+
+              <img className='progress-handle' src='src\assets\images\carIcon.png' />
             </div>
           </div>
-          <PlayerSeekbar player={!props.disabled && props.player} />
+          {/* <PlayerSeekbar player={!props.disabled && props.player} /> */}
           <div className='song-time'>
             <div className="time-elapsed">
               {msToMs(props.player.timer.position)}
             </div>
             <div className="lyric-phrase">
               <div className="phrase-current">
-                {props.lyricPhrase.text ? props.lyricPhrase?.text : props.player.video.firstPhrase.text}
+                {/* {props.lyricPhrase.text ? props.lyricPhrase?.text : props.player.video.firstPhrase.text} */}
+                {props.lyricPhrase.text}
               </div>
             </div>
             <div className="time-duration">

@@ -1,8 +1,15 @@
 import '../styles/MapInfo.css';
-import { msToMs } from '../utils/utils';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { calculateZoom2MikuMile, msToMs } from '../utils/utils.ts'
+
 
 export const MapInfoComponent = (props: any) => {
+    const [zoomToMikuMile, setZoomToMikuMile] = useState<string>("0");
+
+    useEffect(() => {
+        const calculatedValue = calculateZoom2MikuMile(props.scale).toFixed(1);
+        setZoomToMikuMile(calculatedValue);
+    }, [props.scale]);
     // 表示する値を保存するための状態を初期化
     const [displayValue, setDisplayValue] = useState<number>(0);
     // VICS 更新
@@ -54,7 +61,9 @@ export const MapInfoComponent = (props: any) => {
             <div className='scale infobox'>
                 <div className='scale infotitle'>SCALE</div>
                 <div className='scale infotext'>
-                    YY&nbsp;
+
+                    {zoomToMikuMile}&nbsp;
+
                     <span className="unit">MM</span>
                 </div>
                 <div className='scale-line'></div>

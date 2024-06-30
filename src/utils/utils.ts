@@ -427,24 +427,23 @@ export const createLatLngBounds = (json: any) => {
  */
 export const calculateMikuMile = (playerPosition: number, playerDuration: number, allNodesVectorScalar: number) => {
   if (playerDuration === 0) {
-    return allNodesVectorScalar * (playerPosition) * 393
+    return allNodesVectorScalar * (playerPosition) * 3930
   }
   else {
-    return allNodesVectorScalar * (playerPosition / playerDuration) * 393
+    return allNodesVectorScalar * (playerPosition / playerDuration) * 3930
   }
 }
 
 
 /**
- * HTML文字列をElementへ変換する。
- * @param html HTML文字列
- * @returns {Element} 
+ * zoom - map.getZoom()の値
  */
-export const createElementFromHTML = (html: string) => {
-  const tempEl = document.createElement('div');
-  tempEl.innerHTML = html;
-  return tempEl.firstElementChild;
-};
+export const calculateZoom2MikuMile = (zoom:number) => {
+  // 実寸を計測
+  // 3.2: zoom17の時のscaleの値, MMの係数と連携している
+  // 割と適当な値
+  return (2**((17/zoom-1)*15))*3.2
+}
 
 // 呼び出し例
 // createElementFromHTML('<div style="width: 300px;"></div>');

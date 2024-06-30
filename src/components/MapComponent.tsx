@@ -130,6 +130,7 @@ export const MapComponent = (props: any) => {
   // 初回だけ処理
   // mapの初期位置、経路の計算
   const computePathway = () => {
+    props.handOverScale(mapZoom)
     const [features, nodes, mapCenterRet] = computePath(roadJsonLst, songData[props.songnum].startPosition, endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
     roadLengthSumRef.current = calculateRoadLengthSum(nodes)
@@ -262,7 +263,7 @@ export const MapComponent = (props: any) => {
         let noteIndex = routeLength.findIndex((route) => route.fwdLength <= noteLen && noteLen <= route.fwdLength + route.crtLength);
         // noteLenが情報落ちしており、findIndexで値が検索できない場合の処理
         // 最後の歌詞にて確認された（道の終わりと歌詞の終わりが近い場合に発生）
-        if (noteIndex===-1){ 
+        if (noteIndex === -1) {
           noteIndex = routeLength.length - 1
         }
         // 歌詞の座標が含まれる道路の情報を取得
@@ -409,10 +410,10 @@ export const MapComponent = (props: any) => {
 
         // 曲の全体における位置を確認
         playerDurationRef.current = props.player.video.duration
-        const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
+        const timerPerDuration = props.player.timer.position / props.player.video.duration;
         playerPositionRef.current = props.player.timer.position
-        if (rationalPlayerPosition < 1) {
-          const [startNodeIndex, nodeResidue] = getRationalPositonIndex(rationalPlayerPosition, eachRoadLengthRatioRef.current);
+        if (timerPerDuration < 1) {
+          const [startNodeIndex, nodeResidue] = getRationalPositonIndex(timerPerDuration, eachRoadLengthRatioRef.current);
           // 中心にセットする座標を計算
           const updatedLat = nodesRef.current[startNodeIndex][0] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][0] * nodeResidue;
           const updatedLon = nodesRef.current[startNodeIndex][1] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][1] * nodeResidue;
@@ -425,7 +426,7 @@ export const MapComponent = (props: any) => {
           ]);
 
           // ここにアイコンの情報を入れる
-          const [startAheadIndex, aheadResidue] = getRationalPositonIndex(rationalPlayerPosition, cumulativeAheadRatioRef.current);
+          const [startAheadIndex, aheadResidue] = getRationalPositonIndex(timerPerDuration, cumulativeAheadRatioRef.current);
           setCarMapPosition([updatedLat, updatedLon])
           setHeading(degreeAnglesRef.current[startAheadIndex])
           console.log(degreeAnglesRef.current[startAheadIndex])
@@ -544,12 +545,12 @@ export const MapComponent = (props: any) => {
    * 間奏中に色が変わるオーバーレイのレイヤ
    */
   const UpdatingOverlayLayer = () => {
-    const overlayOpacity = 0.5
     // 曲を3区切りにした際のオーバーレイの色
-    const style1 = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY).fillColor;
-    const style2 = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY).fillColor;
-    const style3 = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY).fillColor;
-    const updateLayer = (layer: any, hexColor: string, overlayOpacity: number) => {
+    // TODO: 朝の色変更?
+    const styleMorning = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY).fillColor;
+    const styleNoon = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY).fillColor;
+    const styleNight = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY).fillColor;
+    const updateLayer = (layer: any, hexColor: string, opacity: number) => {
       overlayStyleRef.current = hexColor;
       if (layer) {
         // layer.bringToFront()
@@ -557,58 +558,50 @@ export const MapComponent = (props: any) => {
         layer.setStyle(
           {
             fillColor: hexColor,
-            fillOpacity: overlayOpacity,
+            fillOpacity: opacity,
           }
         )
       }
     }
 
     // 初期値設定
-    overlayStyleRef.current = style1
+    overlayStyleRef.current = styleMorning
     const turnOverlayAnimation = () => {
-      const rationalPlayerPosition = props.player.timer.position / props.player.video.duration;
-      const turningStantPoint1To2 = songData[props.songnum].turningPoint1![0] / props.player.video.duration;
-      const turningEndPoint1To2 = songData[props.songnum].turningPoint1![1] / props.player.video.duration;
-      const turningStantPoint2To3 = songData[props.songnum].turningPoint2![0] / props.player.video.duration;
-      const turningEndPoint2To3 = songData[props.songnum].turningPoint2![1] / props.player.video.duration;
+      const timerPerDuration = props.player.timer.position / props.player.video.duration;
+      const morningToNoon = {
+        start: songData[props.songnum].turningPoint1![0] / props.player.video.duration,
+        end: songData[props.songnum].turningPoint1![1] / props.player.video.duration
+      }
+      const noonToNight = {
+        start: songData[props.songnum].turningPoint2![0] / props.player.video.duration,
+        end: songData[props.songnum].turningPoint2![1] / props.player.video.duration
+      }
+
       let progress;
 
       const layer = layerRef.current;
-      if (rationalPlayerPosition < turningStantPoint1To2) {
-        if (!isFirstPlayRef.current && rationalPlayerPosition === 0) {
-          // 曲が終了した後にrationalPlayerPosition=0となり、天気がリセットされることを防ぐ
-          updateLayer(layer, style3, overlayOpacity)
-          document.documentElement.style.setProperty('--weather', '10');
-        } else {
-          updateLayer(layer, style1, overlayOpacity)
-          isFirstPlayRef.current = false
-          document.documentElement.style.setProperty('--weather', '40');
-        }
-      } else if (
-        rationalPlayerPosition >= turningStantPoint1To2 &&
-        rationalPlayerPosition < turningEndPoint1To2
-      ) {
-        progress = (rationalPlayerPosition - turningStantPoint1To2) / (turningEndPoint1To2 - turningStantPoint1To2);
-        updateLayer(layer, changeColor(style1, style2, progress), overlayOpacity);
+      if (timerPerDuration === 0 && !isFirstPlayRef.current) {
+        // 曲が終了した後にtimerPerDuration=0となり、天気がリセットされることを防ぐ
+        updateLayer(layer, styleNight, 0.5)
+        document.documentElement.style.setProperty('--weather', '10');
+      } else if (timerPerDuration < morningToNoon.start) {
+        updateLayer(layer, styleMorning, 0.3)
+        isFirstPlayRef.current = false
+        document.documentElement.style.setProperty('--weather', '40');
+      } else if (timerPerDuration < morningToNoon.end) {
+        progress = (timerPerDuration - morningToNoon.start) / (morningToNoon.end - morningToNoon.start);
+        updateLayer(layer, changeColor(styleMorning, styleNoon, progress), (0.3 - (0.3 - 0.1) * progress));
         document.documentElement.style.setProperty('--weather', (40 + (50 - 40) * progress).toString());
-      } else if (
-        rationalPlayerPosition >= turningEndPoint1To2 &&
-        rationalPlayerPosition < turningStantPoint2To3
-      ) {
-        updateLayer(layer, style2, overlayOpacity)
+      } else if (timerPerDuration < noonToNight.start) {
+        updateLayer(layer, styleNoon, 0.1)
         document.documentElement.style.setProperty('--weather', '50');
-      } else if (
-        rationalPlayerPosition >= turningStantPoint2To3 &&
-        rationalPlayerPosition < turningEndPoint2To3
-      ) {
-        progress = (rationalPlayerPosition - turningStantPoint2To3) / (turningEndPoint2To3 - turningStantPoint2To3);
+      } else if (timerPerDuration < noonToNight.end) {
+        progress = (timerPerDuration - noonToNight.start) / (noonToNight.end - noonToNight.start);
         const layer = layerRef.current;
-        updateLayer(layer, changeColor(style2, style3, progress), overlayOpacity);
+        updateLayer(layer, changeColor(styleNoon, styleNight, progress), (0.1 + (0.5 - 0.1) * progress));
         document.documentElement.style.setProperty('--weather', (50 - (50 - 10) * progress).toString());
-      } else if (
-        rationalPlayerPosition >= turningEndPoint2To3
-      ) {
-        updateLayer(layer, style3, overlayOpacity)
+      } else if (timerPerDuration >= noonToNight.end) {
+        updateLayer(layer, styleNight, 0.5)
         document.documentElement.style.setProperty('--weather', '10');
       }
 
@@ -635,17 +628,28 @@ export const MapComponent = (props: any) => {
       };
     }, [props.isMoving]);
 
+    // 最初の天気を設定
     return (
       <GeoJSON
         data={sky as unknown as GeoJSON.GeoJsonObject}
         style={{
           fillColor: overlayStyleRef.current,
-          fillOpacity: overlayOpacity,
+          fillOpacity: 0.3,
         }}
         ref={layerRef}
         pane="sky"
       />
     )
+  }
+
+  const GetZoomLevel = () => {
+    const map = useMap();
+    map.on('zoom', function () {
+      // スケール変更時の処理をここに記述
+      props.handOverScale(map.getZoom())
+      console.log('Tew zoom level: ' + map.getZoom());
+    });
+    return null
   }
 
   return (
@@ -661,6 +665,7 @@ export const MapComponent = (props: any) => {
         maxBoundsViscosity={1.0}
         preferCanvas={true}
       >
+        <GetZoomLevel />
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
