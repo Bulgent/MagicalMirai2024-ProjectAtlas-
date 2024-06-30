@@ -233,7 +233,6 @@ export const MapComponent = (props: any) => {
 
       // 道路の長さを取得
       const nodes = nodesRef.current;
-      // const [_, nodes] = computePath();
       let routeLength: noteProperties[] = [];
       let routeEntireLength = 0.0;
       // それぞれの道路の長さを計算
@@ -255,12 +254,18 @@ export const MapComponent = (props: any) => {
       const wordCount = props.player.video.wordCount;
       const noteGain = routeEntireLength / props.player.video.duration;
       const noteLength = wordTime.map((word) => word.start * noteGain);
+      // console.log(noteLength)
+      // console.log(routeEntireLength)
       let noteCd: noteCoordinateProperties[] = [];
-
       // 歌詞の時間を元に🎵を配置
       noteLength.forEach((noteLen, index) => {
         // 歌詞の座標の含まれる道路を探す
-        const noteIndex = routeLength.findIndex((route) => route.fwdLength <= noteLen && noteLen <= route.fwdLength + route.crtLength);
+        let noteIndex = routeLength.findIndex((route) => route.fwdLength <= noteLen && noteLen <= route.fwdLength + route.crtLength);
+        // noteLenが情報落ちしており、findIndexで値が検索できない場合の処理
+        // 最後の歌詞にて確認された（道の終わりと歌詞の終わりが近い場合に発生）
+        if (noteIndex===-1){ 
+          noteIndex = routeLength.length - 1
+        }
         // 歌詞の座標が含まれる道路の情報を取得
         const crtRoute = routeLength[noteIndex];
         // 歌詞の座標が含まれる道路の中での距離を計算
