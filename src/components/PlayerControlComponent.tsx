@@ -1,9 +1,8 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { PlayerSeekbar } from 'textalive-react-api';
 import '../styles/SongControl.css';
-import { msToMs } from '../utils/utils';
-import { pngCar, svgStart, svgGoal } from '../assets/marker/markerSVG';
-import { sightType } from '../utils/utils';
+import { msToMs, sightType } from '../utils/utils';
+import songData from '../utils/Song';
 
 export const PlayerControl = (props: any) => {
   const [status, setStatus] = useState('stop');
@@ -127,7 +126,10 @@ export const PlayerControl = (props: any) => {
         </div>
         <div className='seek'>
           {/* 元パステルにミクいろ */}
-          <div className='seek-bar-container' style={{ width: '100%' }}>
+          <div className='seek-bar-container'>
+            <div className='progress-weather'>
+              morning{songData[props.songnum].turningPoint1![0]}
+            </div>
             <div className='flags'>
               <div className='flag-start'>🚩</div>
               {FlagComponent}
@@ -138,6 +140,7 @@ export const PlayerControl = (props: any) => {
                 {props.mikuMile[0].toFixed(0)}
                 <span className="unit">MM</span>
               </div>
+
               <img className='progress-handle' src='src\assets\images\carIcon.png' />
             </div>
           </div>
