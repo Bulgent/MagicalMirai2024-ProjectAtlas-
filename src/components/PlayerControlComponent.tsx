@@ -87,6 +87,7 @@ export const PlayerControl = (props: any) => {
       end: songData[props.songnum].turningPoint2![1] / props.player.video.duration
     }
     const current = props.player.timer.position / props.player.video.duration
+    // console.log(current, props.player.timer.position, props.player.video.duration)
     if (current < morningToNoon.start) {
       return ('🌅 Morning') // 朝
     } else if (current < morningToNoon.end) {
@@ -101,14 +102,15 @@ export const PlayerControl = (props: any) => {
       return ('🌞 Noon') // 昼
     } else if (current < noonToNight.end) {
       return (<>
-        🌄Noon
+        🌆Noon
         <span className="material-symbols-outlined weather-arrow">
           double_arrow
         </span>
-        🌆🌇Night
+        🌇Night
       </>) // 昼から夜
     } else {
       return ('🌕️ Night') // 夜
+      // TODO 曲最後まで行くと朝に戻ってしまう
     }
   }
 
