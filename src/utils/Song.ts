@@ -150,7 +150,7 @@ const song4: SongData = {
 const song5: SongData = {
     id: 4,
     title: "リアリティ",
-    artist: "歩く人",
+    artist: "歩く人 & sober bear",
     vocaloid: {
         name: "miku",
         japanese: "初音ミク",

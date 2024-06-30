@@ -12,7 +12,7 @@ export const WelcomePage = () => {
     const songIndex = useRef(-1);
     const [songTitle, setSongTitle] = useState<string>('MAGICAL MIRAI');
     const [songArtist, setSongArtist] = useState<string>('Programming Contest');
-    const [songVocaloid, setSongVocaloid] = useState<string>('Project ATLAS');
+    const [songVocaloid, setSongVocaloid] = useState<string>('FAN FUN TRIP NAVIGATION');
     const [songLength, setSongLength] = useState<number>(1224000);
 
     const navigate = useNavigate();

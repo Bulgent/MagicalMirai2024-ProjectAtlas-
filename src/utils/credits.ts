@@ -31,7 +31,7 @@ const creditData: credit[] = [
         link: 'https://developer.textalive.jp/'
     },
     {
-        name: 'ゲーム名',
+        name: 'Creators',
         credit: 'Team AHEAD, Project Atlas,  🦄 & 👽, 2024',
         link: ''
     }
