@@ -419,13 +419,18 @@ export const createLatLngBounds = (json: any) => {
  */
 export const calculateMikuMile = (playerPosition: number, playerDuration: number, allNodesVectorScalar: number) => {
   if (playerDuration === 0) {
-    return allNodesVectorScalar * (playerPosition) * 393
+    return allNodesVectorScalar * (playerPosition) * 3930
   }
   else {
-    return allNodesVectorScalar * (playerPosition / playerDuration) * 393
+    return allNodesVectorScalar * (playerPosition / playerDuration) * 3930
   }
 }
 
+/**
+ * zoom - map.getZoom()の値
+ */
 export const calculateZoom2MikuMile = (zoom:number) => {
-  
+  // 実寸を計測
+  // 3.2: zoom17の時のscaleの値, MMの係数と連携している
+  return 17/zoom*3.2
 }

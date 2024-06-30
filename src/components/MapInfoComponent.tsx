@@ -1,6 +1,15 @@
 import '../styles/MapInfo.css';
+import { calculateZoom2MikuMile } from '../utils/utils.ts'
+import { useState, useEffect } from 'react';
 
 export const MapInfoComponent = (props: any) => {
+    const [zoomToMikuMile, setZoomToMikuMile] = useState<string>("0");
+
+    useEffect(() => {
+        const calculatedValue = calculateZoom2MikuMile(props.scale).toFixed(1);
+        setZoomToMikuMile(calculatedValue);
+    }, [props.scale]);
+
     return (
         <>
             <div className='compass'>
@@ -31,7 +40,7 @@ export const MapInfoComponent = (props: any) => {
             <div className='scale infobox'>
                 <div className='scale infotitle'>SCALE</div>
                 <div className='scale infotext'>
-                    {props.scale}&nbsp;
+                    {zoomToMikuMile}&nbsp;
                     <span className="unit">MM</span>
                 </div>
                 <div className='scale-line'></div>
