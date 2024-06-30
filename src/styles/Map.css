@@ -32,8 +32,11 @@
 }
 
 /* 🎵がFANFUN TRIP */
-.icon-note {
-  width: calc(40px + 10px * var(--beat)) !important;
+.emoji.note {
+  font-size: calc(30px + 10px * var(--beat)) !important;
+  /* font-size:40px!important; */
   transform-origin: center !important;
   /* アイコンの幅 '+' の間にスペースないと動かない*/
+  color: #137a7f!important;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; /* 黒の縁取り */
 }

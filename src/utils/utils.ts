@@ -224,33 +224,35 @@ export const checkPartOfSpeech = (PoS: string) => {
   }
 }
 
-export const cssSlide = (animationNum: number): string => {
+export const cssSlide = (animationNum: number, printKashi: string): string => {
   let randomX: number;
   let randomY: number;
+  const lengthModifier = Math.max(1, 300 - printKashi.length * 30); // 文字数が多いほど小さくなる修正係数
 
-  // X軸の乱数を生成
+  // X軸の乱数を生成（文字数を考慮）
   if (Math.random() < 0.5) {
-    randomX = Math.floor(Math.random() * (-101 - (-300) + 1)) + (-300); // -500から-101
+    randomX = Math.floor(Math.random() * (-201 - (-lengthModifier) + 1)) + (-lengthModifier);
   } else {
-    randomX = Math.floor(Math.random() * (300 - 101 + 1)) + 101; // 101から500
+    randomX = Math.floor(Math.random() * (lengthModifier - 221 + 1)) + 221;
   }
 
   // Y軸の乱数を生成(下は控えめ)
   if (Math.random() < 0.5) {
-    randomY = Math.floor(Math.random() * (-101 - (-700) + 1)) + (-700); // -500から-101
+    randomY = Math.floor(Math.random() * (-101 - (-500) + 1)) + (-500); // -700から-101
   } else {
-    randomY = Math.floor(Math.random() * (200 - 101 + 1)) + 101; // 101から200
+    randomY = Math.floor(Math.random() * (300 - 101 + 1)) + 101; // 101から200
   }
+  
   return `@keyframes fadeInSlideXY${animationNum} {
-      0% {
-        opacity: 0.5;
-        transform: translate3d(0%, 0%, 0);
-      }
-      100% {
-        opacity: 1;
-        transform: translate3d(${randomX}%, ${randomY}%, 0);
-      }
-    }`;
+    0% {
+      opacity: 0.5;
+      transform: translate3d(0%, 0%, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(${randomX}%, ${randomY}%, 0);
+    }
+  }`;
 };
 
 /**
@@ -405,7 +407,9 @@ export const msToMs = (milliseconds: number) => {
 };
 
 /**
- * マップの制限領域を作成
+ * マップの制限領域を作成する関数です。
+ * @param json 制限領域の座標データが含まれるJSONオブジェクト
+ * @returns 制限領域を表すlatLngBoundsオブジェクト
  */
 export const createLatLngBounds = (json: any) => {
   const coordinates: [lng: number, lat: number][] = json.features[0].geometry.coordinates[0][0]
@@ -414,8 +418,11 @@ export const createLatLngBounds = (json: any) => {
 }
 
 /**
- * MikuMileを計算する
- * allNodesVectorScalar: calculateRoadLengthSum(nodes)の出力値を使用
+ * Calculates MikuMile.
+ * @param playerPosition The current position of the player.
+ * @param playerDuration The total duration of the player.
+ * @param allNodesVectorScalar The output value of calculateRoadLengthSum(nodes).
+ * @returns The calculated MikuMile value.
  */
 export const calculateMikuMile = (playerPosition: number, playerDuration: number, allNodesVectorScalar: number) => {
   if (playerDuration === 0) {
@@ -425,3 +432,18 @@ export const calculateMikuMile = (playerPosition: number, playerDuration: number
     return allNodesVectorScalar * (playerPosition / playerDuration) * 393
   }
 }
+
+
+/**
+ * HTML文字列をElementへ変換する。
+ * @param html HTML文字列
+ * @returns {Element} 
+ */
+export const createElementFromHTML = (html: string) => {
+  const tempEl = document.createElement('div');
+  tempEl.innerHTML = html;
+  return tempEl.firstElementChild;
+};
+
+// 呼び出し例
+// createElementFromHTML('<div style="width: 300px;"></div>');

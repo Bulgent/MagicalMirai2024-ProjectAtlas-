@@ -20,7 +20,6 @@
   }
 }
 
-
 .jacket-song {
   display: flex;
   flex-direction: row;
@@ -32,6 +31,7 @@
 }
 
 .grid-song {
+  font-family: "Zen Maru Gothic", serif;
   flex: 3;
   display: flex;
   flex-direction: column;
@@ -68,36 +68,24 @@
 }
 
 .select-song-button {
+  font-family: "Zen Maru Gothic", serif;
   background-color: #1a1a1a;
-  /* 濃いグレーの背景 */
   color: #ffffff;
-  /* 白色のテキスト */
   padding: 2vh 5vw;
-  /* パディングを増やす */
   border: 0.3vh solid #007ACC;
-  /* カーナビ風の青色の枠線を追加 */
   cursor: pointer;
   border-radius: 2vh;
-  /* 角をより丸く */
   transition: transform 0.3s ease-in-out;
-  /* ホバー時の変化をtransformに変更 */
   font-size: 2vw;
-  /* フォントサイズを大きく */
   width: 60%;
-  /* 幅を広げる */
   height: 100%;
-  /* 高さを内容に合わせる */
   margin: 0.5vh;
-  /* ボタン間の隙間を増やす */
   text-align: left;
-  /* テキストを中央揃えに */
 }
 
 .select-song-button:hover {
   background-color: #333;
-  /* ホバー時の背景色を少し明るく */
   transform: scale(1.05);
-  /* ホバー時に少し大きくする */
 }
 
 .selectSongInfo {
@@ -115,43 +103,45 @@
 
 .selectJacket {
   width: 16vw;
-  /* ジャケット画像の幅 */
   height: 9vw;
-  /* ジャケット画像の高さ */
   object-fit: cover;
-  /* 画像のサイズを調整 */
   border-radius: 2vh;
-  /* 画像の角を丸く */
 }
 
 .selectTitle,
 .selectArtist,
 .selectVocaloid,
 .selectLength {
-  font-size: 1.7vw;
   /* フォントサイズを大きく */
   color: #007ACC;
   /* カーナビ風の青色のテキストに変更 */
   text-align: center;
 }
 
-.selectTitle {
+.selectTitle,
+.title {
+  font-size: 1.55vw;
   font-weight: bold;
   /* タイトルを太字に */
 }
 
+
 .selectArtist,
-.selectVocaloid {
-  font-size: 1.6vw;
+.selectVocaloid,
+.artist,
+.vocaloid {
+  font-size: 1.5vw;
   /* アーティストとボーカロイドのフォントサイズを少し小さく */
 }
 
-.selectLength {
-  font-size: 1.5vw;
+.selectLength,
+.length {
+  font-size: 1.4vw;
   /* 再生時間のフォントサイズを標準に */
   color: #ffffff;
   /* 再生時間のテキスト色を白に */
 }
+
 
 a {
   color: inherit;
@@ -171,7 +161,7 @@ a:visited {
   flex-direction: row;
   justify-content: space-evenly;
   bottom: 0;
-  font-size: 0.7vw;
+  font-size: 0.9vw;
   color: #999;
   text-align: center;
   margin-top: 2em;
@@ -196,4 +186,11 @@ a:visited {
 
 .credit:hover .tooltiptext {
   visibility: visible;
+}
+
+.ppbutton.material-symbols-outlined {
+  color: #FFFFFF;
+  font-size: 7vh;
+  font-weight: normal;
+  text-shadow: 2px 2px 4px #000000;
 }

@@ -15,7 +15,7 @@ export const LyricComponent = (props: any) => {
   if (props.songNumber < 0 || props.songNumber >= songData.length) {
     return (
       <>
-        <div className='mediacircle'>
+        {/* <div className='mediacircle'>
           <div className="media-jacket"></div>
           <div className="media-seek">
             {songData.map((song, index) => (
@@ -24,7 +24,7 @@ export const LyricComponent = (props: any) => {
               </button>
             ))}
           </div>
-        </div>
+        </div> */}
       </>
     );
   }

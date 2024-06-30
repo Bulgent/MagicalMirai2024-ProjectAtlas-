@@ -1,0 +1,9 @@
+.apologize {
+    display: flex;
+    flex-direction: row;
+    border-radius: 2vh;
+    justify-content: space-evenly;
+    height: 100%;
+    background: linear-gradient(to bottom, #000023 0%, #004466 100%);
+    /* カーナビ風のダークなグラデーション背景 */
+  }
