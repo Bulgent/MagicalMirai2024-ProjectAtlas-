@@ -41,10 +41,10 @@ export const showDetail = (feature: any, latlng: LatLngExpression) => {
         className: 'buil-icon', // カスタムクラス名
         html: emojiSight[feature.properties.event_type],  // ここにビルのアイコンを挿入する
         iconSize: [50, 50], // アイコンのサイズ
-        iconAnchor: [25, 25] // アイコンのアンカーポイント
+        iconAnchor: [25, 25], // アイコンのアンカーポイント
     });
     // const marker = circleMarker(latlng, circleMarkerOptions);
-    const builMarker = marker(latlng, { icon: builIcon, opacity: 1 })
+    const builMarker = marker(latlng, { icon: builIcon, opacity: 1, pane:"waypoint" })
     // ホバー時のイベントハンドラ
     const onHover = (e: L.LeafletMouseEvent) => {
         const hoveredMarker = e.target;

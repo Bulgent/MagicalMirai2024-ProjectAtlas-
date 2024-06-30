@@ -5,6 +5,7 @@ import L, { LeafletMouseEvent, marker, Map, point, divIcon, polyline } from 'lea
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
+import '../styles/leaflet.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { ComputeAhead } from '../services/ComputeAhead.ts'
@@ -62,6 +63,7 @@ const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
       }}
       icon={carIcon}
       {...props}
+      pane="car"
     >
       {children}
     </Marker>
@@ -155,6 +157,13 @@ export const MapComponent = (props: any) => {
       if (!isInitMap.current) {
         return
       }
+      // paneの作成
+      map.createPane('lyric');
+      map.createPane('waypoint');
+      map.createPane('sky');
+      map.createPane('car');
+      map.createPane('note');
+      map.createPane('pathway');
       // mapの初期中心座標の決定
       map.setView(mapCenterRef.current)
       // TODO: mapの表示領域を制限
@@ -295,7 +304,8 @@ export const MapComponent = (props: any) => {
         });
 
         // 歌詞の座標に🎵を表示
-        const lyricMarker = marker([crtLat, crtLng], { icon: noteIcon, opacity: 1 }).addTo(map);
+        // TODO: zindex note
+        const lyricMarker = marker([crtLat, crtLng], { icon: noteIcon, opacity: 1, pane: "note" }).addTo(map);
         // 時間に応じたクラスを追加したツールチップを追加
         lyricMarker.bindTooltip(wordTime[index].lyric, { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note " + wordTime[index].start }).closeTooltip();
 
@@ -358,6 +368,7 @@ export const MapComponent = (props: any) => {
         <GeoJSON
           data={geojson as GeoJSON.GeoJsonObject}
           style={mapStylePathWay}
+          pane="pathway"
         />
       );
     } else {
@@ -470,7 +481,8 @@ export const MapComponent = (props: any) => {
       document.head.appendChild(styleTag);
 
       // 地図の表示範囲内にランダムに歌詞配置
-      const markertext = marker(mapCoordinate, { opacity: 0 });
+      // TODO: zindex lyric
+      const markertext = marker(mapCoordinate, { opacity: 0, pane: "lyric" });
       // 表示する歌詞
       markertext.bindTooltip(printLyrics, { permanent: true, sticky: true, interactive: false, className: "label-kashi", direction: "center" })
       // 地図に追加
@@ -512,6 +524,7 @@ export const MapComponent = (props: any) => {
       props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
     }
   }
+
   const onSightHoverOut = (e: LeafletMouseEvent) => {
     // 動いてない時かつ未訪問の時
     if (!mapIsMovingRef.current && !hoverHistory.current.some(history => history.index == e.sourceTarget.feature.properties.index)) {
@@ -533,6 +546,7 @@ export const MapComponent = (props: any) => {
     const updateLayer = (layer: any, hexColor: string, overlayOpacity: number) => {
       overlayStyleRef.current = hexColor;
       if (layer) {
+        // layer.bringToFront()
         layer.clearLayers().addData(sky)
         layer.setStyle(
           {
@@ -606,6 +620,10 @@ export const MapComponent = (props: any) => {
       } else {
         cancelAnimationFrame(turnOverlayAnimationRef.current!);
       }
+      // レイヤーを最前面に移動
+      // if (layerRef.current) {
+      //   layerRef.current.bringToFront();
+      // }
       return () => {
         cancelAnimationFrame(turnOverlayAnimationRef.current!);
       };
@@ -619,6 +637,7 @@ export const MapComponent = (props: any) => {
           fillOpacity: overlayOpacity,
         }}
         ref={layerRef}
+        pane="sky"
       />
     )
   }
@@ -649,16 +668,6 @@ export const MapComponent = (props: any) => {
             });
           }}
         /> */}
-        <GeoJSON
-          data={sight as GeoJSON.GeoJsonObject}
-          pointToLayer={showDetail}
-          onEachFeature={(_, layer) => {
-            layer.on({
-              mouseover: onSightHover, // ポイントにマウスが乗っかったときに呼び出される関数
-              mouseout: onSightHoverOut
-            });
-          }}
-        />
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
@@ -678,6 +687,16 @@ export const MapComponent = (props: any) => {
         {/* 曲の開始まで表示するレイヤ */}
         <PathWay />
         <UpdatingOverlayLayer />
+        <GeoJSON
+          data={sight as GeoJSON.GeoJsonObject}
+          pointToLayer={showDetail}
+          onEachFeature={(_, layer) => {
+            layer.on({
+              mouseover: onSightHover, // ポイントにマウスが乗っかったときに呼び出される関数
+              mouseout: onSightHoverOut
+            });
+          }}
+        />
       </MapContainer>
     </>
   );
