@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
 import L, { LeafletMouseEvent, marker, Map, point, divIcon, polyline } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -119,6 +120,10 @@ export const MapComponent = (props: any) => {
   // 曲が終了したらplayerPosition=0になり天気リセットになるのを防ぐ
   // 2回目の再生をそのまましないことを仮定
   const isFirstPlayRef = useRef<Boolean>(true)
+
+  //ページ処理
+  const navigate = useNavigate();
+
 
   // 初回だけ処理
   // mapの初期位置、経路の計算
@@ -410,7 +415,13 @@ export const MapComponent = (props: any) => {
 
           animationRef.current = requestAnimationFrame(loop);
         } else {
+          // 曲の再生が終わったらここになる
+          console.log("曲終了")
           cancelAnimationFrame(animationRef.current!);
+          // 2秒後にresult画面へ遷移
+          setTimeout(() => {
+            navigate('/result');
+          }, 2000);
         }
       },
       [props.isMoving, props.player]
