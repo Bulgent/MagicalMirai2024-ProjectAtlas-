@@ -432,5 +432,6 @@ export const calculateMikuMile = (playerPosition: number, playerDuration: number
 export const calculateZoom2MikuMile = (zoom:number) => {
   // 実寸を計測
   // 3.2: zoom17の時のscaleの値, MMの係数と連携している
-  return 17/zoom*3.2
+  // 割と適当な値
+  return (2**((17/zoom-1)*15))*3.2
 }
