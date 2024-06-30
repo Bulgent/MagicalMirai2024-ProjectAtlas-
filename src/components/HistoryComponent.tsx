@@ -58,7 +58,8 @@ export const HistoryComponent = (props: any) => {
                 </div>
                 <div className='hoverline'></div>
                 <div className='fanfun' >
-                    {String(props.fanfun).padStart(10, '0')}
+                    {props.fanfun}
+                    {/* {String(props.fanfun).padStart(10, '0')} */}
                     <div className='fanfununit'>
                         F<span className='unit'>an</span>
                         <br />
