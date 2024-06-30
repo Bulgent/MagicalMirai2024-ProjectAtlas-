@@ -16,6 +16,7 @@ import songData from '../utils/Song.ts';
 
 
 export const GamePage = () => {
+  // TODO 後でコメントアウトアウト ?
   // サイトを離れるときにルートにリダイレクト
   // const navigate = useNavigate();
   // useEffect(() => {
