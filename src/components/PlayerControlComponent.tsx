@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { PlayerSeekbar } from 'textalive-react-api';
 import '../styles/SongControl.css';
-import { createElementFromHTML, msToMs } from '../utils/utils';
+import { msToMs } from '../utils/utils';
 import { pngCar, svgStart, svgGoal } from '../assets/marker/markerSVG';
 import { sightType } from '../utils/utils';
 
@@ -75,9 +75,8 @@ export const PlayerControl = (props: any) => {
         {showSVG}
       </div>
     )
-  }) : 'のだた';
+  }) : '';
 
-  const setButtonText = true ? '🔒' : '';
 
   useEffect(() => {
     const listener = {
@@ -130,9 +129,7 @@ export const PlayerControl = (props: any) => {
           {/* 元パステルにミクいろ */}
           <div className='seek-bar-container' style={{ width: '100%' }}>
             <div className='flags'>
-              <div className='flag-start'>
-                🚩
-              </div>
+              <div className='flag-start'>🚩</div>
               {FlagComponent}
               <div className='flag-end'>🏁</div>
             </div>
@@ -141,7 +138,7 @@ export const PlayerControl = (props: any) => {
                 {props.mikuMile[0].toFixed(0)}
                 <span className="unit">MM</span>
               </div>
-              <img className='progress-handle' src='src\assets\images\carIcon_r.png' />
+              <img className='progress-handle' src='src\assets\images\carIcon.png' />
             </div>
           </div>
           <PlayerSeekbar player={!props.disabled && props.player} />

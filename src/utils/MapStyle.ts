@@ -169,10 +169,10 @@ export const polygonStyle = (season: number, time: number, weather: number) => {
     }
     switch (time) {
         case timeType.MORNING:
-            timeColor = '#d4ceca'; // 淡い青緑
+            timeColor = '#557081'; // 淡い青緑
             break;
         case timeType.NOON:
-            timeColor = '#ffffff'; // 太陽色
+            timeColor = '#fefdf8'; // 太陽色
             break;
         case timeType.AFTERNOON:
             timeColor = '#ffffff'; // 空色

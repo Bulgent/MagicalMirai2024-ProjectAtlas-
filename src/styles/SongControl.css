@@ -138,12 +138,12 @@
 }
 
 .progress-handle {
-    width: 6vh;
-    height: 3vh;
+    width: 3vh;
+    height: 6vh;
     position: absolute;
     top: 50%;
     right: 0%;
-    transform: translate(70%, -50%);
+    transform: translate(70%, -50%) rotate(90deg);
     cursor: pointer;
     filter: brightness(75%);
 }
