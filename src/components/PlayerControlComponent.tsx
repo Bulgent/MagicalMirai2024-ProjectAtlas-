@@ -182,14 +182,15 @@ export const PlayerControl = (props: any) => {
               <img className='progress-handle' src='src\assets\images\carIcon.png' />
             </div>
           </div>
-          <PlayerSeekbar player={!props.disabled && props.player} />
+          {/* <PlayerSeekbar player={!props.disabled && props.player} /> */}
           <div className='song-time'>
             <div className="time-elapsed">
               {msToMs(props.player.timer.position)}
             </div>
             <div className="lyric-phrase">
               <div className="phrase-current">
-                {props.lyricPhrase.text ? props.lyricPhrase?.text : props.player.video.firstPhrase.text}
+                {/* {props.lyricPhrase.text ? props.lyricPhrase?.text : props.player.video.firstPhrase.text} */}
+                {props.lyricPhrase.text}
               </div>
             </div>
             <div className="time-duration">

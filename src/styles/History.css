@@ -56,13 +56,14 @@
 
 .historybox {
   background-color: #7bcac9;
+  border-top: 5vh solid;
   border-radius: 1.5vh;
   font-size: 1vh;
   padding: 1.5em;
   margin: 1em;
   color: #000;
-  /* overflow: hidden; */
-  /* animation: fadeInSlideDown 1s ease forwards; */
+  border-color: #cac97b;
+  position:relative;
 }
 
 .historycaption {
@@ -71,6 +72,12 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 1em;
+  width: calc(100% - 2em);
+  transform: translateY(-5vh);
 }
 
 .historyname {
@@ -80,7 +87,6 @@
 
 .historytime {
   font-size: 1vw;
-
 }
 
 .historydetail {
