@@ -27,7 +27,7 @@
     width: 100%;
     position: relative;
     height: 2vw;
-    padding-top: 1.75vh;
+    padding-top: 1.25vh;
 }
 
 /* Song Title */
@@ -158,7 +158,6 @@
     top: 50%;
     right: 0%;
     transform: translate(70%, -50%) rotate(90deg);
-    cursor: pointer;
     filter: brightness(75%);
     z-index: 1000000;
 }
@@ -172,6 +171,14 @@
     color: white;
     text-align: center;
     height: 3.5vh;
+}
+
+.time-elapsed,
+.time-duration{
+    font-size: 2.5vh;
+    width: 2vw;
+    color: white;
+    text-align: center;
 }
 
 /* Current Phrase */
