@@ -581,7 +581,7 @@ export const MapComponent = (props: any) => {
       const layer = layerRef.current;
       if (timerPerDuration === 0 && !isFirstPlayRef.current) {
         // 曲が終了した後にtimerPerDuration=0となり、天気がリセットされることを防ぐ
-        updateLayer(layer, styleNight, 0.3)
+        updateLayer(layer, styleNight, 0.5)
         document.documentElement.style.setProperty('--weather', '10');
       } else if (timerPerDuration < morningToNoon.start) {
         updateLayer(layer, styleMorning, 0.3)
