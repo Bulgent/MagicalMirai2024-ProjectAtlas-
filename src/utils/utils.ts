@@ -323,6 +323,7 @@ export const calculateEachRoadLengthRatio = (nodes: any[]): number[] => {
     roadLengthSum += roadLength
     eachRoadLengthRatio.push(roadLengthSum)
   }
+  console.log("RoadSum:", roadLengthSum)
   eachRoadLengthRatio = eachRoadLengthRatio.map(x => x / roadLengthSum)
   return eachRoadLengthRatio
 }
@@ -444,3 +445,19 @@ export const calculateZoom2MikuMile = (zoom:number) => {
   return (2**((17/zoom-1)*15))*3.2
 }
 
+// 呼び出し例
+// createElementFromHTML('<div style="width: 300px;"></div>');
+
+export const calculateAngleBetweenVectors = (vec1: [number, number], vec2: [number, number]): number => {
+  const [x1, y1] = vec1;
+  const [x2, y2] = vec2;
+
+  const dot = x1 * x2 + y1 * y2;
+  const mag1 = Math.sqrt(x1 ** 2 + y1 ** 2);
+  const mag2 = Math.sqrt(x2 ** 2 + y2 ** 2);
+
+  const cosDelta = dot / (mag1 * mag2);
+  const angle = Math.acos(cosDelta);
+
+  return angle;
+}

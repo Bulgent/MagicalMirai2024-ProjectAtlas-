@@ -36,7 +36,7 @@ const carIcon = divIcon({ // 31x65px
   className: 'car-icon', // カスタムクラス名
   html: pngCar,  // ここに車のアイコンを挿入する
   iconSize: [31, 65], // アイコンのサイズ
-  iconAnchor: [31 / 2, 65 / 2] // アイコンのアンカーポイント
+  iconAnchor: [31 / 2, 65 / 2] // アイコンのアンカーポイント（原点をアイコンの中心に設定）
 });
 
 // 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
@@ -429,6 +429,7 @@ export const MapComponent = (props: any) => {
           const [startAheadIndex, aheadResidue] = getRationalPositonIndex(timerPerDuration, cumulativeAheadRatioRef.current);
           setCarMapPosition([updatedLat, updatedLon])
           setHeading(degreeAnglesRef.current[startAheadIndex])
+          console.log(degreeAnglesRef.current[startAheadIndex])
 
           animationRef.current = requestAnimationFrame(loop);
         } else {

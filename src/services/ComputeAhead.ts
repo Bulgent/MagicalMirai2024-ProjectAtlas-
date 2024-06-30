@@ -1,4 +1,4 @@
-import { calculateDistance, calculateVector } from '../utils/utils.ts'
+import { calculateDistance, calculateVector, calculateAngleBetweenVectors } from '../utils/utils.ts'
 
 type Node = [
     lat: number,
@@ -13,6 +13,7 @@ type Vector = [
 type Ahead = {
     unit_vector: Vector // 地図における頭の向き
     distance_km: number // その向きでいる距離
+    degree?: number // 角度（度数法）
 }
 
 
@@ -39,13 +40,14 @@ export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[], number[]] => {
     for (let i=0; i<lstLength-1; i++){
         const[latVector, lonVector, distance] = calculateVector(nodes[i], nodes[i + 1])
         const unit_vector: Vector = [lonVector/distance, latVector/distance];
-        const distance_km = calculateDistance(nodes[i], nodes[i+1]);
-        unit_vectors.push({ unit_vector, distance_km });
+        unit_vectors.push({ unit_vector, distance_km:distance });
     }
-    const aheads = smoothBetweenVectors(unit_vectors, 0.005, 2) // 2に設定する必要あり
+    // const aheads = smoothBetweenVectorsKai(unit_vectors, 0.001, 30)
+    const aheads = unit_vectors
     const cumulativeRatioLst = calculateCumulativeRatio(aheads)
     const degreeAngles = aheads.map((x) => {
         return calculateAngle(x.unit_vector[1], x.unit_vector[0]);
+        // return x.degree!
       });
     return [aheads, degreeAngles, cumulativeRatioLst]
 }
@@ -55,7 +57,6 @@ export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[], number[]] => {
  * smooth_distance_km: 補完する距離（km）
  * smooth_plot_count: 補完する点の数
  */
-// TODO: 角度計算がおかしい（2ならなんとか使えるが、補完処理は結局無理）
 const smoothBetweenVectors = (unit_vectors:Ahead[], smooth_distance_km:number, smooth_plot_count:number):Ahead[] => {
     const vrctorCount = unit_vectors.length
     const aheads:Ahead[] = []
@@ -79,7 +80,7 @@ const smoothBetweenVectors = (unit_vectors:Ahead[], smooth_distance_km:number, s
             aheads.push(
                 {
                     unit_vector: smooth_unit_vector,
-                    distance_km: smooth_distance/(smooth_plot_count)
+                    distance_km: smooth_distance/(smooth_plot_count+1)
                 }
             )
         }
@@ -89,42 +90,175 @@ const smoothBetweenVectors = (unit_vectors:Ahead[], smooth_distance_km:number, s
 }
 
 
+const smoothBetweenVectorsKai = (unit_vectors:Ahead[], smooth_distance_km:number, smooth_plot_count:number):Ahead[] => {
+    const vrctorCount = unit_vectors.length
+    const aheads:Ahead[] = []
+    for (let i=0; i<=vrctorCount-1; i++){
+        
+        if(i === 0){
+            let smooth_distance = smooth_distance_km
+            if (unit_vectors[i].distance_km < smooth_distance_km/2 || unit_vectors[i+1].distance_km < smooth_distance_km/2){
+                smooth_distance = Math.min(unit_vectors[i].distance_km, unit_vectors[i+1].distance_km)*2
+            }
+            const [smooth_unit_vectors, degrees] = comprehendBetweenVectors(unit_vectors[i].unit_vector, unit_vectors[i+1].unit_vector, smooth_plot_count)
+            const startAhead:Ahead = {
+                unit_vector: unit_vectors[i].unit_vector,
+                distance_km: unit_vectors[i].distance_km - smooth_distance/2,
+                degree: calculateAngle(unit_vectors[i].unit_vector[1], unit_vectors[i].unit_vector[0])
+            }
+            aheads.push(startAhead)
+            for (let j=0;j<smooth_unit_vectors.length;j++){
+                aheads.push(
+                    {
+                        unit_vector: smooth_unit_vectors[j],
+                        distance_km: smooth_distance/(smooth_plot_count),
+                        degree:degrees[j],
+                    }
+                )
+            }
+        }else if(i===vrctorCount-1){
+            let smooth_distance = smooth_distance_km
+            if (unit_vectors[i-1].distance_km < smooth_distance_km/2 || unit_vectors[i].distance_km < smooth_distance_km/2){
+                smooth_distance = Math.min(unit_vectors[i-1].distance_km, unit_vectors[i].distance_km)*2
+            }
+            const startAhead:Ahead = {
+                unit_vector: unit_vectors[i].unit_vector,
+                distance_km: unit_vectors[i].distance_km - smooth_distance/2,
+                degree: calculateAngle(unit_vectors[i].unit_vector[1], unit_vectors[i].unit_vector[0])
+            }
+            aheads.push(startAhead)
+        }else{
+            let smooth_distance_before;
+            let smooth_distance_after;
+            if (unit_vectors[i-1].distance_km < smooth_distance_km/2 || unit_vectors[i].distance_km < smooth_distance_km/2){
+                smooth_distance_before = Math.min(unit_vectors[i-1].distance_km, unit_vectors[i].distance_km)*2
+            }else{
+                smooth_distance_before = smooth_distance_km
+            }
+            if (unit_vectors[i].distance_km < smooth_distance_km/2 || unit_vectors[i+1].distance_km < smooth_distance_km/2){
+                smooth_distance_after = Math.min(unit_vectors[i].distance_km, unit_vectors[i+1].distance_km)*2
+            }else{
+                smooth_distance_after = smooth_distance_km
+            }
+            const startAhead:Ahead = {
+                unit_vector: unit_vectors[i].unit_vector,
+                distance_km: unit_vectors[i].distance_km - (smooth_distance_before+smooth_distance_after)/2,
+                degree: calculateAngle(unit_vectors[i].unit_vector[1], unit_vectors[i].unit_vector[0])
+            }
+            console.log(calculateAngle(unit_vectors[i].unit_vector[1], unit_vectors[i].unit_vector[0]))
+            aheads.push(startAhead)
+            const [smooth_unit_vectors, degrees] = comprehendBetweenVectors(unit_vectors[i].unit_vector, unit_vectors[i+1].unit_vector, smooth_plot_count)
+            console.log(calculateAngle(unit_vectors[i+1].unit_vector[1], unit_vectors[i+1].unit_vector[0]))
+            for (let j=0;j<smooth_unit_vectors.length;j++){
+                aheads.push(
+                    {
+                        unit_vector: smooth_unit_vectors[j],
+                        distance_km: smooth_distance_after/(smooth_plot_count-1),
+                        degree:degrees[j],
+                    }
+                )
+            }
+        }
+        // if (unit_vectors[i].distance_km < smooth_distance_km/2 || unit_vectors[i+1].distance_km < smooth_distance_km/2){
+        //     smooth_distance = Math.min(unit_vectors[i].distance_km, unit_vectors[i+1].distance_km)
+        // }
+
+        // const startAhead:Ahead = {
+        //     unit_vector: unit_vectors[i].unit_vector,
+        //     distance_km: unit_vectors[i].distance_km - smooth_distance/2
+        // }
+        // const endAhead:Ahead = {
+        //     unit_vector: unit_vectors[i+1].unit_vector,
+        //     distance_km: unit_vectors[i+1].distance_km - smooth_distance/2
+        // }
+        // aheads.push(startAhead)
+        // for (let smooth_unit_vector of smooth_unit_vectors){
+        //     aheads.push(
+        //         {
+        //             unit_vector: smooth_unit_vector,
+        //             distance_km: smooth_distance/(smooth_plot_count+1)
+        //         }
+        //     )
+        // }
+        // aheads.push(endAhead)
+    }
+    return aheads
+}
+
 /**
- * ベクトル間をスムーズにした度数角度（0<degree<360）を返す
+ * ベクトル間をスムーズにした度数角度を返す
  * 角度は北向きを0度とし、反時計回りの角度系
  * plot_count(2以上)を大きくすると滑らかになる
  */
-const comprehendBetweenVectors = (unit_vector_start: Vector, unit_vector_end: Vector, plot_count: number): Vector[] => {
+const comprehendBetweenVectors = (unit_vector_start: Vector, unit_vector_end: Vector, plot_count: number): [Vector[], number[]] => {
     if (plot_count < 2) {
         throw new Error('plot_count must be greater than or equal to 2');
     }
-
+    let isClockwise:Boolean;
     let vectors: Vector[] = [];
 
     // 2つのベクトルの間の角度を計算
     const [start_x, start_y] = unit_vector_start;
     const [end_x, end_y] = unit_vector_end;
-    const angle_start = Math.atan2(start_y, start_x);
-    const angle_end = Math.atan2(end_y, end_x);
-    // let angle_diff = calculateCounterClockwiseAngle(unit_vector_start, unit_vector_end)
-    let angle_diff = angle_end - angle_start
-    if (angle_diff>180){
-        console.warn(angle_diff)
+    let angle_diff:number;
+    // 車の回転方向で場合分け（単位ベクトルを仮定）
+    if (end_x - start_x > 0){ 
+        if (end_y - start_y>0){
+            angle_diff = calculateAngleBetweenVectors(unit_vector_start, unit_vector_end) // 左折（反時計回り）
+            isClockwise = false
+        }else{
+            angle_diff = -1*calculateAngleBetweenVectors(unit_vector_start, unit_vector_end) // 右折（時計回り）
+            isClockwise = true
+        }
+    }else{
+        if (end_y - start_y>0){
+            angle_diff = -1*calculateAngleBetweenVectors(unit_vector_start, unit_vector_end) // 右折（時計回り）
+            isClockwise = true
+        }else{
+            angle_diff = calculateAngleBetweenVectors(unit_vector_start, unit_vector_end) // 左折（反時計回り）
+            isClockwise = false
+        }
     }
+    // console.log(angle_diff * 180 / Math.PI)
+    // if (angle_diff * 180 / Math.PI<-180 || angle_diff * 180 / Math.PI>180){
+    //     console.warn(angle_diff)
+    // }
+    const angle_start_degree = calculateAngle(start_y, start_x);
+    const angle_end_degree = calculateAngle(end_y, end_x);
+    console.log("ss:", angle_start_degree)
+    console.log("end:", angle_end_degree)
+    let diff_degree;
+    if(isClockwise){
+        diff_degree = (angle_start_degree - angle_end_degree) / (plot_count - 1);
+    }else{
+        diff_degree = (angle_end_degree - angle_start_degree) / (plot_count - 1);
+    }
+    // diff_degree = (angle_end_degree - angle_start_degree) / (plot_count - 1);
     // その角度をplots_countで分割し、間のベクトルを補完する
+    const angle_start = Math.atan2(start_y, start_x);
     const angle_step = angle_diff / (plot_count - 1);
     let current_angle = angle_start;
-    for (let i = 0; i < plot_count; i++) {
+    let current_angle_degree = angle_start_degree;
+    let degrees:number[] = []
+    for (let i = 0; i < plot_count-1; i++) {
+        current_angle += angle_step
+        current_angle_degree += diff_degree
         const vector: Vector = [Math.cos(current_angle), Math.sin(current_angle)];
         vectors.push(vector);
-        current_angle += angle_step;
+        degrees.push(current_angle_degree)
+        // if (angle_diff * 180 / Math.PI===99.16836013643096){
+        //     console.log(unit_vector_start, angle_start * 180 / Math.PI)
+        //     console.log("now", vector, current_angle * 180 / Math.PI)
+        //     console.log(calculateAngle(vector[0], vector[1]))
+        // }
+        
     }
-
-    return vectors;
+    console.log(degrees)
+    return [vectors, degrees];
 }
 
-// eachAheadLengthRatio
 
+// eachAheadLengthRatio
 const calculateCumulativeRatio = (aheads: Ahead[]): number[] => {
     let sum_distance:number = 0
     let cumulativeRatioLst:number[] = []
@@ -133,6 +267,7 @@ const calculateCumulativeRatio = (aheads: Ahead[]): number[] => {
         sum_distance += ahead.distance_km
         cumulativeRatioLst.push(sum_distance)
     }
+    console.log("AheadSum:", sum_distance)
 
     cumulativeRatioLst = cumulativeRatioLst.map(x => x/sum_distance)
     return cumulativeRatioLst
