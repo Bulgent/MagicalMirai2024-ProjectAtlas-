@@ -41,6 +41,7 @@ export const GamePage = () => {
   const [isMapMove, setIsMapMove] = useState<Boolean>(false);
   const [fanFun, setFanFun] = useState<number>(0);
   const [mikuMile, setMikuMile] = useState<[number, number]>([0, 0]);
+  const [scale, setScale] = useState<number>(0);
   const handOverIsMapMove = createHandOverFunction(setIsMapMove);
 
   // const [songNumber, setSongNumber] = useState(isDevelopment ? 3 : buttonInfo ? parseInt(buttonInfo) : -1);
@@ -48,6 +49,7 @@ export const GamePage = () => {
   const handOverSongNumber = createHandOverFunction(setSongNumber) // 曲選択をLyricComponentで持たせることを想定
   const handOverMediaElement = createHandOverFunction(setMediaElement)
   const handOverMikuMile = createHandOverFunction(setMikuMile)
+  const handOverScale = createHandOverFunction(setScale)
 
   // Map移動に関しての変数宣言
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([])

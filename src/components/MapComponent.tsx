@@ -591,8 +591,8 @@ export const MapComponent = (props: any) => {
     map.on('zoom', function() {
       // スケール変更時の処理をここに記述
       console.log('Tew zoom level: ' + map.getZoom());
-  });
-  return null
+    });
+    return null
   }
 
   return (
