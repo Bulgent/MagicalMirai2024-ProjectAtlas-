@@ -132,8 +132,10 @@ export const MapComponent = (props: any) => {
   const computePathway = () => {
     const [features, nodes, mapCenterRet] = computePath(roadJsonLst, songData[props.songnum].startPosition, endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
+    console.log("road", eachRoadLengthRatioRef.current)
     roadLengthSumRef.current = calculateRoadLengthSum(nodes)
     const [aheads, degreeAngles, cumulativeAheadRatio] = ComputeAhead(nodes)
+    console.log("ahead", cumulativeAheadRatio)
     degreeAnglesRef.current = degreeAngles
     cumulativeAheadRatioRef.current = cumulativeAheadRatio
     nodesRef.current = nodes

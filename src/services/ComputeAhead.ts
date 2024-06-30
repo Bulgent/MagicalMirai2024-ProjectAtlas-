@@ -39,10 +39,10 @@ export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[], number[]] => {
     for (let i=0; i<lstLength-1; i++){
         const[latVector, lonVector, distance] = calculateVector(nodes[i], nodes[i + 1])
         const unit_vector: Vector = [lonVector/distance, latVector/distance];
-        const distance_km = calculateDistance(nodes[i], nodes[i+1]);
-        unit_vectors.push({ unit_vector, distance_km });
+        unit_vectors.push({ unit_vector, distance_km:distance });
     }
-    const aheads = smoothBetweenVectors(unit_vectors, 0.05, 20) // 2に設定する必要あり
+    // const aheads = smoothBetweenVectors(unit_vectors, 0, 2) // 2に設定する必要あり
+    const aheads = unit_vectors
     const cumulativeRatioLst = calculateCumulativeRatio(aheads)
     const degreeAngles = aheads.map((x) => {
         return calculateAngle(x.unit_vector[1], x.unit_vector[0]);
@@ -55,7 +55,6 @@ export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[], number[]] => {
  * smooth_distance_km: 補完する距離（km）
  * smooth_plot_count: 補完する点の数
  */
-// TODO: 角度計算がおかしい（2ならなんとか使えるが、補完処理は結局無理）
 const smoothBetweenVectors = (unit_vectors:Ahead[], smooth_distance_km:number, smooth_plot_count:number):Ahead[] => {
     const vrctorCount = unit_vectors.length
     const aheads:Ahead[] = []
@@ -90,7 +89,7 @@ const smoothBetweenVectors = (unit_vectors:Ahead[], smooth_distance_km:number, s
 
 
 /**
- * ベクトル間をスムーズにした度数角度（0<degree<360）を返す
+ * ベクトル間をスムーズにした度数角度を返す
  * 角度は北向きを0度とし、反時計回りの角度系
  * plot_count(2以上)を大きくすると滑らかになる
  */
@@ -131,6 +130,7 @@ const comprehendBetweenVectors = (unit_vector_start: Vector, unit_vector_end: Ve
     }
     return vectors;
 }
+
 
 // eachAheadLengthRatio
 const calculateCumulativeRatio = (aheads: Ahead[]): number[] => {
