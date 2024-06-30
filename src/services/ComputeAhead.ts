@@ -41,8 +41,8 @@ export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[], number[]] => {
         const unit_vector: Vector = [lonVector/distance, latVector/distance];
         unit_vectors.push({ unit_vector, distance_km:distance });
     }
-    // const aheads = smoothBetweenVectors(unit_vectors, 0, 2) // 2に設定する必要あり
-    const aheads = unit_vectors
+    const aheads = smoothBetweenVectorsKai(unit_vectors, 0.001, 20) // 2に設定する必要あり
+    // const aheads = unit_vectors
     const cumulativeRatioLst = calculateCumulativeRatio(aheads)
     const degreeAngles = aheads.map((x) => {
         return calculateAngle(x.unit_vector[1], x.unit_vector[0]);
@@ -78,7 +78,7 @@ const smoothBetweenVectors = (unit_vectors:Ahead[], smooth_distance_km:number, s
             aheads.push(
                 {
                     unit_vector: smooth_unit_vector,
-                    distance_km: smooth_distance/(smooth_plot_count)
+                    distance_km: smooth_distance/(smooth_plot_count+1)
                 }
             )
         }
@@ -87,6 +87,94 @@ const smoothBetweenVectors = (unit_vectors:Ahead[], smooth_distance_km:number, s
     return aheads
 }
 
+
+const smoothBetweenVectorsKai = (unit_vectors:Ahead[], smooth_distance_km:number, smooth_plot_count:number):Ahead[] => {
+    const vrctorCount = unit_vectors.length
+    const aheads:Ahead[] = []
+    for (let i=0; i<=vrctorCount-1; i++){
+        
+        if(i === 0){
+            let smooth_distance = smooth_distance_km
+            if (unit_vectors[i].distance_km < smooth_distance_km/2 || unit_vectors[i+1].distance_km < smooth_distance_km/2){
+                smooth_distance = Math.min(unit_vectors[i].distance_km, unit_vectors[i+1].distance_km)*2
+            }
+            const smooth_unit_vectors = comprehendBetweenVectors(unit_vectors[i].unit_vector, unit_vectors[i+1].unit_vector, smooth_plot_count)
+            const startAhead:Ahead = {
+                unit_vector: unit_vectors[i].unit_vector,
+                distance_km: unit_vectors[i].distance_km - smooth_distance/2
+            }
+            aheads.push(startAhead)
+            for (let smooth_unit_vector of smooth_unit_vectors){
+                aheads.push(
+                    {
+                        unit_vector: smooth_unit_vector,
+                        distance_km: smooth_distance/(smooth_plot_count)
+                    }
+                )
+            }
+        }else if(i===vrctorCount-1){
+            let smooth_distance = smooth_distance_km
+            if (unit_vectors[i-1].distance_km < smooth_distance_km/2 || unit_vectors[i].distance_km < smooth_distance_km/2){
+                smooth_distance = Math.min(unit_vectors[i-1].distance_km, unit_vectors[i].distance_km)*2
+            }
+            const startAhead:Ahead = {
+                unit_vector: unit_vectors[i].unit_vector,
+                distance_km: unit_vectors[i].distance_km - smooth_distance/2
+            }
+            aheads.push(startAhead)
+        }else{
+            let smooth_distance_before;
+            let smooth_distance_after;
+            if (unit_vectors[i-1].distance_km < smooth_distance_km/2 || unit_vectors[i].distance_km < smooth_distance_km/2){
+                smooth_distance_before = Math.min(unit_vectors[i-1].distance_km, unit_vectors[i].distance_km)*2
+            }else{
+                smooth_distance_before = smooth_distance_km
+            }
+            if (unit_vectors[i].distance_km < smooth_distance_km/2 || unit_vectors[i+1].distance_km < smooth_distance_km/2){
+                smooth_distance_after = Math.min(unit_vectors[i].distance_km, unit_vectors[i+1].distance_km)*2
+            }else{
+                smooth_distance_after = smooth_distance_km
+            }
+            const startAhead:Ahead = {
+                unit_vector: unit_vectors[i].unit_vector,
+                distance_km: unit_vectors[i].distance_km - (smooth_distance_before+smooth_distance_after)/2
+            }
+            aheads.push(startAhead)
+            const smooth_unit_vectors = comprehendBetweenVectors(unit_vectors[i].unit_vector, unit_vectors[i+1].unit_vector, smooth_plot_count)
+            for (let smooth_unit_vector of smooth_unit_vectors){
+                aheads.push(
+                    {
+                        unit_vector: smooth_unit_vector,
+                        distance_km: smooth_distance_after/(smooth_plot_count)
+                    }
+                )
+            }
+        }
+        // if (unit_vectors[i].distance_km < smooth_distance_km/2 || unit_vectors[i+1].distance_km < smooth_distance_km/2){
+        //     smooth_distance = Math.min(unit_vectors[i].distance_km, unit_vectors[i+1].distance_km)
+        // }
+
+        // const startAhead:Ahead = {
+        //     unit_vector: unit_vectors[i].unit_vector,
+        //     distance_km: unit_vectors[i].distance_km - smooth_distance/2
+        // }
+        // const endAhead:Ahead = {
+        //     unit_vector: unit_vectors[i+1].unit_vector,
+        //     distance_km: unit_vectors[i+1].distance_km - smooth_distance/2
+        // }
+        // aheads.push(startAhead)
+        // for (let smooth_unit_vector of smooth_unit_vectors){
+        //     aheads.push(
+        //         {
+        //             unit_vector: smooth_unit_vector,
+        //             distance_km: smooth_distance/(smooth_plot_count+1)
+        //         }
+        //     )
+        // }
+        // aheads.push(endAhead)
+    }
+    return aheads
+}
 
 /**
  * ベクトル間をスムーズにした度数角度を返す
@@ -141,6 +229,7 @@ const calculateCumulativeRatio = (aheads: Ahead[]): number[] => {
         sum_distance += ahead.distance_km
         cumulativeRatioLst.push(sum_distance)
     }
+    console.log("AheadSum:", sum_distance)
 
     cumulativeRatioLst = cumulativeRatioLst.map(x => x/sum_distance)
     return cumulativeRatioLst
