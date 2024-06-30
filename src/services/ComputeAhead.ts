@@ -42,7 +42,7 @@ export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[], number[]] => {
         const distance_km = calculateDistance(nodes[i], nodes[i+1]);
         unit_vectors.push({ unit_vector, distance_km });
     }
-    const aheads = smoothBetweenVectors(unit_vectors, 0.005, 2) // 2に設定する必要あり
+    const aheads = smoothBetweenVectors(unit_vectors, 0.005, 20) // 2に設定する必要あり
     const cumulativeRatioLst = calculateCumulativeRatio(aheads)
     const degreeAngles = aheads.map((x) => {
         return calculateAngle(x.unit_vector[1], x.unit_vector[0]);
