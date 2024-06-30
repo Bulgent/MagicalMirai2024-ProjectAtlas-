@@ -59,6 +59,7 @@ export const createPlayer = (createPlayerContent: createPlayerContent) => {
     }
 
     const onVideoReady = () => {
+        document.documentElement.style.setProperty('--beat', '0');
         console.log('--- [app] video is ready ---');
         console.log('player:', player);
         console.log('player.data.song:', player.data.song);

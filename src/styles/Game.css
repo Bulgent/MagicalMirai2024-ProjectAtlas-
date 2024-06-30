@@ -13,7 +13,7 @@
     left: 50%;
     transform: translateX(-50%);
     -webkit-transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8); 
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 
@@ -23,13 +23,15 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* 半透明のダークオーバーレイ */
+    background: rgba(0, 0, 0, 0.8);
+    /* 半透明のダークオーバーレイ */
     color: white;
     z-index: 100000000000000;
     justify-content: center;
     display: grid;
     place-items: center;
-    font-size: 4vh; /* フォントサイズを大きく */
+    font-size: 4vh;
+    /* フォントサイズを大きく */
     text-align: center;
 }
 
@@ -40,3 +42,4 @@
 .inactive {
     display: none !important;
 }
+

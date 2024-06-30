@@ -15,11 +15,11 @@ const creditData: credit[] = [
         credit: 'Map Data',
         link: 'https://www.openstreetmap.org/'
     },
-    {
-        name: 'OpenEmoji',
-        credit: 'Emoji Data',
-        link: 'https://openmoji.org/'
-    },
+    // {
+    //     name: 'OpenEmoji',
+    //     credit: 'Emoji Data',
+    //     link: 'https://openmoji.org/'
+    // },
     {
         name: 'Songle',
         credit: 'Lyrics Data',
@@ -31,7 +31,7 @@ const creditData: credit[] = [
         link: 'https://developer.textalive.jp/'
     },
     {
-        name: 'ゲーム名',
+        name: 'Creators',
         credit: 'Team AHEAD, Project Atlas,  🦄 & 👽, 2024',
         link: ''
     }
