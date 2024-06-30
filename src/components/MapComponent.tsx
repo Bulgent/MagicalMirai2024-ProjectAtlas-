@@ -123,18 +123,6 @@ export const MapComponent = (props: any) => {
   // 2回目の再生をそのまましないことを仮定
   const isFirstPlayRef = useRef<Boolean>(true)
 
-  // mapの不要なzoomを避ける
-  const [draggable, setDraggable] = useState(true)
-  const [zoomable, setZoomable] = useState(true)
-
-  const handleToggleDraggable = (state:Boolean) => {
-    setDraggable(state)
-  }
-
-  const handleToggleScrollWheelZoom = (state:Boolean) => {
-    setZoomable(state)
-  }
-
   //ページ処理
   const navigate = useNavigate();
 
@@ -684,11 +672,10 @@ export const MapComponent = (props: any) => {
         minZoom={14} maxZoom={17}
         zoomSnap={0.1} zoomDelta={0.5} trackResize={false}
         inertiaMaxSpeed={500} inertiaDeceleration={1000}
-        dragging={draggable} zoomControl={false} attributionControl={false}
+        zoomControl={false} attributionControl={false}
         maxBoundsViscosity={1.0}
         preferCanvas={true}
         boxZoom = {false} doubleClickZoom={false}
-        scrollWheelZoom = {zoomable} touchZoom = {zoomable}
       >
         <GetZoomLevel />
         <GeoJSON
