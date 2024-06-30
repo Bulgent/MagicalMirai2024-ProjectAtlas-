@@ -145,10 +145,8 @@ const smoothBetweenVectorsKai = (unit_vectors:Ahead[], smooth_distance_km:number
                 distance_km: unit_vectors[i].distance_km - (smooth_distance_before+smooth_distance_after)/2,
                 degree: calculateAngle(unit_vectors[i].unit_vector[1], unit_vectors[i].unit_vector[0])
             }
-            console.log(calculateAngle(unit_vectors[i].unit_vector[1], unit_vectors[i].unit_vector[0]))
             aheads.push(startAhead)
             const [smooth_unit_vectors, degrees] = comprehendBetweenVectors(unit_vectors[i].unit_vector, unit_vectors[i+1].unit_vector, smooth_plot_count)
-            console.log(calculateAngle(unit_vectors[i+1].unit_vector[1], unit_vectors[i+1].unit_vector[0]))
             for (let j=0;j<smooth_unit_vectors.length;j++){
                 aheads.push(
                     {
@@ -225,8 +223,7 @@ const comprehendBetweenVectors = (unit_vector_start: Vector, unit_vector_end: Ve
     // }
     const angle_start_degree = calculateAngle(start_y, start_x);
     const angle_end_degree = calculateAngle(end_y, end_x);
-    console.log("ss:", angle_start_degree)
-    console.log("end:", angle_end_degree)
+
     let diff_degree;
     if(isClockwise){
         diff_degree = (angle_start_degree - angle_end_degree) / (plot_count - 1);
@@ -253,7 +250,6 @@ const comprehendBetweenVectors = (unit_vector_start: Vector, unit_vector_end: Ve
         // }
         
     }
-    console.log(degrees)
     return [vectors, degrees];
 }
 
@@ -267,7 +263,6 @@ const calculateCumulativeRatio = (aheads: Ahead[]): number[] => {
         sum_distance += ahead.distance_km
         cumulativeRatioLst.push(sum_distance)
     }
-    console.log("AheadSum:", sum_distance)
 
     cumulativeRatioLst = cumulativeRatioLst.map(x => x/sum_distance)
     return cumulativeRatioLst

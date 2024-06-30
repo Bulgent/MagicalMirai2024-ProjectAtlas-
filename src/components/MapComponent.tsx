@@ -141,7 +141,7 @@ export const MapComponent = (props: any) => {
     setPathwayFeature(features);
     mapCenterRef.current = [mapCenterRet[1] + latOffset, mapCenterRet[0] + lonOffset];
     setCarMapPosition([mapCenterRet[1], mapCenterRet[0]])
-    setHeading(0)
+    setHeading(degreeAnglesRef.current[0])
     // MikuMikuMile初期化
     props.handOverMikuMile([
       calculateMikuMile(0, props.player.video.duration, roadLengthSumRef.current),
@@ -167,7 +167,6 @@ export const MapComponent = (props: any) => {
       map.createPane('pathway');
       // mapの初期中心座標の決定
       map.setView(mapCenterRef.current)
-      // TODO: mapの表示領域を制限
       map.setMaxBounds(createLatLngBounds(restrictedArea))
       if (OSMlayerRef.current) {
         // 読み込みが2段階ある
@@ -430,7 +429,6 @@ export const MapComponent = (props: any) => {
           const [startAheadIndex, aheadResidue] = getRationalPositonIndex(timerPerDuration, cumulativeAheadRatioRef.current);
           setCarMapPosition([updatedLat, updatedLon])
           setHeading(degreeAnglesRef.current[startAheadIndex])
-          console.log(degreeAnglesRef.current[startAheadIndex])
 
           animationRef.current = requestAnimationFrame(loop);
         } else {
