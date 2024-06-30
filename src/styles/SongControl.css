@@ -95,11 +95,16 @@
 }
 
 .progress-weather {
+    font-family: "Noto Color Emoji", sans-serif;
     position: absolute;
     font-size: 2vh;
     width: 100%;
     text-align: center;
-    background-color: brown;
+    z-index: 10000;
+    color:midnightblue
+}
+.weather-arrow{
+    font-size: 2vh;
 }
 
 
@@ -155,6 +160,7 @@
     transform: translate(70%, -50%) rotate(90deg);
     cursor: pointer;
     filter: brightness(75%);
+    z-index: 1000000;
 }
 
 /* Lyric Phrase Section */

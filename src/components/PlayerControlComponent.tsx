@@ -76,6 +76,44 @@ export const PlayerControl = (props: any) => {
     )
   }) : '';
 
+  const GetWeather = () => {
+    // morning{songData[props.songnum].turningPoint1![0]}
+    const morningToNoon = {
+      start: songData[props.songnum].turningPoint1![0] / props.player.video.duration,
+      end: songData[props.songnum].turningPoint1![1] / props.player.video.duration
+    }
+    const noonToNight = {
+      start: songData[props.songnum].turningPoint2![0] / props.player.video.duration,
+      end: songData[props.songnum].turningPoint2![1] / props.player.video.duration
+    }
+    const current = props.player.timer.position / props.player.video.duration
+    // console.log(current, props.player.timer.position, props.player.video.duration)
+    if (current < morningToNoon.start) {
+      return ('🌅 Morning') // 朝
+    } else if (current < morningToNoon.end) {
+      return (<>
+        🌅Morning
+        <span className="material-symbols-outlined weather-arrow">
+          double_arrow
+        </span>
+        🌞Noon
+      </>) // 朝から昼
+    } else if (current < noonToNight.start) {
+      return ('🌞 Noon') // 昼
+    } else if (current < noonToNight.end) {
+      return (<>
+        🌆Noon
+        <span className="material-symbols-outlined weather-arrow">
+          double_arrow
+        </span>
+        🌇Night
+      </>) // 昼から夜
+    } else {
+      return ('🌕️ Night') // 夜
+      // TODO 曲最後まで行くと朝に戻ってしまう
+    }
+  }
+
 
   useEffect(() => {
     const listener = {
@@ -128,7 +166,7 @@ export const PlayerControl = (props: any) => {
           {/* 元パステルにミクいろ */}
           <div className='seek-bar-container'>
             <div className='progress-weather'>
-              morning{songData[props.songnum].turningPoint1![0]}
+              <GetWeather />
             </div>
             <div className='flags'>
               <div className='flag-start'>🚩</div>
