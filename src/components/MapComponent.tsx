@@ -428,6 +428,7 @@ export const MapComponent = (props: any) => {
           const [startAheadIndex, aheadResidue] = getRationalPositonIndex(rationalPlayerPosition, cumulativeAheadRatioRef.current);
           setCarMapPosition([updatedLat, updatedLon])
           setHeading(degreeAnglesRef.current[startAheadIndex])
+          console.log(degreeAnglesRef.current[startAheadIndex])
 
           animationRef.current = requestAnimationFrame(loop);
         } else {
