@@ -227,20 +227,20 @@ export const checkPartOfSpeech = (PoS: string) => {
 export const cssSlide = (animationNum: number, printKashi: string): string => {
   let randomX: number;
   let randomY: number;
-  const lengthModifier = Math.max(50, 300 - Math.log(printKashi.length + 1) * 10);
+  const lengthModifier = Math.max(1, 300 - printKashi.length * 30); // 文字数が多いほど小さくなる修正係数
+
   // X軸の乱数を生成（文字数を考慮）
-  
   if (Math.random() < 0.5) {
-    randomX = Math.floor(Math.random() * (-101 - (-lengthModifier) + 1)) + (-lengthModifier);
+    randomX = Math.floor(Math.random() * (-201 - (-lengthModifier) + 1)) + (-lengthModifier);
   } else {
-    randomX = Math.floor(Math.random() * (lengthModifier - 101 + 1)) + 101;
+    randomX = Math.floor(Math.random() * (lengthModifier - 221 + 1)) + 221;
   }
 
-  // Y軸の乱数を生成（文字数を考慮、下は控えめに）
+  // Y軸の乱数を生成(下は控えめ)
   if (Math.random() < 0.5) {
-    randomY = Math.floor(Math.random() * (-101 - (-lengthModifier) + 1)) + (-lengthModifier);
+    randomY = Math.floor(Math.random() * (-101 - (-500) + 1)) + (-500); // -700から-101
   } else {
-    randomY = Math.floor(Math.random() * (200 - 101 + 1)) + 101; // Y軸は上方向に大きく動かさないため、修正係数を適用しない
+    randomY = Math.floor(Math.random() * (300 - 101 + 1)) + 101; // 101から200
   }
   
   return `@keyframes fadeInSlideXY${animationNum} {
