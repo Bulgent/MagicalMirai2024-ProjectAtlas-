@@ -145,6 +145,7 @@ export const GamePage = () => {
           <div id="song">
             <LyricComponent
               songNumber={songNumber}
+              songnum={songInfo}
               songTitle={songTitle}
               songArtist={songArtist}
               playTime={playTime}

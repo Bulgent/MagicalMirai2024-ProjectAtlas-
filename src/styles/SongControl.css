@@ -77,7 +77,7 @@
 }
 
 .seek-bar-container {
-    /* width: 100%; */
+    width: 100%;
     background-color: #ccc;
     cursor: auto;
     height: 2.5vh;
@@ -93,6 +93,15 @@
     width: 7vw;
     text-align: left;
 }
+
+.progress-weather {
+    position: absolute;
+    font-size: 2vh;
+    width: 100%;
+    text-align: center;
+    background-color: brown;
+}
+
 
 .flags {
     position: absolute;
@@ -138,12 +147,12 @@
 }
 
 .progress-handle {
-    width: 6vh;
-    height: 3vh;
+    width: 3vh;
+    height: 6vh;
     position: absolute;
     top: 50%;
     right: 0%;
-    transform: translate(70%, -50%);
+    transform: translate(70%, -50%) rotate(90deg);
     cursor: pointer;
     filter: brightness(75%);
 }
