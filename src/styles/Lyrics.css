@@ -9,8 +9,8 @@
 /* 歌詞の縁色 */
 .miku,
 .len {
-  /* font-family: "Kosugi", sans-serif; */
-  font-family: "Mochiy Pop One", sans-serif;
+  font-family: "Kosugi", sans-serif;
+  /* font-family: "Mochiy Pop One", sans-serif; */
   text-shadow:
     0 0 calc(1px * var(--weather)) white,
     0 0 calc(1px * var(--weather)) white,
