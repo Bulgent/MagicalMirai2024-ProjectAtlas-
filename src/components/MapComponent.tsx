@@ -130,6 +130,7 @@ export const MapComponent = (props: any) => {
   // 初回だけ処理
   // mapの初期位置、経路の計算
   const computePathway = () => {
+    props.handOverScale(mapZoom)
     const [features, nodes, mapCenterRet] = computePath(roadJsonLst, songData[props.songnum].startPosition, endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
     roadLengthSumRef.current = calculateRoadLengthSum(nodes)
@@ -642,6 +643,16 @@ export const MapComponent = (props: any) => {
     )
   }
 
+  const GetZoomLevel = () =>{
+    const map = useMap();
+    map.on('zoom', function() {
+      // スケール変更時の処理をここに記述
+      props.handOverScale(map.getZoom())
+      console.log('Tew zoom level: ' + map.getZoom());
+    });
+    return null
+  }
+
   return (
     <>
       {/* centerは[緯度, 経度] */}
@@ -655,6 +666,7 @@ export const MapComponent = (props: any) => {
         maxBoundsViscosity={1.0}
         preferCanvas={true}
       >
+        <GetZoomLevel/>
         <GeoJSON
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
