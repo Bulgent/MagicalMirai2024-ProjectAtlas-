@@ -31,7 +31,7 @@ export const MapInfoComponent = (props: any) => {
             <div className='scale infobox'>
                 <div className='scale infotitle'>SCALE</div>
                 <div className='scale infotext'>
-                    10&nbsp;
+                    {props.scale}&nbsp;
                     <span className="unit">MM</span>
                 </div>
                 <div className='scale-line'></div>

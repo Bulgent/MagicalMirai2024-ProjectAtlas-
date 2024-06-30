@@ -425,3 +425,7 @@ export const calculateMikuMile = (playerPosition: number, playerDuration: number
     return allNodesVectorScalar * (playerPosition / playerDuration) * 393
   }
 }
+
+export const calculateZoom2MikuMile = (zoom:number) => {
+  
+}

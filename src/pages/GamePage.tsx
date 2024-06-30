@@ -119,11 +119,13 @@ export const GamePage = () => {
               handOverHover={handOverHoverHistory}
               handOverFanFun={handOverFanFun}
               handOverMikuMile={handOverMikuMile}
+              handOverScale={handOverScale}
             />
           </div>
           <div id="mapinfo">
             <MapInfoComponent
               mikuMile={mikuMile}
+              scale={scale}
             />
           </div>
           <div id="song">
