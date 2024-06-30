@@ -175,8 +175,8 @@ export const PlayerControl = (props: any) => {
             </div>
             <div className='progress-bar' style={{ width: '0%' }}>
               <div className='running-mm'>
-                {props.mikuMile[0].toFixed(0)}
-                <span className="unit">MM</span>
+                {(props.mikuMile[0]/1000).toFixed(1)}
+                <span className="unit">kMM</span>
               </div>
 
               <img className='progress-handle' src='src\assets\images\carIcon.png' />

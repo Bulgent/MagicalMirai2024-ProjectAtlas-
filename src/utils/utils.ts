@@ -427,10 +427,10 @@ export const createLatLngBounds = (json: any) => {
  */
 export const calculateMikuMile = (playerPosition: number, playerDuration: number, allNodesVectorScalar: number) => {
   if (playerDuration === 0) {
-    return allNodesVectorScalar * (playerPosition) * 3930
+    return allNodesVectorScalar * (playerPosition) * 39300
   }
   else {
-    return allNodesVectorScalar * (playerPosition / playerDuration) * 3930
+    return allNodesVectorScalar * (playerPosition / playerDuration) * 39300
   }
 }
 
@@ -442,7 +442,7 @@ export const calculateZoom2MikuMile = (zoom:number) => {
   // 実寸を計測
   // 3.2: zoom17の時のscaleの値, MMの係数と連携している
   // 割と適当な値
-  return (2**((17/zoom-1)*15))*3.2
+  return (2**((17/zoom-1)*15))*32
 }
 
 // 呼び出し例

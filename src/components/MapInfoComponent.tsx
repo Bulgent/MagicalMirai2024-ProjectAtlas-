@@ -7,7 +7,7 @@ export const MapInfoComponent = (props: any) => {
     const [zoomToMikuMile, setZoomToMikuMile] = useState<string>("0");
 
     useEffect(() => {
-        const calculatedValue = calculateZoom2MikuMile(props.scale).toFixed(1);
+        const calculatedValue = calculateZoom2MikuMile(props.scale).toFixed(0);
         setZoomToMikuMile(calculatedValue);
     }, [props.scale]);
     // 表示する値を保存するための状態を初期化
@@ -41,8 +41,8 @@ export const MapInfoComponent = (props: any) => {
             <div className='goal infobox'>
                 <div className='goal infotitle'>GOAL</div>
                 <div className='goal infotext'>
-                    {(props.mikuMile[1] - props.mikuMile[0]).toFixed(0)}&nbsp;
-                    <span className="unit">MM</span>
+                    {((props.mikuMile[1] - props.mikuMile[0])/1000).toFixed(1)}&nbsp;
+                    <span className="unit">kMM</span>
                 </div>
             </div>
             {/* <div className='waypoint infobox'>

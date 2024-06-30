@@ -405,6 +405,7 @@ export const MapComponent = (props: any) => {
     const loop = useCallback(
       () => {
         if (!props.isMoving || (props.player.timer.position === 0 && !isFirstPlayRef.current)) {
+
           return;
         }
 
@@ -448,9 +449,19 @@ export const MapComponent = (props: any) => {
     useEffect(() => {
       if (props.isMoving) {
         mapIsMovingRef.current = true
+        map.dragging.disable();
+        map.touchZoom.disable();
+        map.doubleClickZoom.disable();
+        map.scrollWheelZoom.disable();
+        map.boxZoom.disable();
         animationRef.current = requestAnimationFrame(loop);
       } else {
         mapIsMovingRef.current = false
+        map.dragging.enable();
+        map.touchZoom.enable();
+        map.doubleClickZoom.enable();
+        map.scrollWheelZoom.enable();
+        map.boxZoom.enable();
       }
 
       return () => {
@@ -661,9 +672,10 @@ export const MapComponent = (props: any) => {
         minZoom={14} maxZoom={17}
         zoomSnap={0.1} zoomDelta={0.5} trackResize={false}
         inertiaMaxSpeed={500} inertiaDeceleration={1000}
-        dragging={true} zoomControl={false} attributionControl={false}
+        zoomControl={false} attributionControl={false}
         maxBoundsViscosity={1.0}
         preferCanvas={true}
+        boxZoom = {false} doubleClickZoom={false}
       >
         <GetZoomLevel />
         <GeoJSON
