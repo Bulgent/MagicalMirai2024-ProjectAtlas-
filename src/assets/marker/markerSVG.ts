@@ -1,5 +1,22 @@
 // 🐟
-export const pngCar = '<img src="src/assets/images/carIcon.png" alt="🛸">'
+export const pngCar = '\
+    <img src="src/assets/images/carIcon.png" alt="🛸">\
+';
+
+export const lightCar = '\
+<div>\
+    <div class="car-lamp">\
+        <div class="car-head-lamp-left">\
+        </div>\
+        <div class="car-head-lamp-right">\
+        </div>\
+        <div class="car-tail-lamp-left">\
+        </div>\
+        <div class="car-tail-lamp-right">\
+        </div>\
+    </div>\
+</div>\
+';
 
 // 🚩
 export const emojiStart = '<span class="emoji startflag" style="font-family: \'Noto Color Emoji\'; font-size: 30px;">🚩</span>';

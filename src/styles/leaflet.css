@@ -14,12 +14,17 @@
     /* mix-blend-mode: normal; */
 }
 
+.leaflet-light-pane {
+    z-index: 1000;
+    mix-blend-mode: overlay;
+}
+
 .leaflet-car-pane {
-    z-index: 500;
+    z-index: 400;
 }
 
 .leaflet-note-pane {
-    z-index: 400;
+    z-index: 500;
 }
 
 .leaflet-pathway-pane {

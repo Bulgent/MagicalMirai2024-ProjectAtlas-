@@ -16,7 +16,7 @@ import {
   createLatLngBounds, calculateMikuMile, calculateRoadLengthSum, changeStyle
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
-import { pngCar, emojiNote, emojiStart, emojiGoal } from '../assets/marker/markerSVG.ts'
+import { pngCar, lightCar, emojiNote, emojiStart, emojiGoal } from '../assets/marker/markerSVG.ts'
 // 型データの導入
 import { lyricProperties, historyProperties, noteProperties, noteCoordinateProperties, wordTimeProperties } from '../types/types';
 // 地図データの導入
@@ -38,6 +38,12 @@ const carIcon = divIcon({ // 31x65px
   iconSize: [31, 65], // アイコンのサイズ
   iconAnchor: [31 / 2, 65 / 2] // アイコンのアンカーポイント（原点をアイコンの中心に設定）
 });
+const carLight = divIcon({ // 31x65px
+  className: 'car-icon', // カスタムクラス名
+  html: lightCar,  // ここに車のアイコンを挿入する
+  iconSize: [31, 65], // アイコンのサイズ
+  iconAnchor: [31 / 2, 65 / 2] // アイコンのアンカーポイント（原点をアイコンの中心に設定）
+});
 
 // 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
 // HACK: ファイル分割したい
@@ -54,19 +60,33 @@ const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
   }, [rotationAngle, rotationOrigin]);
 
   return (
-    <Marker
-      ref={(ref) => {
-        markerRef.current = ref;
-        if (forwardRef) {
-          forwardRef.current = ref;
-        }
-      }}
-      icon={carIcon}
-      {...props}
-      pane="car"
-    >
-      {children}
-    </Marker>
+    <>
+      <Marker
+        ref={(ref) => {
+          markerRef.current = ref;
+          if (forwardRef) {
+            forwardRef.current = ref;
+          }
+        }}
+        icon={carIcon}
+        {...props}
+        pane="car"
+      >
+      </Marker>
+      <Marker
+        ref={(ref) => {
+          markerRef.current = ref;
+          if (forwardRef) {
+            forwardRef.current = ref;
+          }
+        }}
+        icon={carLight}
+        {...props}
+        pane="light"
+      >
+      </Marker>
+      {/* {children} */}
+    </>
   );
 });
 
@@ -168,6 +188,7 @@ export const MapComponent = (props: any) => {
       map.createPane('waypoint');
       map.createPane('sky');
       map.createPane('car');
+      map.createPane('light')
       map.createPane('note');
       map.createPane('pathway');
       // mapの初期中心座標の決定
@@ -409,7 +430,6 @@ export const MapComponent = (props: any) => {
     const loop = useCallback(
       () => {
         if (!props.isMoving || (props.player.timer.position === 0 && !isFirstPlayRef.current)) {
-
           return;
         }
 
