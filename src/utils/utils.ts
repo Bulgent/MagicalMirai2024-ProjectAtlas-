@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import songData from './Song.ts'
-import { latLng, latLngBounds } from 'leaflet'
+import { latLng, latLngBounds, LatLngBounds, PathOptions } from 'leaflet'
 
 // 観光名所の種類
 export const enum sightType {
@@ -40,13 +40,13 @@ export const enum sightWeather {
 }
 
 // 👽歌詞の種類を判別するための正規表現👽
-const hiraganaRegex = /^[ぁ-ん]+$/;
-const katakanaRegex = /^[ァ-ン]+$/;
-const kanjiRegex = /^[一-龥]+$/;
-const englishRegex = /^[a-zA-Z]+$/;
-const numberRegex = /^[0-9]+$/;
-const symbolRegex = /^[!-/:-@[-`{-~、。！？「」]+$/;
-const spaceRegex = /^\s+$/;
+const hiraganaRegex: RegExp = /^[ぁ-ん]+$/;
+const katakanaRegex: RegExp = /^[ァ-ン]+$/;
+const kanjiRegex: RegExp = /^[一-龥]+$/;
+const englishRegex: RegExp = /^[a-zA-Z]+$/;
+const numberRegex: RegExp = /^[0-9]+$/;
+const symbolRegex: RegExp = /^[!-/:-@[-`{-~、。！？「」]+$/;
+const spaceRegex: RegExp = /^\s+$/;
 
 // 👽歌詞の種類👽
 export const enum KashiType {
@@ -97,7 +97,7 @@ export const checkKashiType = (text: string): KashiType => {
 };
 
 // 歌詞の種類を文字列で返す
-export const formatKashi = (char: string) => {
+export const formatKashi = (char: string): string => {
   let printKashi = "";
   switch (checkKashiType(char)) {
     case KashiType.HIRAGANA:
@@ -167,7 +167,7 @@ export const checkArchType = (type: number): string => {
 }
 
 // 任意の小数点の桁（scale）で四捨五入
-export const roundWithScale = (value: number, scale: number) => {
+export const roundWithScale = (value: number, scale: number): number => {
   return Math.round(value * 10 ** scale) / 10 ** scale;
 };
 
@@ -224,6 +224,7 @@ export const checkPartOfSpeech = (PoS: string) => {
   }
 }
 
+// 歌詞の移動方向を乱数で作成
 export const cssSlide = (animationNum: number, printKashi: string): string => {
   let randomX: number;
   let randomY: number;
@@ -242,7 +243,7 @@ export const cssSlide = (animationNum: number, printKashi: string): string => {
   } else {
     randomY = Math.floor(Math.random() * (300 - 101 + 1)) + 101; // 101から200
   }
-  
+
   return `@keyframes fadeInSlideXY${animationNum} {
     0% {
       opacity: 0.5;
@@ -275,14 +276,16 @@ export const calculateVector = (
 /**
  * handOver作成関数
  */
-export const createHandOverFunction = <T,>(setter: React.Dispatch<React.SetStateAction<T>>) => {
+export const createHandOverFunction = <T>(setter: React.Dispatch<React.SetStateAction<T>>): ((value: T) => void) => {
   return useCallback((value: T) => {
     setter(value);
     // console.log("親受取:", value);
   }, [setter]);
 };
 
-
+/**
+ * 2点間の距離を計算
+ */
 export const deg2rad = (deg: number): number => {
   return (deg * Math.PI) / 180.0;
 };
@@ -385,7 +388,7 @@ export const rgbToHex = (r: number, g: number, b: number) => {
  * 色はhexを想定  
  * progressは0-1
  */
-export const changeColor = (startHex: string, endHex: string, progress: number) => {
+export const changeColor = (startHex: string, endHex: string, progress: number): string => {
   const startColor = hexToRgb(startHex)!;
   const endColor = hexToRgb(endHex)!;
   const r = Math.round(startColor.r + (endColor.r - startColor.r) * progress);
@@ -394,17 +397,48 @@ export const changeColor = (startHex: string, endHex: string, progress: number) 
   const color = rgbToHex(r, g, b);
   return color
 }
+
+/**
+ * 色の継時変化を計算  
+ * 色はhexを想定  
+ * progressは0-1
+ */
+export const changeStyle = (startStyle: PathOptions, endStyle: PathOptions, progress: number): PathOptions => {
+  if (startStyle.fillColor === undefined || endStyle.fillColor === undefined || startStyle.fillOpacity === undefined || endStyle.fillOpacity === undefined) {
+    throw new Error("fillColor or fillOpacity is undefined")
+  }
+  const startColor = hexToRgb(startStyle.fillColor)!;
+  const endColor = hexToRgb(endStyle.fillColor)!;
+  const r = Math.round(startColor.r + (endColor.r - startColor.r) * progress);
+  const g = Math.round(startColor.g + (endColor.g - startColor.g) * progress);
+  const b = Math.round(startColor.b + (endColor.b - startColor.b) * progress);
+  const color = rgbToHex(r, g, b);
+  const opacity = startStyle.fillOpacity + (endStyle.fillOpacity - startStyle.fillOpacity) * progress
+  return {
+    fillColor: color,
+    fillOpacity: opacity
+  }
+}
+
+/**
+ * 曲の画像を取得する関数
+ * @param songNumber 曲の番号
+ * @returns 曲の画像のURL
+ */
 export const getImage = (songNumber: number): string => {
   return new URL(`../assets/images/jacket/${songData[songNumber].jacketName}`, import.meta.url).href;
 };
 
-
 // ミリ秒を分:秒に変換する関数
-export const msToMs = (milliseconds: number) => {
+export const msToMs = (milliseconds: number): string => {
   const totalSeconds = Math.floor(milliseconds / 1000);
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
-  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  if (isNaN(minutes) || isNaN(seconds)) {
+    return "00:00";
+  } else {
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  }
 };
 
 /**
@@ -412,7 +446,7 @@ export const msToMs = (milliseconds: number) => {
  * @param json 制限領域の座標データが含まれるJSONオブジェクト
  * @returns 制限領域を表すlatLngBoundsオブジェクト
  */
-export const createLatLngBounds = (json: any) => {
+export const createLatLngBounds = (json: any): LatLngBounds => {
   const coordinates: [lng: number, lat: number][] = json.features[0].geometry.coordinates[0][0]
   const locationCoords = coordinates.map(loc => latLng(loc[1], loc[0]));
   return latLngBounds(locationCoords);
@@ -425,12 +459,13 @@ export const createLatLngBounds = (json: any) => {
  * @param allNodesVectorScalar The output value of calculateRoadLengthSum(nodes).
  * @returns The calculated MikuMile value.
  */
-export const calculateMikuMile = (playerPosition: number, playerDuration: number, allNodesVectorScalar: number) => {
+export const calculateMikuMile = (playerPosition: number, playerDuration: number, allNodesVectorScalar: number): number => {
+  const mikuMileGain = 39300;
   if (playerDuration === 0) {
-    return allNodesVectorScalar * (playerPosition) * 39300
+    return allNodesVectorScalar * (playerPosition) * mikuMileGain;
   }
   else {
-    return allNodesVectorScalar * (playerPosition / playerDuration) * 39300
+    return allNodesVectorScalar * (playerPosition / playerDuration) * mikuMileGain;
   }
 }
 
@@ -438,16 +473,25 @@ export const calculateMikuMile = (playerPosition: number, playerDuration: number
 /**
  * zoom - map.getZoom()の値
  */
-export const calculateZoom2MikuMile = (zoom:number) => {
+export const calculateScale = (zoom: number): number => {
   // 実寸を計測
   // 3.2: zoom17の時のscaleの値, MMの係数と連携している
   // 割と適当な値
-  return (2**((17/zoom-1)*15))*32
+  const scale = (2 ** ((17 / zoom - 1) * 15)) * 32
+  if (isNaN(scale) || !isFinite(scale)) {
+    return 0;
+  }
+  else {
+    return scale
+  }
 }
 
-// 呼び出し例
-// createElementFromHTML('<div style="width: 300px;"></div>');
-
+/**
+ * ベクトルのなす角を計算
+ * @param vec1 ベクトル1
+ * @param vec2 ベクトル2
+ * @returns ベクトルのなす角
+ */
 export const calculateAngleBetweenVectors = (vec1: [number, number], vec2: [number, number]): number => {
   const [x1, y1] = vec1;
   const [x2, y2] = vec2;
@@ -456,7 +500,12 @@ export const calculateAngleBetweenVectors = (vec1: [number, number], vec2: [numb
   const mag1 = Math.sqrt(x1 ** 2 + y1 ** 2);
   const mag2 = Math.sqrt(x2 ** 2 + y2 ** 2);
 
-  const cosDelta = dot / (mag1 * mag2);
+  let cosDelta;
+  if (mag1 === 0 || mag2 === 0) {
+    cosDelta = 0;
+  } else {
+    cosDelta = dot / (mag1 * mag2);
+  }
   const angle = Math.acos(cosDelta);
 
   return angle;

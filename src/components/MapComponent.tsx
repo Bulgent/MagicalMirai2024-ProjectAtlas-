@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
-import L, { LeafletMouseEvent, marker, Map, point, divIcon, polyline } from 'leaflet';
+import L, { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -13,7 +13,7 @@ import { seasonType, weatherType, timeType, mapStyle, polygonStyle, mapStylePath
 import {
   checkArchType, formatKashi, calculateDistance,
   calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor, cssSlide,
-  createLatLngBounds, calculateMikuMile, calculateRoadLengthSum
+  createLatLngBounds, calculateMikuMile, calculateRoadLengthSum, changeStyle
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
 import { pngCar, emojiNote, emojiStart, emojiGoal } from '../assets/marker/markerSVG.ts'
@@ -80,6 +80,12 @@ export const MapComponent = (props: any) => {
   const roadJsonLst = [trunk, primary, secondary] // 表示する道路について
   const mapCenterRef = useRef<[number, number]>([-1, -1]);
   const [latOffset, lonOffset]: [number, number] = [-0.0006, 0] // Mapの中心位置を補正
+  // 色情報の設定(季節, 時間, 天気, 透過度)
+  const styleMorning = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY, 1);
+  const styleNoon = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY, 1);
+  const styleNight = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY, 1);
+  // 天気の状態保持
+  const overlayStyleRef = useRef<PathOptions>(styleMorning)
 
   /**
    * React Hooks
@@ -106,7 +112,7 @@ export const MapComponent = (props: any) => {
   const eachRoadLengthRatioRef = useRef<number[]>([])
   const degreeAnglesRef = useRef<number[]>([])
   const cumulativeAheadRatioRef = useRef<number[]>([])
-  const goallineRef = useRef(null); // goallineをuseRefで保持
+  const goallineRef = useRef<lineString>(null); // goallineをuseRefで保持
   const lyricCount = useRef<number>(0) // 触れた音符の数
 
   // MikuMile計算
@@ -116,8 +122,7 @@ export const MapComponent = (props: any) => {
 
   const mapIsMovingRef = useRef<Boolean>(false)
 
-  // 天気の状態保持
-  const overlayStyleRef = useRef<string | null>('#ffffff')
+
   const isInitPlayRef = useRef<Boolean>(true) // 曲を再生したら止まらないように
   // 曲が終了したらplayerPosition=0になり天気リセットになるのを防ぐ
   // 2回目の再生をそのまましないことを仮定
@@ -385,7 +390,7 @@ export const MapComponent = (props: any) => {
   const MoveMapByRoute = () => {
     const map = useMap();
 
-    const updatePolyline = useCallback((coordinates) => {
+    const updatePolyline = useCallback((coordinates: [number, number][]) => {
       // 以前の線があれば座標更新
       if (goallineRef.current) {
         goallineRef.current.setLatLngs(coordinates);
@@ -410,10 +415,10 @@ export const MapComponent = (props: any) => {
 
         // 曲の全体における位置を確認
         playerDurationRef.current = props.player.video.duration
-        const timerPerDuration = props.player.timer.position / props.player.video.duration;
+        const timerDuration = props.player.timer.position / props.player.video.duration;
         playerPositionRef.current = props.player.timer.position
-        if (timerPerDuration < 1) {
-          const [startNodeIndex, nodeResidue] = getRationalPositonIndex(timerPerDuration, eachRoadLengthRatioRef.current);
+        if (timerDuration < 1) {
+          const [startNodeIndex, nodeResidue] = getRationalPositonIndex(timerDuration, eachRoadLengthRatioRef.current);
           // 中心にセットする座標を計算
           const updatedLat = nodesRef.current[startNodeIndex][0] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][0] * nodeResidue;
           const updatedLon = nodesRef.current[startNodeIndex][1] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][1] * nodeResidue;
@@ -426,7 +431,7 @@ export const MapComponent = (props: any) => {
           ]);
 
           // ここにアイコンの情報を入れる
-          const [startAheadIndex, aheadResidue] = getRationalPositonIndex(timerPerDuration, cumulativeAheadRatioRef.current);
+          const [startAheadIndex, aheadResidue] = getRationalPositonIndex(timerDuration, cumulativeAheadRatioRef.current);
           setCarMapPosition([updatedLat, updatedLon])
           setHeading(degreeAnglesRef.current[startAheadIndex])
 
@@ -504,7 +509,10 @@ export const MapComponent = (props: any) => {
       // 地図に追加
       markertext.addTo(map);
       // アニメーション
-      document.querySelector('.' + slideClass).style.animation = 'fadeInSlideXY' + lyricCount.current + ' 0.5s ease forwards';
+      const slideElement = document.querySelector('.' + slideClass);
+      if (slideElement) {
+        slideElement.style.animation = 'fadeInSlideXY' + lyricCount.current + ' 0.5s ease forwards';
+      }
 
       // FanFun度を増やす
       props.handOverFanFun(1000)
@@ -530,20 +538,22 @@ export const MapComponent = (props: any) => {
   // 👽観光地にマウスが乗ったときに呼び出される関数👽
   const onSightHover = (e: LeafletMouseEvent) => {
     // hoverhistoryに重複しないように追加
-    // console.log(mapIsMovingRef.current)
-    if (mapIsMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.index == e.sourceTarget.feature.properties.index))) {
-      // console.log("MikuMile (MM): " ,calculateMikuMile(playerPositionRef.current, playerDurationRef.current, roadLengthSumRef.current))
-      hoverHistory.current.push(e.sourceTarget.feature.properties);
+    if (mapIsMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
+      hoverHistory.current.push(e.sourceTarget.feature);
       const historyProperty: historyProperties = e.sourceTarget.feature
       historyProperty.properties.playerPosition = playerPositionRef.current
       props.handOverHover(e.sourceTarget.feature)
       props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
     }
+    // オフ会0人かどうか
+    if (e.sourceTarget.feature.properties.event_place == "泉南イオン") {
+      console.log("オイイイッス！👽")
+    }
   }
 
   const onSightHoverOut = (e: LeafletMouseEvent) => {
     // 動いてない時かつ未訪問の時
-    if (!mapIsMovingRef.current && !hoverHistory.current.some(history => history.index == e.sourceTarget.feature.properties.index)) {
+    if (!mapIsMovingRef.current && !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index)) {
       const hoveredMarker = e.target;
       // ツールチップ閉じる
       hoveredMarker.unbindTooltip();
@@ -554,63 +564,41 @@ export const MapComponent = (props: any) => {
    * 間奏中に色が変わるオーバーレイのレイヤ
    */
   const UpdatingOverlayLayer = () => {
-    // 曲を3区切りにした際のオーバーレイの色
-    // TODO: 朝の色変更?
-    const styleMorning = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY).fillColor;
-    const styleNoon = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY).fillColor;
-    const styleNight = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY).fillColor;
-    const updateLayer = (layer: any, hexColor: string, opacity: number) => {
-      overlayStyleRef.current = hexColor;
-      if (layer) {
-        // layer.bringToFront()
-        layer.clearLayers().addData(sky)
-        layer.setStyle(
-          {
-            fillColor: hexColor,
-            fillOpacity: opacity,
-          }
-        )
-      }
-    }
-
     // 初期値設定
-    overlayStyleRef.current = styleMorning
     const turnOverlayAnimation = () => {
-      const timerPerDuration = props.player.timer.position / props.player.video.duration;
+      const timerDuration = props.player.timer.position;
+      // 朝から昼への遷移時間
       const morningToNoon = {
-        start: songData[props.songnum].turningPoint1![0] / props.player.video.duration,
-        end: songData[props.songnum].turningPoint1![1] / props.player.video.duration
+        start: songData[props.songnum].turningPoint1![0],
+        end: songData[props.songnum].turningPoint1![1]
       }
+      // 昼から夜への遷移時間
       const noonToNight = {
-        start: songData[props.songnum].turningPoint2![0] / props.player.video.duration,
-        end: songData[props.songnum].turningPoint2![1] / props.player.video.duration
+        start: songData[props.songnum].turningPoint2![0],
+        end: songData[props.songnum].turningPoint2![1]
       }
 
-      let progress;
-
-      const layer = layerRef.current;
-      if (timerPerDuration === 0 && !isFirstPlayRef.current) {
-        // 曲が終了した後にtimerPerDuration=0となり、天気がリセットされることを防ぐ
-        updateLayer(layer, styleNight, 0.5)
+      if (timerDuration === 0 && !isFirstPlayRef.current) {
+        // 曲が終了した後にtimerDuration=0となり、天気がリセットされることを防ぐ
+        overlayStyleRef.current = styleNight;
         document.documentElement.style.setProperty('--weather', '10');
-      } else if (timerPerDuration < morningToNoon.start) {
-        updateLayer(layer, styleMorning, 0.3)
+      } else if (timerDuration < morningToNoon.start) {
         isFirstPlayRef.current = false
+        overlayStyleRef.current = styleMorning;
         document.documentElement.style.setProperty('--weather', '40');
-      } else if (timerPerDuration < morningToNoon.end) {
-        progress = (timerPerDuration - morningToNoon.start) / (morningToNoon.end - morningToNoon.start);
-        updateLayer(layer, changeColor(styleMorning, styleNoon, progress), (0.3 - (0.3 - 0.1) * progress));
+      } else if (timerDuration < morningToNoon.end) {
+        const progress = (timerDuration - morningToNoon.start) / (morningToNoon.end - morningToNoon.start);
+        overlayStyleRef.current = changeStyle(styleMorning, styleNoon, progress);
         document.documentElement.style.setProperty('--weather', (40 + (50 - 40) * progress).toString());
-      } else if (timerPerDuration < noonToNight.start) {
-        updateLayer(layer, styleNoon, 0.1)
+      } else if (timerDuration < noonToNight.start) {
         document.documentElement.style.setProperty('--weather', '50');
-      } else if (timerPerDuration < noonToNight.end) {
-        progress = (timerPerDuration - noonToNight.start) / (noonToNight.end - noonToNight.start);
-        const layer = layerRef.current;
-        updateLayer(layer, changeColor(styleNoon, styleNight, progress), (0.1 + (0.5 - 0.1) * progress));
+        overlayStyleRef.current = styleNoon;
+      } else if (timerDuration < noonToNight.end) {
+        const progress = (timerDuration - noonToNight.start) / (noonToNight.end - noonToNight.start);
+        overlayStyleRef.current = changeStyle(styleNoon, styleNight, progress)
         document.documentElement.style.setProperty('--weather', (50 - (50 - 10) * progress).toString());
-      } else if (timerPerDuration >= noonToNight.end) {
-        updateLayer(layer, styleNight, 0.5)
+      } else if (timerDuration >= noonToNight.end) {
+        overlayStyleRef.current = styleNight;
         document.documentElement.style.setProperty('--weather', '10');
       }
 
@@ -618,39 +606,29 @@ export const MapComponent = (props: any) => {
     };
 
     const turnOverlayAnimationRef = useRef<number | null>(null);
-    const layerRef = useRef<GeoJSON | null>(null);
     // オーバーレイ変更のためのトリガー
     useEffect(() => {
       if (props.isMoving || !isInitPlayRef.current) {
         isInitPlayRef.current = false
-
         turnOverlayAnimation();
       } else {
         cancelAnimationFrame(turnOverlayAnimationRef.current!);
       }
-      // レイヤーを最前面に移動
-      // if (layerRef.current) {
-      //   layerRef.current.bringToFront();
-      // }
       return () => {
         cancelAnimationFrame(turnOverlayAnimationRef.current!);
       };
     }, [props.isMoving]);
 
-    // 最初の天気を設定
     return (
       <GeoJSON
         data={sky as unknown as GeoJSON.GeoJsonObject}
-        style={{
-          fillColor: overlayStyleRef.current,
-          fillOpacity: 0.3,
-        }}
-        ref={layerRef}
+        style={overlayStyleRef.current}
         pane="sky"
       />
     )
   }
 
+  // スケール変更時の処理
   const GetZoomLevel = () => {
     const map = useMap();
     map.on('zoom', function () {
@@ -673,7 +651,7 @@ export const MapComponent = (props: any) => {
         zoomControl={false} attributionControl={false}
         maxBoundsViscosity={1.0}
         preferCanvas={true}
-        boxZoom = {false} doubleClickZoom={false}
+        boxZoom={false} doubleClickZoom={false}
       >
         <GetZoomLevel />
         <GeoJSON

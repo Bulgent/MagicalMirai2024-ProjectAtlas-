@@ -10,6 +10,8 @@
 
 .leaflet-sky-pane {
     z-index: 600;
+    mix-blend-mode: multiply;
+    /* mix-blend-mode: normal; */
 }
 
 .leaflet-car-pane {

@@ -32,7 +32,7 @@ const creditData: credit[] = [
     },
     {
         name: 'Creators',
-        credit: 'Team AHEAD, Project Atlas,  🦄 & 👽, 2024',
+        credit: 'Team AHEAD, Project Atlas,  🦄 & 👽 & ✹, 2024',
         link: ''
     }
 ];

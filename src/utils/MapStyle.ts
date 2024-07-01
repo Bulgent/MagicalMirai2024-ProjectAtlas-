@@ -1,9 +1,9 @@
-import { StyleFunction, LatLngExpression, circleMarker, divIcon, marker } from 'leaflet';
+import { StyleFunction, LatLngExpression, circleMarker, divIcon, marker, Marker, PathOptions } from 'leaflet';
 import { emojiSight } from '../assets/marker/markerSVG.ts'
 import { sightType, sightSeason, sightTime, sightWeather } from './utils.ts';
 
 // pointデータを図形として表現(固定式観光地)
-export const pointToLayer = (feature: any, latlng: LatLngExpression) => {
+export const pointToLayer = (feature: any, latlng: LatLngExpression): Marker => {
     const builIcon = divIcon({
         className: 'buil-icon', // カスタムクラス名
         html: emojiSight[emojiSight.length - 1],  // ここに車のアイコンを挿入する
@@ -35,7 +35,7 @@ export const pointToLayer = (feature: any, latlng: LatLngExpression) => {
 };
 
 // pointデータを図形として表現(移動式観光地)
-export const showDetail = (feature: any, latlng: LatLngExpression) => {
+export const showDetail = (feature: any, latlng: LatLngExpression): Marker => {
     // console.log(latlng, feature)
     const builIcon = divIcon({
         className: 'buil-icon', // カスタムクラス名
@@ -44,7 +44,7 @@ export const showDetail = (feature: any, latlng: LatLngExpression) => {
         iconAnchor: [25, 25], // アイコンのアンカーポイント
     });
     // const marker = circleMarker(latlng, circleMarkerOptions);
-    const builMarker = marker(latlng, { icon: builIcon, opacity: 1, pane:"waypoint" })
+    const builMarker = marker(latlng, { icon: builIcon, opacity: 1, pane: "waypoint" })
     // ホバー時のイベントハンドラ
     const onHover = (e: L.LeafletMouseEvent) => {
         const hoveredMarker = e.target;
@@ -67,7 +67,7 @@ export const showDetail = (feature: any, latlng: LatLngExpression) => {
 };
 
 // line, polygonデータを図形として表現
-export const mapStyle: StyleFunction = (feature) => {
+export const mapStyle: StyleFunction = (feature): PathOptions => {
     switch (feature?.geometry?.type) {
         case 'MultiLineString':
             return {
@@ -88,7 +88,7 @@ export const mapStyle: StyleFunction = (feature) => {
 };
 
 // line, polygonデータを図形として表現
-export const overlayStyle: StyleFunction = (feature) => {
+export const overlayStyle: StyleFunction = (feature): PathOptions => {
     return {
         fillColor: 'white',
     }
@@ -144,7 +144,7 @@ function addHexColors(hex1: string, hex2: string): string {
 }
 
 // 日本の天気
-export const polygonStyle = (season: number, time: number, weather: number) => {
+export const polygonStyle = (season: number, time: number, weather: number, opacity: number): PathOptions => {
     // console.log(season, time, weather)
     let seasonColor = '';
     let timeColor = '';
@@ -169,10 +169,10 @@ export const polygonStyle = (season: number, time: number, weather: number) => {
     }
     switch (time) {
         case timeType.MORNING:
-            timeColor = '#557081'; // 淡い青緑
+            timeColor = '#CFE0E8'; // 淡い青緑
             break;
         case timeType.NOON:
-            timeColor = '#fefdf8'; // 太陽色
+            timeColor = '#ffffff'; // 太陽色
             break;
         case timeType.AFTERNOON:
             timeColor = '#ffffff'; // 空色
@@ -181,7 +181,7 @@ export const polygonStyle = (season: number, time: number, weather: number) => {
             timeColor = '#ec5d0f'; // 夕日色
             break;
         case timeType.NIGHT:
-            timeColor = '#001e43'; // ミッドナイトブルー
+            timeColor = '#5078A0'; // ミッドナイトブルー
             break;
         default:
             timeColor = '#ffffff'; // 白色
@@ -209,12 +209,12 @@ export const polygonStyle = (season: number, time: number, weather: number) => {
     color = timeColor
     return {
         fillColor: color,
-        fillOpacity: 0.4,
+        fillOpacity: opacity,
     };
 };
 
 // line, polygonデータを図形として表現
-export const mapStylePathWay: StyleFunction = (feature) => {
+export const mapStylePathWay: StyleFunction = (feature): PathOptions => {
     switch (feature?.geometry?.type) {
         case 'MultiLineString':
             return {
