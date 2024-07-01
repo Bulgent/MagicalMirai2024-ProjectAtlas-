@@ -11,6 +11,7 @@
   text-align: center;
   padding-top: 50vh;
   z-index: 1000;
+  user-select: none; /* ダブルクリックしてもテキストが選択されないようにする */
 }
 
 /* スマートフォンが縦向きのときにのみメッセージを表示 */
@@ -28,6 +29,7 @@
   height: 100%;
   background: linear-gradient(to bottom, #000023 0%, #004466 100%);
   /* カーナビ風のダークなグラデーション背景 */
+  user-select: none; /* ダブルクリックしてもテキストが選択されないようにする */
 }
 
 .grid-song {

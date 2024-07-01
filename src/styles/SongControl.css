@@ -4,6 +4,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    user-select: none;
+    /* ダブルクリックしてもテキストが選択されないようにする */
 }
 
 /* Left Section */
@@ -62,7 +64,7 @@
 /* Seek Bar */
 .seek {
     width: 100%;
-    display: flex align-items: center;
+    align-items: center;
     text-align: center;
 }
 
@@ -101,9 +103,10 @@
     width: 100%;
     text-align: center;
     z-index: 10000;
-    color:midnightblue
+    color: midnightblue
 }
-.weather-arrow{
+
+.weather-arrow {
     font-size: 2vh;
 }
 
@@ -174,7 +177,7 @@
 }
 
 .time-elapsed,
-.time-duration{
+.time-duration {
     font-size: 2.5vh;
     width: 2vw;
     color: white;
@@ -222,6 +225,12 @@
     /* クリック時にさらに小さくする */
     transition: transform 0.1s ease;
     /* トランジションを速くして反応を良くする */
+}
+
+/* Disabled Button */
+.pausebutton:disabled {
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 /* Jacket Button */

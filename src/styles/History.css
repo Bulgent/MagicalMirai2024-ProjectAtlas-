@@ -15,6 +15,8 @@
   font-weight: bold;
   color: #fff;
   text-align: center;
+  user-select: none;
+  /* ダブルクリックしてもテキストが選択されないようにする */
 }
 
 .hoverline {
@@ -52,6 +54,8 @@
   align-items: center;
   height: 50%;
   width: 100%;
+  user-select: none;
+  /* ダブルクリックしてもテキストが選択されないようにする */
 }
 
 .historybox {
@@ -63,7 +67,7 @@
   margin: 1em;
   color: #000;
   border-color: #cac97b;
-  position:relative;
+  position: relative;
 }
 
 .historycaption {
@@ -101,8 +105,10 @@
   width: calc(100% - 1vw);
   padding: 0vh 1vw;
   text-align: justify;
-  text-align-last:justify;
+  text-align-last: justify;
   font-size: 2vw;
+  user-select: none;
+  /* ダブルクリックしてもテキストが選択されないようにする */
 }
 
 .fanfununit {
