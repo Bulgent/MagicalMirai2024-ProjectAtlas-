@@ -6,6 +6,8 @@ import songData from '../utils/Song';
 
 export const PlayerControl = (props: any) => {
   const [status, setStatus] = useState('stop');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
   const isInitPlay = useRef(true);
 
   // 仮の曲の長さと現在の再生位置
@@ -151,6 +153,16 @@ export const PlayerControl = (props: any) => {
     [props.player, props.handOverIsMapMove]
   );
 
+  const handleClick = () => {
+    if (status !== 'play') {
+      handlePlay();
+    } else {
+      handlePause();
+    }
+    setIsButtonDisabled(true);
+    setTimeout(() => setIsButtonDisabled(false), 300); // 300ミリ秒後にボタンを再度有効にする
+  };
+
   return (
     <div className="songcontrol">
       <div className='left'>
@@ -175,7 +187,7 @@ export const PlayerControl = (props: any) => {
             </div>
             <div className='progress-bar' style={{ width: '0%' }}>
               <div className='running-mm'>
-                {(props.mikuMile[0]/1000).toFixed(1)}
+                {(props.mikuMile[0] / 1000).toFixed(1)}
                 <span className="unit">kMM</span>
               </div>
 
@@ -201,7 +213,7 @@ export const PlayerControl = (props: any) => {
 
       </div>
       <div className='right'>
-        <button className='pausebutton' onClick={status !== 'play' ? handlePlay : handlePause} disabled={props.disabled}>
+        <button className='pausebutton' onClick={handleClick} disabled={props.disabled || isButtonDisabled}>
           <img className='jacketbutton' src={props.jacketPic} alt={status !== 'play' ? 'Play' : 'Pause'} />
           <div className='textbutton'>
             <span className="material-symbols-outlined ppbutton">
