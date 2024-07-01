@@ -18,7 +18,7 @@ export const PlayerControl = (props: any) => {
   function updateProgressBar() {
     const progressBar = document.getElementsByClassName('progress-bar')[0];
     // console.log(progressBar)
-    const percentage = (currentPosition.current / songLength) * 100;
+    const percentage = 100 - (currentPosition.current / songLength) * 100;
     if (progressBar) {
       progressBar.style.width = `${percentage}%`;
     }
@@ -91,27 +91,27 @@ export const PlayerControl = (props: any) => {
     const current = props.player.timer.position / props.player.video.duration
     // console.log(current, props.player.timer.position, props.player.video.duration)
     if (current < morningToNoon.start) {
-      return ('🌅 Morning') // 朝
+      return ('Morning') // 朝
     } else if (current < morningToNoon.end) {
       return (<>
-        🌅Morning
-        <span className="material-symbols-outlined weather-arrow">
+        Morning
+        {/* <span className="material-symbols-outlined weather-arrow">
           double_arrow
         </span>
-        🌞Noon
+        🌞Noon */}
       </>) // 朝から昼
     } else if (current < noonToNight.start) {
-      return ('🌞 Noon') // 昼
+      return ('Noon') // 昼
     } else if (current < noonToNight.end) {
       return (<>
-        🌆Noon
-        <span className="material-symbols-outlined weather-arrow">
+        Noon
+        {/* <span className="material-symbols-outlined weather-arrow">
           double_arrow
         </span>
-        🌇Night
+        🌆🌇Night */}
       </>) // 昼から夜
     } else {
-      return ('🌕️ Night') // 夜
+      return ('Night') // 夜
       // TODO 曲最後まで行くと朝に戻ってしまう
     }
   }
@@ -177,6 +177,10 @@ export const PlayerControl = (props: any) => {
         <div className='seek'>
           {/* 元パステルにミクいろ */}
           <div className='seek-bar-container'>
+            <div className='running-mm'>
+              {(props.mikuMile[0] / 1000).toFixed(1)}
+              <span className="unit">kMM</span>
+            </div>
             <div className='progress-weather'>
               <GetWeather />
             </div>
@@ -186,10 +190,6 @@ export const PlayerControl = (props: any) => {
               <div className='flag-end'>🏁</div>
             </div>
             <div className='progress-bar' style={{ width: '0%' }}>
-              <div className='running-mm'>
-                {(props.mikuMile[0] / 1000).toFixed(1)}
-                <span className="unit">kMM</span>
-              </div>
 
               <img className='progress-handle' src='src\assets\images\carIcon.png' />
             </div>
