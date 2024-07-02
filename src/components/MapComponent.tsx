@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, forwardRef, useImperativeHandle } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
 import L, { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions } from 'leaflet';
@@ -9,6 +9,7 @@ import '../styles/leaflet.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { ComputeAhead } from '../services/ComputeAhead.ts'
+import { RotateMarker } from '../services/RotateMarker.tsx';
 import { seasonType, weatherType, timeType, mapStyle, polygonStyle, mapStylePathWay, showDetail } from '../utils/MapStyle.ts'
 import {
   checkArchType, formatKashi, calculateDistance,
@@ -38,7 +39,7 @@ const carIcon = divIcon({ // 31x65px
   iconSize: [31, 65], // アイコンのサイズ
   iconAnchor: [31 / 2, 65 / 2] // アイコンのアンカーポイント（原点をアイコンの中心に設定）
 });
-const carLight = divIcon({ // 31x65px
+const carLightIcon = divIcon({ // 31x65px
   className: 'car-icon', // カスタムクラス名
   html: lightCar,  // ここに車のアイコンを挿入する
   iconSize: [31, 65], // アイコンのサイズ
@@ -46,68 +47,17 @@ const carLight = divIcon({ // 31x65px
 });
 
 // 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
-// HACK: ファイル分割したい
-const RotatedCarMarker = forwardRef(({ children, ...props }, forwardRef) => {
-  const markerRef = useRef(null);
+// HACK: ファイル分割したい → services/RotateMarker.tsx に移動
 
-  const { rotationAngle, rotationOrigin } = props;
-  useEffect(() => {
-    const marker = markerRef.current;
-    if (marker) {
-      marker.setRotationAngle(-rotationAngle);
-      marker.setRotationOrigin(-rotationOrigin);
-    }
-  }, [rotationAngle, rotationOrigin]);
+// 車のアイコン
+const RotateCarMarker = forwardRef((props, ref) => (
+  <RotateMarker {...props} icon={carIcon} pane="car" ref={ref}/>
+));
 
-  return (
-    <>
-      <Marker
-        ref={(ref) => {
-          markerRef.current = ref;
-          if (forwardRef) {
-            forwardRef.current = ref;
-          }
-        }}
-        icon={carIcon}
-        {...props}
-        pane="car"
-      >
-      </Marker>
-      {/* {children} */}
-    </>
-  );
-});
-
-const RotatedCarLightMarker = forwardRef(({ children, ...props }, forwardRef) => {
-  const markerRef = useRef(null);
-
-  const { rotationAngle, rotationOrigin } = props;
-  useEffect(() => {
-    const marker = markerRef.current;
-    if (marker) {
-      marker.setRotationAngle(-rotationAngle);
-      marker.setRotationOrigin(-rotationOrigin);
-    }
-  }, [rotationAngle, rotationOrigin]);
-
-  return (
-    <>
-      <Marker
-        ref={(ref) => {
-          markerRef.current = ref;
-          if (forwardRef) {
-            forwardRef.current = ref;
-          }
-        }}
-        icon={carLight}
-        {...props}
-        pane="light"
-      >
-      </Marker>
-      {/* {children} */}
-    </>
-  );
-});
+// 車のライトのアイコン
+const RotateCarLightMarker = forwardRef((props, ref) => (
+  <RotateMarker {...props} icon={carLightIcon} pane="light" ref={ref}/>
+));
 
 export const MapComponent = (props: any) => {
   /**
@@ -733,18 +683,18 @@ export const MapComponent = (props: any) => {
         <AddNotesToMap />
         <MapFunctionUpdate />
         <RemoveMapTextFunction />
-        <RotatedCarMarker
+        <RotateCarMarker
           position={carMapPosition}
           rotationAngle={heading}
           rotationOrigin="center"
         >
-        </RotatedCarMarker>
-        <RotatedCarLightMarker
+        </RotateCarMarker>
+        <RotateCarLightMarker
           position={carMapPosition}
           rotationAngle={heading}
           rotationOrigin="center"
         >
-        </RotatedCarLightMarker>
+        </RotateCarLightMarker>
         {/* 曲の開始まで表示するレイヤ */}
         <PathWay />
         <UpdatingOverlayLayer />

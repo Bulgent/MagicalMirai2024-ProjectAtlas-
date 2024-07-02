@@ -54,22 +54,19 @@
   /* 三角形の底辺の幅 */
   height: 400px;
   /* 三角形の高さ */
-  background: linear-gradient(to top, #f0f0f0 50%, transparent 100%);
+  background: linear-gradient(to top, #fffeec 50%, transparent 100%);
   position: absolute;
   clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
-  top: -465px;
-  left: -20px;
-  mix-blend-mode: overlay;
 }
 
 .car-head-lamp-left {
-  top: -465px;
-  left: -5px;
+  top: -390px;
+  left: -8px;
 }
 
 .car-head-lamp-right {
-  top: -465px;
-  left: -25px;
+  top: -390px;
+  left: -23px;
 }
 
 .car-tail-lamp-left,
@@ -78,19 +75,17 @@
   /* 三角形の底辺の幅 */
   height: 10px;
   /* 三角形の高さ */
-  background: linear-gradient(to bottom, #d71212 1%, transparent 100%);
+  background: linear-gradient(to bottom, #e12885 1%, transparent 100%);
   position: absolute;
   clip-path: polygon(0% 100%, 100% 100%, 50% 0%);
 }
 
 .car-tail-lamp-left {
-  top: -8px;
+  top: 63px;
   left: -3px;
 }
 
 .car-tail-lamp-right {
-  top: -8px;
+  top: 63px;
   left: 14px;
 }
-
-/* mix-blend-mode: overlay; /* オーバーレイを指定 */
