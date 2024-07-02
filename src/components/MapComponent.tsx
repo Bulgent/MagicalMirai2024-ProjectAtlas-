@@ -609,33 +609,34 @@ export const MapComponent = (props: any) => {
         // 曲が終了した後にtimerDuration=0となり、天気がリセットされることを防ぐ
         overlayStyleRef.current = styleNight;
         document.documentElement.style.setProperty('--weather', '10');
-        document.documentElement.style.setProperty('--seek-color', '#030c1b');
         document.documentElement.style.setProperty('--car-light', '1.0');
+        document.documentElement.style.setProperty('--seek-color', '#030c1b');
       } else if (timerDuration < morningToNoon.start) {
         isFirstPlayRef.current = false
         overlayStyleRef.current = styleMorning;
         document.documentElement.style.setProperty('--weather', '40');
+        document.documentElement.style.setProperty('--car-light', '0.4');
         document.documentElement.style.setProperty('--seek-color', '#ff7e5f');
-        document.documentElement.style.setProperty('--car-light', '0.5');
       } else if (timerDuration < morningToNoon.end) {
         const progress = (timerDuration - morningToNoon.start) / (morningToNoon.end - morningToNoon.start);
         overlayStyleRef.current = changeStyle(styleMorning, styleNoon, progress);
         document.documentElement.style.setProperty('--weather', (40 + (50 - 40) * progress).toString());
-        document.documentElement.style.setProperty('--car-light', (0.5 * (1.0 - progress)).toString());
+        document.documentElement.style.setProperty('--car-light', (0.4 * (1.0 - progress)).toString());
       } else if (timerDuration < noonToNight.start) {
         overlayStyleRef.current = styleNoon;
         document.documentElement.style.setProperty('--weather', '50');
-        document.documentElement.style.setProperty('--seek-color', '#0083B0');
         document.documentElement.style.setProperty('--car-light', '0.0');
+        document.documentElement.style.setProperty('--seek-color', '#0083B0');
       } else if (timerDuration < noonToNight.end) {
         const progress = (timerDuration - noonToNight.start) / (noonToNight.end - noonToNight.start);
         overlayStyleRef.current = changeStyle(styleNoon, styleNight, progress)
-        document.documentElement.style.setProperty('--weather', (progress).toString());
+        document.documentElement.style.setProperty('--weather', (50 - (50 - 10) * progress).toString());
+        document.documentElement.style.setProperty('--car-light', (progress).toString());
       } else if (timerDuration >= noonToNight.end) {
         overlayStyleRef.current = styleNight;
         document.documentElement.style.setProperty('--weather', '10');
-        document.documentElement.style.setProperty('--seek-color', '#030c1b');
         document.documentElement.style.setProperty('--car-light', '1.0');
+        document.documentElement.style.setProperty('--seek-color', '#030c1b');
       }
 
       turnOverlayAnimationRef.current = requestAnimationFrame(turnOverlayAnimation);
