@@ -47,7 +47,7 @@ const carLight = divIcon({ // 31x65px
 
 // 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
 // HACK: ファイル分割したい
-const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
+const RotatedCarMarker = forwardRef(({ children, ...props }, forwardRef) => {
   const markerRef = useRef(null);
 
   const { rotationAngle, rotationOrigin } = props;
@@ -73,6 +73,25 @@ const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
         pane="car"
       >
       </Marker>
+      {/* {children} */}
+    </>
+  );
+});
+
+const RotatedCarLightMarker = forwardRef(({ children, ...props }, forwardRef) => {
+  const markerRef = useRef(null);
+
+  const { rotationAngle, rotationOrigin } = props;
+  useEffect(() => {
+    const marker = markerRef.current;
+    if (marker) {
+      marker.setRotationAngle(-rotationAngle);
+      marker.setRotationOrigin(-rotationOrigin);
+    }
+  }, [rotationAngle, rotationOrigin]);
+
+  return (
+    <>
       <Marker
         ref={(ref) => {
           markerRef.current = ref;
@@ -713,12 +732,18 @@ export const MapComponent = (props: any) => {
         <AddNotesToMap />
         <MapFunctionUpdate />
         <RemoveMapTextFunction />
-        <RotatedMarker
+        <RotatedCarMarker
           position={carMapPosition}
           rotationAngle={heading}
           rotationOrigin="center"
         >
-        </RotatedMarker>
+        </RotatedCarMarker>
+        <RotatedCarLightMarker
+          position={carMapPosition}
+          rotationAngle={heading}
+          rotationOrigin="center"
+        >
+        </RotatedCarLightMarker>
         {/* 曲の開始まで表示するレイヤ */}
         <PathWay />
         <UpdatingOverlayLayer />
