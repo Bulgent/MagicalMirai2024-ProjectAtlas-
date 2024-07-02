@@ -104,6 +104,7 @@
   justify-content: right;
   width: calc(100% - 1vw);
   padding: 0vh 1vw;
+  line-height: 3.25vw;
   text-align: justify;
   text-align-last: justify;
   font-size: 2vw;
