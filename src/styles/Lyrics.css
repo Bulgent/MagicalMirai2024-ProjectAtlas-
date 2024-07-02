@@ -90,7 +90,10 @@
 .kanji.len {
   color: #ffd98c !important;
   text-shadow:
-    0 0 2px black;
+    0 0 4px black,
+    0 0 calc(1px * var(--weather)) white,
+    0 0 calc(1px * var(--weather)) white,
+    0 0 calc(1px * var(--weather)) white !important;
   font-weight: normal !important;
   /* bold */
   font-size: 120% !important;
