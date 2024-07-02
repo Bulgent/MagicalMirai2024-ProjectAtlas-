@@ -1,0 +1,125 @@
+.hover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 95%;
+}
+
+.hovertext {
+  flex: 0.5;
+  width: 100%;
+  text-align: center;
+  font-size: 1.8vw;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+}
+
+.hoverline {
+  border-bottom: 0.5vh solid #fff;
+  width: 100%;
+}
+
+.hovercomponent {
+  flex: 7.5;
+  overflow-y: scroll;
+  /* Customize scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #7bcac9 transparent;
+  height: 92%;
+  width: 100%;
+  margin: 1%;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #7bcac9;
+  border-radius: 10px;
+  border: none;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #5ca2a0;
+}
+
+.nohoverhistory {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+  width: 100%;
+}
+
+.historybox {
+  background-color: #7bcac9;
+  border-top: 5vh solid;
+  border-radius: 1.5vh;
+  font-size: 1vh;
+  padding: 1.5em;
+  margin: 1em;
+  color: #000;
+  border-color: #cac97b;
+  position:relative;
+}
+
+.historycaption {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 1em;
+  width: calc(100% - 2em);
+  transform: translateY(-5vh);
+}
+
+.historyname {
+  font-size: 1.2vw;
+  font-weight: bold;
+}
+
+.historytime {
+  font-size: 1vw;
+}
+
+.historydetail {
+  font-size: 1vw;
+}
+
+.fanfun {
+  font-family: "Hachi Maru Pop", cursive;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  width: calc(100% - 1vw);
+  padding: 0vh 1vw;
+  text-align: justify;
+  text-align-last:justify;
+  font-size: 2vw;
+}
+
+.fanfununit {
+  height: 2vw;
+  font-size: 1vw;
+  line-height: 1vw;
+  padding: 0.75vw 0.1vw;
+}
+
+@keyframes fadeInSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-2em);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

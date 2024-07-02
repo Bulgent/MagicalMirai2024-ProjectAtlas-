@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Hachi+Maru+Pop&family=Noto+Color+Emoji&family=Noto+Emoji&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Zen+Maru+Gothic&family=BIZ+UDPGothic&family=Kosugi&family=Mochiy+Pop+One&family=Zen+Kaku+Gothic+New&display=swap');
+
+:root {
+  --min-font-size: 16px;
+  --max-font-size: 24px;
+}
+
+.noto-sans {
+  font-family: "Noto Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.notoemoji-mono {
+  font-family: "Noto Emoji", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.notoemoji-color {
+  font-family: "Noto Color Emoji", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.hachimaru-pop {
+  font-family: "Hachi Maru Pop", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.dotgothic16 {
+  font-family: "DotGothic16", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.zenmaru-gothic {
+  font-family: "Zen Maru Gothic", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.zen-kaku-gothic-new-regular {
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.biz-udpgothic-regular {
+  font-family: "BIZ UDPGothic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.mochiy-pop-one-regular {
+  font-family: "Mochiy Pop One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.kosugi-regular {
+  font-family: "Kosugi", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Responsive */
+html,
+body {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  font-family: "Zen Maru Gothic", serif;
+}
+
+body {
+  background: gray;
+}
+
+#display {
+  border-image-slice: 1;
+  border-width: 2vw;
+  border-radius: 2vw;
+  /* width: 100%; */
+  width: 90vmax;
+  /* 横幅の計算 */
+  height: min(97vh, 97vw*9/16);
+  /* 縦幅の計算 */
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: black;
+  position: relative;
+}
+
+#logo {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  max-height: 2vw;
+  object-fit: contain;
+  /* アスペクト比を保持 */
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  transform: translate(-50%, 100%);
+  filter: brightness(50%);
+  /* 画像の明るさを50%に設定 */
+}
+
+#navi {
+  position: relative;
+  border-radius: 2vw;
+  display: block;
+  background-color: black;
+  color: white;
+  height: 100%;
+  width: 100%;
+  -webkit-flex: 3;
+  flex: 3;
+  border-radius: 0.1vw;
+}
+
+#history {
+  height: 100%;
+  -webkit-flex: 1;
+  flex: 1;
+  border-radius: 0vw;
+  background-color: #2a2a2a;
+  color: #ffffff;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.soft-gloss {
+  border-image: -webkit-linear-gradient(transparent 0%, rgba(255, 255, 255, .3) 50%, transparent 50%, rgba(0, 0, 0, .1) 100%);
+  border-image: linear-gradient(transparent 0%, rgba(255, 255, 255, .3) 50%, transparent 50%, rgba(0, 0, 0, .1) 100%);
+  box-shadow: 0 2px 2px 0 rgba(255, 255, 255, .2) inset, 0 2px 10px 0 rgba(255, 255, 255, .5) inset, 0 -2px 2px 0 rgba(0, 0, 0, .1) inset;
+  border: 1px solid rgba(0, 0, 0, .2);
+}

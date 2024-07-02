@@ -1,0 +1,5787 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "ＴＯＨＯシネマズ 梅田"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48654690775095,
+          34.56316397827468
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "梅田ブルク７"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49851547927113,
+          34.70060060674068
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "テアトル梅田"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49991500015335,
+          34.707960555527215
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "シネ・リーブル梅田"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49057230734658,
+          34.70525960048523
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "ＰＬＡＮＥＴ　ｓｔｕｄｙｏ＋１"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5057900005661,
+          34.70853000036164
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "大阪ステーションシティシネマ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4953383079511,
+          34.70291987280227
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "シネ・ヌーヴォ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4754600000013,
+          34.67431400060972
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "シネ・ヌーヴォＸ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4754600000013,
+          34.67431400060972
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "シネマート心斎橋"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49883527781293,
+          34.67235694443928
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "ＴＯＨＯシネマズ なんば・本館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50104305520978,
+          34.665571389085805
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "なんばパークスシネマ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50175699997357,
+          34.661791000112885
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "ＴＯＨＯシネマズ なんば・別館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50299502880006,
+          34.6658153357418
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "あべのアポロシネマ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51174600001337,
+          34.64656799998315
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "新世界東映"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50664055516575,
+          34.652122777554794
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "新世界国際劇場"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50726138847483,
+          34.65205027766888
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "トビタ東映"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50496527829046,
+          34.64577388890573
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "トビタシネマ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50496527829046,
+          34.64577388890573
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "布施ラインシネマ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.56086752264193,
+          34.664384646237494
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "ＴＯＨＯシネマズ 泉北"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5001808147673,
+          34.4794193631398
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "ユナイテッド・シネマ岸和田"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.37062278931154,
+          34.46709763933242
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "第七藝術劇場"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48063299981635,
+          34.71890600000468
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "ＮＰＯ法人淀川文化創造館シアターセブン"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48063299981635,
+          34.71890600000468
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "淡路東宝"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51487777712242,
+          34.74003009756423
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "イオンシネマ茨木"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5583897224017,
+          34.81091305498192
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "高槻アレックスシネマ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.61594784248982,
+          34.85146277143241
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "千里セルシーシアター"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49608918543245,
+          34.80880524895516
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "１０９シネマズ箕面"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48813572185998,
+          34.83208364550048
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "イオンシネマりんくう泉南" 
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.26772478991813,
+          34.38072368038291
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "大阪市立科学館全天周映像"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49157444452229,
+          34.691259721981204
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "ＭＯＶＩＸ堺"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.44753024265864,
+          34.59873815920899
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "イオンシネマ大日"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5810860179051,
+          34.75056663034412
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "ＭＯＶＩＸ八尾"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.60583197821805,
+          34.63352114712599
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "シネプレックス枚方"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.69898104680334,
+          34.84404062544669
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 1,
+        "name": "ＴＯＨＯシネマズ 鳳"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4592252162557,
+          34.52468779962506
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "京セラドーム 大阪"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4761260086034,
+          34.66929557640754
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "大阪城ホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.53007750030153,
+          34.68961805523219
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "なみはやドーム（大阪府立門真スポーツセンター）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.59416405100168,
+          34.71557600741902
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "国立民族学博物館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5297063886315,
+          34.8129786107712
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "みさき公園"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.1616990002252,
+          34.327648999727494
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "ひらかたパーク"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.6380010788778,
+          34.80613068869955
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "大阪市立長居植物園"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.52423860071795,
+          34.61221201686564
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "国立国際美術館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4920095947112,
+          34.6917723955806
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "天王寺動物園"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5083176396782,
+          34.65074389983766
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "大阪歴史博物館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.52077395941538,
+          34.6826000927201
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立旭地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.38591700000137,
+          34.44866399952031
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立葛城上地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.42930000007675,
+          34.37797199983151
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立葛城地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.41083055517842,
+          34.42292138867534
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "岸和田市立久米田青少年会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.42132399983439,
+          34.45570899963483
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立光明地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.41080099999746,
+          34.441639999419515
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立光陽地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.3764420000357,
+          34.46721699969455
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立公民館・中央地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.37299599991357,
+          34.46176200032823
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立公民館分館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.3922328212047,
+          34.47962425465241
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立山滝地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.43911800013933,
+          34.431606000290515
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立山直地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4306405550829,
+          34.45202444449914
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立春木地区公民館・春木青少年会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.38654699971985,
+          34.47943000011801
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立城北地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.3989625456668,
+          34.47902254357153
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立常盤青少年会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.3965811112537,
+          34.45624166698316
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立新条地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.40125805539034,
+          34.475833055791895
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立青年の家"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.40680416653498,
+          34.46135444478266
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立大宮青少年会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.38679388855996,
+          34.46929249946837
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立大芝地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.39231611074698,
+          34.4850811112689
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立天神山地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.39690500043469,
+          34.42903749993629
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立箕土路青少年会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.40777833287058,
+          34.47305361074061
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "中央公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4278705549804,
+          34.821923611029206
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "江坂大池地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49217583290914,
+          34.767683333325536
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "片山地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51916000022095,
+          34.76895861120102
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "岸一地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.53572200007565,
+          34.77935899988163
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "岸二地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.52997333348782,
+          34.782159166935486
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "北千里地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5102543640661,
+          34.81895609549663
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "北山田地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.52418805567913,
+          34.80503416657534
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "佐井寺地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51848972209237,
+          34.78180861113655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "山一地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5288719445202,
+          34.799240833051904
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "山二地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.54862299981497,
+          34.794999000477546
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "吹二地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51028000061487,
+          34.75851099995162
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "吹三地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.53105599996258,
+          34.761775000146734
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "吹六地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51557694429573,
+          34.75325999974989
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "吹一地区公民館さんすくぶんかん"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.52474129461558,
+          34.76264152499443
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "吹一地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5243009998537,
+          34.75507000022206
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "吹田東地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5358432856515,
+          34.766420281160336
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "千一地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.52289499962419,
+          34.768810278007564
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "千三地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50892400000558,
+          34.77434799993358
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "千二地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50707611129113,
+          34.77688194417869
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "千里新田地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5043133329807,
+          34.78422666676865
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "豊一地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50500972239735,
+          34.761916111152715
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "豊二地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48962027737366,
+          34.75860666698215
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "西山田地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5288083332042,
+          34.79484083314786
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "東佐井寺地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5228833337967,
+          34.786028611019866
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "東山田地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.54993527749582,
+          34.80346972251158
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "南吹田地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5052630555579,
+          34.74994611146923
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "南千里地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50832800012893,
+          34.79308700042307
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "南山田地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.53987999971878,
+          34.79308416674347
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "山三地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5291639998966,
+          34.79103799985934
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "山五地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5360233331969,
+          34.78800527714822
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "山手地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5118319997605,
+          34.766437999964296
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "南公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4105286115887,
+          34.4936886107252
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "北公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.42141000020698,
+          34.51171638882558
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "阿武山公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.58011999969744,
+          34.86034799996909
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "芥川公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.6083797221338,
+          34.852014444572944
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "五領公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.65355555554854,
+          34.862007778128074
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "今城塚公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.59488472217743,
+          34.85223833306277
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "三箇牧公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.61153361121183,
+          34.80358194476766
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "城内公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.62241611068256,
+          34.84462611084697
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "真上公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.60873786510155,
+          34.85784541809514
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "南大冠公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.63289305517614,
+          34.822354166912696
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "日吉台公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.60862972273694,
+          34.878010000142424
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "如是公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.60491805498864,
+          34.83615666630811
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "磐手公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.6290369440805,
+          34.86297583332947
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "富田公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.59511166633678,
+          34.83064527814163
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "北清水公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.59817555509758,
+          34.878500833591936
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立浜手地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.3435696797177,
+          34.44678711498766
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立山手地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.3876279999159,
+          34.407521999957645
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立安威公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.56446096528802,
+          34.85010745346589
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立石河公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5440949999798,
+          34.875207000087045
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立太田公民館分室"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.57448249967,
+          34.84199305562331
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立太田地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5784730558152,
+          34.84283472220485
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立春日丘公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5549616666753,
+          34.81319499974047
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立郡山公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.54256349468633,
+          34.83120268712705
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立沢池公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.53794833296217,
+          34.81737861135332
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立清渓公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.52533962252878,
+          34.88371688643469
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立中条公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.56638499993767,
+          34.81416805575237
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立天王地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.56198222244942,
+          34.80048805553289
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立西公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.53564277802982,
+          34.82050916686971
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立春日公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5598516661879,
+          34.82534305607887
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立白川公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.59338629977213,
+          34.81652942016242
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立大池公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.57847611128503,
+          34.8137547223212
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立東奈良公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.56806861070845,
+          34.804189999927594
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立玉島公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.59001027772695,
+          34.80435722228418
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立福井公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.55273194493813,
+          34.84648444457641
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立三島地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.57509055567365,
+          34.83069666680937
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立玉櫛公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5731299998723,
+          34.79889900002264
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立耳原公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5630522223287,
+          34.83864861120386
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立見山公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5401750004805,
+          34.90170499980138
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立山手台公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.55104472202035,
+          34.86221388882134
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立養精地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5745969443711,
+          34.82256638910495
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立金剛公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.57453916690704,
+          34.50020638844166
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立中央公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5996954777524,
+          34.5031298215754
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立中央公民館喜志分館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.60763199957358,
+          34.51775599955222
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立東公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.6097336111226,
+          34.4988877781194
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立天野公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5354231538629,
+          34.437958241347324
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立南花台公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.56219805558206,
+          34.43448499978205
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立加賀田公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5641690443898,
+          34.42309298597828
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立高向公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.55106059983012,
+          34.43843315086006
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立三日市公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.56723222197985,
+          34.43885944435781
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立千代田公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.56699284140166,
+          34.46693011591009
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立川上公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.59842800007652,
+          34.43541500000218
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立天見公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.59196500030183,
+          34.412434000131626
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立三宅公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5564747221852,
+          34.58837499961309
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立松原公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.54941722243487,
+          34.57785027756096
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立新町公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.53772222256765,
+          34.57705361081509
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立中央公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5567023775153,
+          34.57219949324271
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立天美公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.52940440188365,
+          34.58838417669367
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.62381499983,
+          34.70362499996621
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "西南公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.45504799999054,
+          34.81316700062627
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立中央生涯学習センター"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.47173999960845,
+          34.831285000128844
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立東生涯学習センター"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51205777802514,
+          34.84415055512781
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立陵南の森公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.58474100340482,
+          34.575577956057
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "清高公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.43947081714487,
+          34.51695098026618
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "高師浜公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.43597500004265,
+          34.52701899982426
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "中央公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.44017527775543,
+          34.5249716666494
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "千代田公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.43166899682,
+          34.52395885978815
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "取石公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4533838891842,
+          34.518455832976834
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "羽衣公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.44046483246277,
+          34.53584946762126
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "東羽衣公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.44146138910594,
+          34.531389999773936
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.59735299948466,
+          34.56609000000351
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立新家公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.29872599995122,
+          34.371065999872386
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立信達公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.28086749952317,
+          34.36265833348174
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立樽井公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.26301499995026,
+          34.37210099948304
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立西信達公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.2773439917959,
+          34.38390348184688
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "大阪狭山市立公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.54326300024434,
+          34.49708800032101
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立尾崎公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.2412240004306,
+          34.36250799996408
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立西鳥取公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.2325329846027,
+          34.35239425841941
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "市立東鳥取公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.24992250012673,
+          34.34967944418205
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "町立中央公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49421446174958,
+          34.91782094804438
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "町立西公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4419129556429,
+          34.90103284543909
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "町立吉川公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.44582692676593,
+          34.9127919092405
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "忠岡町公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.39561799965162,
+          34.48903700055021
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "熊取町公民館・町民会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.354931999908,
+          34.40164899996305
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "町立公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.28796564108745,
+          34.395042632973336
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "町立公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.6468958335571,
+          34.519110555361316
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "町立大宝地区公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.63241899950577,
+          34.50477699972615
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "町立中央公民館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.63052700006529,
+          34.489415000119095
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "堺・緑のミュージアム ハーベストの丘"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5122929997868,
+          34.45485599969103
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "なんばグランド花月"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50366083349564,
+          34.66496305591471
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "大阪四季劇場"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49415700015294,
+          34.69954499972231
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "大阪府立上方演芸資料館（ワッハ上方）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50308300006014,
+          34.66462400028473
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "大阪ガス　ガス科学館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.40604100024805,
+          34.54240600009343
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "大阪市立自然史博物館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.52237902991354,
+          34.61032720223416
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "キッズプラザ大阪"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51025924656298,
+          34.70478004004922
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "近つ飛鳥博物館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.6437958045619,
+          34.50312006270561
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "堺市立文化館アルフォンス・ミュシャ館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4962450000062,
+          34.577786000024616
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "咲くやこの花館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.57501480816921,
+          34.712700601730276
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "司馬遼太郎記念館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.58567499953838,
+          34.6604890006184
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "ドリーム２１（東大阪市立児童文化スポーツセンター）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.63096499994106,
+          34.66829800048941
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "なにわの海の時空館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.40583600042902,
+          34.64066300022596
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "服部緑地ウォーターランド"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48178199969607,
+          34.77263800007566
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "パナソニックミュージアム　松下幸之助歴史館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5727809845342,
+          34.73812552040773
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "ヒューモビリティワールド"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.42883317120229,
+          34.80473137105946
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "山崎ウイスキー館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.67482899976574,
+          34.89265299982865
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "関西サイクルスポーツセンター"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.53077399980265,
+          34.41410900041872
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "大阪市立科学館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49157444452229,
+          34.691259721981204
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "大阪市立住まいのミュージアム"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51166555577962,
+          34.71030277785179
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "大阪市立美術館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5105660000939,
+          34.65035200038885
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "梅田スカイビル・空中庭園展望台"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49014100010683,
+          34.70531100000218
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "大阪ステーションシティ 天空の農園"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4950709996909,
+          34.70268500015931
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "大阪府立大型児童館ビッグバン"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51372944462986,
+          34.49486805544152
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "海遊館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.428964999869,
+          34.65451800033375
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "スパワールド世界の大温泉"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50562611104553,
+          34.64992151705949
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "交通科学博物館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.46188700018698,
+          34.670714000195076
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "淀川河川公園"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.56149099985498,
+          34.74247000012697
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "インスタントラーメン発明記念館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.42668900011762,
+          34.81811900050349
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "スパスミノエ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4685700000421,
+          34.61072000013367
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "スパバレイ枚方南"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.7088102779848,
+          34.80633500045718
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "高槻 天然温泉 天神の湯"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.62004599995942,
+          34.849675000325746
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "鶴見緑地プール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.58098777813987,
+          34.70922555512669
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "天然温泉　延羽の湯　鶴橋"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.53603100033072,
+          34.665773000066736
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "とっとパーク小島　海釣り公園"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.0999349993745,
+          34.315068
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "富田林市農業公園サバーファーム"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.60873500040313,
+          34.4577990000639
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "農園 杉・五兵衛"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.7254149993745,
+          34.814524000221276
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "箕面湯元 水春"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4945511945369,
+          34.82280266197485
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "ユニバーサル・スタジオ・ジャパン"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.43233800022034,
+          34.66544199997964
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "ワールド牧場"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.64030400053937,
+          34.48130599976148
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "延羽の湯"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.6174670001826,
+          34.53338600056136
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "楽天風呂 祥福の湯"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.46224100060067,
+          34.54815000019748
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "高槻森林観光センター"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.59900027737322,
+          34.94253166622293
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "堺浜楽天温泉 祥福"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4468150244176,
+          34.59713943569113
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "大阪城天守閣"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5258700001712,
+          34.68736722195668
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "大阪府営服部緑地"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48652600029254,
+          34.7759380000037
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "大阪府浜寺公園交通遊園"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.43930763066382,
+          34.539300119084594
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "滝畑レイクパーク"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.52959800045326,
+          34.394290999966934
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "池田市五月山動物園"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.42529781813477,
+          34.83048941287997
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "通天閣"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5063059996743,
+          34.65249899988648
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "東香里湯元 水春 長者の湯"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.6571999998338,
+          34.775359000400364
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "能勢の郷野外活動センター"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.38842400014994,
+          34.993144
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 6,
+        "name": "和泉橋本温泉 美笹のゆ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.3640339998795,
+          34.42951700002354
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "吹田市文化会館（メイシアター）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51531097080985,
+          34.759820256215455
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "大阪市中央公会堂"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5039966618389,
+          34.69353195601336
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "堺市民会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.47979842497975,
+          34.5721888081211
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "高槻市立文化会館（高槻現代劇場）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.62072577037245,
+          34.845563759086296
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "摂津市民文化ホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.55667199982813,
+          34.78560499999076
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "藤井寺市立市民総合会館本館（パープルホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.59640055544398,
+          34.576077778081974
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "藤井寺市立市民総合会館別館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5959594444307,
+          34.57593999981953
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "池田市民文化会館（アゼリアホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4410185567717,
+          34.80938108872434
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "松原市文化会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.54941722243487,
+          34.57785027756096
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "東大阪市立市民会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5743427774457,
+          34.66386138854981
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "大阪市立大阪城音楽堂"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.53059721476095,
+          34.68270130505616
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "岸和田市立文化会館（マドカホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.3970688887043,
+          34.47110750007296
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 4,
+        "name": "エル・おおさか（大阪府立労働センター）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51294166633042,
+          34.68991750037455
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "八尾市文化会館（プリズムホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.60670699971885,
+          34.62934400028972
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "豊能町立ユーベルホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.44201111096834,
+          34.90161611149662
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "河内長野市立文化会館（ラブリーホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5665631948113,
+          34.45302315890688
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "大阪市立こども文化センター"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48650666670574,
+          34.67439027737896
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "貝塚市民文化会館（コスモスシアター）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.3585796735465,
+          34.436579640285196
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "守口文化センター（エナジーホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5677722226321,
+          34.736093055405334
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "浄るりシアター"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.41353169931514,
+          34.972437882048375
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "門真市民文化会館（ルミエールホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.59303595904194,
+          34.73720010330329
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "泉佐野市立文化会館（エブノ泉の森ホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.32769999990674,
+          34.405335999562716
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "枚方市市民会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.6507860001623,
+          34.815212000541614
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "柏原市民文化会館（リビエールホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.62832752841737,
+          34.579821606553125
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "岸和田市立浪切ホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.3699020311941,
+          34.46611893223514
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "和泉氏生涯学習センター（和泉シティプラザ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.45662700048229,
+          34.457977999922534
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "たかいし市民文化会館（アプラホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.43401999975467,
+          34.52128599946907
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "富田林市市民会館（レインボーホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.60763199957358,
+          34.51775599955222
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "和泉市立人権文化センター／和泉市立市民文化ホール（ゆう・ゆうプラザ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.433353540807,
+          34.49718883022221
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "堺市教育文化センター中文化会館（ソフィア・堺）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49159527175533,
+          34.533856418498665
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "大阪府立中央図書館ホール（ライティホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.60064166699306,
+          34.68092777829204
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "阪南市立文化センター（サラダホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.240585202085,
+          34.359739375649596
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "和泉市南部リージョンセンター"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48299600008286,
+          34.4231999999326
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "堺市立美原文化会館（アルテベル）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.55976899962369,
+          34.53889099989576
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "豊中市アクア文化ホール（アクア）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.470063257859,
+          34.77030557933968
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "寝屋川市立地域交流センター（アスカスホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.6229214541135,
+          34.76409771625901
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "大阪府立中之島図書館文芸ホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5031872219161,
+          34.69363749989891
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "泉大津市民会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.40592934581326,
+          34.508205893764874
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "寝屋川市立市民会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.63136388667598,
+          34.76295885913782
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "大東市立文化ホール（サーティーホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.62381499983,
+          34.70362499996621
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "堺市立勤労者総合福祉センター（サンスクエア堺）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49645172114623,
+          34.57861935746285
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "四条畷市市民総合センター（市民ホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.64384561215977,
+          34.74097167593205
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "箕面市立メイプルホール（メイプルホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.47173999960845,
+          34.831285000128844
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "茨木市市民会館（ユーアイホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.56877000021223,
+          34.81727499998437
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "ドリーム２１（東大阪市立児童文化スポーツセンター）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.63096499994106,
+          34.66829800048941
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "すばるホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5861133853353,
+          34.49521981482536
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "大阪狭山市文化会館（ＳＡＹＡＫＡホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.55579172742273,
+          34.50191693550691
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "羽曳野市立生活文化情報センター（ＬＩＣはびきの）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.59787055603806,
+          34.55383111146484
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "国立文楽劇場"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50872138889466,
+          34.6674741666286
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "茨木市福祉文化会館（オークシアター）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.56831666669424,
+          34.81721916652845
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "堺市立栂文化会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48929099968245,
+          34.48573200048975
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "メルパルクホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49571540421377,
+          34.734828368398894
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "大阪府立男女共同参画・青少年センター（ドーンセンター）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.52079420057365,
+          34.68995963601719
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "東大阪市立文化会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.6106359754816,
+          34.668246244982555
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "服部緑地野外音楽堂"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48891988551048,
+          34.77456931580306
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "島本町ふれあいセンター"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.6608923721496,
+          34.88282131891384
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "堺市立西文化会館（ウエスティ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.46399286312356,
+          34.53496704867213
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "茨木市市民総合センター（クリエイトセンター）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5682981449805,
+          34.8188142908189
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "豊中市立ローズ文化ホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.47400975456753,
+          34.75416954851978
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 4,
+        "name": "大阪国際会議場（グランキューブ大阪）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4862963227856,
+          34.6893822739674
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "大阪国際交流センター（アイハウス）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51766515868866,
+          34.661787823326826
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "忠岡町ふれあいホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.40120416653545,
+          34.48687910911779
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "羽曳野市市民会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.61041699993746,
+          34.55534900018658
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "箕面市立市民会館（グリーンホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.46960000047537,
+          34.82700500001259
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "堺市立東文化会館（北野田フェスティバル）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.54178767931737,
+          34.522834501966074
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "泉南市立文化ホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.26984399997247,
+          34.36300400035272
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "大阪府立江之子島文化芸術創造センター（ｅｎｏｃｏ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48372799995235,
+          34.68125799994788
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "梅田芸術劇場　メインホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49863599988493,
+          34.70856900058085
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "梅田芸術劇場　シアター・ドラマシティ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49863599988493,
+          34.70856900058085
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "シアターＢＲＡＶＡ！（シアターブラヴァ！）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5316958334776,
+          34.69119472229392
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "クラシック音楽専用ホール　いずみホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5342459998774,
+          34.69087499996686
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＮＨＫ大阪ホール（エヌエイチケイおおさかホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.52009722258035,
+          34.68261527755404
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ザ・シンフォニーホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48606447611397,
+          34.70141610365707
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "サンケイホールブリーゼ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49389299943098,
+          34.69867000028077
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "新歌舞伎座"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51949398089627,
+          34.66477226228021
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "なんばＨａｔｃｈ（なんばハッチ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49580800027297,
+          34.668422999731554
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "大阪ビジネスパーク円形ホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.52983999991622,
+          34.69254299979733
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ザ・フェニックスホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50123356766105,
+          34.697805740884995
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＤＯＪＩＭＡ　ＲＩＶＥＲ　ＦＯＲＵＭ（堂島リバーフォーラム）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48940199986518,
+          34.693894000453966
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "５ｕｐよしもと（ファイブアップよしもと）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50308300006014,
+          34.66462400028473
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "松下ＩＭＰホール（まつしたアイエムピーホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.53068641321278,
+          34.691773397098856
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "御堂会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50010199990894,
+          34.680732999604885
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "大阪松竹座"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50096300002457,
+          34.668430000188174
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "大阪能楽会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50265500035863,
+          34.706073611059026
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "天満天神繁昌亭"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51263700002625,
+          34.69655499986765
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "Ｚｅｐｐ　ＮａｎｎｂａＯｓａｋａ（ゼップナンバオオサカ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5012689998521,
+          34.657424999617554
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "梅田クラブクアトロ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50227750003586,
+          34.70173194467711
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "大阪市中央体育館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4447731693513,
+          34.65942395206981
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "ＢＯＤＹ　ＭＡＫＥＲコロシアム（大阪府立体育館）（ボディーメーカーコロシアム）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49920512163501,
+          34.66223333960111
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "キンチョウスタジアム（長居球技場）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51668299996962,
+          34.615427999786895
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "近鉄花園ラクビー場"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.6262600005245,
+          34.668945000266326
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "ヤンマースタジアム長居"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51862099971123,
+          34.61391699963923
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "万博記念競技場"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.54282138947255,
+          34.81032777775098
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "舞洲アリーナ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.39760399997937,
+          34.665490999785625
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "朝日劇場"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50711200008257,
+          34.651620999958645
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "朝日生命ホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5003729997521,
+          34.68970100020081
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＡｔｌａｎｔｉＱｓ（アトランティク）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.498046999755,
+          34.67308700038929
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ａｍ　ＨＡＬＬ（アムホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50055799984813,
+          34.70121399971489
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "和泉シティプラザ弥生の風ホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.45662700048229,
+          34.457977999922534
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "一心寺シアター倶楽"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51187055559865,
+          34.65269222171114
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "インディペンデントシアター２ｎｄ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50635700006254,
+          34.6594240002132
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "インディペンデントシアター１ｎｄ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5053260001122,
+          34.65682999945485
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "インテックス大阪"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.41966300016557,
+          34.63763099966579
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ウイングフィールド"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50568199955998,
+          34.671812000524966
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "靭テニスセンターセンターコート"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49205138740834,
+          34.68464721569139
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 4,
+        "name": "梅田アウラホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4896949997164,
+          34.70531940950073
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 4,
+        "name": "梅田センタービル"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5019939999749,
+          34.706008999909294
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 4,
+        "name": "梅田ステラホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48969503849614,
+          34.70531941424726
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "Ａ＆Ｈホール（エーアンドエイチホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4961020002667,
+          34.80786199980807
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "ＥＸＰＯ　ＦＬＡＳＨ　ＦＩＥＬＤ（エキスポフラッシュフィールド）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.53932900000075,
+          34.80400400029041
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＥＳＡＫＡ　ＭＵＳＥ（エサカミューズ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49550100030294,
+          34.75892699957762
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "エル・シアター（大阪府立労働センター）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51294166633042,
+          34.68991750037455
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "大阪市立芸術創造館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.54254024309282,
+          34.72111823787235
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "大阪フィルハーモニー会館"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49547599986732,
+          34.634664000149044
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "大阪府立障がい者交流促進センター（ファインプラザ大阪）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.48217699969825,
+          34.46630700000412
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "大阪ミナミムーブオンアリーナ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50385277829614,
+          34.667918611542795
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＯＳＡＫＡ　ＭＵＳＥ（オオサカミューズ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50215999986497,
+          34.672243000548235
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "大阪ＲＵＩＤＯ（おおさかルイード）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50122720340207,
+          34.67687270005344
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "大槻能楽堂"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5212560005889,
+          34.67813900020268
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "Ｊａｚｚ　Ｃｌｕｂ　ＯｖｅｒＳｅａｓ（オーバーシーズ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5071419449376,
+          34.68411777801904
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "オーバルホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4908035222834,
+          34.69830644712107
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "オスカーホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4717808328193,
+          34.608742116180814
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "グラナダ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50505000018194,
+          34.70300300017333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ｃｌｕｂ　ｖｉｊｏｎ（クラブビジョン）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49393900035759,
+          34.673861000410625
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ｃｌｕｂ　ｍａｓｓｉｖｅ（クラブマッシブ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50568199955998,
+          34.55545900038761
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＧＲＡＮＤ　Ｃａｆｅ（グランカフェ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49833000005742,
+          34.67130999984181
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "大阪市立男女共同参画センター北部館（クレオ大阪北）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5196056246979,
+          34.734410725794746
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "大阪市立男女共同参画センター中央館（クレオ大阪中央）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5155564948526,
+          34.659822515649545
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "大阪市立男女共同参画センター西部館（クレオ大阪西）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4633740188409,
+          34.681833511528275
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "大阪市立男女共同参画センター東部館（クレオ大阪東）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.53634702785362,
+          34.69158130698304
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "大阪市立男女共同参画センター南部館（クレオ大阪南）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.548420812154,
+          34.6106162226361
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 4,
+        "name": "サムティフェイム新大阪"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49671500006426,
+          34.7285670003753
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "サンホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49840432584583,
+          34.6709050304781
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "シアトリカル應典院"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51146503377188,
+          34.665404186393424
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ジャズクラブ　セントジェームス"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50209499998337,
+          34.668854999916924
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "シャンソニエ・ジンベール・ベコー"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50161916732435,
+          34.6977813891416
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＳＩＬＫＹ　ＨＡＬＬ（シルキーホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5996639998459,
+          34.628299000414216
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "心斎橋ＣＬＵＢ　ＤＲＯＰ（しんさいばしクラブドロップ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4975720002353,
+          34.67191199978306
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "心斎橋ｓｏｍａ（しんさいばしソーマ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50555700050938,
+          34.67130099973906
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "心斎橋ＦＡＮＪ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50502805584162,
+          34.67325888926491
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "吹田市立千里市民センター"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51004200047103,
+          34.793233999841036
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "Ｓｔｕｄｉｏ　Ｒ’ｓ（スタジオ・アールズ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.44703305548694,
+          34.808009166710804
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＳＴＵＤＩＯ７３（スタジオ７３）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.62058972221766,
+          34.851845277494384
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＳＴＡＧＥ（ステージ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4204620002017,
+          34.78059299988061
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "住之江競艇場"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4709930001031,
+          34.61142699946545
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "大丸心斎橋劇場"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50095928217146,
+          34.67383513791391
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "太融寺本坊"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50410399983622,
+          34.70182300011277
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "テイジンホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5081230003099,
+          34.682456000213946
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "豊中ＬＩＰ　２ｎｄ（とよなかリップセカンド）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.47115194457876,
+          34.802954722433434
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＴＯＲＩＩ　ＨＡＬｌ（トリイホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5034480001651,
+          34.66813000037965
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 5,
+        "name": "長居第二陸上競技場"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.51870899974338,
+          34.61128900015024
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "難波ＲＯＣＫＥＴＳ（なんばロケッツ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50277300028802,
+          34.65967600037784
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ニューサントリー５"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50070499953225,
+          34.70072600062306
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＨＡＲＤ　ＲＡＩＮ（ハードレイン）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5055529999393,
+          34.701037000180456
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "パンセホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5673149998795,
+          34.60706800010482
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＢＩＧＣＡＴ（ビッグキャット）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49883527781293,
+          34.67235694443928
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ｈｉｌｌｓパン工場ライブハウス（ヒルズ　オアンこうじょうライブハウス）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49606600013982,
+          34.67303200028878
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ビルボードライブ大阪"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49415700015294,
+          34.69954499972231
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＦＡＮＪ　ｔｗｉｃｅ（ファンジェイトワイス）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49754999960177,
+          34.67172399982169
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "Ｆａｎｄａｎｇｏ（ファンダンゴ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.47961100052322,
+          34.718150999672865
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ｂｌａｃｋ　ｃｈａｍｂｅｒ（ブラックチェンバー）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4742829998839,
+          34.62560600055986
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＢＲＡＮＤ　ＮＥＷ（ブランニュー）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4656846983309,
+          34.68199113910946
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＢＥＡＲＳ（ベアーズ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49989694442218,
+          34.65972472217267
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＨＥＰ　ＨＡＬＬ（ヘップホール）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5002106126345,
+          34.704036123547695
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＨＯＬＩＤＡＹ　ＯＳＡＫＡ（ホリデーオオサカ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50161916732435,
+          34.6977813891416
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "三木楽器開成館サロン"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50169472218093,
+          34.6798902779371
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "Ｍｉｓｔｅｒ　Ｋｅｌｌｙ’ｓ（ミスターケリーズ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49419892482638,
+          34.69741174279097
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ミノヤホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49590000024975,
+          34.709718000362855
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "守口文化センターエナジーホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5677722226321,
+          34.736093055405334
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "森ノ宮ピロティホール"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.53180546573557,
+          34.680696632354774
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ｍｏｎｔａｇｅ　ｌｉｖｅ　ｓｔｕｄｉｏ（モンタージュスタジオ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4929540000829,
+          34.6677879998656
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 2,
+        "name": "よみうり文化センター"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49413324317158,
+          34.80850582415508
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "Ｌｉｖｅ　Ｓｐａｃｅ　Ｖｉ－ｃｏｄｅ（ライブスペース　ヴィーコード）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49320999966469,
+          34.70989499989729
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＬＩＶＥ　ＨＯＵＳＥ　ＡＮＯＴＨＥＲ　ＤＲＥＡＭ（ライブハウスアナザードリーム）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50391444624577,
+          34.66747003172115
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "三国ヶ丘ＦＵＺＺ（ファズ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.4941509999233,
+          34.565417999564474
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ラグタイム"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50338944460393,
+          34.62418277802848
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ＲＡＩＮ　ＤＯＧＳ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.50521861145103,
+          34.70296388942773
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "レッドハウスＳＴＵＤＩＯ（レッドハウススタジオ）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.49545800042938,
+          34.576022999712315
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": 3,
+        "name": "ロイヤルホース"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.5022510003247,
+          34.70025699986459
+        ]
+      }
+    }
+  ]
+}

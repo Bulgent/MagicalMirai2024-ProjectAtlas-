@@ -1,0 +1,255 @@
+/* Song Control Container */
+.songcontrol {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+/* Left Section */
+.left {
+    display: flex;
+    width: calc(100% - 15vh);
+    margin-left: 1vw;
+    margin-right: 2vw;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5vh 1vw;
+}
+
+/* Title and Artist Section */
+.title-artist {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    position: relative;
+    height: 2vw;
+    padding-top: 1.25vh;
+}
+
+/* Song Title */
+.song-title {
+    text-align: center;
+    font-size: 2vw;
+    color: #fff;
+    position: absolute;
+    width: 100%;
+}
+
+/* Song Artist */
+.song-artist {
+    font-size: 1.5vw;
+    color: #fff;
+    position: absolute;
+    text-align: right;
+    width: 100%;
+}
+
+/* Song Time Section */
+.song-time {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 1vw;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+}
+
+/* Seek Bar */
+.seek {
+    width: 100%;
+    display: flex align-items: center;
+    text-align: center;
+}
+
+/* Seek Bar Container */
+.seek-bar {
+    align-items: center;
+    font-size: 1.25vh;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    background-color: #fff;
+}
+
+.seek-bar-container {
+    width: 100%;
+    background-color: #ccc;
+    cursor: auto;
+    height: 2.5vh;
+    align-items: center;
+    position: relative;
+}
+
+.running-mm {
+    position: absolute;
+    left: 0;
+    margin-left: 0.5vw;
+    font-size: 2vh;
+    width: 7vw;
+    text-align: left;
+}
+
+.progress-weather {
+    font-family: "Noto Color Emoji", sans-serif;
+    position: absolute;
+    font-size: 2vh;
+    width: 100%;
+    text-align: center;
+    z-index: 10000;
+    color:midnightblue
+}
+.weather-arrow{
+    font-size: 2vh;
+}
+
+
+.flags {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: none;
+    width: 100%;
+    top: 0;
+    left: 0;
+    transform: translateY(-100%);
+    font-size: 2vh;
+}
+
+.flag-start {
+    font-family: "Noto Color Emoji", sans-serif;
+    position: absolute;
+    left: 0;
+    transform: translateY(-100%);
+    text-align: left;
+}
+
+.flag-waypoint {
+    font-family: "Noto Color Emoji", sans-serif;
+    position: absolute;
+    left: 0;
+    text-align: right;
+    transform: translateY(-100%);
+}
+
+.flag-end {
+    font-family: "Noto Color Emoji", sans-serif;
+    position: absolute;
+    right: 0;
+    transform: translate(50%, -100%);
+    text-align: right;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #007bff;
+    /* width: 0%; */
+    position: relative;
+}
+
+.progress-handle {
+    width: 3vh;
+    height: 6vh;
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    transform: translate(70%, -50%) rotate(90deg);
+    filter: brightness(75%);
+    z-index: 1000000;
+}
+
+/* Lyric Phrase Section */
+.lyric-phrase {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    color: white;
+    text-align: center;
+    height: 3.5vh;
+}
+
+.time-elapsed,
+.time-duration{
+    font-size: 2.5vh;
+    width: 2vw;
+    color: white;
+    text-align: center;
+}
+
+/* Current Phrase */
+.phrase-current {
+    font-size: 1.2vw;
+    color: white;
+    text-align: center;
+    margin: 0 auto;
+    white-space: nowrap;
+    /* Prevent text from wrapping */
+}
+
+/* Right Section */
+.right {
+    height: 15vh;
+    display: flex;
+}
+
+/* Pause Button */
+.pausebutton {
+    border: none;
+    background: none;
+    padding: 0;
+    position: relative;
+    background-color: transparent;
+    border-radius: 1vw;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    /* トランジション効果を追加 */
+}
+
+.pausebutton:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    /* ホバー時の背景色を変更 */
+    transform: scale(0.95);
+    /* ホバー時に少し小きくする */
+}
+
+.pausebutton:active {
+    transform: scale(0.9);
+    /* クリック時にさらに小さくする */
+    transition: transform 0.1s ease;
+    /* トランジションを速くして反応を良くする */
+}
+
+/* Jacket Button */
+.jacketbutton {
+    height: 15vh;
+    width: 15vh;
+    background-color: transparent;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 1vw;
+    filter: brightness(50%);
+}
+
+/* Text Button */
+.textbutton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ppbutton.material-symbols-outlined {
+    color: #FFFFFF;
+    font-size: 7vh;
+    font-weight: normal;
+    text-shadow: 2px 2px 4px #000000;
+}

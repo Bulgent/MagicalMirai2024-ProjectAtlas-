@@ -1,0 +1,136 @@
+/* 歌詞のスタイル(important付けないと他のが優先されりゅ) */
+.label-kashi {
+  background-color: transparent !important;
+  border: 0px !important;
+  box-shadow: none !important;
+  font-size: 200% !important;
+}
+
+/* 歌詞の縁色 */
+.miku,
+.len {
+  font-family: "Kosugi", sans-serif;
+  /* font-family: "Mochiy Pop One", sans-serif; */
+  text-shadow:
+    0 0 calc(1px * var(--weather)) white,
+    0 0 calc(1px * var(--weather)) white,
+    0 0 calc(1px * var(--weather)) white,
+    0 0 2px black;
+  /* フチの色と太さ */
+}
+
+/* 歌詞の色（ミク） */
+.hiragana.miku {
+  color: #373b3e !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+.katakana.miku {
+  color: #137a7f !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 110% !important;
+}
+
+.kanji.miku {
+  color: #e12885 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 120% !important;
+}
+
+.english.miku {
+  color: #137a7f !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 120% !important;
+}
+
+.number.miku {
+  color: #137a7f !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 150% !important;
+}
+
+.symbol.miku {
+  color: #373b3e !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+.space.miku {
+  color: #373b3e !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+.other.miku {
+  color: #373b3e !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+/* 歌詞の色（レン） */
+.hiragana.len {
+  color: #555658 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+.katakana.len {
+  color: #2b90a2 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 110% !important;
+}
+
+.kanji.len {
+  color: #ffd98c !important;
+  text-shadow:
+    0 0 2px black;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 120% !important;
+}
+
+.english.len {
+  color: #2b90a2 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 120% !important;
+}
+
+.number.len {
+  color: #2b90a2 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 150% !important;
+}
+
+.symbol.len {
+  color: #555658 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+.space.len {
+  color: #555658 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}
+
+.other.len {
+  color: #555658 !important;
+  font-weight: normal !important;
+  /* bold */
+  font-size: 100% !important;
+}

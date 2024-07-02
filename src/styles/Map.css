@@ -1,0 +1,74 @@
+/* Textalive広告 */
+.media {
+  height: 0;
+  opacity: 0;
+  display: none;
+  visibility: hidden;
+}
+
+/* 地図 / Map */
+.mapcomponent {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /* aspect-ratio: min(16/9.5, 100); */
+}
+
+#map {
+  position: relative;
+  /* width: 100%; */
+  height: 100%;
+}
+
+/* 🎵のスタイル(important付けないと他のが優先されりゅ) */
+.label-note {
+  background-color: transparent !important;
+  border: 0px !important;
+  box-shadow: none !important;
+  font-size: 200% !important;
+}
+
+/* 🎵がFANFUN TRIP */
+.emoji.note {
+  font-size: calc(30px + 10px * var(--beat)) !important;
+  /* font-size:40px!important; */
+  transform-origin: center !important;
+  /* アイコンの幅 '+' の間にスペースないと動かない*/
+  color: #137a7f !important;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  /* 黒の縁取り */
+}
+
+.car-icon {
+  box-shadow:
+    /* ヘッドランプ */
+    0px -150px 40px 100px rgba(179, 181, 121, 0.25),
+    /* テールランプ */
+    0px 65px 70px 1px rgba(255, 0, 0, 0.4);
+    mix-blend-mode: luminosity;
+}
+
+.car-icon {
+  filter: 
+  /* ヘッドライト */
+    drop-shadow(0px -100px 80px rgba(255, 255, 255, 0.5))
+  /* テールライト */
+    drop-shadow(0px 65px 55px rgba(255, 0, 0, 0.25));
+    position: relative; /* 疑似要素の位置指定の基準点 */
+}
+.car-icon::after {
+  content: ""; /* 疑似要素にはcontentプロパティが必要 */
+  position: absolute;
+  top: -50px; /* オーバーレイの位置を調整 */
+  left: -50px; /* オーバーレイの位置を調整 */
+  width: calc(100% + 100px); /* オーバーレイの幅を調整 */
+  height: calc(100% + 100px); /* オーバーレイの高さを調整 */
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 65%);
+  /* 光の効果を作成 */
+  z-index: -1; /* 車のアイコンの下にオーバーレイを配置 */
+}
+
+
+/* mix-blend-mode: overlay; /* オーバーレイを指定 */
