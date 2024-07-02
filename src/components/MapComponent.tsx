@@ -641,8 +641,6 @@ export const MapComponent = (props: any) => {
 
   return (
     <>
-      {/* centerは[緯度, 経度] */}
-      {/* zoomは16くらいがgood */}
       <MapContainer className='mapcomponent' style={{ backgroundColor: '#f5f3f3' }}
         center={[-1, -1]} zoom={mapZoom}
         minZoom={14} maxZoom={17}
