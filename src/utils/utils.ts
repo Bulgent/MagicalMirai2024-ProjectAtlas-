@@ -45,7 +45,7 @@ const katakanaRegex: RegExp = /^[ァ-ン]+$/;
 const kanjiRegex: RegExp = /^[一-龥]+$/;
 const englishRegex: RegExp = /^[a-zA-Z]+$/;
 const numberRegex: RegExp = /^[0-9]+$/;
-const symbolRegex: RegExp = /^[!-/:-@[-`{-~、。！？「」”“"・･]+$/;
+const symbolRegex: RegExp = /^[!-/:-@[-`{-~、。！？「」”“"・･’]+$/;
 const spaceRegex: RegExp = /^\s+$/;
 
 // 👽歌詞の種類👽
