@@ -45,6 +45,7 @@
   position: relative;
   width: 31px;
   height: 65px;
+  opacity: var(--car-light);
 }
 
 .car-head-lamp-left,

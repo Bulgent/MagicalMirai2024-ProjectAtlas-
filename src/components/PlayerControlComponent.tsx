@@ -189,8 +189,7 @@ export const PlayerControl = (props: any) => {
               {FlagComponent}
               <div className='flag-end'>🏁</div>
             </div>
-            <div className='progress-bar' style={{ width: '0%' }}>
-
+            <div className='progress-bar' style={{ width: '100%' }}>
               <img className='progress-handle' src='src\assets\images\carIcon.png' />
             </div>
           </div>

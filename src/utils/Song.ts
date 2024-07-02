@@ -62,7 +62,7 @@ const song1: SongData = {
     note: "🎵",
     startPosition:[34.51961796222499, 135.44388626567633], // 鴨公園
     turningPoint1:[97000, 122000], 
-    turningPoint2:[15700, 173000],
+    turningPoint2:[157000, 173000],
     duration: 211540, // 3分31秒
 };
 

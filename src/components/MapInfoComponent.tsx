@@ -17,7 +17,7 @@ export const MapInfoComponent = (props: any) => {
                 // 新しい値を状態に設定
                 console.log("update VICS")
                 setVics(props.player?.timer.position);
-            } else{
+            } else if (props.player?.timer.position == 0) {
                 setVics(0);
             }
         }, 1000); // 1秒ごとにチェック
