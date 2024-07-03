@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useEffect, useImperativeHandle } from 'react';
+import { forwardRef, useRef, useEffect, useImperativeHandle } from 'react';
 import { Marker } from 'react-leaflet';
 
 export const RotateMarker = forwardRef(({ children, icon, pane, rotationAngle, rotationOrigin, ...props }, ref) => {

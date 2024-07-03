@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions } from 'leaflet';
+import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -101,7 +101,7 @@ export const MapComponent = (props: any) => {
   const eachRoadLengthRatioRef = useRef<number[]>([])
   const degreeAnglesRef = useRef<number[]>([])
   const cumulativeAheadRatioRef = useRef<number[]>([])
-  const goallineRef = useRef<lineString>(null); // goallineをuseRefで保持
+  const goallineRef = useRef<Polyline | null>(null); // goallineをuseRefで保持
   const lyricCount = useRef<number>(0) // 触れた音符の数
 
   // MikuMile計算
@@ -119,7 +119,6 @@ export const MapComponent = (props: any) => {
 
   //ページ処理
   const navigate = useNavigate();
-
 
   // 初回だけ処理
   // mapの初期位置、経路の計算
@@ -172,17 +171,17 @@ export const MapComponent = (props: any) => {
         if (OSMlayerRef.current.getMaplibreMap().getStyle() === undefined) {
           return
         }
-        const map = OSMlayerRef.current.getMaplibreMap();
+        const osmMap = OSMlayerRef.current.getMaplibreMap();
         // ここでスタイルを変更
-        map.getStyle().layers.forEach(l => {
-          if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none") // 文字を消す
+        osmMap.getStyle().layers.forEach((l: any) => {
+          if (l.type === "symbol") osmMap.setLayoutProperty(l.id, "visibility", "none"); // 文字を消す
           // 水の色を変更
           if (["waterway", "water"].includes(l.id) && l.type === "fill") {
-            map.setPaintProperty(l.id, "fill-color", "#90dbee")
+            osmMap.setPaintProperty(l.id, "fill-color", "#90dbee");
           }
           // 道路の色を変更
           if (l["source-layer"] === "transportation" && l.type === "line") {
-            map.setPaintProperty(l.id, "line-color", "#8995a2")
+            osmMap.setPaintProperty(l.id, "line-color", "#8995a2");
           }
         });
         isInitMap.current = false
@@ -322,11 +321,13 @@ export const MapComponent = (props: any) => {
         });
         map.on('move', function () {
           // ツールチップのDOM要素を取得
-          const noteClass = lyricMarker.getTooltip()._container.className;
+          const noteClass = lyricMarker.getTooltip()?.getElement()?.className ?? '';
           // 正規表現を使用して数字を抽出
-          const noteTime = noteClass.match(/\d+/g);
+          const matchResult = noteClass.match(/\d+/g);
+          const noteTime = matchResult ? parseInt(matchResult[0], 10) : 0; // matchResultがnullでない場合は最初の数値を解析、そうでなければ0を返す
+          console.log(noteTime)
           // マーカーの時間が現在の再生時間よりも前である場合、マーカーを削除します。
-          if (noteTime && noteTime[0] != 0 && noteTime[0] != props.player.video.duration && noteTime[0] <= props.player.timer?.position) {
+          if (noteTime && noteTime != 0 && noteTime != props.player.video.duration && noteTime <= props.player.timer?.position) {
             map.removeLayer(lyricMarker);
           }
           // mikuMile計算
@@ -646,7 +647,8 @@ export const MapComponent = (props: any) => {
     return (
       <GeoJSON
         data={sky as unknown as GeoJSON.GeoJsonObject}
-        style={overlayStyleRef.current}
+        // Cast overlayStyleRef.current to PathOptions
+        style={overlayStyleRef.current as PathOptions}
         pane="sky"
       />
     )

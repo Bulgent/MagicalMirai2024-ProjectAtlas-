@@ -123,6 +123,11 @@
   font-weight: bold;
 }
 
+.history-place {
+  font-size: calc(min(1.2vw, calc(1vw * var(--dynamic-font-size))));
+  font-weight: bold;
+}
+
 .historytime {
   font-size: 1vw;
 }
@@ -153,6 +158,17 @@
   padding: 0.75vw 0.1vw;
 }
 
+.fade-out-up-animation {
+  animation: fade-out-up 0.5s ease-out forwards;
+}
+
+.fanfunChange {
+  position: absolute;
+  left: 0;
+  margin-left: 1vw;
+  font-size: 1.5vw;
+}
+
 @keyframes fadeInSlideDown {
   0% {
     opacity: 0;
@@ -175,15 +191,4 @@
     opacity: 0;
     transform: translateY(-3vh);
   }
-}
-
-.fade-out-up-animation {
-  animation: fade-out-up 0.5s ease-out forwards;
-}
-
-.fanfunChange {
-  position: absolute;
-  left: 0;
-  margin-left: 1vw;
-  font-size: 1.5vw;
 }

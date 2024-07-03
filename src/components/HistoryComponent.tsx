@@ -6,7 +6,7 @@ import { animationProperties } from '../types/types';
 
 export const HistoryComponent = (props: any) => {
     const [animations, setAnimations] = useState<animationProperties[]>([]);
-    
+
     // FanFun度のアニメーション
     useEffect(() => {
         const change = props.fanfun - (animations[animations.length - 1]?.value || 0);
@@ -26,6 +26,12 @@ export const HistoryComponent = (props: any) => {
         }, 100); // アニメーションの時間に合わせる
     }, [props.fanfun]);
 
+    const setDynamicFontSize = (eventPlace: string) => {
+        let fontGain = 0.11;
+        console.log(eventPlace.length * fontGain)
+        document.documentElement.style.setProperty('--dynamic-font-size', (eventPlace.length * fontGain).toString());
+    };
+
     // ホバーされた情報表示
     const showHover = () => {
         if (props.hoverHistory.length === 0) {
@@ -43,23 +49,26 @@ export const HistoryComponent = (props: any) => {
         else {
             return (
                 <>
-                    {[...props.hoverHistory].reverse().map((hover: any, index: number) => (
-                        <div key={index} className='historybox'>
-                            <div className='historycaption'>
-                                <div className='historyname'>
-                                    {props.hoverHistory.length - index}
-                                    -
-                                    {hover.properties.event_place}
+                    {[...props.hoverHistory].reverse().map((hover: any, index: number) => {
+                        setDynamicFontSize(hover.properties.event_place);
+                        return (
+                            <div key={index} className='historybox'>
+                                <div className='historycaption'>
+                                    <div className='historyname'>
+                                        <span>{props.hoverHistory.length - index}</span>
+                                        -
+                                        <span className='history-place'>{hover.properties.event_place}</span>
+                                    </div>
+                                    <div className='historytime'>
+                                        {msToMs(hover.properties.playerPosition)}
+                                    </div>
                                 </div>
-                                <div className='historytime'>
-                                    {msToMs(hover.properties.playerPosition)}
+                                <div className='historydetail'>
+                                    {hover.properties.event_detail}
                                 </div>
                             </div>
-                            <div className='historydetail'>
-                                {hover.properties.event_detail}
-                            </div>
-                        </div>
-                    ))}
+                        )
+                    })}
                 </>
             )
         }

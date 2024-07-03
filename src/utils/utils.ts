@@ -63,27 +63,27 @@ export const enum KashiType {
 // 👽歌詞の種類を判別する👽
 export const checkKashiType = (text: string): KashiType => {
   if (hiraganaRegex.test(text)) {
-    console.log(text, "ひらがな")
+    // console.log(text, "ひらがな")
     return KashiType.HIRAGANA;
   }
   else if (katakanaRegex.test(text)) {
-    console.log(text, "カタカナ")
+    // console.log(text, "カタカナ")
     return KashiType.KATAKANA;
   }
   else if (kanjiRegex.test(text)) {
-    console.log(text, "漢字")
+    // console.log(text, "漢字")
     return KashiType.KANJI;
   }
   else if (englishRegex.test(text)) {
-    console.log(text, "英語")
+    // console.log(text, "英語")
     return KashiType.ENGLISH;
   }
   else if (numberRegex.test(text)) {
-    console.log(text, "数字")
+    // console.log(text, "数字")
     return KashiType.NUMBER;
   }
   else if (symbolRegex.test(text)) {
-    console.log(text, "記号")
+    // console.log(text, "記号")
     return KashiType.SYMBOL;
   }
   else if (spaceRegex.test(text)) {
@@ -91,7 +91,7 @@ export const checkKashiType = (text: string): KashiType => {
     return KashiType.SPACE;
   }
   else {
-    console.log(text, "その他")
+    // console.log(text, "その他")
     return KashiType.OTHER;
   }
 };
