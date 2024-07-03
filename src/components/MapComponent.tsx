@@ -18,7 +18,7 @@ import {
   createLatLngBounds, calculateMikuMile, calculateRoadLengthSum, changeStyle
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
-import { pngCar, lightCar, emojiNote, emojiStart, emojiGoal, emojiUfo } from '../assets/marker/markerSVG.ts'
+import { emojiNote, emojiStart, emojiGoal, carIcon, carLightIcon } from '../assets/marker/markerSVG.ts'
 // 型データの導入
 import { lyricProperties, historyProperties, noteProperties, noteCoordinateProperties, wordTimeProperties } from '../types/types';
 // 地図データの導入
@@ -30,30 +30,10 @@ import sight from '../assets/jsons/map_data/sightseeing.json'
 import areas from '../assets/jsons/map_data/area.json'
 import sky from '../assets/jsons/map_data/polygons.json'
 import restrictedArea from '../assets/jsons/map_data/restrictedArea.json'
+import UfoMarker from '../services/UfoMarker.tsx';
 
 // songDataの導入
 import songData from '../utils/Song.ts';
-
-const carIcon = divIcon({ // 31x65px
-  className: 'car-icon', // カスタムクラス名
-  html: pngCar,  // ここに車のアイコンを挿入する
-  iconSize: [31, 65], // アイコンのサイズ
-  iconAnchor: [31 / 2, 65 / 2] // アイコンのアンカーポイント（原点をアイコンの中心に設定）
-});
-const carLightIcon = divIcon({ // 31x65px
-  className: 'car-icon', // カスタムクラス名
-  html: lightCar,  // ここに車のアイコンを挿入する
-  iconSize: [31, 65], // アイコンのサイズ
-  iconAnchor: [31 / 2, 65 / 2] // アイコンのアンカーポイント（原点をアイコンの中心に設定）
-});
-
-// UFOアイコンの設定
-const ufoIcon = divIcon({
-  className: 'ufo-icon', // カスタムクラス名
-  html: emojiUfo, // UFOアイコンのHTML
-  iconSize: [100, 100], // アイコンのサイズ
-  iconAnchor: [50, 50] // アイコンのアンカーポイント
-});
 
 // 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
 // HACK: ファイル分割したい → services/RotateMarker.tsx に移動
@@ -178,6 +158,7 @@ export const MapComponent = (props: any) => {
       map.createPane('note');
       map.createPane('pathway');
       map.createPane('ufo');
+      map.createPane('cross')
       map.createPane('mapcenter')
       // mapの初期中心座標の決定
       map.setView(mapCenterRef.current)
@@ -511,63 +492,6 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
-  const [ufoMarker, setUfoMarker] = useState(null); // UFOマーカーの状態を追跡
-  const [ufoPosition, setUfoPosition] = useState([51.505, -0.09]); // 初期位置
-
-  // UFOマーカーを動かす関数
-  // TODO なぜか移動中に動かない
-  const UfoMarker = (props) => {
-    const map = useMap();
-
-    const animateUfoMovement = () => {
-      const bounds = map.getBounds();
-      const navilatMin = bounds.getSouth();
-      const navilatMax = bounds.getNorth();
-      const navilngMin = bounds.getWest();
-      const navilngMax = bounds.getEast();
-      const latMin = 34.680;
-      const latMax = 34.679;
-      const lngMin = 135.52446;
-      const lngMax = 135.52094;
-      // 34.63805972852021, 135.41965976355155 インテックス大阪
-      // 34.3810102244121, 135.26800995642074 泉南イオン
-      // 34.56881698505993, 135.48758679638678 大仙古墳
-      // 34.65257761469651, 135.5065294937563 通天閣
-
-      // 新しいランダムな位置を生成
-      const newLat = Math.random() * (latMax - latMin) + latMin;
-      const newLng = Math.random() * (lngMax - lngMin) + lngMin;
-
-      if (newLat > navilatMin && newLat < navilatMax && newLng > navilngMin && newLng < navilngMax) {
-        console.log("ufo");
-      }
-
-      // UFOマーカーがマップ上に存在しない場合のみ追加
-      if (!ufoMarker) {
-        const newUfoMarker = marker([newLat, newLng], { icon: ufoIcon }).addTo(map);
-        setUfoMarker(newUfoMarker); // 状態を更新してマーカーの参照を保持
-      } else {
-        // アニメーションでUFOマーカーの位置を更新
-        ufoMarker.setLatLng([newLat, newLng]);
-      }
-      if (ufoMarker) {
-        ufoMarker.on('click', handleUfoClick);
-      }
-      setUfoPosition([newLat, newLng]);
-    };
-
-    useEffect(() => {
-      const interval = setInterval(animateUfoMovement, 1000); // 1秒ごとに位置を更新
-
-      return () => clearInterval(interval);
-    }, [map]);
-
-    const handleUfoClick = () => {
-      console.log("UFOマーカーがクリックされました。", ufoPosition);
-      props.handOverFanFun(512810410);
-    };
-  };
-
   // 👽歌詞表示コンポーネント👽
   const addLyricTextToMap = (map: Map) => {
     // 歌詞が変わったら実行 ボカロによって色を変える
@@ -817,7 +741,7 @@ export const MapComponent = (props: any) => {
           rotationOrigin="center"
         >
         </RotateCarLightMarker>
-        <UfoMarker />
+        <UfoMarker handOverFanFun={props.handOverFanFun} isMoving={props.isMoving}/>
         {/* 曲の開始まで表示するレイヤ */}
         <PathWay />
         <UpdatingOverlayLayer />

@@ -23,7 +23,7 @@ const centerMapCenterCrosshair = ({ isMoving, mapCenter, pane }: { isMoving: boo
           centerMap.getCenter().lat - mapCenter.lat,
           centerMap.getCenter().lng - mapCenter.lng
         ],
-        { icon: crosshairIcon }
+        { icon: crosshairIcon, pane: 'cross' }
       ).addTo(centerMap);
       setCrosshair(centerMarker);
     }
