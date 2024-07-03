@@ -11,7 +11,7 @@ export const HistoryComponent = (props: any) => {
     useEffect(() => {
         const change = props.fanfun - (animations[animations.length - 1]?.value || 0);
         const newAnimation = {
-            id: Date.now(), // 一意のIDとして現在時刻を使用
+            id: Date.now(),
             value: props.fanfun,
             display: true,
             change: change == 0 ? '' : `+${change}`,
@@ -48,7 +48,7 @@ export const HistoryComponent = (props: any) => {
                     </div>
                     <div className="history-emoji">
                         {Array.from({ length: sightType.buil }, (_, index) => (
-                            <span className='emoji-icon' data-tooltip={sightEmoji(index).type}>{sightEmoji(index).emoji}</span>
+                            <span key={index} className='emoji-icon' data-tooltip={sightEmoji(index).type}>{sightEmoji(index).emoji}</span>
                         ))}
                     </div>
                 </>
