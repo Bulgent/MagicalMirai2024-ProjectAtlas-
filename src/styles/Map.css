@@ -41,6 +41,10 @@
   /* 黒の縁取り */
 }
 
+.sightseeing-tooltip{
+  font-family: "Zen Maru Gothic", serif!important;
+}
+
 .car-lamp {
   position: relative;
   width: 31px;

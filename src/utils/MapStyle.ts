@@ -50,7 +50,7 @@ export const showDetail = (feature: any, latlng: LatLngExpression): Marker => {
         const hoveredMarker = e.target;
         // console.log(feature)
         // ツールチップ表示
-        hoveredMarker.bindTooltip(feature.properties.event_place, { permanent: true, direction: 'top' }).openTooltip();
+        hoveredMarker.bindTooltip(feature.properties.event_place, { permanent: true, direction: 'top' , className: 'sightseeing-tooltip'}).openTooltip();
     };
 
     // ホバーが解除された時のイベントハンドラ

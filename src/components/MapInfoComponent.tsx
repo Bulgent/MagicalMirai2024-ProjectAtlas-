@@ -44,7 +44,7 @@ export const MapInfoComponent = (props: any) => {
             <div className='goal infobox' data-tooltip="目的地までの距離">
                 <div className='goal infotitle'>GOAL</div>
                 <div className='goal infotext'>
-                    {((props.mikuMile[1] - props.mikuMile[0]) / 1000).toFixed(2)}&nbsp;
+                    {((props.mikuMile[1] - props.mikuMile[0]) / 1000).toFixed(1)}&nbsp;
                     <span className="unit">kMM</span>
                 </div>
             </div>

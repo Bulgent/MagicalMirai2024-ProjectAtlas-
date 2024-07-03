@@ -1,7 +1,7 @@
 import '../styles/App.css';
 import '../styles/History.css';
 import { useState, useEffect } from 'react';
-import { msToMs } from '../utils/utils';
+import { msToMs, sightEmoji, sightType } from '../utils/utils';
 import { animationProperties } from '../types/types';
 
 export const HistoryComponent = (props: any) => {
@@ -23,12 +23,12 @@ export const HistoryComponent = (props: any) => {
             setAnimations(prev => prev.map(anim =>
                 anim.id === newAnimation.id ? { ...anim, display: false } : anim
             ));
-        }, 100); // アニメーションの時間に合わせる
+        }, 200); // アニメーションの時間に合わせる
     }, [props.fanfun]);
 
     const setDynamicFontSize = (eventPlace: string) => {
         let fontGain = 0.11;
-        console.log(eventPlace.length * fontGain)
+        // console.log(eventPlace.length * fontGain)
         document.documentElement.style.setProperty('--dynamic-font-size', (eventPlace.length * fontGain).toString());
     };
 
@@ -36,14 +36,22 @@ export const HistoryComponent = (props: any) => {
     const showHover = () => {
         if (props.hoverHistory.length === 0) {
             return (
-                <div className='nohoverhistory' data-tooltip="経由地をホバー・タップしてください">
-                    <div className='historyname'>
-                        No Waypoint Arrived
+                <>
+                    <div className='nohoverhistory' data-tooltip="地図上の経由地をホバー/タップ">
+                        <div className='historyname'>
+                            No Waypoint Arrived
+                        </div>
+                        <div className='historydetail'>
+                            Please hover or tap map icon
+                        </div>
+
                     </div>
-                    <div className='historydetail'>
-                        Please hover or tap map icon
+                    <div className="history-emoji">
+                        {Array.from({ length: sightType.buil }, (_, index) => (
+                            <span className='emoji-icon' data-tooltip={sightEmoji(index).type}>{sightEmoji(index).emoji}</span>
+                        ))}
                     </div>
-                </div>
+                </>
             )
         }
         else {
@@ -65,6 +73,9 @@ export const HistoryComponent = (props: any) => {
                                 </div>
                                 <div className='historydetail'>
                                     {hover.properties.event_detail}
+                                </div>
+                                <div className='historypoint'>
+                                    +{hover.properties.want_score} FanFun
                                 </div>
                             </div>
                         )

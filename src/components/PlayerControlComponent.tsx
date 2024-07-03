@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { PlayerSeekbar } from 'textalive-react-api';
 import '../styles/SongControl.css';
-import { msToMs, sightType } from '../utils/utils';
+import { msToMs, sightType, sightEmoji } from '../utils/utils';
 import songData from '../utils/Song';
 
 export const PlayerControl = (props: any) => {
@@ -31,46 +31,8 @@ export const PlayerControl = (props: any) => {
 
   const FlagComponent = props.hoverHistory ? props.hoverHistory.map((hover: any, index: number) => {
     // console.log(hover.properties.playerPosition, hover.properties.event_type)
-    let showSVG = ''
     const percentage = (hover.properties.playerPosition / songLength) * 100;
-    switch (hover.properties.event_type) {
-      case sightType.sports:
-        showSVG = '🏟️'
-        break;
-      case sightType.eat:
-        showSVG = '🍽'
-        break;
-      case sightType.movie:
-        showSVG = '📽️'
-        break;
-      case sightType.aqua:
-        showSVG = '🐬'
-        break;
-      case sightType.zoo:
-        showSVG = '🦁'
-        break;
-      case sightType.depart:
-        showSVG = '🏬'
-        break;
-      case sightType.castle:
-        showSVG = '🏯'
-        break;
-      case sightType.hotspring:
-        showSVG = '♨'
-        break;
-      case sightType.amusement:
-        showSVG = '🎡'
-        break;
-      case sightType.festival:
-        showSVG = '🎆'
-        break;
-      case sightType.factory:
-        showSVG = '🏭'
-        break;
-      default:
-        showSVG = '🏛'
-    }
-
+    const showSVG = sightEmoji(hover.properties.event_type).emoji;
     return (
       <div key={index} className='flag-waypoint' style={{ width: `${percentage}%` }}>
         {showSVG}

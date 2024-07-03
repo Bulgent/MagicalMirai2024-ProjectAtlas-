@@ -85,6 +85,7 @@
     /* 最初は非表示 */
     opacity: 0;
     transition: opacity 0.3s, visibility 0.3s;
+    font-family: "Zen Maru Gothic", serif;
 }
 
 .compass-circle[data-tooltip]:hover::after,

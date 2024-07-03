@@ -224,6 +224,71 @@ export const checkPartOfSpeech = (PoS: string) => {
   }
 }
 
+export const sightEmoji = (type: number): { type: string; emoji: string } => {
+  switch (type) {
+    case sightType.sports:
+      return {
+        type: "運動",
+        emoji: '🏟️'
+      };
+    case sightType.eat:
+      return {
+        type: "食事",
+        emoji: '🍽'
+      };
+    case sightType.movie:
+      return {
+        type: "映画館",
+        emoji: '📽️'
+      };
+    case sightType.aqua:
+      return {
+        type: "水族館",
+        emoji: '🐬'
+      };
+    case sightType.zoo:
+      return {
+        type: "動物園",
+        emoji: '🦁'
+      };
+    case sightType.depart:
+      return {
+        type: "買い物",
+        emoji: '🏬'
+      };
+    case sightType.castle:
+      return {
+        type: "史跡名勝",
+        emoji: '🏯'
+      };
+    case sightType.hotspring:
+      return {
+        type: "温泉",
+        emoji: '♨'
+      };
+    case sightType.amusement:
+      return {
+        type: "遊園地",
+        emoji: '🎡'
+      };
+    case sightType.festival:
+      return {
+        type: "祭り",
+        emoji: '🎆'
+      };
+    case sightType.factory:
+      return {
+        type: "工場見学",
+        emoji: '🏭'
+      };
+    default:
+      return {
+        type: "その他",
+        emoji: '🏛'
+      };
+  }
+}
+
 // 歌詞の移動方向を乱数で作成
 export const cssSlide = (animationNum: number, printKashi: string): string => {
   let randomX: number;

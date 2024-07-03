@@ -272,21 +272,29 @@ export const MapComponent = (props: any) => {
         let markerString: string = "🎵" // 表示する文字
         let markerSVG: string = emojiNote // 表示するSVG
         let markerClass: string = "icon-note" // 表示するクラス
+        let markerSize: [number, number] = [50, 50]
+        let markerAnchor: [number, number] = [25, 25]
         switch (index) {
           case 0: // 最初
             markerString = "👽"
             markerSVG = emojiStart
             markerClass = "icon-start"
+            markerSize = [50, 50]
+            markerAnchor = [7, 43]
             break;
           case wordCount + 1: // 最後
             markerString = "🦄"
             markerSVG = emojiGoal
             markerClass = "icon-goal"
+            markerSize = [50, 50]
+            markerAnchor = [8, 38]
             break;
           default: // それ以外
             markerString = songData[props.songnum].note
-            markerSVG = emojiNote, // 絵文字を表示 // svgNote
-              markerClass = "icon-note"
+            markerSVG = emojiNote // 絵文字を表示 // svgNote
+            markerClass = "icon-note"
+            markerSize = [50, 50]
+            markerAnchor = [25, 25]
             break;
         }
         noteCd.push({
@@ -302,8 +310,8 @@ export const MapComponent = (props: any) => {
         const noteIcon = divIcon({
           className: markerClass, // カスタムクラス名
           html: markerSVG, // SVG アイコンの HTML
-          iconSize: [50, 50], // アイコンのサイズ
-          iconAnchor: [25, 25] // アイコンのアンカーポイント
+          iconSize: markerSize, // アイコンのサイズ
+          iconAnchor: markerAnchor // アイコンのアンカーポイント
         });
 
         // 歌詞の座標に🎵を表示
@@ -325,7 +333,6 @@ export const MapComponent = (props: any) => {
           // 正規表現を使用して数字を抽出
           const matchResult = noteClass.match(/\d+/g);
           const noteTime = matchResult ? parseInt(matchResult[0], 10) : 0; // matchResultがnullでない場合は最初の数値を解析、そうでなければ0を返す
-          console.log(noteTime)
           // マーカーの時間が現在の再生時間よりも前である場合、マーカーを削除します。
           if (noteTime && noteTime != 0 && noteTime != props.player.video.duration && noteTime <= props.player.timer?.position) {
             map.removeLayer(lyricMarker);
@@ -335,8 +342,7 @@ export const MapComponent = (props: any) => {
             calculateMikuMile(playerPositionRef.current, playerDurationRef.current, roadLengthSumRef.current),
             calculateMikuMile(playerDurationRef.current, playerDurationRef.current, roadLengthSumRef.current)
           ])
-          // console.log("MikuMile (MM): ", calculateMikuMile(playerPositionRef.current, playerDurationRef.current, roadLengthSumRef.current))
-        }); // 250ミリ秒ごとに実行
+        });
       });
       noteCoordinates.current = noteCd;
       setIsInitMap(false)
@@ -359,6 +365,7 @@ export const MapComponent = (props: any) => {
   const MapFunctionUpdate = () => {
     const map = useMap(); // MapContainerの中でしか取得できない
     addLyricTextToMap(map)
+
     return null
   }
 
