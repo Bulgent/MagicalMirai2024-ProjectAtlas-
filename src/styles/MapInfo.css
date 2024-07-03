@@ -1,7 +1,7 @@
 #mapinfo {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: top;
     width: 15vh;
     height: 70%;
     color: white;
@@ -21,6 +21,7 @@
     text-align: center;
     padding: 1vh;
     display: flex;
+    margin-top: 2vh;
 }
 
 .compass-circle {
@@ -103,6 +104,7 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+    margin-top: 2vh;
 }
 
 
@@ -144,6 +146,10 @@
     align-items: flex-end;
     font-size: 3vh;
     margin: 1vh;
+}
+
+.latlng.infotext {
+    font-size: 2.5vh;
 }
 
 .unit {

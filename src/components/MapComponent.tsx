@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline } from 'leaflet';
+import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -76,8 +76,8 @@ export const MapComponent = (props: any) => {
   const endCoordinate: [number, number] = [34.6379271092576, 135.4196972135114];
   const mapZoom: number = 17; // Mapのzoomについて1が一番ズームアウト
   const roadJsonLst = [trunk, primary, secondary] // 表示する道路について
-  const mapCenterRef = useRef<[number, number]>([-1, -1]);
-  const [latOffset, lonOffset]: [number, number] = [-0.0006, 0] // Mapの中心位置を補正
+  const mapCenterRef = useRef<LatLngLiteral>({ lat: -1, lng: -1 });
+  const mapOffset: LatLngLiteral = { lat: -0.0006, lng: 0 } // Mapの中心位置を補正
   // 色情報の設定(季節, 時間, 天気, 透過度)
   const styleMorning = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY, 1);
   const styleNoon = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY, 1);
@@ -102,7 +102,7 @@ export const MapComponent = (props: any) => {
   const [isInitMapPlayer, setIsInitMap] = useState<Boolean>(true);
   const isInitMap = useRef(true)
   // 車アイコン
-  const [carMapPosition, setCarMapPosition] = useState<[lat: number, lon: number]>([-1, -1])
+  const [carMapPosition, setCarMapPosition] = useState<LatLngLiteral>({ lat: -1, lng: -1 })
   const [heading, setHeading] = useState(180);
   // 音符配置
   const noteCoordinates = useRef<noteCoordinateProperties[]>([]);
@@ -118,8 +118,7 @@ export const MapComponent = (props: any) => {
   const playerPositionRef = useRef<number>(0);
   const playerDurationRef = useRef<number>(0);
 
-  const mapIsMovingRef = useRef<Boolean>(false)
-
+  const isMapMovingRef = useRef<Boolean>(false)
 
   const isInitPlayRef = useRef<Boolean>(true) // 曲を再生したら止まらないように
   // 曲が終了したらplayerPosition=0になり天気リセットになるのを防ぐ
@@ -145,8 +144,14 @@ export const MapComponent = (props: any) => {
     cumulativeAheadRatioRef.current = cumulativeAheadRatio
     nodesRef.current = nodes
     setPathwayFeature(features);
-    mapCenterRef.current = [mapCenterRet[1] + latOffset, mapCenterRet[0] + lonOffset];
-    setCarMapPosition([mapCenterRet[1], mapCenterRet[0]])
+    mapCenterRef.current = {
+      lat: mapCenterRet[1] + mapOffset.lat,
+      lng: mapCenterRet[0] + mapOffset.lng
+    };
+    setCarMapPosition({
+      lat: mapCenterRet[1],
+      lng: mapCenterRet[0]
+    })
     setHeading(degreeAnglesRef.current[0])
     // MikuMikuMile初期化
     props.handOverMikuMile([
@@ -353,6 +358,10 @@ export const MapComponent = (props: any) => {
             calculateMikuMile(playerPositionRef.current, playerDurationRef.current, roadLengthSumRef.current),
             calculateMikuMile(playerDurationRef.current, playerDurationRef.current, roadLengthSumRef.current)
           ])
+          props.handOverMapCenter({
+            lat: map.getCenter().lat + mapOffset.lat,
+            lng: map.getCenter().lng + mapOffset.lng
+          })
         });
       });
       noteCoordinates.current = noteCd;
@@ -403,7 +412,7 @@ export const MapComponent = (props: any) => {
   const MoveMapByRoute = () => {
     const map = useMap();
 
-    const updatePolyline = useCallback((coordinates: [number, number][]) => {
+    const updatePolyline = useCallback((coordinates: LatLngLiteral[]) => {
       // 以前の線があれば座標更新
       if (goallineRef.current) {
         goallineRef.current.setLatLngs(coordinates);
@@ -432,19 +441,26 @@ export const MapComponent = (props: any) => {
         if (timerDuration < 1) {
           const [startNodeIndex, nodeResidue] = getRationalPositonIndex(timerDuration, eachRoadLengthRatioRef.current);
           // 中心にセットする座標を計算
-          const updatedLat = nodesRef.current[startNodeIndex][0] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][0] * nodeResidue;
-          const updatedLon = nodesRef.current[startNodeIndex][1] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][1] * nodeResidue;
-          map.setView([updatedLat + latOffset, updatedLon + lonOffset], mapZoom);
+          const updatedLatLng: LatLngLiteral = {
+            lat: nodesRef.current[startNodeIndex][0] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][0] * nodeResidue,
+            lng: nodesRef.current[startNodeIndex][1] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][1] * nodeResidue
+          }
+          map.setView({ lat: updatedLatLng.lat + mapOffset.lat, lng: updatedLatLng.lng + mapOffset.lng }, mapZoom);
 
           // 車が移動したらポリラインの座標を変化させる
-          updatePolyline([
-            [updatedLat, updatedLon],
-            [nodesRef.current[nodesRef.current.length - 1][0], nodesRef.current[nodesRef.current.length - 1][1]]
-          ]);
+          updatePolyline(
+            [
+              updatedLatLng,
+              {
+                lat: nodesRef.current[nodesRef.current.length - 1][0],
+                lng: nodesRef.current[nodesRef.current.length - 1][1]
+              }
+            ]
+          );
 
           // ここにアイコンの情報を入れる
           const [startAheadIndex, aheadResidue] = getRationalPositonIndex(timerDuration, cumulativeAheadRatioRef.current);
-          setCarMapPosition([updatedLat, updatedLon])
+          setCarMapPosition(updatedLatLng)
           setHeading(degreeAnglesRef.current[startAheadIndex])
 
           animationRef.current = requestAnimationFrame(loop);
@@ -463,7 +479,7 @@ export const MapComponent = (props: any) => {
 
     useEffect(() => {
       if (props.isMoving) {
-        mapIsMovingRef.current = true
+        isMapMovingRef.current = true
         map.dragging.disable();
         map.touchZoom.disable();
         map.doubleClickZoom.disable();
@@ -471,7 +487,7 @@ export const MapComponent = (props: any) => {
         map.boxZoom.disable();
         animationRef.current = requestAnimationFrame(loop);
       } else {
-        mapIsMovingRef.current = false
+        isMapMovingRef.current = false
         map.dragging.enable();
         map.touchZoom.enable();
         map.doubleClickZoom.enable();
@@ -487,68 +503,59 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
+  const [ufoMarker, setUfoMarker] = useState(null); // UFOマーカーの状態を追跡
+  const [ufoPosition, setUfoPosition] = useState([51.505, -0.09]); // 初期位置
+
   // UFOマーカーを動かす関数
   // TODO なぜか移動中に動かない
-  const moveUfoMarker = (map: Map, setUfoPosition: React.Dispatch<React.SetStateAction<number[]>>) => {
-    // マップの現在のビューバウンドを取得
-    const bounds = map.getBounds();
-    // console.log(bounds)
-    const navilatMin = bounds.getSouth();
-    const navilatMax = bounds.getNorth();
-    const navilngMin = bounds.getWest();
-    const navilngMax = bounds.getEast();
-    const latMin = 34.63805972852021;
-    const latMax = 34.64;
-    const lngMin = 135.41965976355155;
-    const lngMax = 135.41965976355155;
-    // 34.63805972852021, 135.41965976355155 インテックス大阪
-    // 34.3810102244121, 135.26800995642074 泉南イオン
-    // 34.56881698505993, 135.48758679638678 大仙古墳
-    // 34.65257761469651, 135.5065294937563 通天閣
-
-    // 新しいランダムな位置を生成
-    const newLat = Math.random() * (latMax - latMin) + latMin;
-    const newLng = Math.random() * (lngMax - lngMin) + lngMin;
-
-    // 新しい位置がビューポート内にあるかどうかを確認
-    if (newLat > navilatMin && newLat < navilatMax && newLng > navilngMin && newLng < navilngMax) {
-      console.log("ufo");
-    }
-
-    // UFOマーカーの位置を更新
-    setUfoPosition([newLat, newLng]);
-  };
-
-  // UFOマーカーコンポーネント
-  const UfoMarker = () => {
+  const UfoMarker = (props) => {
     const map = useMap();
-    const [ufoPosition, setUfoPosition] = useState([51.505, -0.09]); // 初期位置
 
-    useEffect(() => {
-      const interval = setInterval(() => {
-        moveUfoMarker(map, setUfoPosition);
-      }, 1000); // 1秒ごとに位置を更新
+    const animateUfoMovement = () => {
+      const bounds = map.getBounds();
+      const navilatMin = bounds.getSouth();
+      const navilatMax = bounds.getNorth();
+      const navilngMin = bounds.getWest();
+      const navilngMax = bounds.getEast();
+      const latMin = 34.680;
+      const latMax = 34.679;
+      const lngMin = 135.52446;
+      const lngMax = 135.52094;
+      // 34.63805972852021, 135.41965976355155 インテックス大阪
+      // 34.3810102244121, 135.26800995642074 泉南イオン
+      // 34.56881698505993, 135.48758679638678 大仙古墳
+      // 34.65257761469651, 135.5065294937563 通天閣
 
-      return () => clearInterval(interval);
-    }, [map, ufoPosition]);
+      // 新しいランダムな位置を生成
+      const newLat = Math.random() * (latMax - latMin) + latMin;
+      const newLng = Math.random() * (lngMax - lngMin) + lngMin;
 
-    // UFOマーカーのクリックイベントを処理する関数
-    const handleUfoClick = () => {
-      console.log("UFOマーカーがクリックされました。", ufoPosition);
-      // ここにクリック時の処理を追加
-      props.handOverFanFun(512810410);
+      if (newLat > navilatMin && newLat < navilatMax && newLng > navilngMin && newLng < navilngMax) {
+        console.log("ufo");
+      }
+
+      // UFOマーカーがマップ上に存在しない場合のみ追加
+      if (!ufoMarker) {
+        const newUfoMarker = marker([newLat, newLng], { icon: ufoIcon }).addTo(map);
+        setUfoMarker(newUfoMarker); // 状態を更新してマーカーの参照を保持
+      } else {
+        // アニメーションでUFOマーカーの位置を更新
+        ufoMarker.setLatLng([newLat, newLng]);
+      }
+
+      setUfoPosition([newLat, newLng]);
     };
 
-    return (
-      <Marker
-        position={ufoPosition}
-        icon={ufoIcon}
-        eventHandlers={{
-          click: handleUfoClick,
-        }}
-        pane='ufo'
-      />
-    );
+    useEffect(() => {
+      const interval = setInterval(animateUfoMovement, 1000); // 1秒ごとに位置を更新
+
+      return () => clearInterval(interval);
+    }, [map]);
+
+    const handleUfoClick = () => {
+      console.log("UFOマーカーがクリックされました。", ufoPosition);
+      props.handOverFanFun(512810410);
+    };
   };
 
   // 👽歌詞表示コンポーネント👽
@@ -570,7 +577,7 @@ export const MapComponent = (props: any) => {
       });
       printLyrics += "</div>";
 
-      const mapCoordinate: [number, number] = [map.getCenter().lat - latOffset, map.getCenter().lng - lonOffset]
+      const mapCoordinate: [number, number] = [map.getCenter().lat - mapOffset.lat, map.getCenter().lng - mapOffset.lng]
       const fadeInSlideRightKeyframes = cssSlide(lyricCount.current, props.kashi.text);
       // <style>タグを生成して、生成した@keyframes定義を追加
       const styleTag = document.createElement('style');
@@ -614,7 +621,7 @@ export const MapComponent = (props: any) => {
   // 👽観光地にマウスが乗ったときに呼び出される関数👽
   const onSightHover = (e: LeafletMouseEvent) => {
     // hoverhistoryに重複しないように追加
-    if (mapIsMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
+    if (isMapMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
       hoverHistory.current.push(e.sourceTarget.feature);
       const historyProperty: historyProperties = e.sourceTarget.feature
       historyProperty.properties.playerPosition = playerPositionRef.current
@@ -629,7 +636,7 @@ export const MapComponent = (props: any) => {
 
   const onSightHoverOut = (e: LeafletMouseEvent) => {
     // 動いてない時かつ未訪問の時
-    if (!mapIsMovingRef.current && !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index)) {
+    if (!isMapMovingRef.current && !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index)) {
       const hoveredMarker = e.target;
       // ツールチップ閉じる
       hoveredMarker.unbindTooltip();
@@ -762,7 +769,7 @@ export const MapComponent = (props: any) => {
         maxBoundsViscosity={1.0}
         preferCanvas={true}
         boxZoom={false} doubleClickZoom={false}
-        inertia={false} 
+        inertia={false}
       >
         <GetZoomLevel />
         <GeoJSON
@@ -806,6 +813,7 @@ export const MapComponent = (props: any) => {
         <UpdatingOverlayLayer />
         <MapCenterCrosshair
           isMoving={props.isMoving || isFirstPlayRef.current}
+          mapCenter={mapOffset}
           pane='mapcenter' />
         <GeoJSON
           data={sight as GeoJSON.GeoJsonObject}

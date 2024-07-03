@@ -69,12 +69,15 @@ export const MapInfoComponent = (props: any) => {
                 </div>
                 <div className='scale-line'></div>
             </div>
-            <div className='latlng infobox' data-tooltip="地図の座標">
-                <div className='latlng infotitle'>LOCATION</div>
-                <div className='latlng infotext'>
-                    {scale.toFixed(0)} 座標
+            {!props.isMoving && props.mapCenter?.lat != -1 && props.mapCenter?.lng != -1 && (
+                <div className='latlng infobox' data-tooltip="地図の座標">
+                    <div className='latlng infotitle'>LOCATION</div>
+                    <div className='latlng infotext'>
+                        N:{props.mapCenter?.lat.toFixed(5)}<br />
+                        E:{props.mapCenter?.lng.toFixed(5)}
+                    </div>
                 </div>
-            </div>
+            )}
         </>
     )
 }

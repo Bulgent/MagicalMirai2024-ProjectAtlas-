@@ -12,6 +12,7 @@ import { MapInfoComponent } from '../components/MapInfoComponent'
 import { createPlayerContent, lyricProperties, historyProperties } from '../types/types';
 import { createPlayer } from "../services/TextAlive.ts"
 import { createHandOverFunction } from "../utils/utils.ts"
+import { LatLngLiteral } from 'leaflet';
 import songData from '../utils/Song.ts';
 
 
@@ -55,6 +56,7 @@ export const GamePage = () => {
   const [fanFun, setFanFun] = useState<number>(0);
   const [mikuMile, setMikuMile] = useState<[number, number]>([0, 0]);
   const [scale, setScale] = useState<number>(0);
+  const [mapCenter, setMapCenter] = useState<LatLngLiteral>({ lat: -1, lng: -1 });
   const handOverIsMapMove = createHandOverFunction(setIsMapMove);
 
   // const [songNumber, setSongNumber] = useState(isDevelopment ? 3 : buttonInfo ? parseInt(buttonInfo) : -1);
@@ -63,6 +65,7 @@ export const GamePage = () => {
   const handOverMediaElement = createHandOverFunction(setMediaElement)
   const handOverMikuMile = createHandOverFunction(setMikuMile)
   const handOverScale = createHandOverFunction(setScale)
+  const handOverMapCenter = createHandOverFunction(setMapCenter)
 
   // Map移動に関しての変数宣言
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([])
@@ -130,16 +133,16 @@ export const GamePage = () => {
               handOverFanFun={handOverFanFun}
               handOverMikuMile={handOverMikuMile}
               handOverScale={handOverScale}
+              handOverMapCenter={handOverMapCenter}
             />
           </div>
           <div id="mapinfo">
             <MapInfoComponent
               mikuMile={mikuMile}
-
+              mapCenter={mapCenter}
+              isMoving={isMapMove}
               scale={scale}
-
               player={player}
-
             />
           </div>
           <div id="song">
