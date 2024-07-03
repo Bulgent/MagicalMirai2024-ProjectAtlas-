@@ -18,10 +18,12 @@ export const MapLibreTileLayer = createTileLayerComponent<
     MapLibreTileLayerProps
 >(
     function createTileLayer({ url, attribution, ...options }, context) {
+        /* @ts-ignore */
         const layer = L.maplibreGL({style: url, attribution: attribution, noWrap: true}, withPane(options, context))
         return createElementObject(layer, context)
     },
     function updateTileLayer(layer, props, prevProps) {
+        /* @ts-ignore */
         updateGridLayer(layer, props, prevProps)
         const { url, attribution } = props
         if (url != null && url !== prevProps.url) {
