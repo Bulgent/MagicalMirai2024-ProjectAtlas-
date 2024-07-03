@@ -4,6 +4,7 @@ import '../styles/Map.css';
 import React from 'react';
 import { Player } from 'textalive-app-api';
 import { useState, useEffect } from "react"
+/* @ts-ignore */
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LyricComponent } from '../components/LyricComponent';
 import { HistoryComponent } from '../components/HistoryComponent';

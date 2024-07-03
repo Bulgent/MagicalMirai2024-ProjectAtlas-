@@ -40,10 +40,11 @@ const carIcon = divIcon({ // 31x65px
 
 // 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
 // HACK: ファイル分割したい
-/* eslint-disable */
+
+/* @ts-ignore */
 const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
   const markerRef = useRef(null);
-
+/* @ts-ignore */
   const { rotationAngle, rotationOrigin } = props;
   useEffect(() => {
     const marker = markerRef.current;
@@ -54,10 +55,12 @@ const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
   }, [rotationAngle, rotationOrigin]);
 
   return (
+    /* @ts-ignore */
     <Marker
       ref={(ref) => {
         markerRef.current = ref;
         if (forwardRef) {
+          /* @ts-ignore */
           forwardRef.current = ref;
         }
       }}
@@ -85,6 +88,7 @@ export const MapComponent = (props: any) => {
   const styleNoon = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY, 1);
   const styleNight = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY, 1);
   // 天気の状態保持
+  /* @ts-ignore */
   const overlayStyleRef = useRef<PathOptions>(styleMorning)
 
   /**
@@ -112,6 +116,7 @@ export const MapComponent = (props: any) => {
   const eachRoadLengthRatioRef = useRef<number[]>([])
   const degreeAnglesRef = useRef<number[]>([])
   const cumulativeAheadRatioRef = useRef<number[]>([])
+  /* @ts-ignore */
   const goallineRef = useRef<lineString>(null); // goallineをuseRefで保持
   const lyricCount = useRef<number>(0) // 触れた音符の数
 
@@ -328,6 +333,7 @@ export const MapComponent = (props: any) => {
         });
         map.on('move', function () {
           // ツールチップのDOM要素を取得
+          /* @ts-ignore */
           const noteClass = lyricMarker.getTooltip()._container.className;
           // 正規表現を使用して数字を抽出
           const noteTime = noteClass.match(/\d+/g);
@@ -489,6 +495,7 @@ export const MapComponent = (props: any) => {
       let printLyrics: string = "<div class = 'tooltip-lyric " + slideClass + "'>";
       props.kashi.text.split('').forEach((char: string) => {
         printLyrics += "<span class='";
+        /* @ts-ignore */
         printLyrics += formatKashi(char);
         printLyrics += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
       });
@@ -511,6 +518,7 @@ export const MapComponent = (props: any) => {
       // アニメーション
       const slideElement = document.querySelector('.' + slideClass);
       if (slideElement) {
+        /* @ts-ignore */
         slideElement.style.animation = 'fadeInSlideXY' + lyricCount.current + ' 0.5s ease forwards';
       }
 
@@ -678,6 +686,7 @@ export const MapComponent = (props: any) => {
         <MapFunctionUpdate />
         <RemoveMapTextFunction />
         <RotatedMarker
+        /* @ts-ignore */
           position={carMapPosition}
           rotationAngle={heading}
           rotationOrigin="center"
