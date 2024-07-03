@@ -43,6 +43,7 @@
 
 .sightseeing-tooltip{
   font-family: "Zen Maru Gothic", serif!important;
+  z-index: 10000000!important;
 }
 
 .car-lamp {

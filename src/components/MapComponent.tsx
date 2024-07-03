@@ -125,7 +125,7 @@ export const MapComponent = (props: any) => {
   const computePathway = () => {
     // CSS変数の設定
     document.documentElement.style.setProperty('--weather', '40');
-    document.documentElement.style.setProperty('--car-light', '0.4');
+    document.documentElement.style.setProperty('--car-light', '0.0');
     document.documentElement.style.setProperty('--seek-color', '#ff7e5f');
     props.handOverScale(mapZoom)
     const [features, nodes, mapCenterRet] = computePath(roadJsonLst, songData[props.songnum].startPosition, endCoordinate);
@@ -600,14 +600,14 @@ export const MapComponent = (props: any) => {
         }, 10);
         overlayStyleRef.current = styleMorning;
         document.documentElement.style.setProperty('--weather', '40');
-        document.documentElement.style.setProperty('--car-light', '0.4');
+        document.documentElement.style.setProperty('--car-light', '0.2');
         document.documentElement.style.setProperty('--seek-color', '#ff7e5f');
       } else if (timerDuration < morningToNoon.end) {
         // 朝から昼への遷移時
         const progress = (timerDuration - morningToNoon.start) / (morningToNoon.end - morningToNoon.start);
         overlayStyleRef.current = changeStyle(styleMorning, styleNoon, progress);
         document.documentElement.style.setProperty('--weather', (40 + (50 - 40) * progress).toString());
-        document.documentElement.style.setProperty('--car-light', (0.4 * (1.0 - progress)).toString());
+        document.documentElement.style.setProperty('--car-light', (0.2 * (1.0 - progress)).toString());
       } else if (timerDuration < noonToNight.start) {
         // 昼
         overlayStyleRef.current = styleNoon;
