@@ -1,6 +1,7 @@
-// 🐟
+// 🚗
 export const pngCar = '<img src="src/assets/images/carIcon.png" alt="🛸">';
 
+// 🔦
 export const lightCar = '\
 <div class="car-lamp">\
     <div class="car-head-lamp-left"></div>\
@@ -19,7 +20,10 @@ export const emojiGoal = '<span class="emoji goalflag" style="font-family: \'Not
 export const emojiAlien = '<span class="emoji alien" style="font-family: \'Noto Color Emoji\'; font-size: 30px;">👽</span>';
 
 // 🦄
-export const emojiUnicorn = '<span class="emoji unicorn" style="font-family: \'Noto Color Emoji\'; font-size: 30px;">🦄</span>';
+export const emojiUnicorn = '<span class="emoji unicorn" style="font-family: \'Noto Color Emoji\'; font-size: 100px;">🦄</span>';
+
+// 🛸
+export const emojiUfo = '<span class="emoji ufo" style="font-family: \'Noto Color Emoji\'; font-size: 100px;">🛸</span>';
 
 // 🎵
 export const emojiNote = '<span class="emoji note" style="font-family: \'Noto Emoji\'; font-size: 30px;">🎵</span>';

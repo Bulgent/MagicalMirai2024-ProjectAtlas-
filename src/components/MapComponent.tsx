@@ -17,7 +17,7 @@ import {
   createLatLngBounds, calculateMikuMile, calculateRoadLengthSum, changeStyle
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
-import { pngCar, lightCar, emojiNote, emojiStart, emojiGoal } from '../assets/marker/markerSVG.ts'
+import { pngCar, lightCar, emojiNote, emojiStart, emojiGoal, emojiUfo } from '../assets/marker/markerSVG.ts'
 // 型データの導入
 import { lyricProperties, historyProperties, noteProperties, noteCoordinateProperties, wordTimeProperties } from '../types/types';
 // 地図データの導入
@@ -44,6 +44,14 @@ const carLightIcon = divIcon({ // 31x65px
   html: lightCar,  // ここに車のアイコンを挿入する
   iconSize: [31, 65], // アイコンのサイズ
   iconAnchor: [31 / 2, 65 / 2] // アイコンのアンカーポイント（原点をアイコンの中心に設定）
+});
+
+// UFOアイコンの設定
+const ufoIcon = divIcon({
+  className: 'ufo-icon', // カスタムクラス名
+  html: emojiUfo, // UFOアイコンのHTML
+  iconSize: [100, 100], // アイコンのサイズ
+  iconAnchor: [50, 50] // アイコンのアンカーポイント
 });
 
 // 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
@@ -163,6 +171,7 @@ export const MapComponent = (props: any) => {
       map.createPane('light')
       map.createPane('note');
       map.createPane('pathway');
+      map.createPane('ufo');
       // mapの初期中心座標の決定
       map.setView(mapCenterRef.current)
       map.setMaxBounds(createLatLngBounds(restrictedArea))
@@ -476,6 +485,70 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
+  // UFOマーカーを動かす関数
+  // TODO なぜか移動中に動かない
+  const moveUfoMarker = (map: Map, setUfoPosition: React.Dispatch<React.SetStateAction<number[]>>) => {
+    // マップの現在のビューバウンドを取得
+    const bounds = map.getBounds();
+    // console.log(bounds)
+    const navilatMin = bounds.getSouth();
+    const navilatMax = bounds.getNorth();
+    const navilngMin = bounds.getWest();
+    const navilngMax = bounds.getEast();
+    const latMin = 34.63805972852021;
+    const latMax = 34.64;
+    const lngMin = 135.41965976355155;
+    const lngMax = 135.41965976355155;
+    // 34.63805972852021, 135.41965976355155 インテックス大阪
+    // 34.3810102244121, 135.26800995642074 泉南イオン
+    // 34.56881698505993, 135.48758679638678 大仙古墳
+    // 34.65257761469651, 135.5065294937563 通天閣
+
+    // 新しいランダムな位置を生成
+    const newLat = Math.random() * (latMax - latMin) + latMin;
+    const newLng = Math.random() * (lngMax - lngMin) + lngMin;
+
+    // 新しい位置がビューポート内にあるかどうかを確認
+    if (newLat > navilatMin && newLat < navilatMax && newLng > navilngMin && newLng < navilngMax) {
+      console.log("ufo");
+    }
+
+    // UFOマーカーの位置を更新
+    setUfoPosition([newLat, newLng]);
+  };
+
+  // UFOマーカーコンポーネント
+  const UfoMarker = () => {
+    const map = useMap();
+    const [ufoPosition, setUfoPosition] = useState([51.505, -0.09]); // 初期位置
+  
+    useEffect(() => {
+      const interval = setInterval(() => {
+        moveUfoMarker(map, setUfoPosition);
+      }, 1000); // 1秒ごとに位置を更新
+  
+      return () => clearInterval(interval);
+    }, [map, ufoPosition]);
+  
+    // UFOマーカーのクリックイベントを処理する関数
+    const handleUfoClick = () => {
+      console.log("UFOマーカーがクリックされました。", ufoPosition);
+      // ここにクリック時の処理を追加
+      props.handOverFanFun(512810410);
+    };
+  
+    return (
+      <Marker
+        position={ufoPosition}
+        icon={ufoIcon}
+        eventHandlers={{
+          click: handleUfoClick,
+        }}
+        pane='ufo'
+      />
+    );
+  };
+
   // 👽歌詞表示コンポーネント👽
   const addLyricTextToMap = (map: Map) => {
     // 歌詞が変わったら実行 ボカロによって色を変える
@@ -600,14 +673,14 @@ export const MapComponent = (props: any) => {
         }, 10);
         overlayStyleRef.current = styleMorning;
         document.documentElement.style.setProperty('--weather', '40');
-        document.documentElement.style.setProperty('--car-light', '0.2');
+        document.documentElement.style.setProperty('--car-light', '0.0');
         document.documentElement.style.setProperty('--seek-color', '#ff7e5f');
       } else if (timerDuration < morningToNoon.end) {
         // 朝から昼への遷移時
         const progress = (timerDuration - morningToNoon.start) / (morningToNoon.end - morningToNoon.start);
         overlayStyleRef.current = changeStyle(styleMorning, styleNoon, progress);
         document.documentElement.style.setProperty('--weather', (40 + (50 - 40) * progress).toString());
-        document.documentElement.style.setProperty('--car-light', (0.2 * (1.0 - progress)).toString());
+        document.documentElement.style.setProperty('--car-light', (0.0 * (1.0 - progress)).toString());
       } else if (timerDuration < noonToNight.start) {
         // 昼
         overlayStyleRef.current = styleNoon;
@@ -722,6 +795,7 @@ export const MapComponent = (props: any) => {
           rotationOrigin="center"
         >
         </RotateCarLightMarker>
+        <UfoMarker />
         {/* 曲の開始まで表示するレイヤ */}
         <PathWay />
         <UpdatingOverlayLayer />

@@ -4,6 +4,10 @@
     z-index: 1000;
 }
 
+.leaflet-ufo-pane {
+    z-index: 1000;
+}
+
 /* 経由地レイヤ */
 .leaflet-waypoint-pane {
     z-index: 900;
