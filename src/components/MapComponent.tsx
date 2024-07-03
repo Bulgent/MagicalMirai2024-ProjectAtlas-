@@ -467,6 +467,7 @@ export const MapComponent = (props: any) => {
         } else {
           // 曲の再生が終わったらここになる
           console.log("曲終了")
+          props.isSongEnd(true);
           cancelAnimationFrame(animationRef.current!);
           // 2秒後にresult画面へ遷移
           setTimeout(() => {
@@ -542,7 +543,9 @@ export const MapComponent = (props: any) => {
         // アニメーションでUFOマーカーの位置を更新
         ufoMarker.setLatLng([newLat, newLng]);
       }
-
+      if (ufoMarker) {
+        ufoMarker.on('click', handleUfoClick);
+      }
       setUfoPosition([newLat, newLng]);
     };
 

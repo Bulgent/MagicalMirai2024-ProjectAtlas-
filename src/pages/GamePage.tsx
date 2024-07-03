@@ -3,7 +3,7 @@ import '../styles/Game.css';
 import '../styles/Map.css';
 import React from 'react';
 import { Player } from 'textalive-app-api';
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LyricComponent } from '../components/LyricComponent';
 import { HistoryComponent } from '../components/HistoryComponent';
@@ -58,6 +58,7 @@ export const GamePage = () => {
   const [scale, setScale] = useState<number>(0);
   const [mapCenter, setMapCenter] = useState<LatLngLiteral>({ lat: -1, lng: -1 });
   const handOverIsMapMove = createHandOverFunction(setIsMapMove);
+  const [isSongEnd, setIsSongEnd] = useState<boolean>(false)
 
   // const [songNumber, setSongNumber] = useState(isDevelopment ? 3 : buttonInfo ? parseInt(buttonInfo) : -1);
   const [songNumber, setSongNumber] = useState(buttonInfo ? parseInt(buttonInfo) : -1);
@@ -66,6 +67,7 @@ export const GamePage = () => {
   const handOverMikuMile = createHandOverFunction(setMikuMile)
   const handOverScale = createHandOverFunction(setScale)
   const handOverMapCenter = createHandOverFunction(setMapCenter)
+  const handOverSongEnd = createHandOverFunction(setIsSongEnd)
 
   // Map移動に関しての変数宣言
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([])
@@ -134,6 +136,7 @@ export const GamePage = () => {
               handOverMikuMile={handOverMikuMile}
               handOverScale={handOverScale}
               handOverMapCenter={handOverMapCenter}
+              isSongEnd={handOverSongEnd}
             />
           </div>
           <div id="mapinfo">
@@ -143,6 +146,7 @@ export const GamePage = () => {
               isMoving={isMapMove}
               scale={scale}
               player={player}
+              songEnd={isSongEnd}
             />
           </div>
           <div id="song">
@@ -161,6 +165,7 @@ export const GamePage = () => {
               handOverSongNumber={handOverSongNumber}
               handOverMediaElement={handOverMediaElement}
               handOverIsMapMove={handOverIsMapMove}
+              songEnd={isSongEnd}
             />
           </div>
         </div>

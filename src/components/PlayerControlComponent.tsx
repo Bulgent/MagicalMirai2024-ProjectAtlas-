@@ -10,7 +10,7 @@ export const PlayerControl = (props: any) => {
 
   const isInitPlay = useRef(true);
 
-  // 仮の曲の長さと現在の再生位置
+  // 曲の長さと現在の再生位置
   const songLength = props.player.data.song.length * 1000; // 5分 = 300秒
   const currentPosition = useRef(0); // 初期位置
 
@@ -43,18 +43,18 @@ export const PlayerControl = (props: any) => {
   const GetWeather = () => {
     // morning{songData[props.songnum].turningPoint1![0]}
     const morningToNoon = {
-      start: songData[props.songnum].turningPoint1![0] / props.player.video.duration,
-      end: songData[props.songnum].turningPoint1![1] / props.player.video.duration
+      start: songData[props.songnum].turningPoint1![0],
+      end: songData[props.songnum].turningPoint1![1]
     }
     const noonToNight = {
-      start: songData[props.songnum].turningPoint2![0] / props.player.video.duration,
-      end: songData[props.songnum].turningPoint2![1] / props.player.video.duration
+      start: songData[props.songnum].turningPoint2![0],
+      end: songData[props.songnum].turningPoint2![1]
     }
-    const current = props.player.timer.position / props.player.video.duration
+    const current = props.player.timer.position
     // console.log(current, props.player.timer.position, props.player.video.duration)
-    if (current < morningToNoon.start) {
+    if (current < morningToNoon.start && !props.songEnd) {
       return ('Morning') // 朝
-    } else if (current < morningToNoon.end) {
+    } else if (current < morningToNoon.end && !props.songEnd) {
       return (<>
         Morning
         {/* <span className="material-symbols-outlined weather-arrow">
@@ -62,9 +62,9 @@ export const PlayerControl = (props: any) => {
         </span>
         🌞Noon */}
       </>) // 朝から昼
-    } else if (current < noonToNight.start) {
+    } else if (current < noonToNight.start && !props.songEnd) {
       return ('Noon') // 昼
-    } else if (current < noonToNight.end) {
+    } else if (current < noonToNight.end && !props.songEnd) {
       return (<>
         Noon
         {/* <span className="material-symbols-outlined weather-arrow">
@@ -74,10 +74,8 @@ export const PlayerControl = (props: any) => {
       </>) // 昼から夜
     } else {
       return ('Night') // 夜
-      // TODO 曲最後まで行くと朝に戻ってしまう
     }
   }
-
 
   useEffect(() => {
     const listener = {
@@ -171,10 +169,9 @@ export const PlayerControl = (props: any) => {
             </div>
           </div>
         </div>
-
       </div>
       <div className='right'>
-        <button className='pausebutton' onClick={handleClick} disabled={props.disabled || isButtonDisabled}>
+        <button className='pausebutton' onClick={handleClick} disabled={props.disabled || isButtonDisabled || props.songEnd}>
           <img className='jacketbutton' src={props.jacketPic} alt={status !== 'play' ? 'Play' : 'Pause'} />
           <div className='textbutton'>
             <span className="material-symbols-outlined ppbutton">
