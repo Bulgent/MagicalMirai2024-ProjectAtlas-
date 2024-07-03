@@ -5,6 +5,7 @@ import { createPlayerContent, handOverLyric } from '../types/types';
 /**
  * 曲が流れている最中に取得できる歌詞情報を外部に渡す処理
  */
+/* @ts-ignore */
 const getLyricElement = (lyric: any, player: Player, handover: handOverLyric) => {
     while (lyric && lyric.next) {
         let isFirstPhrase: boolean = true;

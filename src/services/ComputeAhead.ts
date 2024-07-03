@@ -1,4 +1,4 @@
-import { calculateDistance, calculateVector, calculateAngleBetweenVectors } from '../utils/utils.ts'
+import { calculateVector, calculateAngleBetweenVectors } from '../utils/utils.ts'
 
 type Node = [
     lat: number,
@@ -57,6 +57,7 @@ export const ComputeAhead =  (nodes: Node[]): [Ahead[], number[], number[]] => {
  * smooth_distance_km: 補完する距離（km）
  * smooth_plot_count: 補完する点の数
  */
+/* @ts-ignore */
 const smoothBetweenVectors = (unit_vectors:Ahead[], smooth_distance_km:number, smooth_plot_count:number):Ahead[] => {
     const vrctorCount = unit_vectors.length
     const aheads:Ahead[] = []
@@ -78,7 +79,7 @@ const smoothBetweenVectors = (unit_vectors:Ahead[], smooth_distance_km:number, s
         aheads.push(startAhead)
         for (let smooth_unit_vector of smooth_unit_vectors){
             aheads.push(
-                {
+                {   /* @ts-ignore */
                     unit_vector: smooth_unit_vector,
                     distance_km: smooth_distance/(smooth_plot_count+1)
                 }
@@ -89,7 +90,7 @@ const smoothBetweenVectors = (unit_vectors:Ahead[], smooth_distance_km:number, s
     return aheads
 }
 
-
+/* @ts-ignore */
 const smoothBetweenVectorsKai = (unit_vectors:Ahead[], smooth_distance_km:number, smooth_plot_count:number):Ahead[] => {
     const vrctorCount = unit_vectors.length
     const aheads:Ahead[] = []
