@@ -51,12 +51,12 @@ const carLightIcon = divIcon({ // 31x65px
 
 // 車のアイコン
 const RotateCarMarker = forwardRef((props, ref) => (
-  <RotateMarker {...props} icon={carIcon} pane="car" ref={ref}/>
+  <RotateMarker {...props} icon={carIcon} pane="car" ref={ref} />
 ));
 
 // 車のライトのアイコン
 const RotateCarLightMarker = forwardRef((props, ref) => (
-  <RotateMarker {...props} icon={carLightIcon} pane="light" ref={ref}/>
+  <RotateMarker {...props} icon={carLightIcon} pane="light" ref={ref} />
 ));
 
 export const MapComponent = (props: any) => {
@@ -124,6 +124,10 @@ export const MapComponent = (props: any) => {
   // 初回だけ処理
   // mapの初期位置、経路の計算
   const computePathway = () => {
+    // CSS変数の設定
+    document.documentElement.style.setProperty('--weather', '40');
+    document.documentElement.style.setProperty('--car-light', '0.4');
+    document.documentElement.style.setProperty('--seek-color', '#ff7e5f');
     props.handOverScale(mapZoom)
     const [features, nodes, mapCenterRet] = computePath(roadJsonLst, songData[props.songnum].startPosition, endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
@@ -573,39 +577,53 @@ export const MapComponent = (props: any) => {
       document.documentElement.style.setProperty('--ntonstart', (100 * noonToNight.start / (props.player.data.song.length * 1000)).toString());
       document.documentElement.style.setProperty('--ntonend', (100 * noonToNight.end / (props.player.data.song.length * 1000)).toString());
 
-
       if (timerDuration === 0 && !isFirstPlayRef.current) {
+        // 曲終了時
         // 曲が終了した後にtimerDuration=0となり、天気がリセットされることを防ぐ
         overlayStyleRef.current = styleNight;
         document.documentElement.style.setProperty('--weather', '10');
         document.documentElement.style.setProperty('--car-light', '1.0');
         document.documentElement.style.setProperty('--seek-color', '#030c1b');
       } else if (timerDuration < morningToNoon.start) {
-        isFirstPlayRef.current = false
+        // 朝
+        // 少し遅れて設定(これをしないと一番最初に再生した瞬間に終了処理に引っかかる)
+        setTimeout(() => {
+          isFirstPlayRef.current = false;
+        }, 10);
         overlayStyleRef.current = styleMorning;
         document.documentElement.style.setProperty('--weather', '40');
         document.documentElement.style.setProperty('--car-light', '0.4');
         document.documentElement.style.setProperty('--seek-color', '#ff7e5f');
       } else if (timerDuration < morningToNoon.end) {
+        // 朝から昼への遷移時
         const progress = (timerDuration - morningToNoon.start) / (morningToNoon.end - morningToNoon.start);
         overlayStyleRef.current = changeStyle(styleMorning, styleNoon, progress);
         document.documentElement.style.setProperty('--weather', (40 + (50 - 40) * progress).toString());
         document.documentElement.style.setProperty('--car-light', (0.4 * (1.0 - progress)).toString());
       } else if (timerDuration < noonToNight.start) {
+        // 昼
         overlayStyleRef.current = styleNoon;
         document.documentElement.style.setProperty('--weather', '50');
         document.documentElement.style.setProperty('--car-light', '0.0');
         document.documentElement.style.setProperty('--seek-color', '#0083B0');
       } else if (timerDuration < noonToNight.end) {
+        // 昼から夜への遷移時
         const progress = (timerDuration - noonToNight.start) / (noonToNight.end - noonToNight.start);
         overlayStyleRef.current = changeStyle(styleNoon, styleNight, progress)
         document.documentElement.style.setProperty('--weather', (50 - (50 - 10) * progress).toString());
         document.documentElement.style.setProperty('--car-light', (progress).toString());
       } else if (timerDuration >= noonToNight.end) {
+        // 夜
         overlayStyleRef.current = styleNight;
         document.documentElement.style.setProperty('--weather', '10');
         document.documentElement.style.setProperty('--car-light', '1.0');
         document.documentElement.style.setProperty('--seek-color', '#030c1b');
+      } else {
+        // その他 (一応, 朝)
+        overlayStyleRef.current = styleMorning;
+        document.documentElement.style.setProperty('--weather', '40');
+        document.documentElement.style.setProperty('--car-light', '0.4');
+        document.documentElement.style.setProperty('--seek-color', '#ff7e5f');
       }
 
       turnOverlayAnimationRef.current = requestAnimationFrame(turnOverlayAnimation);

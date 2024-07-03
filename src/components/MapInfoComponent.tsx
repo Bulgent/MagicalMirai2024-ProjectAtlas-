@@ -35,13 +35,13 @@ export const MapInfoComponent = (props: any) => {
     return (
         <>
             <div className='compass'>
-                <div className='compass-circle'>
+                <div className='compass-circle' data-tooltip="北の方向">
                     <div className='compass-arrow'>
                         <div className='compass-north'>N</div>
                     </div>
                 </div>
             </div>
-            <div className='goal infobox'>
+            <div className='goal infobox' data-tooltip="目的地までの距離">
                 <div className='goal infotitle'>GOAL</div>
                 <div className='goal infotext'>
                     {((props.mikuMile[1] - props.mikuMile[0]) / 1000).toFixed(2)}&nbsp;
@@ -55,13 +55,13 @@ export const MapInfoComponent = (props: any) => {
                     <span className="unit">MM</span>
                 </div>
             </div> */}
-            <div className='vics infobox'>
+            <div className='vics infobox' data-tooltip="地図情報の更新時間">
                 <span className='vics infotitle'>VICS</span>
                 <div className='vics infotext'>
                     0{msToMs(vics)}
                 </div>
             </div>
-            <div className='scale infobox'>
+            <div className='scale infobox' data-tooltip="地図の縮尺">
                 <div className='scale infotitle'>SCALE</div>
                 <div className='scale infotext'>
                     {scale.toFixed(0)}&nbsp;

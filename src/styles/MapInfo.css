@@ -63,6 +63,37 @@
     color: white;
 }
 
+/* ツールチップの基本スタイル */
+.compass-circle[data-tooltip]:hover::after,
+.infobox[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    /* data-tooltip属性の値を表示 */
+    position: absolute;
+    bottom: 50%;
+    /* 要素の上に表示 */
+    left: 50%;
+    /* 中央揃え */
+    transform: translateX(-50%);
+    /* 正確に中央に配置 */
+    background-color: black;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 1000;
+    visibility: hidden;
+    /* 最初は非表示 */
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.compass-circle[data-tooltip]:hover::after,
+.infobox[data-tooltip]:hover::after {
+    visibility: visible;
+    /* ホバー時に表示 */
+    opacity: 1;
+}
+
 .infobox {
     background-color: rgba(0, 0, 0, 0.8);
     border-top: 3vh solid;
