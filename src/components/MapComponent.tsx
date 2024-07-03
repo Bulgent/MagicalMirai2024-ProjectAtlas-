@@ -469,6 +469,13 @@ export const MapComponent = (props: any) => {
           console.log("曲終了")
           props.isSongEnd(true);
           cancelAnimationFrame(animationRef.current!);
+          // 曲の再生が終わったらここになる
+          map.dragging.disable();
+          map.touchZoom.disable();
+          map.doubleClickZoom.disable();
+          map.scrollWheelZoom.disable();
+          map.boxZoom.disable();
+          map.keyboard.disable();
           // 2秒後にresult画面へ遷移
           setTimeout(() => {
             navigate('/result');
