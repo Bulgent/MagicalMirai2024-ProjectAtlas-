@@ -297,16 +297,6 @@ export const deg2rad = (deg: number): number => {
  * HACK: 別関数に適用したい
  */
 export const calculateDistance = (from_lonlat: [number, number], to_lonlat: [number, number]): number => {
-  const RX: number = 6378.137; // 回転楕円体の長半径（赤道半径）[km]
-  const RY: number = 6356.752; // 回転楕円体の短半径（極半径) [km]
-  const dx = deg2rad(from_lonlat[0]) - deg2rad(to_lonlat[0]);
-  const dy = deg2rad(from_lonlat[1]) - deg2rad(to_lonlat[1]);
-  const mu = (deg2rad(from_lonlat[1]) + deg2rad(to_lonlat[1])) / 2.0; // μ
-  const E = Math.sqrt(1 - Math.pow(RY / RX, 2.0)); // 離心率
-  const W = Math.sqrt(1 - Math.pow(E * Math.sin(mu), 2.0));
-  const M = RX * (1 - Math.pow(E, 2.0)) / Math.pow(W, 3.0); // 子午線曲率半径
-  const N = RX / W; // 卯酉線曲率半径
-  const distance_km = Math.sqrt(Math.pow(M * dy, 2.0) + Math.pow(N * dx * Math.cos(mu), 2.0));
   const distance_vector: number = Math.sqrt((from_lonlat[0] - to_lonlat[0]) ** 2 + (from_lonlat[1] - to_lonlat[1]) ** 2)
   return distance_vector// 距離[km]
 }

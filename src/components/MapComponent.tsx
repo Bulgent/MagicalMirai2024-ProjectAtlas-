@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
-import L, { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions } from 'leaflet';
+import  { LeafletMouseEvent, marker, Map, point, divIcon, polyline,} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -11,8 +11,8 @@ import { computePath } from '../services/ComputePath.ts'
 import { ComputeAhead } from '../services/ComputeAhead.ts'
 import { seasonType, weatherType, timeType, mapStyle, polygonStyle, mapStylePathWay, showDetail } from '../utils/MapStyle.ts'
 import {
-  checkArchType, formatKashi, calculateDistance,
-  calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor, cssSlide,
+  calculateDistance,
+  calculateEachRoadLengthRatio, getRationalPositonIndex, cssSlide,
   createLatLngBounds, calculateMikuMile, calculateRoadLengthSum, changeStyle
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
@@ -23,7 +23,6 @@ import { lyricProperties, historyProperties, noteProperties, noteCoordinatePrope
 import trunk from '../assets/jsons/map_data/trunk.json'
 import primary from '../assets/jsons/map_data/primary.json'
 import secondary from '../assets/jsons/map_data/secondary.json'
-import points from '../assets/jsons/map_data/points.json'
 import sight from '../assets/jsons/map_data/sightseeing.json'
 import areas from '../assets/jsons/map_data/area.json'
 import sky from '../assets/jsons/map_data/polygons.json'
@@ -41,6 +40,7 @@ const carIcon = divIcon({ // 31x65px
 
 // 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
 // HACK: ファイル分割したい
+/* eslint-disable */
 const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
   const markerRef = useRef(null);
 
@@ -69,7 +69,7 @@ const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
     </Marker>
   );
 });
-
+/* eslint-enable */
 export const MapComponent = (props: any) => {
   /**
    * 定数
