@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral } from 'leaflet';
+import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -77,10 +77,10 @@ export const MapComponent = (props: any) => {
   // TextAliveより得たデータ
   const songKashi = useRef<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
   // OpenStreetMapレイヤー
-  const OSMlayerRef = useRef(null);
+  const OSMlayerRef = useRef<MaplibreGL | null>(null);
   // 初期化処理のフラグ
   const [isInitMapPlayer, setIsInitMap] = useState<Boolean>(true);
-  const isInitMap = useRef(true)
+  const isInitMap = useRef<boolean>(true)
   // 車アイコン
   const [carMapPosition, setCarMapPosition] = useState<LatLngLiteral>({ lat: -1, lng: -1 })
   const [heading, setHeading] = useState(180);
@@ -526,7 +526,7 @@ export const MapComponent = (props: any) => {
       // 地図に追加
       markertext.addTo(map);
       // アニメーション
-      const slideElement = document.querySelector('.' + slideClass);
+      const slideElement = document.querySelector('.' + slideClass) as HTMLElement;
       if (slideElement) {
         slideElement.style.animation = 'fadeInSlideXY' + lyricCount.current + ' 0.5s ease forwards';
       }
