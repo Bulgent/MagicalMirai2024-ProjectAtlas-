@@ -136,7 +136,7 @@
 }
 
 .history-place {
-  font-size: calc(min(1.2vw, calc(1vw * var(--dynamic-font-size))));
+  font-size: 1.0vw;
   font-weight: bold;
 }
 

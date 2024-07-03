@@ -26,13 +26,6 @@ export const HistoryComponent = (props: any) => {
         }, 200); // アニメーションの時間に合わせる
     }, [props.fanfun]);
 
-    // TODO フォントの大きさが全部変わってしまう
-    const setDynamicFontSize = (eventPlace: string) => {
-        let fontGain = 0.12;
-        // console.log(eventPlace.length * fontGain)
-        document.documentElement.style.setProperty('--dynamic-font-size', (eventPlace.length * fontGain).toString());
-    };
-
     // ホバーされた情報表示
     const showHover = () => {
         if (props.hoverHistory.length === 0) {
@@ -59,7 +52,6 @@ export const HistoryComponent = (props: any) => {
             return (
                 <>
                     {[...props.hoverHistory].reverse().map((hover: any, index: number) => {
-                        setDynamicFontSize(hover.properties.event_place);
                         return (
                             <div key={index} className='historybox'>
                                 <div className='historycaption'>
