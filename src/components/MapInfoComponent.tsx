@@ -68,7 +68,12 @@ export const MapInfoComponent = (props: any) => {
                     <span className="unit">MM</span>
                 </div>
                 <div className='scale-line'></div>
-
+            </div>
+            <div className='latlng infobox' data-tooltip="地図の座標">
+                <div className='latlng infotitle'>LOCATION</div>
+                <div className='latlng infotext'>
+                    {scale.toFixed(0)} 座標
+                </div>
             </div>
         </>
     )

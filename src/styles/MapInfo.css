@@ -122,6 +122,10 @@
     border-color: #0097a7;
 }
 
+.latlng.infobox {
+    border-color: #f57c00;
+}
+
 .infotitle {
     position: absolute;
     width: 100%;

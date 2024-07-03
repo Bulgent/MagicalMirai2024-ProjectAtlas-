@@ -10,6 +10,7 @@ import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { ComputeAhead } from '../services/ComputeAhead.ts'
 import { RotateMarker } from '../services/RotateMarker.tsx';
+import MapCenterCrosshair from '../services/MapCenter.tsx';
 import { seasonType, weatherType, timeType, mapStyle, polygonStyle, mapStylePathWay, showDetail } from '../utils/MapStyle.ts'
 import {
   checkArchType, formatKashi, calculateDistance,
@@ -172,6 +173,7 @@ export const MapComponent = (props: any) => {
       map.createPane('note');
       map.createPane('pathway');
       map.createPane('ufo');
+      map.createPane('mapcenter')
       // mapの初期中心座標の決定
       map.setView(mapCenterRef.current)
       map.setMaxBounds(createLatLngBounds(restrictedArea))
@@ -521,22 +523,22 @@ export const MapComponent = (props: any) => {
   const UfoMarker = () => {
     const map = useMap();
     const [ufoPosition, setUfoPosition] = useState([51.505, -0.09]); // 初期位置
-  
+
     useEffect(() => {
       const interval = setInterval(() => {
         moveUfoMarker(map, setUfoPosition);
       }, 1000); // 1秒ごとに位置を更新
-  
+
       return () => clearInterval(interval);
     }, [map, ufoPosition]);
-  
+
     // UFOマーカーのクリックイベントを処理する関数
     const handleUfoClick = () => {
       console.log("UFOマーカーがクリックされました。", ufoPosition);
       // ここにクリック時の処理を追加
       props.handOverFanFun(512810410);
     };
-  
+
     return (
       <Marker
         position={ufoPosition}
@@ -725,12 +727,14 @@ export const MapComponent = (props: any) => {
     }, [props.isMoving]);
 
     return (
-      <GeoJSON
-        data={sky as unknown as GeoJSON.GeoJsonObject}
-        // Cast overlayStyleRef.current to PathOptions
-        style={overlayStyleRef.current as PathOptions}
-        pane="sky"
-      />
+      <>
+        <GeoJSON
+          data={sky as unknown as GeoJSON.GeoJsonObject}
+          // Cast overlayStyleRef.current to PathOptions
+          style={overlayStyleRef.current as PathOptions}
+          pane="sky"
+        />
+      </>
     )
   }
 
@@ -758,6 +762,7 @@ export const MapComponent = (props: any) => {
         maxBoundsViscosity={1.0}
         preferCanvas={true}
         boxZoom={false} doubleClickZoom={false}
+        inertia={false}
       >
         <GetZoomLevel />
         <GeoJSON
@@ -799,6 +804,9 @@ export const MapComponent = (props: any) => {
         {/* 曲の開始まで表示するレイヤ */}
         <PathWay />
         <UpdatingOverlayLayer />
+        <MapCenterCrosshair
+          isMoving={props.isMoving || isFirstPlayRef.current}
+          pane='mapcenter' />
         <GeoJSON
           data={sight as GeoJSON.GeoJsonObject}
           pointToLayer={showDetail}
