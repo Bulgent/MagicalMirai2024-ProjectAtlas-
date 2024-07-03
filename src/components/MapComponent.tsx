@@ -762,7 +762,7 @@ export const MapComponent = (props: any) => {
         maxBoundsViscosity={1.0}
         preferCanvas={true}
         boxZoom={false} doubleClickZoom={false}
-        inertia={false}
+        inertia={false} 
       >
         <GetZoomLevel />
         <GeoJSON
