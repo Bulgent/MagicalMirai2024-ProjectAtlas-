@@ -459,7 +459,14 @@ export const MapComponent = (props: any) => {
           map.keyboard.disable();
           // 2秒後にresult画面へ遷移
           setTimeout(() => {
-            navigate('/result');
+            navigate('/result', {
+              // ResultPageに渡すデータをここに書く
+              state: {
+                fanFun: props.fanFun,
+                hoverHistory: hoverHistory.current,
+                mikuMile: props.mikuMile
+              }
+            });
           }, 2000);
         }
       },
@@ -741,7 +748,7 @@ export const MapComponent = (props: any) => {
           rotationOrigin="center"
         >
         </RotateCarLightMarker>
-        <UfoMarker handOverFanFun={props.handOverFanFun} isMoving={props.isMoving}/>
+        <UfoMarker handOverFanFun={props.handOverFanFun} isMoving={props.isMoving} />
         {/* 曲の開始まで表示するレイヤ */}
         <PathWay />
         <UpdatingOverlayLayer />

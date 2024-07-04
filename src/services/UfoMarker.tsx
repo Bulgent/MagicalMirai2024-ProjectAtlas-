@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import { LatLngLiteral, Marker, marker, Tooltip } from 'leaflet';
-import { ufoIcon } from '../assets/marker/markerSVG';
+import { ufoIcon, unicornIcon } from '../assets/marker/markerSVG';
 
 const UfoMarker = (props: any) => {
     const map = useMap();
@@ -14,11 +14,14 @@ const UfoMarker = (props: any) => {
 
     // UFOの初期位置を設定
     const [ufoPosition, setUfoPosition] = useState<LatLngLiteral>({ lat: 34.38097037919402, lng: 135.26791339701882 });
+    // UFOがクリックされたかどうかの状態を管理
+    const [isUfo, setIsUfo] = useState(false);
+
 
     // UFOを動かす
     useEffect(() => {
         const moveUfo = setInterval(() => {
-            if (!props.isMoving) {
+            if (!props.isMoving || isUfo) {
                 setUfoPosition({
                     lat: 34.38097037919402,
                     lng: 135.26791339701882
@@ -32,7 +35,7 @@ const UfoMarker = (props: any) => {
         }, 1000); // 1秒ごとに位置を更新
 
         return () => clearInterval(moveUfo);
-    }, [props.isMoving]);
+    }, [props.isMoving, isUfo]);
 
     // UFOの位置をマップに反映させる
     useEffect(() => {
@@ -47,8 +50,9 @@ const UfoMarker = (props: any) => {
     }, [ufoPosition, map]);
 
     const handleUfoClick = () => {
-        if (props.isMoving) {
+        if (props.isMoving && !isUfo) {
             props.handOverFanFun(512810410); // コイニハッテンシテ
+            setIsUfo(true);
         } else {
             console.log('オィイイイイイッス！ 今日はオフ会当日ですけども 参加者は 誰一人いませんでした');
         }

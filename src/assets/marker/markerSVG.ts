@@ -108,3 +108,11 @@ export const ufoIcon = divIcon({
     iconSize: [100, 100], // アイコンのサイズ
     iconAnchor: [50, 50] // アイコンのアンカーポイント
 });
+
+// UFOアイコンの設定
+export const unicornIcon = divIcon({
+    className: 'unicorn-icon', // カスタムクラス名
+    html: emojiUnicorn, // UFOアイコンのHTML
+    iconSize: [100, 100], // アイコンのサイズ
+    iconAnchor: [50, 50] // アイコンのアンカーポイント
+});

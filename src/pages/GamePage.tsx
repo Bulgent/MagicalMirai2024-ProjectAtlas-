@@ -131,6 +131,8 @@ export const GamePage = () => {
               songnum={songInfo}
               isMoving={isMapMove}
               player={player}
+              fanFun={fanFun}
+              mikuMile={mikuMile}
               handOverHover={handOverHoverHistory}
               handOverFanFun={handOverFanFun}
               handOverMikuMile={handOverMikuMile}
