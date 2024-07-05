@@ -559,8 +559,8 @@ export const MapComponent = (props: any) => {
   //   props.handOverHover(e.sourceTarget.feature)
   // }
 
-  // 👽観光地にマウスが乗ったときに呼び出される関数👽
-  const onSightHover = (e: LeafletMouseEvent) => {
+  // 👽観光地をクリックしたときに呼び出される関数👽
+  const onSightClick = (e: LeafletMouseEvent) => {
     // hoverhistoryに重複しないように追加
     if (isMapMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
       hoverHistory.current.push(e.sourceTarget.feature);
@@ -575,12 +575,28 @@ export const MapComponent = (props: any) => {
     }
   }
 
+  // 👽観光地にマウスが乗ったときに呼び出される関数👽
+  // const onSightHover = (e: LeafletMouseEvent) => {
+  //   // hoverhistoryに重複しないように追加
+  //   if (isMapMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
+  //     hoverHistory.current.push(e.sourceTarget.feature);
+  //     const historyProperty: historyProperties = e.sourceTarget.feature
+  //     historyProperty.properties.playerPosition = playerPositionRef.current
+  //     props.handOverHover(e.sourceTarget.feature)
+  //     props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
+  //   }
+  //   // オフ会0人かどうか
+  //   if (e.sourceTarget.feature.properties.event_place == "泉南イオン") {
+  //     console.log("オイイイッス！👽")
+  //   }
+  // }
+
   const onSightHoverOut = (e: LeafletMouseEvent) => {
-    // 動いてない時かつ未訪問の時
-    if (!isMapMovingRef.current && !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index)) {
+    // 未訪問の時
+    if (!hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index)) {
       const hoveredMarker = e.target;
       // ツールチップ閉じる
-      hoveredMarker.unbindTooltip();
+      hoveredMarker.closeTooltip();
     }
   };
 
@@ -761,7 +777,8 @@ export const MapComponent = (props: any) => {
           pointToLayer={showDetail}
           onEachFeature={(_, layer) => {
             layer.on({
-              mouseover: onSightHover, // ポイントにマウスが乗っかったときに呼び出される関数
+              click: onSightClick,
+              // mouseover: onSightHover, // ポイントにマウスが乗っかったときに呼び出される関数
               mouseout: onSightHoverOut
             });
           }}

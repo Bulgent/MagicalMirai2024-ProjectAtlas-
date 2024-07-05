@@ -42,7 +42,9 @@ export const HistoryComponent = (props: any) => {
                     </div>
                     <div className="history-emoji">
                         {Array.from({ length: sightType.buil }, (_, index) => (
-                            <span key={index} className='emoji-icon' data-tooltip={sightEmoji(index).type}>{sightEmoji(index).emoji}</span>
+                            <span key={index} className='emoji-icon' data-tooltip={sightEmoji(index).type}>
+                                {sightEmoji(index).emoji}
+                            </span>
                         ))}
                     </div>
                 </>
@@ -73,7 +75,9 @@ export const HistoryComponent = (props: any) => {
                                     <div className='historyname'>
                                         <span>{props.hoverHistory.length - index}</span>
                                         -
-                                        <span className='history-place'>{hover.properties.event_place}</span>
+                                        <span className='history-place'>
+                                            {hover.properties.event_place}
+                                        </span>
                                     </div>
                                     <div className='historytime'>
                                         {msToMs(hover.properties.playerPosition)}
@@ -99,12 +103,12 @@ export const HistoryComponent = (props: any) => {
             <div className='hover'>
                 <div className='hovertext' data-tooltip="旅の思い出">
                     Trip Memories
-                    <div className='hoverline'></div>
+                    <div className='hoverline'/>
                 </div>
                 <div className='hovercomponent' >
                     {showHover()}
                 </div>
-                <div className='hoverline'></div>
+                <div className='hoverline' />
                 <div className='fanfun' data-tooltip="FanFun度">
                     {animations.map((anim) =>
                         <div key={anim.id} className={`fanfunChange ${!anim.display ? 'fade-out-up-animation' : ''}`}>
