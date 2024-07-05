@@ -53,23 +53,26 @@ export const HistoryComponent = (props: any) => {
         else {
             return (
                 <>
-                    {props.songEnd && (<div className='historybox'>
-                        <div className='historycaption'>
-                            <div className='historyname'>
-                                <span>{props.hoverHistory.length}</span>
-                                -
-                                <span className='history-place'>インテックス大阪</span>
+                    {props.songEnd && (<>
+                        <div className='historyroad' />
+                        <div className='historybox'>
+                            <div className='historycaption'>
+                                <div className='historyname'>
+                                    <span>{props.hoverHistory.length}</span>
+                                    -
+                                    <span className='history-place'>インテックス大阪</span>
+                                </div>
+                                <div className='historytime'>
+                                    {msToMs(props.player.data.song.length * 1000)}
+                                </div>
                             </div>
-                            <div className='historytime'>
-                                {msToMs(props.player.data.song.length * 1000)}
+                            <div className='historydetail'>
+                                マジカルミライ オオサカ公演!
                             </div>
                         </div>
-                        <div className='historydetail'>
-                            マジカルミライ オオサカ公演!
-                        </div>
-                    </div>)}
+                    </>)}
                     {[...props.hoverHistory].reverse().map((hover: any, index: number) => {
-                        return (
+                        return (<>
                             <div key={index} className='historybox'>
                                 <div className='historycaption'>
                                     <div className='historyname'>
@@ -89,8 +92,11 @@ export const HistoryComponent = (props: any) => {
                                 <div className='historypoint'>
                                     +{hover.properties.want_score} FanFun
                                 </div>
+                                <div className='historyroad' />
+
                             </div>
-                        )
+
+                        </>)
                     })}
                 </>
             )
@@ -103,9 +109,10 @@ export const HistoryComponent = (props: any) => {
             <div className='hover'>
                 <div className='hovertext' data-tooltip="旅の思い出">
                     Trip Memories
-                    <div className='hoverline'/>
+                    <div className='hoverline' />
                 </div>
                 <div className='hovercomponent' >
+                    {/* <img className='historycar' src='src\assets\images\carIcon.png' /> */}
                     {showHover()}
                 </div>
                 <div className='hoverline' />
