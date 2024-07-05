@@ -13,8 +13,7 @@ export const lightCar = '\
 </div>';
 
 // ✜
-export const mapCross = '<span class="emoji startflag" style="font-family: \'Noto Emoji\'; font-size: 50px; Color: black; text-align: center;">✛</span>';
-
+export const mapCross = '<span class="emoji startflag" style="font-family: \'Noto Emoji\'; font-size: 50px; color: black; text-align: center; text-shadow: 0px 0px 0 #fff, 0px 0px 0 #fff, 0px 0px 0 #fff, 1px 1px 0 #fff;">✛</span>';
 // 🚩
 export const emojiStart = '<span class="emoji startflag" style="font-family: \'Noto Color Emoji\'; font-size: 30px; text-align: center;">🚩</span>';
 
