@@ -31,12 +31,12 @@ export const HistoryComponent = (props: any) => {
         if (props.hoverHistory.length === 0) {
             return (
                 <>
-                    <div className='nohoverhistory' data-tooltip="地図上の経由地をホバー/タップ">
+                    <div className='nohoverhistory' data-tooltip="地図上のアイコンをクリック">
                         <div className='historyname'>
                             No Waypoint Arrived
                         </div>
                         <div className='historydetail'>
-                            Please hover or tap map icon
+                            Please click map icon
                         </div>
 
                     </div>

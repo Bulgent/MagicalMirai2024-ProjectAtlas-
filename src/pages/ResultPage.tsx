@@ -24,7 +24,7 @@ export const ResultPage = () => {
                     <br />
                     FanFunScore:{result.fanFun}
                     <br />
-                    {/* hoverしたら詳細表示 */}
+                    {/* TODO hoverしたら詳細表示 */}
                     hoverHistory:{result.hoverHistory.map((hover: any) => {
                         return <>{hover.properties.event_place} <br /></>
                     })
