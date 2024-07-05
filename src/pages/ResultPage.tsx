@@ -11,7 +11,6 @@ import { msToMs } from '../utils/utils';
 // GamePageからのなんのデータがほしいかを書いといてください．
 
 export const ResultPage = () => {
-    // 画面遷移用
     const location = useLocation();
     // GamePageからのデータを取得
     const result = location.state;

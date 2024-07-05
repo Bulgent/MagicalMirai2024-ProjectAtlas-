@@ -23,6 +23,7 @@ interface SongData {
     turningPoint1:[startMs: number, endMs: number];
     turningPoint2:[startMs: number, endMs:number];
     duration: number;
+    difficulty: number;
 }
 
 enum vocaloidNum {
@@ -64,6 +65,7 @@ const song1: SongData = {
     turningPoint1:[97000, 122000], 
     turningPoint2:[157000, 173000],
     duration: 211540, // 3分31秒
+    difficulty: 1
 };
 
 const song2: SongData = {
@@ -91,6 +93,7 @@ const song2: SongData = {
     turningPoint1:[73000, 82000], 
     turningPoint2:[142000, 161000],
     duration: 211650, // 3分31秒 
+    difficulty: 2
 };
 
 const song3: SongData = {
@@ -118,6 +121,7 @@ const song3: SongData = {
     turningPoint1:[52000, 61000], 
     turningPoint2:[84000, 94000],
     duration: 153190, // 2分33秒
+    difficulty: 3
 };
 
 const song4: SongData = {
@@ -145,6 +149,7 @@ const song4: SongData = {
     turningPoint1:[84000, 91000], 
     turningPoint2:[173000, 189000],
     duration: 189290, // 3分9秒 
+    difficulty: 4
 };
 
 const song5: SongData = {
@@ -172,6 +177,7 @@ const song5: SongData = {
     turningPoint1:[52000, 60000], 
     turningPoint2:[111000, 126000],
     duration: 192200, // 3分12秒 
+    difficulty: 5
 };
 
 const song6: SongData = {
@@ -199,6 +205,7 @@ const song6: SongData = {
     turningPoint1:[67000, 84000], 
     turningPoint2:[137000, 150000],
     duration: 192240, // 3分12秒
+    difficulty: 6
 };
 
 // 曲配列

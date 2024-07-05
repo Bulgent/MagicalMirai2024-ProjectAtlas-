@@ -183,6 +183,7 @@ export const GamePage = () => {
             player={player}
             hoverHistory={hoverHistory}
             fanfun={fanFun}
+            songEnd={isSongEnd}
           />
         </div>
         <img id='logo' src='src/assets/images/logo.png' alt='' />

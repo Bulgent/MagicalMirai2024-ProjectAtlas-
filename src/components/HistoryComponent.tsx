@@ -51,6 +51,21 @@ export const HistoryComponent = (props: any) => {
         else {
             return (
                 <>
+                    {props.isSongEnd && (<div className='historybox'>
+                        <div className='historycaption'>
+                            <div className='historyname'>
+                                <span></span>
+                                -
+                                <span className='history-place'>インテックス大阪</span>
+                            </div>
+                            <div className='historytime'>
+                                {msToMs(props.player.data.song.length * 1000)}
+                            </div>
+                        </div>
+                        <div className='historydetail'>
+                            マジカルミライ オオサカ公演!
+                        </div>
+                    </div>)}
                     {[...props.hoverHistory].reverse().map((hover: any, index: number) => {
                         return (
                             <div key={index} className='historybox'>
@@ -65,7 +80,7 @@ export const HistoryComponent = (props: any) => {
                                     </div>
                                 </div>
                                 <div className='historydetail'>
-                                    {hover.properties.event_detail}
+                                    {hover.properties.event_title}
                                 </div>
                                 <div className='historypoint'>
                                     +{hover.properties.want_score} FanFun
