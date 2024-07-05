@@ -51,10 +51,10 @@ export const HistoryComponent = (props: any) => {
         else {
             return (
                 <>
-                    {props.isSongEnd && (<div className='historybox'>
+                    {props.songEnd && (<div className='historybox'>
                         <div className='historycaption'>
                             <div className='historyname'>
-                                <span></span>
+                                <span>{props.hoverHistory.length}</span>
                                 -
                                 <span className='history-place'>インテックス大阪</span>
                             </div>
