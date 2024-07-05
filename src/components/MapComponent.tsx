@@ -18,7 +18,7 @@ import {
   createLatLngBounds, calculateMikuMile, calculateRoadLengthSum, changeStyle
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
-import { emojiNote, emojiStart, emojiGoal, carIcon, carLightIcon } from '../assets/marker/markerSVG.ts'
+import { emojiNote, emojiStart, emojiGoal, carIcon, carLightIcon, pngMM24, mmIcon } from '../assets/marker/markerSVG.ts'
 // 型データの導入
 import { lyricProperties, historyProperties, noteProperties, noteCoordinateProperties, wordTimeProperties } from '../types/types';
 // 地図データの導入
@@ -686,6 +686,18 @@ export const MapComponent = (props: any) => {
     )
   }
 
+  // ゴールアイコン
+  const SetGoalIcon = () => {
+    const map = useMap();
+    useEffect(() => {
+      if (props.songnum === -1 || !isInitMapPlayer) {
+        return
+      }
+        marker([34.6376177629165, 135.4219243060005], { icon: mmIcon, pane: "waypoint" }).addTo(map);
+    }, [map, props.songnum, isInitMapPlayer]);
+    return null;
+  }
+
   // スケール変更時の処理
   const GetZoomLevel = () => {
     const map = useMap();
@@ -734,6 +746,7 @@ export const MapComponent = (props: any) => {
         />
         <MoveMapByRoute />
         <AddNotesToMap />
+        <SetGoalIcon />
         <MapFunctionUpdate />
         <RemoveMapTextFunction />
         <RotateCarMarker

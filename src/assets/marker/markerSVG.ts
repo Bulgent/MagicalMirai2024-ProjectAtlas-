@@ -3,6 +3,9 @@ import { divIcon } from 'leaflet';
 // 🚗
 export const pngCar = '<img src="src/assets/images/carIcon.png" alt="🛸">';
 
+// 🎸
+export const pngMM24 = '<img src="src/assets/images/mm24_logo.png" alt="🎸" style="width: 100px; height: 37px; object-fit: contain;">';
+
 // 🔦
 export const lightCar = '\
 <div class="car-lamp">\
@@ -86,6 +89,13 @@ export const emojiSight = [
     emojiBuil // その他
 ]
 
+export const mmIcon = divIcon({
+    html: pngMM24,
+    iconSize: [100, 37],
+    iconAnchor: [50, 18.5],
+    className: "icon-goal"
+});
+
 export const carIcon = divIcon({ // 31x65px
     className: 'car-icon', // カスタムクラス名
     html: pngCar,  // ここに車のアイコンを挿入する
@@ -108,10 +118,11 @@ export const ufoIcon = divIcon({
     iconAnchor: [50, 50] // アイコンのアンカーポイント
 });
 
-// UFOアイコンの設定
+// ユニコーンアイコンの設定
 export const unicornIcon = divIcon({
     className: 'unicorn-icon', // カスタムクラス名
     html: emojiUnicorn, // UFOアイコンのHTML
     iconSize: [100, 100], // アイコンのサイズ
     iconAnchor: [50, 50] // アイコンのアンカーポイント
 });
+
