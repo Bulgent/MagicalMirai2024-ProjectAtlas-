@@ -37,8 +37,8 @@
   /* font-size:40px!important; */
   transform-origin: center !important;
   /* アイコンの幅 '+' の間にスペースないと動かない*/
-  color: #137a7f !important;
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  color: #00bbff !important;
+  text-shadow: -1px -1px 0 #1a1a1a, 1px -1px 0 #1a1a1a, -1px 1px 0 #1a1a1a, 1px 1px 0 #1a1a1a;
   /* 黒の縁取り */
 }
 
@@ -60,7 +60,7 @@
   /* 三角形の底辺の幅 */
   height: 300px;
   /* 三角形の高さ */
-  background: linear-gradient(to top, #ffd98c 50%, transparent 100%);
+  background: linear-gradient(to top, #ffcd5a 50%, transparent 100%);
   position: absolute;
   clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
   border-radius: 50% 50% 0 0; /* 上部を角丸の円錐型にする */
@@ -84,7 +84,7 @@
   /* 三角形の底辺の幅 */
   height: 10px;
   /* 三角形の高さ */
-  background: linear-gradient(to bottom, #e12885 1%, transparent 100%);
+  background: linear-gradient(to bottom, #ff73a0 1%, transparent 100%);
   position: absolute;
   clip-path: polygon(0% 100%, 100% 100%, 50% 0%);
   border-radius: 80% 80% 0 0; /* 上部を角丸の円錐型にする */

@@ -1,0 +1,48 @@
+.bsod{
+    display: flex;
+    align-items: left;
+    flex-direction: column;
+    background-color: #005edc;
+    justify-content: space-between;
+    border-radius: 2vw;
+    color: #fff;
+    height: calc(100% - 4vw);
+    width: calc(100% - 4vw);
+    font-size: 1.5em;
+    text-align: left;
+    padding: 2vw;
+}
+
+.face{
+    font-size: 10vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 1vw;
+    flex-direction: row;
+}
+.label{
+    font-size: 3vw;
+}
+.txt{
+    font-size: 2vw;
+}
+.btn{
+    background-color: #fff;
+    color: #005edc;
+    border-radius: 1vw;
+    text-align: center;
+    cursor: pointer;
+    font-size: 1.5vw;
+    width: calc(50% - 2vw);
+    padding: 1vw;
+}
+
+.postscript{
+    font-size: 1vw;
+}
+
+.image-logo{
+    width: 20vw;
+    object-fit: contain;
+}

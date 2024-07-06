@@ -161,7 +161,7 @@
 
 .progress-bar {
     height: 100%;
-    background-color: #2f79dc;
+    background-color: #d9d9d9;
     /* background-color: var(--seek-color); */
     /* width: 0%; */
     right: 0;
@@ -186,7 +186,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: flex-end;
-    color: white;
+    color: #e0d8c3;
     text-align: center;
     height: 3.5vh;
 }
@@ -195,14 +195,14 @@
 .time-duration {
     font-size: 2.5vh;
     width: 2vw;
-    color: white;
+    color: #e0d8c3;
     text-align: center;
 }
 
 /* Current Phrase */
 .phrase-current {
     font-size: 1.2vw;
-    color: white;
+    color: #e0d8c3;
     text-align: center;
     margin: 0 auto;
     white-space: nowrap;
@@ -229,7 +229,7 @@
 }
 
 .pausebutton:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(16, 16, 16, 0.1);
     /* ホバー時の背景色を変更 */
     transform: scale(0.95);
     /* ホバー時に少し小きくする */
@@ -272,8 +272,8 @@
 }
 
 .ppbutton.material-symbols-outlined {
-    color: #FFFFFF;
+    color: #e0d8c3;
     font-size: 7vh;
     font-weight: normal;
-    text-shadow: 2px 2px 4px #000000;
+    text-shadow: 2px 2px 4px #101010;
 }

@@ -124,7 +124,7 @@
   justify-content: space-evenly;
   align-items: left;
   font-size: 4vh;
-  background-color: #f8cf71;
+  background-color: #ffcd5a;
   padding: 0vh 1.5vh;
   clip-path: polygon(2vw 0, 100% 0, 100% 100%, 2vw 100%, 0 calc(100% - 2vw), 0 2vw);
   border-radius: 1vh;
@@ -156,7 +156,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: left;
-  background-color: #e0d8c3;
+  background-color: #fffadd;
   border-radius: 1vh;
   gap: 0.5vh;
   padding: 1vh;
