@@ -11,12 +11,14 @@
   width: 50%;
   height: 100%;
   position: relative;
+  border-radius: 2vh 0 0 2vh; /* 左上と左下の角を丸くする */
+  overflow: hidden;
 }
 
 .result-right {
   display: flex;
   flex-direction: column;
-  border-radius: 2vh;
+  border-radius: 0 2vh 2vh 0; /* 左上と左下の角を丸くする */
   justify-content: space-evenly;
   height: calc(100% - 2vh);
   flex: 1;

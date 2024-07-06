@@ -740,7 +740,7 @@ export const MapComponent = (props: any) => {
       <MapContainer className='mapcomponent' style={{ backgroundColor: '#f5f3f3' }}
         center={[-1, -1]} zoom={mapZoom}
         minZoom={14} maxZoom={17}
-        zoomSnap={0.1} zoomDelta={0.5} trackResize={false}
+        zoomSnap={0.1} zoomDelta={0.5} trackResize={true}
         inertiaMaxSpeed={500} inertiaDeceleration={1000}
         zoomControl={false} attributionControl={false}
         maxBoundsViscosity={1.0}
