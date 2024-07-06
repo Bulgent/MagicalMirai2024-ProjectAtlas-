@@ -176,7 +176,7 @@ export const ResultPage = () => {
                 hashtag += sightEmoji(sight.type).hashtag + ' ';
             }
         });
-        
+
 
         const ufoHashtag = [
             '#UFO',
@@ -203,15 +203,15 @@ export const ResultPage = () => {
                 <div className="result-split">
                     <div className='result-left'>
                         {/* 左画面 */}
-                        <div className='detail-mapcomponent'>
-                            <ResultDetailMapComponent
-                                pathway = {result.pathway}
-                                hoverHistory = {result.hoverHistory}
-                            />
-                        </div>
-                        <div className='island-mapcomponent'>
+                        {/* <div className='island-map'>
                             <ResultIslandMapComponent
-                                pathway = {result.pathway}
+                                pathway={result.pathway}
+                            />
+                        </div> */}
+                        <div className='detail-map'>
+                            <ResultDetailMapComponent
+                                pathway={result.pathway}
+                                hoverHistory={result.hoverHistory}
                             />
                         </div>
                         <div className='result-songtitle'>
@@ -246,6 +246,7 @@ export const ResultPage = () => {
                             </div>
                         </div>
                         <div className='result-overview'>
+                            <div className='result-hole' />
                             <div className='overview-tag'>
                                 <div className='overview-title'>
                                     Overview of Your Trip

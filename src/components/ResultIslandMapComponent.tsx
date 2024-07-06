@@ -9,8 +9,8 @@ import { mapStylePathWay } from '../utils/MapStyle.ts'
 import { emojiStart, emojiGoal } from '../assets/marker/markerSVG.ts'
 
 export const ResultIslandMapComponent = (props: any) => {
-    const mapZoom = 10.2;
-    const mapCenter:LatLngLiteral = {lat:34.650003221419524, lng:135.53705225930204}
+    const mapZoom = 9.2;
+    const mapCenter:LatLngLiteral = {lat:34.650003221419524, lng:135.53905226930204}
 
     const OSMlayerRef = useRef<MaplibreGL | null>(null);
     const isInitMapRef = useRef<Boolean>(true);

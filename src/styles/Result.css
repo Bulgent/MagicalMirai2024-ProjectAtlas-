@@ -16,6 +16,27 @@
   overflow: hidden;
 }
 
+.detail-map{
+  top: 50%;
+  left: 2%;
+  transform: translateY(-50%);
+  border-color: #007bff;
+  border-radius: 2vh ;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0.5vh;
+  position: absolute;
+  z-index: 100000;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.detail-mapcomponent {
+  width: 100%;
+  height: 100%;
+  border-radius: 2vh;
+}
+
 .result-songtitle {
   display: flex;
   text-align: center;
@@ -35,7 +56,6 @@
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   background-color: rgba(0, 0, 0, 0.8);
-
 }
 
 .result-right {
@@ -95,7 +115,6 @@
 }
 
 .result-overview {
-  
   width: 90%;
   display: flex;
   flex-direction: column;
@@ -105,8 +124,20 @@
   color: black;
   background-color: #f8cf71;
   padding: 0vh 1.5vh;
-  clip-path: polygon(4vh 0, 100% 0, 100% 100%, 4vh 100%, 0 calc(100% - 4vh), 0 4vh);
+  clip-path: polygon(5vh 0, 100% 0, 100% 100%, 5vh 100%, 0 calc(100% - 4vh), 0 4vh);
   border-radius: 1vh;
+  position: relative;
+}
+
+.result-hole{
+  position: absolute;
+  width: 3vh; /* 円の幅 */
+  height: 3vh; /* 円の高さ */
+  background-color: #2a2a2a; /* 円の背景色 */
+  border-radius: 50%; /* 角を丸くして円を作成 */
+  top: 50%; /* 上から50%の位置に */
+  left: 1.5vh;
+  transform: translateY(-50%); /* 上下中央に配置 */
 }
 
 .overview-tag {
