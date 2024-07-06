@@ -168,11 +168,14 @@ export const ResultPage = () => {
                 mostVisited.push(sight.type);
             }
         });
-        // ハッシュタグ
+        // sightcount のカウントが1以上のやつに対してハッシュタグをつける
         let hashtag = '';
-        mostVisited.forEach((type) => {
-            hashtag += sightEmoji(type).hashtag + ' ';
+        sightCount.forEach((sight) => {
+            if (sight.count > 0) {
+                hashtag += sightEmoji(sight.type).hashtag + ' ';
+            }
         });
+        
 
         const ufoHashtag = [
             '#UFO',
