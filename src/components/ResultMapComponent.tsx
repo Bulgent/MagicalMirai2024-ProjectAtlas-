@@ -5,6 +5,7 @@ import areas from '../assets/jsons/map_data/area.json'
 import { mapStyle} from '../utils/MapStyle.ts'
 import { LatLngLiteral, MaplibreGL } from 'leaflet';
 import { useEffect, useRef, useState } from 'react';
+import { mapStylePathWay } from '../utils/MapStyle.ts'
 
 export const ResultMapComponent = (props: any) => {
     const mapZoom = 10.2;
@@ -13,6 +14,25 @@ export const ResultMapComponent = (props: any) => {
     const OSMlayerRef = useRef<MaplibreGL | null>(null);
     const isInitMapRef = useRef<Boolean>(true);
     const [isMapReady, setIsMapReady] = useState(false);
+
+      // 通る道についての描画
+    const PathWay: React.FC = () => {
+        console.log(props.pathway)
+        if (props.pathway) {
+        const geojson = {
+            type: "FeatureCollection",
+            features: props.pathway
+        }
+        return (
+            <GeoJSON
+            data={geojson as GeoJSON.GeoJsonObject}
+            style={mapStylePathWay}
+            />
+        );
+        } else {
+        return null;
+        }
+    };
 
     // MapLibreTileLayerのrefを定期監視する処理
     useEffect(() => {
@@ -69,6 +89,7 @@ export const ResultMapComponent = (props: any) => {
         touchZoom={false} scrollWheelZoom={false}
         tap={false} keyboard={false}
         >
+        <PathWay />
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得

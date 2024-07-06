@@ -26,7 +26,9 @@ export const ResultPage = () => {
                 <div className="result-split">
                     <div className='result-left'>
                         {/* 左画面 */}
-                        <ResultMapComponent/>
+                        <ResultMapComponent
+                            pathway = {result.pathway}
+                        />
                         <div className='result-songtitle'>
                             {result?.player.data.song.name}
                         </div>
