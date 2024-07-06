@@ -1,3 +1,4 @@
+import '../styles/Result.css';
 import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import areas from '../assets/jsons/map_data/area.json'

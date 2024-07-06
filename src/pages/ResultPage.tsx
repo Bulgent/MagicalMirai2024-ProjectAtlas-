@@ -22,11 +22,11 @@ export const ResultPage = () => {
 
     return (
         <div id="display" className="soft-gloss">
-            <MapComponent/>
             <div id="navi" className="split">
                 <div className="result-split">
                     <div className='result-left'>
                         {/* 左画面 */}
+                        <MapComponent/>
                         <div className='result-songtitle'>
                             {result?.player.data.song.name}
                         </div>
