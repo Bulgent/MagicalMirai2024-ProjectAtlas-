@@ -480,6 +480,7 @@ export const MapComponent = (props: any) => {
               hoverHistory: hoverHistory.current, // 経由地の情報
               mikuMile: props.mikuMile, // MikuMile
               player: { data: { song: props?.player?.data?.song } }, // 楽曲情報
+              pathway: pathwayFeature,
               // HACK (props.player自体はmediaElementにdiv要素があるためResultに渡せない)
             }
             // 2秒後にresult画面へ遷移

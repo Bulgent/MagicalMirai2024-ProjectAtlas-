@@ -3,8 +3,10 @@ import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import areas from '../assets/jsons/map_data/area.json'
 import { mapStyle} from '../utils/MapStyle.ts'
-import { LatLngLiteral, MaplibreGL } from 'leaflet';
+import { LatLngLiteral, MaplibreGL, point, divIcon, marker } from 'leaflet';
 import { useEffect, useRef, useState } from 'react';
+import { mapStylePathWay } from '../utils/MapStyle.ts'
+import { emojiNote, emojiStart, emojiGoal, carIcon, carLightIcon, pngMM24, mmIcon } from '../assets/marker/markerSVG.ts'
 
 export const ResultMapComponent = (props: any) => {
     const mapZoom = 10.2;
@@ -13,6 +15,75 @@ export const ResultMapComponent = (props: any) => {
     const OSMlayerRef = useRef<MaplibreGL | null>(null);
     const isInitMapRef = useRef<Boolean>(true);
     const [isMapReady, setIsMapReady] = useState(false);
+
+    // 通る道についての描画
+    const PathWay: React.FC = () => {
+        console.log(props.pathway)
+        if (props.pathway) {
+        const geojson = {
+            type: "FeatureCollection",
+            features: props.pathway
+        }
+        return (
+            <GeoJSON
+            data={geojson as GeoJSON.GeoJsonObject}
+            style={mapStylePathWay}
+            />
+        );
+        } else {
+        return null;
+        }
+    };
+
+    const StartPosition = () =>{
+        const map = useMap()
+        const crtLat:number = props.pathway[0].geometry.coordinates[0][0][1]
+        const crtLng:number = props.pathway[0].geometry.coordinates[0][0][0]
+        const markerString: string = "🦄"
+        const markerSVG: string = emojiStart
+        const markerClass: string = "icon-goal"
+        const markerSize: [number, number] = [50, 50]
+        const markerAnchor: [number, number] = [8, 38]
+        // L.icon を使用してカスタムアイコンを設定
+        const noteIcon = divIcon({
+            className: markerClass, // カスタムクラス名
+            html: markerSVG, // SVG アイコンの HTML
+            iconSize: markerSize, // アイコンのサイズ
+            iconAnchor: markerAnchor // アイコンのアンカーポイント
+            });
+        const lyricMarker = marker([crtLat, crtLng], { icon: noteIcon, opacity: 1}).addTo(map);
+        // 時間に応じたクラスを追加したツールチップを追加
+        lyricMarker.bindTooltip("aaa", 
+            { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note"})
+            .closeTooltip();
+        return null;
+    }
+
+    const EndPosition = () =>{
+        const map = useMap()
+        const coordinates = props.pathway[0].geometry.coordinates[0]
+        const coordinatesLength = coordinates.length
+        const crtLat:number = coordinates[coordinatesLength-1][1]
+        const crtLng:number = coordinates[coordinatesLength-1][0]
+        const markerString: string = "🦄"
+        const markerSVG: string = emojiGoal
+        const markerClass: string = "icon-goal"
+        const markerSize: [number, number] = [50, 50]
+        const markerAnchor: [number, number] = [8, 38]
+        // L.icon を使用してカスタムアイコンを設定
+        const noteIcon = divIcon({
+            className: markerClass, // カスタムクラス名
+            html: markerSVG, // SVG アイコンの HTML
+            iconSize: markerSize, // アイコンのサイズ
+            iconAnchor: markerAnchor // アイコンのアンカーポイント
+            });
+        const lyricMarker = marker([crtLat, crtLng], { icon: noteIcon, opacity: 1}).addTo(map);
+        // 時間に応じたクラスを追加したツールチップを追加
+        lyricMarker.bindTooltip("aaa", 
+            { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note"})
+            .closeTooltip();
+        return null;
+    }
 
     // MapLibreTileLayerのrefを定期監視する処理
     useEffect(() => {
@@ -31,7 +102,6 @@ export const ResultMapComponent = (props: any) => {
         }, 10);
         return () => clearInterval(interval);
     }, []);
-
     // MapLibraTileLayerのrefがnullから変化した場合に行う処理
     useEffect(() => {
         if (!isInitMapRef.current || !OSMlayerRef.current) {
@@ -69,6 +139,9 @@ export const ResultMapComponent = (props: any) => {
         touchZoom={false} scrollWheelZoom={false}
         tap={false} keyboard={false}
         >
+        <PathWay />
+        <StartPosition/>
+        <EndPosition/>
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
