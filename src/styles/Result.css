@@ -1,24 +1,31 @@
-#navi{
+.result-split {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  height: 100%;
 }
 
 .result-left {
   display: flex;
-  flex:1;
-  flex-direction: row;
-  border-radius: 2vh;
-  justify-content: space-evenly;
+  flex: 1;
   height: 100%;
 }
+
 .result-right {
-    display: flex;
-    flex-direction: row;
-    border-radius: 2vh;
-    justify-content: space-evenly;
-    height: 100%;
-    flex:1;
-    background: linear-gradient(to bottom, #000023 0%, #004466 100%);
-    /* カーナビ風のダークなグラデーション背景 */
-  }
+  display: flex;
+  flex-direction: column;
+  border-radius: 2vh;
+  justify-content: space-evenly;
+  height: calc(100% - 2vh);
+  flex: 1;
+  padding: 1vh;
+  background: linear-gradient(to bottom, #000023 0%, #004466 100%);
+  /* カーナビ風のダークなグラデーション背景 */
+}
+
+.mm-waypoint {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
