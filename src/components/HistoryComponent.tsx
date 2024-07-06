@@ -38,11 +38,10 @@ export const HistoryComponent = (props: any) => {
                         <div className='historydetail'>
                             Please click map icon
                         </div>
-
                     </div>
                     <div className="history-emoji">
                         {Array.from({ length: sightType.buil }, (_, index) => (
-                            <span key={index} className='emoji-icon' data-tooltip={sightEmoji(index).type}>
+                            <span key={`emoji-${index}`} className='emoji-icon' data-tooltip={sightEmoji(index).type}>
                                 {sightEmoji(index).emoji}
                             </span>
                         ))}
@@ -72,8 +71,9 @@ export const HistoryComponent = (props: any) => {
                         </div>
                     </>)}
                     {[...props.hoverHistory].reverse().map((hover: any, index: number) => {
-                        return (<>
-                            <div key={index} className='historybox'>
+                        // ここでhover.properties.event_idなど一意のプロパティをkeyとして使用
+                        return (
+                            <div key={`history-${hover.properties.index}`} className='historybox'>
                                 <div className='historycaption'>
                                     <div className='historyname'>
                                         <span>{props.hoverHistory.length - index}</span>
@@ -93,10 +93,8 @@ export const HistoryComponent = (props: any) => {
                                     +{hover.properties.want_score} FanFun
                                 </div>
                                 <div className='historyroad' />
-
                             </div>
-
-                        </>)
+                        )
                     })}
                 </>
             )
