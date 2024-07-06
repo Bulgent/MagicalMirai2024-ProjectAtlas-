@@ -258,9 +258,9 @@ export const mapStylePathWay: StyleFunction = (feature): PathOptions => {
     switch (feature?.geometry?.type) {
         case 'MultiLineString':
             return {
-                color: 'blue',
+                color: '#2f79dc',
                 weight: 5,
-                opacity: 0.5,
+                opacity: 1,
             };
         default:
             return {};

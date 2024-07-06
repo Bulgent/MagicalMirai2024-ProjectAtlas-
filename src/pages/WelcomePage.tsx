@@ -66,37 +66,35 @@ export const WelcomePage = () => {
                     <div className='selectSongInfo'>
                         <div className='game-title'>FAN FUN TRIP NAVIGATION</div>
                         <img className='selectJacket' src={songIndex.current != -1 ? getImage(songIndex.current) : 'src/assets/images/project.png'} alt='jacket' />
-                        <div className='selectTitle'>
-                            <span className="material-symbols-outlined title">
-                                music_note
-                            </span>
-                            {songTitle}
+                        <div className='song-tavl'>
+                            <div className='song-tag'>
+                                <div className='song-hole' />
+                                <div className='selectTitle'>
+                                    <span className="material-symbols-outlined title">
+                                        music_note
+                                    </span>
+                                    {songTitle}
+                                </div>
+                                <div className='selectArtist'>
+                                    <span className="material-symbols-outlined artist">
+                                        lyrics
+                                    </span>
+                                    {songArtist}
+                                </div>
+                                <div className='selectVocaloid'>
+                                    <span className="material-symbols-outlined vocaloid">
+                                        artist
+                                    </span>
+                                    {songVocaloid}
+                                </div>
+                                <div className='selectLength'>
+                                    <span className="material-symbols-outlined length">
+                                        timer
+                                    </span>
+                                    {msToMs(songLength)}
+                                </div>
+                            </div>
                         </div>
-                        <div className='selectArtist'>
-                            <span className="material-symbols-outlined artist">
-                                lyrics
-                            </span>
-                            {songArtist}
-                        </div>
-                        <div className='selectVocaloid'>
-                            <span className="material-symbols-outlined vocaloid">
-                                artist
-                            </span>
-                            {songVocaloid}
-                        </div>
-                        <div className='selectLength'>
-                            <span className="material-symbols-outlined length">
-                                timer
-                            </span>
-                            {msToMs(songLength)}
-                        </div>
-                        {/* <div className='selectDifficulty'>
-                            {(songIndex.current != -1) && Array.from({ length: songData[songIndex.current].difficulty }).map((_, index) => (
-                                <span key={index} className="material-symbols-outlined difficulty">
-                                    star
-                                </span>
-                            ))}
-                        </div> */}
                         <div className='tooltip-credit'>
                             {creditData.map((credit, index) => (
                                 <div key={index} className='credit'>
