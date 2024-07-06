@@ -20,72 +20,87 @@ export const ResultPage = () => {
     const result = location.state; // GamePageからのデータを取得
     console.log(result);
 
+    const overviewString = () => {
+        const song = {
+            name: result?.player.data.song.name,
+            artist: result?.player.data.song.artist.name,
+            duration: result?.player.data.song.duration,
+        };
+        const history = {
+            hoverHistory: result?.hoverHistory,
+            mostVisited: result?.mostVisited,
+            highFanFun: result?.highFanFun,
+        }
+        
+    };
+
     return (
         <div id="display" className="soft-gloss">
             <div id="navi" className="split">
                 <div className="result-split">
                     <div className='result-left'>
                         {/* 左画面 */}
-                        <ResultMapComponent/>
+                        <ResultMapComponent />
                         <div className='result-songtitle'>
                             {result?.player.data.song.name}
                         </div>
                     </div>
                     <div className='result-right'>
                         {/* 右画面 */}
+                        {/* <div className='result-title'>
+                            Results
+                        </div> */}
                         <div className='fanfun-title'>
                             FanFun Score
                             <div className='fanfun-score'>
-                                {result?.fanFun}00
+                                {result?.fanFun}
+                                <span className='unit'>FF</span>
                             </div>
-                        </div>
-                        <div className='mm-waypoint'>
-                            <div className='mikumile-title'>
-                                MikuMile:
-                                <span className='mikumile-score'>
-                                    {result?.mikuMile[1]}MM
-                                </span>
-                            </div>
-                            <div className='waypoint-title'>
-                                Waypoint:
-                                <span className='waypoint-score'>
-                                    {result?.hoverHistory.length}00
-                                </span>
-                            </div>
-                            <div className='waypoint-graph'>
-                                {/* {result?.hoverHistory.map((hover: any, index: number) => {
-                                    const percentage = (hover.properties.playerPosition / (result?.player.data.song.length * 1000)) * 100;
-                                    return (
-                                        <div key={index} className='flag-waypoint' style={{ width: `${percentage}%` }}>
-                                            {sightEmoji(hover.properties.event_type).emoji}
-                                        </div>
-                                    )
-                                })} */}
+                            <div className='mm-waypoint'>
+                                <div className='mikumile-title'>
+                                    Drive:
+                                    <span className='mikumile-score'>
+                                        {(result?.mikuMile[1] / 1000).toFixed(2)}
+                                        <span className='unit'>kMM</span>
+                                    </span>
+                                </div>
+                                <div className='waypoint-title'>
+                                    Waypoint:
+                                    <span className='waypoint-score'>
+                                        {result?.hoverHistory.length}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div className='result-overview'>
-                            <div className='overview-title'>
-                                Overview of your trip
-                            </div>
-                            <div className='overview-contents'>
-                                aa
-                            </div>
-                            <div className='overview-hashtag'>
-                                #MikuMile #FanFun
+                            <div className='overview-tag'>
+                                <div className='overview-title'>
+                                    Overview of Your Trip
+                                </div>
+                                <div className='overview-contents'>
+                                    {result?.player.data.song.name}を聴きながら、{result?.player.data.song.artist.name}の楽曲に合わせて旅を楽しむことができました。
+                                    <br />
+                                    今回の旅では🦁動物園によく立ち寄り、動物たちの可愛らしい姿を楽しみました 。
+                                    <br />
+                                    特に大阪城では、歴史に触れながら楽しい思い出をたくさん作ることができました。
+                                    <br />
+                                    人生の旅路でも、わくわくするような新しい体験を大切にしたいですね!
+                                </div>
+                                <div className='overview-hashtag'>
+                                    #MikuMile #FanFun
+                                </div>
                             </div>
                         </div>
-                        <div className='result-button'>
-                            <button className='back-button' onClick={() => { navigate('/') }}>Back</button>
+                        <div className='result-button' onClick={() => { navigate('/') }}>
+                            Go to Next Trip...
+                            <span className="material-symbols-outlined">
+                                chevron_right
+                            </span>
                         </div>
-                        {/* TODO hoverしたら詳細表示 */}
-                        {/* hoverHistory:{result?.hoverHistory.map((hover: any) => {
-                        return <>{hover.properties.event_place} <br /></>
-                    })
-                    } */}
                     </div>
                 </div>
             </div>
             <img id='logo' src='src/assets/images/logo.png' alt='' />
-        </div>
+        </div >
     );
 };
