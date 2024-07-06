@@ -13,9 +13,9 @@ import { RotateMarker } from '../services/RotateMarker.tsx';
 import MapCenterCrosshair from '../services/MapCenter.tsx';
 import { seasonType, weatherType, timeType, mapStyle, polygonStyle, mapStylePathWay, showDetail } from '../utils/MapStyle.ts'
 import {
-  checkArchType, formatKashi, calculateDistance,
-  calculateEachRoadLengthRatio, getRationalPositonIndex, changeColor, cssSlide,
-  createLatLngBounds, calculateMikuMile, calculateRoadLengthSum, changeStyle
+  calculateDistance,
+  calculateEachRoadLengthRatio, getRationalPositonIndex, cssSlide,
+  createLatLngBounds, calculateMikuMile, calculateRoadLengthSum, changeStyle, formatKashi
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
 import { emojiNote, emojiStart, emojiGoal, carIcon, carLightIcon, pngMM24, mmIcon } from '../assets/marker/markerSVG.ts'
@@ -25,7 +25,6 @@ import { lyricProperties, historyProperties, noteProperties, noteCoordinatePrope
 import trunk from '../assets/jsons/map_data/trunk.json'
 import primary from '../assets/jsons/map_data/primary.json'
 import secondary from '../assets/jsons/map_data/secondary.json'
-import points from '../assets/jsons/map_data/points.json'
 import sight from '../assets/jsons/map_data/sightseeing.json'
 import areas from '../assets/jsons/map_data/area.json'
 import sky from '../assets/jsons/map_data/polygons.json'
@@ -63,7 +62,10 @@ export const MapComponent = (props: any) => {
   const styleNoon = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY, 1);
   const styleNight = polygonStyle(seasonType.SUMMER, timeType.NIGHT, weatherType.SUNNY, 1);
   // 天気の状態保持
+  /* @ts-ignore */
   const overlayStyleRef = useRef<PathOptions>(styleMorning)
+  // paneを一度しか行わないようにするフラグ
+  const isPaneInitRef = useRef<Boolean>(true)
 
   /**
    * React Hooks
@@ -140,6 +142,28 @@ export const MapComponent = (props: any) => {
     ])
   };
 
+
+  const CreatePane = () => {
+    const map = useMap()
+    useEffect(() => {
+      if (!isPaneInitRef.current){
+        return
+      }
+            // paneの作成
+            map.createPane('lyric');
+            map.createPane('waypoint');
+            map.createPane('sky');
+            map.createPane('car');
+            map.createPane('light')
+            map.createPane('note');
+            map.createPane('pathway');
+            map.createPane('ufo');
+            map.createPane('cross')
+            map.createPane('mapcenter')
+      isPaneInitRef.current = false;
+    },[map])
+  }
+
   /**
    * Mapから文字を消す処理  
    */
@@ -149,17 +173,6 @@ export const MapComponent = (props: any) => {
       if (!isInitMap.current) {
         return
       }
-      // paneの作成
-      map.createPane('lyric');
-      map.createPane('waypoint');
-      map.createPane('sky');
-      map.createPane('car');
-      map.createPane('light')
-      map.createPane('note');
-      map.createPane('pathway');
-      map.createPane('ufo');
-      map.createPane('cross')
-      map.createPane('mapcenter')
       // mapの初期中心座標の決定
       map.setView(mapCenterRef.current)
       map.setMaxBounds(createLatLngBounds(restrictedArea))
@@ -513,6 +526,7 @@ export const MapComponent = (props: any) => {
       let printLyrics: string = "<div class = 'tooltip-lyric " + slideClass + "'>";
       props.kashi.text.split('').forEach((char: string) => {
         printLyrics += "<span class='";
+        /* @ts-ignore */
         printLyrics += formatKashi(char);
         printLyrics += " " + songData[props.songnum].vocaloid.name + "'>" + char + "</span>";
       });
@@ -535,6 +549,7 @@ export const MapComponent = (props: any) => {
       // アニメーション
       const slideElement = document.querySelector('.' + slideClass) as HTMLElement;
       if (slideElement) {
+        /* @ts-ignore */
         slideElement.style.animation = 'fadeInSlideXY' + lyricCount.current + ' 0.5s ease forwards';
       }
 
@@ -749,7 +764,9 @@ export const MapComponent = (props: any) => {
         <SetGoalIcon />
         <MapFunctionUpdate />
         <RemoveMapTextFunction />
+        <CreatePane />
         <RotateCarMarker
+        /* @ts-ignore */
           position={carMapPosition}
           rotationAngle={heading}
           rotationOrigin="center"

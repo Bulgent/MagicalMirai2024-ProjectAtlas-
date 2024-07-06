@@ -1,6 +1,5 @@
-import { StyleFunction, LatLngExpression, circleMarker, divIcon, marker, Marker, PathOptions } from 'leaflet';
+import { StyleFunction, LatLngExpression,  divIcon, marker, Marker, PathOptions } from 'leaflet';
 import { emojiSight } from '../assets/marker/markerSVG.ts'
-import { sightType, sightSeason, sightTime, sightWeather } from './utils.ts';
 
 // pointデータを図形として表現(固定式観光地)
 export const pointToLayer = (feature: any, latlng: LatLngExpression): Marker => {
@@ -88,6 +87,7 @@ export const mapStyle: StyleFunction = (feature): PathOptions => {
 };
 
 // line, polygonデータを図形として表現
+/* @ts-ignore */
 export const overlayStyle: StyleFunction = (feature): PathOptions => {
     return {
         fillColor: 'white',
@@ -117,38 +117,43 @@ export const enum seasonType {
     OTHER = 4
 }
 
-function hexToRgb(hex: string): { r: number; g: number; b: number } {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    return { r, g, b };
-}
+// function hexToRgb(hex: string): { r: number; g: number; b: number } {
+//     const r = parseInt(hex.slice(1, 3), 16);
+//     const g = parseInt(hex.slice(3, 5), 16);
+//     const b = parseInt(hex.slice(5, 7), 16);
+//     return { r, g, b };
+// }
 
-function rgbToHex(r: number, g: number, b: number): string {
-    const toHex = (c: number) => {
-        const hex = c.toString(16);
-        return hex.length == 1 ? "0" + hex : hex;
-    };
-    return "#" + toHex(r) + toHex(g) + toHex(b);
-}
+// function rgbToHex(r: number, g: number, b: number): string {
+//     const toHex = (c: number) => {
+//         const hex = c.toString(16);
+//         return hex.length == 1 ? "0" + hex : hex;
+//     };
+//     return "#" + toHex(r) + toHex(g) + toHex(b);
+// }
 
-function addHexColors(hex1: string, hex2: string): string {
-    const rgb1 = hexToRgb(hex1);
-    const rgb2 = hexToRgb(hex2);
 
-    let r = Math.min(rgb1.r + rgb2.r, 255);
-    let g = Math.min(rgb1.g + rgb2.g, 255);
-    let b = Math.min(rgb1.b + rgb2.b, 255);
+// function addHexColors(hex1: string, hex2: string): string {
+//     const rgb1 = hexToRgb(hex1);
+//     const rgb2 = hexToRgb(hex2);
 
-    return rgbToHex(r, g, b);
-}
+//     let r = Math.min(rgb1.r + rgb2.r, 255);
+//     let g = Math.min(rgb1.g + rgb2.g, 255);
+//     let b = Math.min(rgb1.b + rgb2.b, 255);
+
+//     return rgbToHex(r, g, b);
+// }
 
 // 日本の天気
 export const polygonStyle = (season: number, time: number, weather: number, opacity: number): PathOptions => {
     // console.log(season, time, weather)
+    /* @ts-ignore */
     let seasonColor = '';
+    /* @ts-ignore */
     let timeColor = '';
+    /* @ts-ignore */
     let weatherColor = '';
+    /* @ts-ignore */
     let color = '';
     switch (season) {
         case seasonType.SPRING:

@@ -20,6 +20,7 @@ export const PlayerControl = (props: any) => {
     // console.log(progressBar)
     const percentage = 100 - (currentPosition.current / songLength) * 100;
     if (progressBar) {
+      /* @ts-ignore */
       progressBar.style.width = `${percentage}%`;
     }
   }
