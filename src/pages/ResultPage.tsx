@@ -8,6 +8,8 @@ import creditData from '../utils/credits';
 import { useState, useRef } from 'react';
 import { msToMs } from '../utils/utils';
 
+import { MapComponent } from '../components/ResultMapComponent';
+
 // GamePageからのなんのデータがほしいかを書いといてください．
 
 export const ResultPage = () => {
@@ -18,6 +20,7 @@ export const ResultPage = () => {
 
     return (
         <div id="display" className="soft-gloss">
+            <MapComponent/>
             <div id="navi" className="split">
                 <div className='apologize'>
                     お疲れ様でした
