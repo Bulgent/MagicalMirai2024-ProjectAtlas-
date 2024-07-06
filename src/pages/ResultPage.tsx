@@ -9,7 +9,8 @@ import { useState, useRef } from 'react';
 import { msToMs } from '../utils/utils';
 import { sightEmoji } from '../utils/utils';
 
-import { ResultMapComponent } from '../components/ResultMapComponent';
+import { ResultIslandMapComponent } from '../components/ResultIslandMapComponent';
+import { ResultDetailMapComponent } from '../components/ResultDetailMapComponent';
 
 // GamePageからのなんのデータがほしいかを書いといてください．
 
@@ -202,7 +203,17 @@ export const ResultPage = () => {
                 <div className="result-split">
                     <div className='result-left'>
                         {/* 左画面 */}
-                        <ResultMapComponent />
+                        <div className='detail-mapcomponent'>
+                            <ResultDetailMapComponent
+                                pathway = {result.pathway}
+                                hoverHistory = {result.hoverHistory}
+                            />
+                        </div>
+                        <div className='island-mapcomponent'>
+                            <ResultIslandMapComponent
+                                pathway = {result.pathway}
+                            />
+                        </div>
                         <div className='result-songtitle'>
                             {result?.player.data.song.name}
                         </div>
