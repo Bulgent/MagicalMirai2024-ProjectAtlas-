@@ -19,17 +19,20 @@ export const ResultPage = () => {
     return (
         <div id="display" className="soft-gloss">
             <div id="navi" className="split">
-                <div className='apologize'>
+                <div className='result-left'>
+                    {/* 左画面 */}
+                </div>
+                <div className='result-right'>
                     お疲れ様でした
                     <br />
-                    FanFunScore:{result.fanFun}
+                    FanFunScore:{result?.fanFun}
                     <br />
                     {/* TODO hoverしたら詳細表示 */}
-                    hoverHistory:{result.hoverHistory.map((hover: any) => {
+                    hoverHistory:{result?.hoverHistory.map((hover: any) => {
                         return <>{hover.properties.event_place} <br /></>
                     })
                     }
-                    mikuMile:{result.mikuMile[1]}MM
+                    mikuMile:{result?.mikuMile[1]}MM
                 </div>
             </div>
             <img id='logo' src='src/assets/images/logo.png' alt='' />

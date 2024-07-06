@@ -1,9 +1,24 @@
-.apologize {
+#navi{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.result-left {
+  display: flex;
+  flex:1;
+  flex-direction: row;
+  border-radius: 2vh;
+  justify-content: space-evenly;
+  height: 100%;
+}
+.result-right {
     display: flex;
     flex-direction: row;
     border-radius: 2vh;
     justify-content: space-evenly;
     height: 100%;
+    flex:1;
     background: linear-gradient(to bottom, #000023 0%, #004466 100%);
     /* カーナビ風のダークなグラデーション背景 */
   }
