@@ -39,11 +39,13 @@ import songData from '../utils/Song.ts';
 
 // 車のアイコン
 const RotateCarMarker = forwardRef((props, ref) => (
+  /* @ts-ignore */
   <RotateMarker {...props} icon={carIcon} pane="car" ref={ref} />
 ));
 
 // 車のライトのアイコン
 const RotateCarLightMarker = forwardRef((props, ref) => (
+  /* @ts-ignore */
   <RotateMarker {...props} icon={carLightIcon} pane="light" ref={ref} />
 ));
 
@@ -764,6 +766,7 @@ export const MapComponent = (props: any) => {
         <SetGoalIcon />
         <MapFunctionUpdate />
         <RemoveMapTextFunction />
+        {/* @ts-ignore */}
         <CreatePane />
         <RotateCarMarker
         /* @ts-ignore */
@@ -773,6 +776,7 @@ export const MapComponent = (props: any) => {
         >
         </RotateCarMarker>
         <RotateCarLightMarker
+          /* @ts-ignore */
           position={carMapPosition}
           rotationAngle={heading}
           rotationOrigin="center"
