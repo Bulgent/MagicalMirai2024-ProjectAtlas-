@@ -3,35 +3,44 @@ import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import areas from '../assets/jsons/map_data/area.json'
 import { mapStyle} from '../utils/MapStyle.ts'
-import { LatLngLiteral, MaplibreGL, point, divIcon, marker } from 'leaflet';
+import { LatLngLiteral, MaplibreGL, point, divIcon, marker, LeafletMouseEvent } from 'leaflet';
 import { useEffect, useRef, useState } from 'react';
 import { mapStylePathWay } from '../utils/MapStyle.ts'
 import { emojiNote, emojiStart, emojiGoal, carIcon, carLightIcon, pngMM24, mmIcon } from '../assets/marker/markerSVG.ts'
+import { showDetail } from '../utils/MapStyle.ts'
+
+import sight from '../assets/jsons/map_data/sightseeing.json'
 
 export const ResultDetailMapComponent = (props: any) => {
     const mapZoom = 13.2;
-    const mapCenter:LatLngLiteral = {lat:34.6379271092576, lng:135.4196972135114}
+    
     // OpenStreetMapレイヤー
     const OSMlayerRef = useRef<MaplibreGL | null>(null);
     const isInitMapRef = useRef<Boolean>(true);
     const [isMapReady, setIsMapReady] = useState(false);
 
+    // スタートとゴールの中間の座標をマップの中心座標とする
+    const coordinates = props.pathway[0].geometry.coordinates[0]
+    const coordinatesLength = coordinates.length
+    const crtLat:number = (coordinates[0][1]+coordinates[coordinatesLength-1][1])/2
+    const crtLng:number = (coordinates[0][0]+coordinates[coordinatesLength-1][0])/2
+    const mapCenter:LatLngLiteral = {lat:crtLat, lng:crtLng}
+
     // 通る道についての描画
     const PathWay: React.FC = () => {
-        console.log(props.pathway)
         if (props.pathway) {
-        const geojson = {
-            type: "FeatureCollection",
-            features: props.pathway
-        }
-        return (
-            <GeoJSON
-            data={geojson as GeoJSON.GeoJsonObject}
-            style={mapStylePathWay}
-            />
-        );
+            const geojson = {
+                type: "FeatureCollection",
+                features: props.pathway
+            }
+            return (
+                <GeoJSON
+                data={geojson as GeoJSON.GeoJsonObject}
+                style={mapStylePathWay}
+                />
+            );
         } else {
-        return null;
+            return null;
         }
     };
 
@@ -85,6 +94,23 @@ export const ResultDetailMapComponent = (props: any) => {
         return null;
     }
 
+    const VisitedPoints = () => {
+        if(props.hoverHistory){
+            const geojson = {
+                type: "FeatureCollection",
+                features: props.hoverHistory,
+            };
+            return (
+                <GeoJSON
+                    data={geojson as GeoJSON.GeoJsonObject}
+                    // pointToLayer={showDetail}
+                />
+            );
+        }else{
+            return null;
+        }
+    }
+
     // MapLibreTileLayerのrefを定期監視する処理
     useEffect(() => {
         if (!isInitMapRef.current){
@@ -125,6 +151,18 @@ export const ResultDetailMapComponent = (props: any) => {
         }
     }, [isMapReady]);
 
+
+    const onSightClick = (e: LeafletMouseEvent) => {
+        // hoverhistoryに重複しないように追加
+        console.log("AAAA")
+      }
+    
+      const onSightHoverOut = (e: LeafletMouseEvent) => {
+        // 未訪問の時
+        console.log("AAAA")
+      };
+    
+
     return(
         <MapContainer className='mapcomponent' style={{ backgroundColor: '#f5f3f3' }}
         center={mapCenter} zoom={mapZoom}
@@ -139,9 +177,10 @@ export const ResultDetailMapComponent = (props: any) => {
         touchZoom={false} scrollWheelZoom={false}
         tap={false} keyboard={false}
         >
-        <PathWay />
+        <PathWay/>
         <StartPosition/>
         <EndPosition/>
+        <VisitedPoints/>
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
@@ -152,6 +191,7 @@ export const ResultDetailMapComponent = (props: any) => {
           data={areas as GeoJSON.GeoJsonObject}
           style={mapStyle}
         />
+
       </MapContainer>
     )
 }

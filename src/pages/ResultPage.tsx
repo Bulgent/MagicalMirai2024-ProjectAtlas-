@@ -29,6 +29,7 @@ export const ResultPage = () => {
                         {/* 左画面 */}
                         <ResultDetailMapComponent
                             pathway = {result.pathway}
+                            hoverHistory = {result.hoverHistory}
                         />
                         <div className='result-songtitle'>
                             {result?.player.data.song.name}
