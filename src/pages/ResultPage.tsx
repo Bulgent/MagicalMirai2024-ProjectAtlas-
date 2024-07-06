@@ -15,7 +15,7 @@ export const ResultPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
     // GamePageからのデータを取得
-    const result = location.state;
+    const result = location.state; // GamePageからのデータを取得
     console.log(result);
 
     return (
