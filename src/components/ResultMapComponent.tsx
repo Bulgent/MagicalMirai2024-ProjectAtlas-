@@ -4,7 +4,7 @@ import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import areas from '../assets/jsons/map_data/area.json'
 import { mapStyle} from '../utils/MapStyle.ts'
 import { LatLngLiteral, MaplibreGL } from 'leaflet';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const ResultMapComponent = (props: any) => {
     const mapZoom = 10.2;
@@ -12,35 +12,48 @@ export const ResultMapComponent = (props: any) => {
     // OpenStreetMapレイヤー
     const OSMlayerRef = useRef<MaplibreGL | null>(null);
     const isInitMapRef = useRef<Boolean>(true);
-  /**
-   * Mapから文字を消す処理  
-   */
+    const [isMapReady, setIsMapReady] = useState(false);
+
+    // MapLibreTileLayerのrefを定期監視する処理
     useEffect(() => {
-        console.log(OSMlayerRef.current)
-        if (!isInitMapRef.current) {
-        return
+        if (!isInitMapRef.current){
+            return
         }
-        if (OSMlayerRef.current) {
-        // 読み込みが2段階ある
-        if (OSMlayerRef.current.getMaplibreMap().getStyle() === undefined) {
-          return
+        const interval = setInterval(() => {
+            console.log("checking")
+            if (OSMlayerRef.current) {
+                if (OSMlayerRef.current.getMaplibreMap().getStyle()){
+                    console.log(OSMlayerRef.current)
+                    setIsMapReady(true);
+                    clearInterval(interval);
+                }
+            }
+        }, 10);
+        return () => clearInterval(interval);
+    }, []);
+
+    // MapLibraTileLayerのrefがnullから変化した場合に行う処理
+    useEffect(() => {
+        if (!isInitMapRef.current || !OSMlayerRef.current) {
+            return
         }
-        const osmMap = OSMlayerRef.current.getMaplibreMap();
-        // ここでスタイルを変更
-        osmMap.getStyle().layers.forEach((l: any) => {
-          if (l.type === "symbol") osmMap.setLayoutProperty(l.id, "visibility", "none"); // 文字を消す
-          // 水の色を変更
-          if (["waterway", "water"].includes(l.id) && l.type === "fill") {
-            osmMap.setPaintProperty(l.id, "fill-color", "#90dbee");
-          }
-          // 道路の色を変更
-          if (l["source-layer"] === "transportation" && l.type === "line") {
-            osmMap.setPaintProperty(l.id, "line-color", "#8995a2");
-          }
-        });
-        isInitMapRef.current = false
-      }
-    }, [OSMlayerRef.current]);
+        if (OSMlayerRef.current.getMaplibreMap().getStyle()){
+            const osmMap = OSMlayerRef.current.getMaplibreMap();
+            // ここでスタイルを変更
+            osmMap.getStyle().layers.forEach((l: any) => {
+              if (l.type === "symbol") osmMap.setLayoutProperty(l.id, "visibility", "none"); // 文字を消す
+              // 水の色を変更
+              if (["waterway", "water"].includes(l.id) && l.type === "fill") {
+                osmMap.setPaintProperty(l.id, "fill-color", "#90dbee");
+              }
+              // 道路の色を変更
+              if (l["source-layer"] === "transportation" && l.type === "line") {
+                osmMap.setPaintProperty(l.id, "line-color", "#8995a2");
+              }
+            });
+            isInitMapRef.current = false
+        }
+    }, [isMapReady]);
 
     // リサイズ時に地図を再描画
     useEffect(() => {
