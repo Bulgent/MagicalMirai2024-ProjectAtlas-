@@ -90,6 +90,8 @@ export const MapComponent = (props: any) => {
   // 天気の状態保持
   /* @ts-ignore */
   const overlayStyleRef = useRef<PathOptions>(styleMorning)
+  // paneを一度しか行わないようにするフラグ
+  const isPaneInitRef = useRef<Boolean>(true)
 
   /**
    * React Hooks
@@ -159,6 +161,25 @@ export const MapComponent = (props: any) => {
     ])
   };
 
+
+  const CreatePane = () => {
+    const map = useMap()
+    useEffect(() => {
+      if (!isPaneInitRef.current){
+        return
+      }
+      // paneの作成
+      console.log("create Pane");
+      map.createPane('lyric');
+      map.createPane('waypoint');
+      map.createPane('sky');
+      map.createPane('car');
+      map.createPane('note');
+      map.createPane('pathway');
+      isPaneInitRef.current = false;
+    },[map])
+  }
+
   /**
    * Mapから文字を消す処理  
    */
@@ -168,13 +189,6 @@ export const MapComponent = (props: any) => {
       if (!isInitMap.current) {
         return
       }
-      // paneの作成
-      map.createPane('lyric');
-      map.createPane('waypoint');
-      map.createPane('sky');
-      map.createPane('car');
-      map.createPane('note');
-      map.createPane('pathway');
       // mapの初期中心座標の決定
       map.setView(mapCenterRef.current)
       map.setMaxBounds(createLatLngBounds(restrictedArea))
@@ -685,6 +699,7 @@ export const MapComponent = (props: any) => {
         <AddNotesToMap />
         <MapFunctionUpdate />
         <RemoveMapTextFunction />
+        <CreatePane />
         <RotatedMarker
         /* @ts-ignore */
           position={carMapPosition}
