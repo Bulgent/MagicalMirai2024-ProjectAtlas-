@@ -103,6 +103,8 @@
   color: #ffffff;
   padding: 2vh;
   gap: 3vh;
+  border-radius: 0 2vh 2vh 0; /* 左上と左下の角を丸くする */
+
 }
 
 .selectJacket {

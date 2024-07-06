@@ -64,6 +64,7 @@ export const WelcomePage = () => {
                         ))}
                     </div>
                     <div className='selectSongInfo'>
+                        <div className='game-title'>FAN FUN TRIP NAVIGATION</div>
                         <img className='selectJacket' src={songIndex.current != -1 ? getImage(songIndex.current) : 'src/assets/images/project.png'} alt='jacket' />
                         <div className='selectTitle'>
                             <span className="material-symbols-outlined title">
@@ -89,14 +90,13 @@ export const WelcomePage = () => {
                             </span>
                             {msToMs(songLength)}
                         </div>
-                        <div className='selectDifficulty'>
+                        {/* <div className='selectDifficulty'>
                             {(songIndex.current != -1) && Array.from({ length: songData[songIndex.current].difficulty }).map((_, index) => (
                                 <span key={index} className="material-symbols-outlined difficulty">
                                     star
                                 </span>
                             ))}
-                            難易度は適当
-                        </div>
+                        </div> */}
                         <div className='tooltip-credit'>
                             {creditData.map((credit, index) => (
                                 <div key={index} className='credit'>

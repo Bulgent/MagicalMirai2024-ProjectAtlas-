@@ -69,6 +69,9 @@ export const MapComponent = (props: any) => {
   // paneを一度しか行わないようにするフラグ
   const isPaneInitRef = useRef<Boolean>(true)
 
+  const executedRef = useRef(false);
+
+
   /**
    * React Hooks
    */
@@ -148,22 +151,22 @@ export const MapComponent = (props: any) => {
   const CreatePane = () => {
     const map = useMap()
     useEffect(() => {
-      if (!isPaneInitRef.current){
+      if (!isPaneInitRef.current) {
         return
       }
-            // paneの作成
-            map.createPane('lyric');
-            map.createPane('waypoint');
-            map.createPane('sky');
-            map.createPane('car');
-            map.createPane('light')
-            map.createPane('note');
-            map.createPane('pathway');
-            map.createPane('ufo');
-            map.createPane('cross')
-            map.createPane('mapcenter')
+      // paneの作成
+      map.createPane('lyric');
+      map.createPane('waypoint');
+      map.createPane('sky');
+      map.createPane('car');
+      map.createPane('light')
+      map.createPane('note');
+      map.createPane('pathway');
+      map.createPane('ufo');
+      map.createPane('cross')
+      map.createPane('mapcenter')
       isPaneInitRef.current = false;
-    },[map])
+    }, [map])
   }
 
   /**
@@ -461,28 +464,33 @@ export const MapComponent = (props: any) => {
 
           animationRef.current = requestAnimationFrame(loop);
         } else {
-          // 曲の再生が終わったらここになる
-          console.log("曲終了")
-          props.isSongEnd(true);
-          cancelAnimationFrame(animationRef.current!);
-          // 曲の再生が終わったらここになる
-          map.dragging.disable();
-          map.touchZoom.disable();
-          map.doubleClickZoom.disable();
-          map.scrollWheelZoom.disable();
-          map.boxZoom.disable();
-          map.keyboard.disable();
-          // 2秒後にresult画面へ遷移
-          setTimeout(() => {
-            navigate('/result', {
-              // ResultPageに渡すデータをここに書く
-              state: {
-                fanFun: props.fanFun,
-                hoverHistory: hoverHistory.current,
-                mikuMile: props.mikuMile
-              }
-            });
-          }, 2000);
+          // HACK 曲の再生が終わったらここになる
+          if (!executedRef.current) {
+            console.log("曲終了");
+            props.isSongEnd(true);
+            cancelAnimationFrame(animationRef.current!);
+            map.dragging.disable();
+            map.touchZoom.disable();
+            map.doubleClickZoom.disable();
+            map.scrollWheelZoom.disable();
+            map.boxZoom.disable();
+            map.keyboard.disable();
+            const resultState = {
+              fanFun: props.fanFun, // FanFun度
+              hoverHistory: hoverHistory.current, // 経由地の情報
+              mikuMile: props.mikuMile, // MikuMile
+              player: { data: { song: props?.player?.data?.song } }, // 楽曲情報
+              // HACK (props.player自体はmediaElementにdiv要素があるためResultに渡せない)
+            }
+            // 2秒後にresult画面へ遷移
+            setTimeout(() => {
+              navigate('/result', {
+                // ResultPageに渡すデータをここに書く
+                state: resultState
+              });
+            }, 2000);
+            executedRef.current = true; // 実行済みフラグをtrueに設定
+          }
         }
       },
       [props.isMoving, props.player]
@@ -522,7 +530,6 @@ export const MapComponent = (props: any) => {
         return
       }
       lyricCount.current += 1;
-      // TODO ナビゲーションの移動方向によってスライド方向を変える
       songKashi.current = props.kashi
       const slideClass = 'slide' + lyricCount.current
       let printLyrics: string = "<div class = 'tooltip-lyric " + slideClass + "'>";
@@ -710,7 +717,7 @@ export const MapComponent = (props: any) => {
       if (props.songnum === -1 || !isInitMapPlayer) {
         return
       }
-        marker([34.6376177629165, 135.4219243060005], { icon: mmIcon, pane: "waypoint" }).addTo(map);
+      marker([34.6376177629165, 135.4219243060005], { icon: mmIcon, pane: "waypoint" }).addTo(map);
     }, [map, props.songnum, isInitMapPlayer]);
     return null;
   }
@@ -733,7 +740,7 @@ export const MapComponent = (props: any) => {
       <MapContainer className='mapcomponent' style={{ backgroundColor: '#f5f3f3' }}
         center={[-1, -1]} zoom={mapZoom}
         minZoom={14} maxZoom={17}
-        zoomSnap={0.1} zoomDelta={0.5} trackResize={false}
+        zoomSnap={0.1} zoomDelta={0.5} trackResize={true}
         inertiaMaxSpeed={500} inertiaDeceleration={1000}
         zoomControl={false} attributionControl={false}
         maxBoundsViscosity={1.0}
@@ -769,7 +776,7 @@ export const MapComponent = (props: any) => {
         {/* @ts-ignore */}
         <CreatePane />
         <RotateCarMarker
-        /* @ts-ignore */
+          /* @ts-ignore */
           position={carMapPosition}
           rotationAngle={heading}
           rotationOrigin="center"

@@ -1,9 +1,35 @@
-.apologize {
-    display: flex;
-    flex-direction: row;
-    border-radius: 2vh;
-    justify-content: space-evenly;
-    height: 100%;
-    background: linear-gradient(to bottom, #000023 0%, #004466 100%);
-    /* カーナビ風のダークなグラデーション背景 */
-  }
+.result-split {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 100%;
+}
+
+.result-left {
+  display: flex;
+  flex: 1;
+  width: 50%;
+  height: 100%;
+  position: relative;
+  border-radius: 2vh 0 0 2vh; /* 左上と左下の角を丸くする */
+  overflow: hidden;
+}
+
+.result-right {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0 2vh 2vh 0; /* 左上と左下の角を丸くする */
+  justify-content: space-evenly;
+  height: calc(100% - 2vh);
+  flex: 1;
+  padding: 1vh;
+  background: linear-gradient(to bottom, #000023 0%, #004466 100%);
+  /* カーナビ風のダークなグラデーション背景 */
+}
+
+.mm-waypoint {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
