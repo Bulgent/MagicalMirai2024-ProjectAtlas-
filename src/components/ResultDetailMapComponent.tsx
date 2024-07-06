@@ -7,7 +7,7 @@ import { LatLngLiteral, MaplibreGL, point, divIcon, marker, LeafletMouseEvent } 
 import { useEffect, useRef, useState } from 'react';
 import { mapStylePathWay } from '../utils/MapStyle.ts'
 import { emojiNote, emojiStart, emojiGoal, carIcon, carLightIcon, pngMM24, mmIcon } from '../assets/marker/markerSVG.ts'
-import { showDetail } from '../utils/MapStyle.ts'
+import { visitedPointsStyle } from '../utils/MapStyle.ts'
 
 import sight from '../assets/jsons/map_data/sightseeing.json'
 
@@ -103,7 +103,7 @@ export const ResultDetailMapComponent = (props: any) => {
             return (
                 <GeoJSON
                     data={geojson as GeoJSON.GeoJsonObject}
-                    // pointToLayer={showDetail}
+                    pointToLayer={visitedPointsStyle}
                 />
             );
         }else{
