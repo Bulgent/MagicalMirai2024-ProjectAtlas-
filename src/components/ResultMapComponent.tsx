@@ -42,23 +42,6 @@ export const ResultMapComponent = (props: any) => {
       }
     }, [OSMlayerRef.current]);
 
-    // リサイズ時に地図を再描画
-    useEffect(() => {
-      const handleResize = () => {
-          if (OSMlayerRef.current) {
-              OSMlayerRef.current.resize();
-          }
-      };
-  
-      window.addEventListener('resize', handleResize);
-  
-      // コンポーネントのアンマウント時にイベントリスナーを削除
-      return () => {
-          window.removeEventListener('resize', handleResize);
-      };
-  }, []); // 空の依存配列を指定して、コンポーネントのマウント時にのみ実行
-
-
     return(
         <MapContainer className='mapcomponent' style={{ backgroundColor: '#f5f3f3' }}
         center={mapCenter} zoom={mapZoom}
