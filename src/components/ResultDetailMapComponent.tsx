@@ -1,23 +1,17 @@
 import '../styles/Result.css';
-import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
+import { MapContainer, GeoJSON, useMap } from 'react-leaflet';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import areas from '../assets/jsons/map_data/area.json'
 import { mapStyle} from '../utils/MapStyle.ts'
 import { LatLngLiteral, MaplibreGL, point, divIcon, marker, LeafletMouseEvent } from 'leaflet';
 import { useEffect, useRef, useState } from 'react';
 import { mapStylePathWay } from '../utils/MapStyle.ts'
-import { emojiNote, emojiStart, emojiGoal, carIcon, carLightIcon, pngMM24, mmIcon } from '../assets/marker/markerSVG.ts'
+import { emojiStart, emojiGoal } from '../assets/marker/markerSVG.ts'
 import { visitedPointsStyle } from '../utils/MapStyle.ts'
 
-import sight from '../assets/jsons/map_data/sightseeing.json'
-
 export const ResultDetailMapComponent = (props: any) => {
+    // マップのzoom
     const mapZoom = 13.2;
-    
-    // OpenStreetMapレイヤー
-    const OSMlayerRef = useRef<MaplibreGL | null>(null);
-    const isInitMapRef = useRef<Boolean>(true);
-    const [isMapReady, setIsMapReady] = useState(false);
 
     // スタートとゴールの中間の座標をマップの中心座標とする
     const coordinates = props.pathway[0].geometry.coordinates[0]
@@ -25,6 +19,11 @@ export const ResultDetailMapComponent = (props: any) => {
     const crtLat:number = (coordinates[0][1]+coordinates[coordinatesLength-1][1])/2
     const crtLng:number = (coordinates[0][0]+coordinates[coordinatesLength-1][0])/2
     const mapCenter:LatLngLiteral = {lat:crtLat, lng:crtLng}
+
+    // OpenStreetMapレイヤー
+    const OSMlayerRef = useRef<MaplibreGL | null>(null);
+    const isInitMapRef = useRef<Boolean>(true);
+    const [isMapReady, setIsMapReady] = useState(false);
 
     // 通る道についての描画
     const PathWay: React.FC = () => {
@@ -44,6 +43,9 @@ export const ResultDetailMapComponent = (props: any) => {
         }
     };
 
+    /**
+     * スタート座標にアイコンを設置
+     */
     const StartPosition = () =>{
         const map = useMap()
         const crtLat:number = props.pathway[0].geometry.coordinates[0][0][1]
@@ -68,6 +70,9 @@ export const ResultDetailMapComponent = (props: any) => {
         return null;
     }
 
+    /**
+     * ゴール座標にアイコンを設置
+     */
     const EndPosition = () =>{
         const map = useMap()
         const coordinates = props.pathway[0].geometry.coordinates[0]
@@ -94,6 +99,9 @@ export const ResultDetailMapComponent = (props: any) => {
         return null;
     }
 
+    /**
+     * 訪れた場所のアイコンを表示
+     */
     const VisitedPoints = () => {
         if(props.hoverHistory){
             const geojson = {
@@ -151,31 +159,19 @@ export const ResultDetailMapComponent = (props: any) => {
         }
     }, [isMapReady]);
 
-
-    const onSightClick = (e: LeafletMouseEvent) => {
-        // hoverhistoryに重複しないように追加
-        console.log("AAAA")
-      }
-    
-      const onSightHoverOut = (e: LeafletMouseEvent) => {
-        // 未訪問の時
-        console.log("AAAA")
-      };
-    
-
     return(
         <MapContainer className='mapcomponent' style={{ backgroundColor: '#f5f3f3' }}
-        center={mapCenter} zoom={mapZoom}
-        minZoom={mapZoom} maxZoom={mapZoom}
-        zoomSnap={0.1} zoomDelta={0.5} trackResize={true}
-        inertiaMaxSpeed={500} inertiaDeceleration={1000}
-        zoomControl={false} attributionControl={false}
-        maxBoundsViscosity={1.0}
-        preferCanvas={true}
-        boxZoom={false} doubleClickZoom={false}
-        inertia={false} dragging={false}
-        touchZoom={false} scrollWheelZoom={false}
-        tap={false} keyboard={false}
+            center={mapCenter} zoom={mapZoom}
+            minZoom={mapZoom} maxZoom={mapZoom}
+            zoomSnap={0.1} zoomDelta={0.5} trackResize={true}
+            inertiaMaxSpeed={500} inertiaDeceleration={1000}
+            zoomControl={false} attributionControl={false}
+            maxBoundsViscosity={1.0}
+            preferCanvas={true}
+            boxZoom={false} doubleClickZoom={false}
+            inertia={false} dragging={false}
+            touchZoom={false} scrollWheelZoom={false}
+            tap={false} keyboard={false}
         >
         <PathWay/>
         <StartPosition/>

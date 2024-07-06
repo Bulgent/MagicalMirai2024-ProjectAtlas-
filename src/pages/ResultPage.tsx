@@ -31,6 +31,9 @@ export const ResultPage = () => {
                             pathway = {result.pathway}
                             hoverHistory = {result.hoverHistory}
                         />
+                        {/* <ResultIslandMapComponent
+                            pathway = {result.pathway}
+                        /> */}
                         <div className='result-songtitle'>
                             {result?.player.data.song.name}
                         </div>
