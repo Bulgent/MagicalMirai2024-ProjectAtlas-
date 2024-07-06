@@ -47,15 +47,14 @@
   width: 90%;
   border: 0vw solid;
   border-radius: 1vw;
-  border-color: #7bcac9;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+  box-shadow: 0 0 10px rgba(16, 16, 16, 1);
   position: absolute;
   z-index: 100000;
   bottom: 1%;
   left: 50%;
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(16, 16, 16, 0.8);
 }
 
 .result-right {
@@ -68,14 +67,14 @@
   height: calc(100% - 2vw);
   flex: 2;
   padding: 1vw;
-  background: #2a2a2a;
+  background: #21a2a6;
   position: relative;
   /* padding-top: 2vw; */
 }
 
 .result-title {
   position: absolute;
-  color: white;
+  color: #f8f6f1;
   font-size: 2.5vw;
   font-family: "Zen Maru Gothic", serif;
   text-align: center;
@@ -87,7 +86,7 @@
 
 .fanfun-title {
   width: 90%;
-  color: white;
+  color: #f8f6f1;
   font-size: 4vh;
   font-family: "Zen Maru Gothic", serif;
   text-align: left;
@@ -95,12 +94,13 @@
 }
 
 .fanfun-score {
-  color: #e12885;
+  color: #f7d26e;
   font-size: 4vw;
   font-family: "Hachi Maru Pop", cursive;
   text-align: center;
   margin: 1vh;
   margin-top: 0vh;
+  text-shadow: 0.1vh 0.1vh 0.2vh #0d3243;
 }
 
 
@@ -121,8 +121,8 @@
   justify-content: space-evenly;
   align-items: left;
   font-size: 4vh;
-  color: black;
-  background-color: #f8cf71;
+  color: #101010;
+  background-color: #ffcd5a;
   padding: 0vh 1.5vh;
   clip-path: polygon(5vh 0, 100% 0, 100% 100%, 5vh 100%, 0 calc(100% - 4vh), 0 4vh);
   border-radius: 1vh;
@@ -133,7 +133,7 @@
   position: absolute;
   width: 3vh; /* 円の幅 */
   height: 3vh; /* 円の高さ */
-  background-color: #2a2a2a; /* 円の背景色 */
+  background-color: #21a2a6; /* 円の背景色 */
   border-radius: 50%; /* 角を丸くして円を作成 */
   top: 50%; /* 上から50%の位置に */
   left: 1.5vh;
@@ -146,11 +146,12 @@
   justify-content: space-between;
   align-items: left;
   font-size: 2vh;
-  color: black;
+  color: #101010;
   margin: 2vh;
   margin-left: 5vh;
-  background-color: #fff;
+  background-color: #f8f6f1;
   border-radius: 1vh;
+  font-family: "Zen Kaku Gothic", sans-serif;
 }
 
 .overview-title {
@@ -159,7 +160,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 4vh;
-  color: black;
+  color: #756558;
   padding-top: 0vh;
   padding-left: 1vh;
 }
@@ -171,7 +172,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 2vh;
-  color: black;
+  color: #756558;
   padding: 1vh;
 }
 
@@ -181,7 +182,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 2vh;
-  color: blue;
+  color: #005edc;
   padding: 1vh;
 }
 
@@ -192,8 +193,8 @@
   justify-content: center;
   padding: 2vh;
   border: none;
-  background-color: #007bff;
-  color: white;
+  background-color: #f79db1;
+  color: #101010;
   cursor: pointer;
   border-radius: 1.25vh;
   font-size: 1.25vw;
@@ -201,7 +202,7 @@
 }
 
 .result-button:hover {
-  background-color: #008cff; /* ホバー時の背景色を少し明るく */
+  background-color: #e65f7d; /* ホバー時の背景色を少し明るく */
   transform: scale(1.05); /* ホバー時に少し大きく */
 }
 

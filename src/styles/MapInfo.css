@@ -4,17 +4,18 @@
     justify-content: top;
     width: 15vh;
     height: 70%;
-    color: white;
+    color: #e0d8c3;
     position: absolute;
     z-index: 10000000;
     top: 0;
     left: 1%;
     user-select: none;
     /* ダブルクリックしてもテキストが選択されないようにする */
+    overflow: hidden;
 }
 
 .compass {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(16, 16, 16, 0.8);
     border-radius: 1vh;
     align-items: center;
     justify-content: center;
@@ -31,7 +32,7 @@
     /* 親要素に合わせる */
     border-radius: 50%;
     /* 丸形にする */
-    background-color: #FFF;
+    background-color: white;
     /* 背景色 */
     position: relative;
     /* 疑似要素の基準点 */
@@ -76,8 +77,8 @@
     /* 中央揃え */
     transform: translateX(-50%);
     /* 正確に中央に配置 */
-    background-color: black;
-    color: white;
+    background-color: #101010;
+    color: #e0d8c3;
     padding: 5px 10px;
     border-radius: 4px;
     white-space: nowrap;
@@ -97,7 +98,7 @@
 }
 
 .infobox {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(16, 16, 16, 0.8);
     border-top: 3vh solid;
     border-radius: 1vh;
     position: relative;
@@ -158,8 +159,8 @@
 }
 
 .scale-line {
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
+    border-top: 1px solid #e0d8c3;
+    border-bottom: 1px solid #e0d8c3;
     width: 50%;
     margin: 0 auto;
     margin-top: 0vh;
@@ -178,19 +179,19 @@
     /* 端の線の幅 */
     height: 5px;
     /* 端の線の高さ */
-    background: white;
+    background: #e0d8c3;
 }
 
 .scale-line::before {
     left: -2px;
     /* 左端に配置 */
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
+    border-top: 1px solid #e0d8c3;
+    border-bottom: 1px solid #e0d8c3;
 }
 
 .scale-line::after {
     right: -2px;
     /* 右端に配置 */
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
+    border-top: 1px solid #e0d8c3;
+    border-bottom: 1px solid #e0d8c3;
 }
