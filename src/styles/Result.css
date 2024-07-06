@@ -149,7 +149,7 @@
   color: #101010;
   margin: 2vh;
   margin-left: 5vh;
-  background-color: #f8f6f1;
+  background-color: #fffadd;
   border-radius: 1vh;
   font-family: "Zen Kaku Gothic", sans-serif;
 }
@@ -160,7 +160,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 4vh;
-  color: #756558;
+  color: #413831;
   padding-top: 0vh;
   padding-left: 1vh;
 }
@@ -172,7 +172,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 2vh;
-  color: #756558;
+  color: #413831;
   padding: 1vh;
 }
 

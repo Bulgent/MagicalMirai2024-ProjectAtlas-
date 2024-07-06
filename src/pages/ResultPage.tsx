@@ -214,9 +214,9 @@ export const ResultPage = () => {
                                 hoverHistory={result.hoverHistory}
                             />
                         </div>
-                        <div className='result-songtitle'>
+                        {/* <div className='result-songtitle'>
                             {result?.player.data.song.name}
-                        </div>
+                        </div> */}
                     </div>
                     <div className='result-right'>
                         {/* 右画面 */}
