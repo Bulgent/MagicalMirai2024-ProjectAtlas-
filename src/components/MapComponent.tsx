@@ -71,6 +71,10 @@ export const MapComponent = (props: any) => {
 
   const executedRef = useRef(false);
 
+  // UFOと會合したかどうか
+  const [encounteredUfo, setEncounteredUfo] = useState(false);
+
+
 
   /**
    * React Hooks
@@ -482,6 +486,7 @@ export const MapComponent = (props: any) => {
               player: { data: { song: props?.player?.data?.song } }, // 楽曲情報
               pathway: pathwayFeature,
               // HACK (props.player自体はmediaElementにdiv要素があるためResultに渡せない)
+              encountUfo: encounteredUfo, // UFOと遭遇したかどうか
             }
             // 2秒後にresult画面へ遷移
             setTimeout(() => {
@@ -790,7 +795,7 @@ export const MapComponent = (props: any) => {
           rotationOrigin="center"
         >
         </RotateCarLightMarker>
-        <UfoMarker handOverFanFun={props.handOverFanFun} isMoving={props.isMoving} />
+        <UfoMarker handOverFanFun={props.handOverFanFun} isMoving={props.isMoving} setEncounteredUfo={setEncounteredUfo} />
         {/* 曲の開始まで表示するレイヤ */}
         <PathWay />
         <UpdatingOverlayLayer />

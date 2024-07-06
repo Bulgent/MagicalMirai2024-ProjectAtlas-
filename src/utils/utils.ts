@@ -224,67 +224,79 @@ export const checkPartOfSpeech = (PoS: string) => {
   }
 }
 
-export const sightEmoji = (type: number): { type: string; emoji: string } => {
+export const sightEmoji = (type: number): { type: string; emoji: string; hashtag: string } => {
   switch (type) {
     case sightType.sports:
       return {
-        type: "運動",
-        emoji: '🏟️'
+        type: "スポーツ施設",
+        emoji: '🏟️',
+        hashtag: '#筋肉痛'
       };
     case sightType.eat:
       return {
-        type: "食事",
-        emoji: '🍽'
+        type: "食事処",
+        emoji: '🍽',
+        hashtag: '#食い倒れ'
       };
     case sightType.movie:
       return {
         type: "映画館",
-        emoji: '📽️'
+        emoji: '📽️',
+        hashtag: '#ノスタルジック'
       };
     case sightType.aqua:
       return {
         type: "水族館",
-        emoji: '🐬'
+        emoji: '🐬',
+        hashtag: '#イルカショー'
       };
     case sightType.zoo:
       return {
         type: "動物園",
-        emoji: '🦁'
+        emoji: '🦁',
+        hashtag: '#アニマルセラピー'
       };
     case sightType.depart:
       return {
-        type: "買い物",
-        emoji: '🏬'
+        type: "ショッピングモール",
+        emoji: '🏬',
+        hashtag: '#爆買い'
       };
     case sightType.castle:
       return {
         type: "史跡名勝",
-        emoji: '🏯'
+        emoji: '🏯',
+        hashtag: '#パワースポット'
       };
     case sightType.hotspring:
       return {
         type: "温泉",
-        emoji: '♨'
+        emoji: '♨',
+        hashtag: '#サウナで整う'
       };
     case sightType.amusement:
       return {
         type: "遊園地",
-        emoji: '🎡'
+        emoji: '🎡',
+        hashtag: '#絶叫コースター'
       };
     case sightType.festival:
       return {
-        type: "祭り",
-        emoji: '🎆'
+        type: "お祭り",
+        emoji: '🎆',
+        hashtag: '#お祭り騒ぎ'
       };
     case sightType.factory:
       return {
         type: "工場見学",
-        emoji: '🏭'
+        emoji: '🏭',
+        hashtag: '#工場見学'
       };
     default:
       return {
         type: "その他",
-        emoji: '🏛'
+        emoji: '🏛',
+        hashtag: '#あれぇ丘people!?'
       };
   }
 }
