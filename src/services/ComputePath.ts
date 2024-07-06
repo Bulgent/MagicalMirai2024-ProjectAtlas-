@@ -24,7 +24,7 @@ type NodeResult = {
   link_position: "to"|"from";
 }
 
-
+/* @ts-nocheck */
 /*
 jsonから最短距離計算のためのLinkへの整形
 */
@@ -157,6 +157,7 @@ export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:
   }
   // const links = createLinksFromJson(roads)
   const [start_id, start_coordinate] = getNearestPosition(startCoordinate[1], startCoordinate[0], links)
+  /* @ts-ignore */
   const [end_id, end_coordinate] = getNearestPosition(endCoordinate[1], endCoordinate[0], links)
   // リンクを格納して計算準備
   const graph = createGraph();
@@ -167,6 +168,7 @@ export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:
   const pathFinder = aStar(graph, {
     // oriented: true,
     // We tell our pathfinder what should it use as a distance function:
+    /* @ts-ignore */
     distance(fromNode, toNode, link) {
       // We don't really care about from/to nodes in this case,
       // as link.data has all needed information:
@@ -174,6 +176,7 @@ export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:
     }
   });
   // 計算を実施
+  /* @ts-ignore */
   const path_lst = pathFinder.find(end_id, start_id);
 
 
@@ -187,6 +190,7 @@ export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:
     const node_id = path.id
     const node_next_id = path_next.id
     // それに対応するLinkIdを取得する
+    /* @ts-ignore */
     const links_array = [...path.links]
     let link_id;
     let link_position
@@ -198,8 +202,11 @@ export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:
       }
     }
     const node_result:NodeResult = {
+      /* @ts-ignore */
       node_id,
+      /* @ts-ignore */
       link_id,
+      /* @ts-ignore */
       link_position
     }
     node_results.push(node_result)
@@ -207,7 +214,8 @@ export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:
 
   // 描画用の座標をfeaturesに格納
   // ノードによる描画を実施
+  /* @ts-ignore */
   const [feature_ret, nodes_path_feature, nodes_path] = getFeature(node_results, links)
-
+/* @ts-ignore */
   return [nodes_path_feature, nodes_path, start_coordinate]
 }

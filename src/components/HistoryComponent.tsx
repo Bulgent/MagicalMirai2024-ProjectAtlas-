@@ -1,10 +1,8 @@
 import '../styles/App.css';
 import '../styles/History.css';
-import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
 import { msToMs } from '../utils/utils';
 
 export const HistoryComponent = (props: any) => {
-    const [fanfun, setFanfun] = useState<number>(0);
 
     // ホバーされた情報表示
     const showHover = () => {
