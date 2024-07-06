@@ -1,37 +1,36 @@
 import '../styles/Result.css';
-import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
+import { MapContainer, GeoJSON, useMap } from 'react-leaflet';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import areas from '../assets/jsons/map_data/area.json'
 import { mapStyle} from '../utils/MapStyle.ts'
 import { LatLngLiteral, MaplibreGL, point, divIcon, marker } from 'leaflet';
 import { useEffect, useRef, useState } from 'react';
 import { mapStylePathWay } from '../utils/MapStyle.ts'
-import { emojiNote, emojiStart, emojiGoal, carIcon, carLightIcon, pngMM24, mmIcon } from '../assets/marker/markerSVG.ts'
+import { emojiStart, emojiGoal } from '../assets/marker/markerSVG.ts'
 
 export const ResultIslandMapComponent = (props: any) => {
     const mapZoom = 10.2;
-    const mapCenter:LatLngLiteral = {lat:34.6379271092576, lng:135.4196972135114}
-    // OpenStreetMapレイヤー
+    const mapCenter:LatLngLiteral = {lat:34.650003221419524, lng:135.53705225930204}
+
     const OSMlayerRef = useRef<MaplibreGL | null>(null);
     const isInitMapRef = useRef<Boolean>(true);
     const [isMapReady, setIsMapReady] = useState(false);
 
     // 通る道についての描画
     const PathWay: React.FC = () => {
-        console.log(props.pathway)
         if (props.pathway) {
-        const geojson = {
-            type: "FeatureCollection",
-            features: props.pathway
-        }
-        return (
-            <GeoJSON
-            data={geojson as GeoJSON.GeoJsonObject}
-            style={mapStylePathWay}
-            />
-        );
+            const geojson = {
+                type: "FeatureCollection",
+                features: props.pathway
+            }
+            return (
+                <GeoJSON
+                data={geojson as GeoJSON.GeoJsonObject}
+                style={mapStylePathWay}
+                />
+            );
         } else {
-        return null;
+            return null;
         }
     };
 
@@ -39,7 +38,6 @@ export const ResultIslandMapComponent = (props: any) => {
         const map = useMap()
         const crtLat:number = props.pathway[0].geometry.coordinates[0][0][1]
         const crtLng:number = props.pathway[0].geometry.coordinates[0][0][0]
-        const markerString: string = "🦄"
         const markerSVG: string = emojiStart
         const markerClass: string = "icon-goal"
         const markerSize: [number, number] = [50, 50]
@@ -65,7 +63,6 @@ export const ResultIslandMapComponent = (props: any) => {
         const coordinatesLength = coordinates.length
         const crtLat:number = coordinates[coordinatesLength-1][1]
         const crtLng:number = coordinates[coordinatesLength-1][0]
-        const markerString: string = "🦄"
         const markerSVG: string = emojiGoal
         const markerClass: string = "icon-goal"
         const markerSize: [number, number] = [50, 50]
@@ -127,17 +124,17 @@ export const ResultIslandMapComponent = (props: any) => {
 
     return(
         <MapContainer className='mapcomponent' style={{ backgroundColor: '#f5f3f3' }}
-        center={mapCenter} zoom={mapZoom}
-        minZoom={mapZoom} maxZoom={mapZoom}
-        zoomSnap={0.1} zoomDelta={0.5} trackResize={true}
-        inertiaMaxSpeed={500} inertiaDeceleration={1000}
-        zoomControl={false} attributionControl={false}
-        maxBoundsViscosity={1.0}
-        preferCanvas={true}
-        boxZoom={false} doubleClickZoom={false}
-        inertia={false} dragging={false}
-        touchZoom={false} scrollWheelZoom={false}
-        tap={false} keyboard={false}
+            center={mapCenter} zoom={mapZoom}
+            minZoom={mapZoom} maxZoom={mapZoom}
+            zoomSnap={0.1} zoomDelta={0.5} trackResize={true}
+            inertiaMaxSpeed={500} inertiaDeceleration={1000}
+            zoomControl={false} attributionControl={false}
+            maxBoundsViscosity={1.0}
+            preferCanvas={true}
+            boxZoom={false} doubleClickZoom={false}
+            inertia={false} dragging={false}
+            touchZoom={false} scrollWheelZoom={false}
+            tap={false} keyboard={false}
         >
         <PathWay />
         <StartPosition/>
