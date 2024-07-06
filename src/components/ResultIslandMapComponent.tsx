@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { mapStylePathWay } from '../utils/MapStyle.ts'
 import { emojiNote, emojiStart, emojiGoal, carIcon, carLightIcon, pngMM24, mmIcon } from '../assets/marker/markerSVG.ts'
 
-export const ResultMapComponent = (props: any) => {
+export const ResultIslandMapComponent = (props: any) => {
     const mapZoom = 10.2;
     const mapCenter:LatLngLiteral = {lat:34.6379271092576, lng:135.4196972135114}
     // OpenStreetMapレイヤー
