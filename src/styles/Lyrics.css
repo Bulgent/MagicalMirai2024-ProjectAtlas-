@@ -56,17 +56,13 @@
 }
 
 .symbol.miku {
-  color: #373b3e !important;
-  font-weight: normal !important;
-  /* bold */
-  font-size: 100% !important;
+  color: transparent !important;
+  text-shadow: none !important;
 }
 
 .space.miku {
-  color: #373b3e !important;
-  font-weight: normal !important;
-  /* bold */
-  font-size: 100% !important;
+  color: transparent !important;
+  text-shadow: none !important;
 }
 
 .other.miku {
@@ -94,7 +90,10 @@
 .kanji.len {
   color: #ffd98c !important;
   text-shadow:
-    0 0 2px black;
+    0 0 4px black,
+    0 0 calc(1px * var(--weather)) white,
+    0 0 calc(1px * var(--weather)) white,
+    0 0 calc(1px * var(--weather)) white !important;
   font-weight: normal !important;
   /* bold */
   font-size: 120% !important;
@@ -115,17 +114,13 @@
 }
 
 .symbol.len {
-  color: #555658 !important;
-  font-weight: normal !important;
-  /* bold */
-  font-size: 100% !important;
+  color: transparent !important;
+  text-shadow: none !important;
 }
 
 .space.len {
-  color: #555658 !important;
-  font-weight: normal !important;
-  /* bold */
-  font-size: 100% !important;
+  color: transparent !important;
+  text-shadow: none !important;
 }
 
 .other.len {

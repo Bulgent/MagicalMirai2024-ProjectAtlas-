@@ -1,19 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Hachi+Maru+Pop&family=Noto+Color+Emoji&family=Noto+Emoji&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Zen+Maru+Gothic&family=BIZ+UDPGothic&family=Kosugi&family=Mochiy+Pop+One&family=Zen+Kaku+Gothic+New&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Noto+Emoji&family=Zen+Maru+Gothic&family=Kosugi&family=Mochiy+Pop+One&family=Hachi+Maru+Pop&display=swap');
 
 :root {
   --min-font-size: 16px;
   --max-font-size: 24px;
 }
 
-.noto-sans {
-  font-family: "Noto Sans", sans-serif;
-  font-optical-sizing: auto;
+/* その他絵文字に使用 */
+.notoemoji-color {
+  font-family: "Noto Color Emoji", sans-serif;
   font-weight: 400;
   font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
 }
 
+/* 音符に使用 */
 .notoemoji-mono {
   font-family: "Noto Emoji", sans-serif;
   font-optical-sizing: auto;
@@ -21,38 +20,8 @@
   font-style: normal;
 }
 
-.notoemoji-color {
-  font-family: "Noto Color Emoji", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.hachimaru-pop {
+.hachi-maru-pop {
   font-family: "Hachi Maru Pop", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.dotgothic16 {
-  font-family: "DotGothic16", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.zenmaru-gothic {
-  font-family: "Zen Maru Gothic", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.zen-kaku-gothic-new-regular {
-  font-family: "Zen Kaku Gothic New", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.biz-udpgothic-regular {
-  font-family: "BIZ UDPGothic", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
@@ -63,8 +32,16 @@
   font-style: normal;
 }
 
+/* 地図の歌詞に使用 */
 .kosugi-regular {
   font-family: "Kosugi", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* アプリ全体に使用 */
+.zenmaru-gothic {
+  font-family: "Zen Maru Gothic", serif;
   font-weight: 400;
   font-style: normal;
 }
@@ -72,10 +49,10 @@
 /* Responsive */
 html,
 body {
+  font-family: "Zen Maru Gothic", serif;
   height: 100%;
   display: grid;
   place-items: center;
-  font-family: "Zen Maru Gothic", serif;
 }
 
 body {

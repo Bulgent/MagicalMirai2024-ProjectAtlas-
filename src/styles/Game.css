@@ -43,3 +43,6 @@
     display: none !important;
 }
 
+#logo{
+    user-select: none; /* ダブルクリックしてもテキストが選択されないようにする */
+}

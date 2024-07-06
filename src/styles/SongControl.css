@@ -4,6 +4,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    user-select: none;
+    /* ダブルクリックしてもテキストが選択されないようにする */
 }
 
 /* Left Section */
@@ -62,7 +64,7 @@
 /* Seek Bar */
 .seek {
     width: 100%;
-    display: flex align-items: center;
+    align-items: center;
     text-align: center;
 }
 
@@ -78,7 +80,17 @@
 
 .seek-bar-container {
     width: 100%;
-    background-color: #ccc;
+    /* background: linear-gradient(to right, #ff7e5f, #feb47b, 00B4DB); */
+    /* background: linear-gradient(to right, #00B4DB, #0083B0, 2C3E50); */
+    /* background: linear-gradient(to right, #0083B0, #2C3E50, #030c1b); */
+    background:
+        linear-gradient(to right,
+            #ff7e5f 0%,
+            #00B4DB calc(1% * var(--mtonstart)),
+            #0083B0 calc(1% * var(--mtonend)),
+            #2C3E50 calc(1% * var(--ntonstart)),
+            #122130 calc(1% * var(--ntonend)),
+            #030c1b 100%);
     cursor: auto;
     height: 2.5vh;
     align-items: center;
@@ -88,6 +100,7 @@
 .running-mm {
     position: absolute;
     left: 0;
+    bottom: 0.25vh;
     margin-left: 0.5vw;
     font-size: 2vh;
     width: 7vw;
@@ -95,18 +108,20 @@
 }
 
 .progress-weather {
-    font-family: "Noto Color Emoji", sans-serif;
+    font-family: "Kosugi", sans-serif;
     position: absolute;
     font-size: 2vh;
+    top: 0.25vh;
     width: 100%;
-    text-align: center;
+    text-align: bottom;
     z-index: 10000;
-    color:midnightblue
-}
-.weather-arrow{
-    font-size: 2vh;
+    color: white;
+    mix-blend-mode: normal;
 }
 
+.weather-arrow {
+    font-size: 2vh;
+}
 
 .flags {
     position: absolute;
@@ -146,9 +161,12 @@
 
 .progress-bar {
     height: 100%;
-    background-color: #007bff;
+    background-color: #555658;
+    /* background-color: var(--seek-color); */
     /* width: 0%; */
-    position: relative;
+    right: 0;
+    position: absolute;
+    /* position: relative; */
 }
 
 .progress-handle {
@@ -156,8 +174,8 @@
     height: 6vh;
     position: absolute;
     top: 50%;
-    right: 0%;
-    transform: translate(70%, -50%) rotate(90deg);
+    left: 0%;
+    transform: translate(30%, -50%) rotate(90deg);
     filter: brightness(75%);
     z-index: 1000000;
 }
@@ -174,7 +192,7 @@
 }
 
 .time-elapsed,
-.time-duration{
+.time-duration {
     font-size: 2.5vh;
     width: 2vw;
     color: white;
@@ -222,6 +240,12 @@
     /* クリック時にさらに小さくする */
     transition: transform 0.1s ease;
     /* トランジションを速くして反応を良くする */
+}
+
+/* Disabled Button */
+.pausebutton:disabled {
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 /* Jacket Button */

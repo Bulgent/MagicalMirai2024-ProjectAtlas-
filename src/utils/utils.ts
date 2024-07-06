@@ -45,7 +45,7 @@ const katakanaRegex: RegExp = /^[ァ-ン]+$/;
 const kanjiRegex: RegExp = /^[一-龥]+$/;
 const englishRegex: RegExp = /^[a-zA-Z]+$/;
 const numberRegex: RegExp = /^[0-9]+$/;
-const symbolRegex: RegExp = /^[!-/:-@[-`{-~、。！？「」]+$/;
+const symbolRegex: RegExp = /^[!-/:-@[-`{-~、。！？「」”“"・･’]+$/;
 const spaceRegex: RegExp = /^\s+$/;
 
 // 👽歌詞の種類👽
@@ -221,6 +221,71 @@ export const checkPartOfSpeech = (PoS: string) => {
       return "その他";
     default:
       return "不明";
+  }
+}
+
+export const sightEmoji = (type: number): { type: string; emoji: string } => {
+  switch (type) {
+    case sightType.sports:
+      return {
+        type: "運動",
+        emoji: '🏟️'
+      };
+    case sightType.eat:
+      return {
+        type: "食事",
+        emoji: '🍽'
+      };
+    case sightType.movie:
+      return {
+        type: "映画館",
+        emoji: '📽️'
+      };
+    case sightType.aqua:
+      return {
+        type: "水族館",
+        emoji: '🐬'
+      };
+    case sightType.zoo:
+      return {
+        type: "動物園",
+        emoji: '🦁'
+      };
+    case sightType.depart:
+      return {
+        type: "買い物",
+        emoji: '🏬'
+      };
+    case sightType.castle:
+      return {
+        type: "史跡名勝",
+        emoji: '🏯'
+      };
+    case sightType.hotspring:
+      return {
+        type: "温泉",
+        emoji: '♨'
+      };
+    case sightType.amusement:
+      return {
+        type: "遊園地",
+        emoji: '🎡'
+      };
+    case sightType.festival:
+      return {
+        type: "祭り",
+        emoji: '🎆'
+      };
+    case sightType.factory:
+      return {
+        type: "工場見学",
+        emoji: '🏭'
+      };
+    default:
+      return {
+        type: "その他",
+        emoji: '🏛'
+      };
   }
 }
 

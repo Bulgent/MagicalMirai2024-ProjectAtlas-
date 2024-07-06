@@ -5,6 +5,8 @@
   align-items: center;
   height: 100%;
   width: 95%;
+    position: relative;
+
 }
 
 .hovertext {
@@ -15,6 +17,8 @@
   font-weight: bold;
   color: #fff;
   text-align: center;
+  user-select: none;
+  position: relative;
 }
 
 .hoverline {
@@ -31,6 +35,11 @@
   height: 92%;
   width: 100%;
   margin: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+  position: relative;
 }
 
 /* Handle */
@@ -50,20 +59,61 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 50%;
+  /* height: 20%; */
+  margin-top: 10vh;
   width: 100%;
+  user-select: none;
+  position: relative;
+}
+
+/* ツールチップの基本スタイル */
+.fanfun[data-tooltip]:hover::after,
+.hovertext[data-tooltip]:hover::after,
+.nohoverhistory[data-tooltip]:hover::after,
+.emoji-icon[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  /* data-tooltip属性の値を表示 */
+  position: absolute;
+  bottom: 50%;
+  /* 要素の上に表示 */
+  left: 50%;
+  /* 中央揃え */
+  transform: translateX(-50%);
+  /* 正確に中央に配置 */
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 1000;
+  visibility: hidden;
+  /* 最初は非表示 */
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+  font-size: 2vh;
+  font-family: "Zen Maru Gothic", serif;
+}
+
+.fanfun[data-tooltip]:hover::after,
+.hovertext[data-tooltip]:hover::after,
+.nohoverhistory[data-tooltip]:hover::after,
+.emoji-icon[data-tooltip]:hover::after {
+  visibility: visible;
+  /* ホバー時に表示 */
+  opacity: 1;
 }
 
 .historybox {
   background-color: #7bcac9;
-  border-top: 5vh solid;
+  border-top: 2.5vw solid;
   border-radius: 1.5vh;
   font-size: 1vh;
   padding: 1.5em;
   margin: 1em;
   color: #000;
   border-color: #cac97b;
-  position:relative;
+  width: calc(100% - 5.5em);
+  position: relative;
 }
 
 .historycaption {
@@ -71,17 +121,25 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5em;
   position: absolute;
   top: 0;
   left: 0;
-  margin: 1em;
+  margin: 0em 1em;
   width: calc(100% - 2em);
-  transform: translateY(-5vh);
+  transform: translateY(-2vw);
+}
+
+.emoji-icon {
+  position: relative;
 }
 
 .historyname {
   font-size: 1.2vw;
+  font-weight: bold;
+}
+
+.history-place {
+  font-size: 1.0vw;
   font-weight: bold;
 }
 
@@ -91,6 +149,24 @@
 
 .historydetail {
   font-size: 1vw;
+  text-align: left;
+}
+
+.historypoint {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  font-family: "Hachi Maru Pop", cursive;
+  font-size: 1vw;
+}
+
+.history-emoji {
+  width: 60%;
+  margin-top: 2vh;
+  text-align: center;
+  font-family: "Noto Color Emoji";
+  font-size: 1.5vw;
+  user-select: none;
 }
 
 .fanfun {
@@ -100,16 +176,47 @@
   justify-content: right;
   width: calc(100% - 1vw);
   padding: 0vh 1vw;
+  line-height: 3.25vw;
   text-align: justify;
-  text-align-last:justify;
+  text-align-last: justify;
   font-size: 2vw;
+  user-select: none;
+  position: relative;
 }
 
 .fanfununit {
-  height: 2vw;
-  font-size: 1vw;
-  line-height: 1vw;
-  padding: 0.75vw 0.1vw;
+  height: 50%;
+  font-size: 50%;
+  line-height: 80%;
+  margin-top: 1em;
+  margin-left: 0.1em;
+}
+
+.fade-out-up-animation {
+  animation: fade-out-up 0.5s ease-out forwards;
+}
+
+.fanfunChange {
+  position: absolute;
+  left: 0;
+  margin-left: 1vw;
+  font-size: 1.5vw;
+}
+
+.historycar {
+  width: 2vw;
+  background-color: gray;
+  margin-right: 15vw;
+}
+
+.historyroad{
+  height: 2em;
+  width: 10%;
+  margin-left: 1vw;
+  background-color: gray;
+  position:absolute;
+  top: calc(-2em - 2.5vw);
+  left: 0;
 }
 
 @keyframes fadeInSlideDown {
@@ -121,5 +228,17 @@
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fade-out-up {
+  from {
+    opacity: 1;
+    transform: translateY(0vh);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-3vh);
   }
 }

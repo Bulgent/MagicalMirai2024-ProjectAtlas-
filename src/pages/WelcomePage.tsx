@@ -89,6 +89,14 @@ export const WelcomePage = () => {
                             </span>
                             {msToMs(songLength)}
                         </div>
+                        <div className='selectDifficulty'>
+                            {(songIndex.current != -1) && Array.from({ length: songData[songIndex.current].difficulty }).map((_, index) => (
+                                <span key={index} className="material-symbols-outlined difficulty">
+                                    star
+                                </span>
+                            ))}
+                            難易度は適当
+                        </div>
                         <div className='tooltip-credit'>
                             {creditData.map((credit, index) => (
                                 <div key={index} className='credit'>
