@@ -13,7 +13,7 @@ import { seasonType, weatherType, timeType, mapStyle, polygonStyle, mapStylePath
 import {
   calculateDistance,
   calculateEachRoadLengthRatio, getRationalPositonIndex, cssSlide,
-  createLatLngBounds, calculateMikuMile, calculateRoadLengthSum, changeStyle
+  createLatLngBounds, calculateMikuMile, calculateRoadLengthSum, changeStyle, formatKashi
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
 import { pngCar, emojiNote, emojiStart, emojiGoal } from '../assets/marker/markerSVG.ts'
