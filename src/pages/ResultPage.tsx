@@ -229,6 +229,7 @@ export const ResultPage = () => {
 
     useEffect(() =>{
         if (!phrase && !hashtag){
+            /*@ts-ignore */
             setPhrase(overviewPhrase())
             setHashtag(overviewHashtag())
         }
