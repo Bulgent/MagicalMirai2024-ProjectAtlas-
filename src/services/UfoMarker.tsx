@@ -56,11 +56,11 @@ const UfoMarker = (props: any) => {
 
     const handleUfoClick = () => {
         if (props.isMoving && !isUfo) {
-            props.handOverFanFun(512810410); // コイニハッテンシテ
+            props.handOverFanFun(512810410); // 高得点
             setIsUfo(true);
             props.setEncounteredUfo(true); // 親コンポーネントにUFO遭遇フラグを渡す
         } else {
-            console.log('オィイイイイイッス！ 今日はオフ会当日ですけども 参加者は 誰一人いませんでした');
+            // console.log('UFOはもういないよ!');
         }
     };
 

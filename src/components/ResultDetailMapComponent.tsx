@@ -2,7 +2,7 @@ import '../styles/Result.css';
 import { MapContainer, GeoJSON, useMap } from 'react-leaflet';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import areas from '../assets/jsons/map_data/area.json'
-import { mapStyle} from '../utils/MapStyle.ts'
+import { mapStyle } from '../utils/MapStyle.ts'
 import { LatLngLiteral, MaplibreGL, point, divIcon, marker, LeafletMouseEvent } from 'leaflet';
 import { useEffect, useRef, useState } from 'react';
 import { mapStylePathWay } from '../utils/MapStyle.ts'
@@ -16,9 +16,9 @@ export const ResultDetailMapComponent = (props: any) => {
     // スタートとゴールの中間の座標をマップの中心座標とする
     const coordinates = props.pathway[0].geometry.coordinates[0]
     const coordinatesLength = coordinates.length
-    const crtLat:number = (coordinates[0][1]+coordinates[coordinatesLength-1][1])/2
-    const crtLng:number = (coordinates[0][0]+coordinates[coordinatesLength-1][0])/2
-    const mapCenter:LatLngLiteral = {lat:crtLat, lng:crtLng}
+    const crtLat: number = (coordinates[0][1] + coordinates[coordinatesLength - 1][1]) / 2
+    const crtLng: number = (coordinates[0][0] + coordinates[coordinatesLength - 1][0]) / 2
+    const mapCenter: LatLngLiteral = { lat: crtLat, lng: crtLng }
 
     // OpenStreetMapレイヤー
     const OSMlayerRef = useRef<MaplibreGL | null>(null);
@@ -34,8 +34,8 @@ export const ResultDetailMapComponent = (props: any) => {
             }
             return (
                 <GeoJSON
-                data={geojson as GeoJSON.GeoJsonObject}
-                style={mapStylePathWay}
+                    data={geojson as GeoJSON.GeoJsonObject}
+                    style={mapStylePathWay}
                 />
             );
         } else {
@@ -46,10 +46,10 @@ export const ResultDetailMapComponent = (props: any) => {
     /**
      * スタート座標にアイコンを設置
      */
-    const StartPosition = () =>{
+    const StartPosition = () => {
         const map = useMap()
-        const crtLat:number = props.pathway[0].geometry.coordinates[0][0][1]
-        const crtLng:number = props.pathway[0].geometry.coordinates[0][0][0]
+        const crtLat: number = props.pathway[0].geometry.coordinates[0][0][1]
+        const crtLng: number = props.pathway[0].geometry.coordinates[0][0][0]
         const markerString: string = "🦄"
         const markerSVG: string = emojiStart
         const markerClass: string = "icon-goal"
@@ -61,11 +61,11 @@ export const ResultDetailMapComponent = (props: any) => {
             html: markerSVG, // SVG アイコンの HTML
             iconSize: markerSize, // アイコンのサイズ
             iconAnchor: markerAnchor // アイコンのアンカーポイント
-            });
-        const lyricMarker = marker([crtLat, crtLng], { icon: noteIcon, opacity: 1}).addTo(map);
+        });
+        const lyricMarker = marker([crtLat, crtLng], { icon: noteIcon, opacity: 1 }).addTo(map);
         // 時間に応じたクラスを追加したツールチップを追加
-        lyricMarker.bindTooltip("aaa", 
-            { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note"})
+        lyricMarker.bindTooltip("aaa",
+            { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note" })
             .closeTooltip();
         return null;
     }
@@ -73,12 +73,12 @@ export const ResultDetailMapComponent = (props: any) => {
     /**
      * ゴール座標にアイコンを設置
      */
-    const EndPosition = () =>{
+    const EndPosition = () => {
         const map = useMap()
         const coordinates = props.pathway[0].geometry.coordinates[0]
         const coordinatesLength = coordinates.length
-        const crtLat:number = coordinates[coordinatesLength-1][1]
-        const crtLng:number = coordinates[coordinatesLength-1][0]
+        const crtLat: number = coordinates[coordinatesLength - 1][1]
+        const crtLng: number = coordinates[coordinatesLength - 1][0]
         const markerString: string = "🦄"
         const markerSVG: string = emojiGoal
         const markerClass: string = "icon-goal"
@@ -90,11 +90,11 @@ export const ResultDetailMapComponent = (props: any) => {
             html: markerSVG, // SVG アイコンの HTML
             iconSize: markerSize, // アイコンのサイズ
             iconAnchor: markerAnchor // アイコンのアンカーポイント
-            });
-        const lyricMarker = marker([crtLat, crtLng], { icon: noteIcon, opacity: 1}).addTo(map);
+        });
+        const lyricMarker = marker([crtLat, crtLng], { icon: noteIcon, opacity: 1 }).addTo(map);
         // 時間に応じたクラスを追加したツールチップを追加
-        lyricMarker.bindTooltip("aaa", 
-            { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note"})
+        lyricMarker.bindTooltip("aaa",
+            { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note" })
             .closeTooltip();
         return null;
     }
@@ -103,7 +103,7 @@ export const ResultDetailMapComponent = (props: any) => {
      * 訪れた場所のアイコンを表示
      */
     const VisitedPoints = () => {
-        if(props.hoverHistory){
+        if (props.hoverHistory) {
             const geojson = {
                 type: "FeatureCollection",
                 features: props.hoverHistory,
@@ -114,21 +114,21 @@ export const ResultDetailMapComponent = (props: any) => {
                     pointToLayer={visitedPointsStyle}
                 />
             );
-        }else{
+        } else {
             return null;
         }
     }
 
     // MapLibreTileLayerのrefを定期監視する処理
     useEffect(() => {
-        if (!isInitMapRef.current){
+        if (!isInitMapRef.current) {
             return
         }
         const interval = setInterval(() => {
-            console.log("checking")
+            // console.log("checking")
             if (OSMlayerRef.current) {
-                if (OSMlayerRef.current.getMaplibreMap().getStyle()){
-                    console.log(OSMlayerRef.current)
+                if (OSMlayerRef.current.getMaplibreMap().getStyle()) {
+                    // console.log(OSMlayerRef.current)
                     setIsMapReady(true);
                     clearInterval(interval);
                 }
@@ -141,25 +141,25 @@ export const ResultDetailMapComponent = (props: any) => {
         if (!isInitMapRef.current || !OSMlayerRef.current) {
             return
         }
-        if (OSMlayerRef.current.getMaplibreMap().getStyle()){
+        if (OSMlayerRef.current.getMaplibreMap().getStyle()) {
             const osmMap = OSMlayerRef.current.getMaplibreMap();
             // ここでスタイルを変更
             osmMap.getStyle().layers.forEach((l: any) => {
-              if (l.type === "symbol") osmMap.setLayoutProperty(l.id, "visibility", "none"); // 文字を消す
-              // 水の色を変更
-              if (["waterway", "water"].includes(l.id) && l.type === "fill") {
-                osmMap.setPaintProperty(l.id, "fill-color", "#90dbee");
-              }
-              // 道路の色を変更
-              if (l["source-layer"] === "transportation" && l.type === "line") {
-                osmMap.setPaintProperty(l.id, "line-color", "#8995a2");
-              }
+                if (l.type === "symbol") osmMap.setLayoutProperty(l.id, "visibility", "none"); // 文字を消す
+                // 水の色を変更
+                if (["waterway", "water"].includes(l.id) && l.type === "fill") {
+                    osmMap.setPaintProperty(l.id, "fill-color", "#90dbee");
+                }
+                // 道路の色を変更
+                if (l["source-layer"] === "transportation" && l.type === "line") {
+                    osmMap.setPaintProperty(l.id, "line-color", "#8995a2");
+                }
             });
             isInitMapRef.current = false
         }
     }, [isMapReady]);
 
-    return(
+    return (
         <MapContainer className='detail-mapcomponent' style={{ backgroundColor: '#f5f3f3' }}
             center={mapCenter} zoom={mapZoom}
             minZoom={mapZoom} maxZoom={mapZoom}
@@ -173,21 +173,21 @@ export const ResultDetailMapComponent = (props: any) => {
             touchZoom={false} scrollWheelZoom={false}
             tap={false} keyboard={false}
         >
-        <PathWay/>
-        <StartPosition/>
-        <EndPosition/>
-        <VisitedPoints/>
-        <MapLibreTileLayer
-          attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
-          url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
-          ref={OSMlayerRef}
-          style={{ name: "Stadia Maps", version: 8, sources: {}, layers: [] }}
-        />
-        <GeoJSON
-          data={areas as GeoJSON.GeoJsonObject}
-          style={mapStyle}
-        />
+            <PathWay />
+            <StartPosition />
+            <EndPosition />
+            <VisitedPoints />
+            <MapLibreTileLayer
+                attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
+                url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
+                ref={OSMlayerRef}
+                style={{ name: "Stadia Maps", version: 8, sources: {}, layers: [] }}
+            />
+            <GeoJSON
+                data={areas as GeoJSON.GeoJsonObject}
+                style={mapStyle}
+            />
 
-      </MapContainer>
+        </MapContainer>
     )
 }

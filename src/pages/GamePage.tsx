@@ -111,7 +111,7 @@ export const GamePage = () => {
     const { playerListener } = createPlayer(createPlayerContent)
     // 再生終了時
     return () => {
-      console.log('--- [app] shutdown ---');
+      // console.log('--- [app] shutdown ---');
       player?.removeListener(playerListener);
       player?.dispose();
     };

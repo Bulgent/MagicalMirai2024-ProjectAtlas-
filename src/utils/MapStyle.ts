@@ -86,7 +86,7 @@ export const visitedPointsStyle = (feature: any, latlng: LatLngExpression): Mark
         // console.log(feature)
         // ツールチップ表示
         hoveredMarker.bindTooltip(feature.properties.event_place +
-             ' (' + feature.properties.fanfun_score + 'FF)',
+             ' (+' + feature.properties.fanfun_score + 'FF)',
               { permanent: true, direction: 'top' , className: 'sightseeing-tooltip'}).openTooltip();
     };
 

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Noto+Emoji&family=Zen+Maru+Gothic&family=Zen+Kaku+Gothic&family=Kosugi&family=Mochiy+Pop+One&family=Hachi+Maru+Pop&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Noto+Emoji&family=Zen+Maru+Gothic&family=Zen+Kaku+Gothic&family=Kosugi&family=Hachi+Maru+Pop&display=swap');
 
 :root {
   --min-font-size: 16px;
@@ -20,14 +20,9 @@
   font-style: normal;
 }
 
+/* FanFun度の表示に使用 */
 .hachi-maru-pop {
   font-family: "Hachi Maru Pop", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.mochiy-pop-one-regular {
-  font-family: "Mochiy Pop One", sans-serif;
   font-weight: 400;
   font-style: normal;
 }

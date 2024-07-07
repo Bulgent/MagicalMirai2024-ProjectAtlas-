@@ -59,7 +59,7 @@ export const HistoryComponent = (props: any) => {
                                 <div className='historyname'>
                                     <span>{props.hoverHistory.length}</span>
                                     -
-                                    <span className='history-place'>インテックス大阪</span>
+                                    <span className='history-place'>インテックスオオサカ</span>
                                 </div>
                                 <div className='historytime'>
                                     {msToMs(props.player.data.song.length * 1000)}

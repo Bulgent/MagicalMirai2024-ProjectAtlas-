@@ -88,10 +88,10 @@ export const ResultIslandMapComponent = (props: any) => {
             return
         }
         const interval = setInterval(() => {
-            console.log("checking")
+            // console.log("checking")
             if (OSMlayerRef.current) {
                 if (OSMlayerRef.current.getMaplibreMap().getStyle()){
-                    console.log(OSMlayerRef.current)
+                    // console.log(OSMlayerRef.current)
                     setIsMapReady(true);
                     clearInterval(interval);
                 }

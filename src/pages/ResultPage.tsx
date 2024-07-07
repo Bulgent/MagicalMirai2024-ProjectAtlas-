@@ -34,23 +34,32 @@ export const ResultPage = () => {
     const location = useLocation();
     // GamePageからのデータを取得
     const result = location.state; // GamePageからのデータを取得
-    console.log(result);
+    // console.log(result);
 
     const FanFunCount = ({ result }) => {
         const [count, setCount] = useState(0);
+        // 目標値に到達するまでのインターバルを計算
+        const fanfuncount = result.fanFun / 300; // 10秒で完了するように調整
 
         useEffect(() => {
-            if (count < result?.fanFun) {
-                const timer = setTimeout(() => 
-                    setCount(count + 1),
-                 0.0001); // 20ミリ秒ごとにカウントアップ
+            if (result?.fanFun > 0 && count < result.fanFun) {
+
+                const timer = setTimeout(() =>
+                    setCount(count + fanfuncount),
+                    1); // 計算したインターバルでカウントアップ
                 return () => clearTimeout(timer);
             }
         }, [count, result]);
 
+        if (count >= result.fanFun) {
+            return (
+                <>{result.fanFun.toFixed(0)}</>
+            );
+        }
+
         return (
             <>
-                {count}
+                {(count).toFixed(0)}
             </>
         );
     };
@@ -124,7 +133,7 @@ export const ResultPage = () => {
                 bestFanFun.type = history.properties.event_type;
             }
         });
-        console.log(sightCount)
+        // console.log(sightCount)
         // 最も訪れた場所（同率の場合は配列で）
         let mostVisited = [];
         let maxCount = Math.max(...sightCount);
@@ -144,7 +153,7 @@ export const ResultPage = () => {
             mostVisitedWord[mostVisited[0]] + '堪能しました。' : '';
         const overviewFanfun =
             '特に' + bestFanFun.name + 'では、' +
-            bestFanFunWord[bestFanFun.type] + '、楽しい思い出をたくさん作ることができました。';
+            bestFanFunWord[bestFanFun.type] + '旅の充実感を高めることができました。';
         const randomIndex = Math.floor(Math.random() * encouragementWords.length);
         const overviewEnd = encouragementWords[randomIndex];
 
@@ -253,16 +262,17 @@ export const ResultPage = () => {
                             </div>
                             <div className='mm-waypoint'>
                                 <div className='mikumile-title'>
-                                    Drive:
+                                    {'Drive: '}
                                     <span className='mikumile-score'>
                                         {(result?.mikuMile[1] / 1000).toFixed(2)}
-                                        <span className='unit'>kMM</span>
+                                        <span className='unit'>{' kMM'}</span>
                                     </span>
                                 </div>
                                 <div className='waypoint-title'>
-                                    Waypoint:
+                                    {'Waypoint: '}
                                     <span className='waypoint-score'>
                                         {result?.hoverHistory.length}
+                                        <span className='unit'>{' spot'}</span>
                                     </span>
                                 </div>
                             </div>

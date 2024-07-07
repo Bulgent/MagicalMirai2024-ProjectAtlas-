@@ -269,7 +269,7 @@ export const MapComponent = (props: any) => {
         routeEntireLength += distance;
       }
       // console.log("曲長さ:", props.player.video.duration, "道長さ:", routeEntireLength)
-      console.log(songData[props.songnum].note + "の数:", props.player.video.wordCount)
+      // console.log(songData[props.songnum].note + "の数:", props.player.video.wordCount)
       // 単語数
       const wordCount = props.player.video.wordCount;
       const noteGain = routeEntireLength / props.player.video.duration;
@@ -344,11 +344,11 @@ export const MapComponent = (props: any) => {
         lyricMarker.bindTooltip(wordTime[index].lyric, { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note " + wordTime[index].start }).closeTooltip();
 
         lyricMarker.on('click', function (e) {
-          console.log("click")
+          // console.log("click")
           // ツールチップの文字取得
           const tooltip = e.target.getTooltip();
           const content = tooltip.getContent();
-          console.log(content);
+          // console.log(content);
         });
         map.on('move', function () {
           // ツールチップのDOM要素を取得
@@ -379,7 +379,8 @@ export const MapComponent = (props: any) => {
         overlay.className = "inactive";
       }
       return () => {
-        console.log("unmount note")
+        null;
+        // console.log("unmount note")
       };
     }, [props.songnum, props.player?.video.wordCount, isInitMapPlayer, nodesRef.current]);
 
@@ -475,7 +476,7 @@ export const MapComponent = (props: any) => {
         } else {
           // HACK 曲の再生が終わったらここになる
           if (!executedRef.current) {
-            console.log("曲終了");
+            // console.log("曲終了");
             props.isSongEnd(true);
             cancelAnimationFrame(animationRef.current!);
             map.dragging.disable();
@@ -588,7 +589,7 @@ export const MapComponent = (props: any) => {
   // 👽観光地をクリックしたときに呼び出される関数👽
   const onSightClick = (e: LeafletMouseEvent) => {
     // hoverhistoryに重複しないように追加
-    console.log("before clicked")
+    // console.log("before clicked")
     if (isMapMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
       const fanfunscore = e.sourceTarget.feature.properties.want_score * 10000 + Math.floor(Math.random() * 10000) // 1000倍してランダム値を加える
       // 経由履歴に追加
@@ -648,7 +649,7 @@ export const MapComponent = (props: any) => {
         // 少し遅れて設定(これをしないと一番最初に再生した瞬間に終了処理に引っかかる)
         setTimeout(() => {
           isFirstPlayRef.current = false;
-        }, 10);
+        }, 100);
         overlayStyleRef.current = styleMorning;
         document.documentElement.style.setProperty('--weather', '40');
         document.documentElement.style.setProperty('--car-light', '0.0');
@@ -739,33 +740,11 @@ export const MapComponent = (props: any) => {
               寄り道地点でのイベントに応じて、FanFun度が増加します。<br />
               くまなく探索し、高得点を目指してください。</p>
             <p>再生ボタンで旅を開始し、目的地へ到達すると結果画面に進みます。</p>
+            道中にある様々なイベントアイコンをクリックして立ち寄ることで、旅の満足度を高めることができます。
           </div>
         </GeoJSON>
       </>
       ))
-    // const map = useMap();
-    // useEffect(() => {
-    //   if (!isFirstPlayRef.current) {
-    //     return
-    //   }
-    //   // マップの中心に表示する
-    //   const instruction = L.control({ position: 'topleft' });
-    //   instruction.onAdd = function (map : Map) {
-    //     const div = L.DomUtil.create('div', 'instruction');
-    //     div.innerHTML = `
-    //       <div class="instruction-content">
-    //         <h2>インストラクション</h2>
-    //         <p>🎵を追いかけて、<br>🦄に到達しよう！</p>
-    //       </div>
-    //     `;
-    //     return div;
-    //   };
-    //   instruction.addTo(map);
-    //   return () => {
-    //     instruction.remove();
-    //   }
-    // }, [map]);
-    // return null;
   }
 
 
@@ -813,6 +792,7 @@ export const MapComponent = (props: any) => {
       // スケール変更時の処理をここに記述
       props.handOverScale(map.getZoom())
       console.log('Tew zoom level: ' + map.getZoom());
+      document.documentElement.style.setProperty('--scale', map.getZoom().toString());
     });
     return null
   }

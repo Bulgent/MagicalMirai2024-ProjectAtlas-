@@ -40,13 +40,13 @@
   flex: 2;
   display: flex;
   flex-direction: column;
-  gap: 0.1vh;
   place-items: center;
   align-items: center;
   overflow: auto;
   /* Add overflow property to enable scrolling */
   scrollbar-width: thin;
   scrollbar-color: #fffadd transparent;
+  margin: 0.5vh;
 }
 
 /* Handle */
@@ -57,7 +57,7 @@
 }
 
 .select-song-text {
-  font-size: 3vw;
+  font-size: 2.5vw;
   /* フォントサイズを大きく */
   color: #101010;
   /* 白色のテキスト */
@@ -105,9 +105,8 @@
 .game-title {
   font-size: 2.5vw;
   font-weight: bold;
-  color: #e0d8c3;
+  color: #ffeedd;
   text-align: center;
-  text-shadow: 2px 2px 4px #1a1a1a;
 }
 
 .selectJacket {
@@ -218,7 +217,7 @@ a:visited {
   justify-content: space-evenly;
   bottom: 0;
   font-size: 0.9vw;
-  color: #e0d8c3;
+  color: #ffeedd;
   text-align: center;
   margin-top: 2em;
   position: relative;
@@ -228,7 +227,7 @@ a:visited {
   visibility: hidden;
   width: 100%;
   background-color: #101010;
-  color: #e0d8c3;
+  color: #ffeedd;
   text-align: center;
   border-radius: 6px;
   padding: 5px 0;

@@ -11,9 +11,9 @@ import { msToMs } from '../utils/utils';
 export const WelcomePage = () => {
     const songIndex = useRef(-1);
     const [songTitle, setSongTitle] = useState<string>('MAGICAL MIRAI');
-    const [songArtist, setSongArtist] = useState<string>('Programming Contest');
-    const [songVocaloid, setSongVocaloid] = useState<string>('FAN FUN TRIP NAVIGATION');
-    const [songLength, setSongLength] = useState<number>(1224000);
+    const [songArtist, setSongArtist] = useState<string>('Programming Contest 2024');
+    const [songVocaloid, setSongVocaloid] = useState<string>('Team AHEAD');
+    const [songLength, setSongLength] = useState<number>(0);
 
     const navigate = useNavigate();
 
@@ -58,14 +58,17 @@ export const WelcomePage = () => {
                         <div className='select-song-text'>Select Song</div>
                         {/* ボタンをsongData分追加 */}
                         {songData.map((song, index) => (
-                            <button key={index} className='select-song-button' onClick={() => goToGamePage(index)} onMouseEnter={() => handleMouseEnter(index)} onTouchStart={() => handleMouseEnter(index)}>
+                            <button key={index} className='select-song-button'
+                                onClick={() => goToGamePage(index)}
+                                onMouseEnter={() => handleMouseEnter(index)}
+                                onTouchStart={() => handleMouseEnter(index)}>
                                 {index + 1}.{song.title}
                             </button>
                         ))}
                     </div>
                     <div className='selectSongInfo'>
-                        <div className='game-title'>FAN FUN TRIP NAVIGATION</div>
-                        <img className='selectJacket' src={songIndex.current != -1 ? getImage(songIndex.current) : 'src/assets/images/project.png'} alt='jacket' />
+                        <div className='game-title'>Magical Car Navigation</div>
+                        <img className='selectJacket' src={songIndex.current != -1 ? getImage(songIndex.current) : 'src/assets/images/mm24_welcome.png'} alt='jacket' />
                         <div className='song-tavl'>
                             <div className='song-tag'>
                                 <div className='song-hole' />
@@ -91,14 +94,16 @@ export const WelcomePage = () => {
                                     <span className="material-symbols-outlined length">
                                         timer
                                     </span>
-                                    {msToMs(songLength)}
+                                    {songLength != 0 ? msToMs(songLength) : " - : - -"}
                                 </div>
                             </div>
                         </div>
                         <div className='tooltip-credit'>
                             {creditData.map((credit, index) => (
                                 <div key={index} className='credit'>
-                                    <a href={credit.link} target="_blank" rel="noopener noreferrer">{credit.name}{index != creditData.length - 1 ? ',' : null}</a>
+                                    <a href={credit.link} target="_blank" rel="noopener noreferrer">
+                                        {credit.name}{index != creditData.length - 1 ? ',' : null}
+                                    </a>
                                     <span key={index} className='tooltiptext'>
                                         {credit.credit}{credit.link != '' ? ' (' + credit.link + ')' : ''}
                                     </span>
