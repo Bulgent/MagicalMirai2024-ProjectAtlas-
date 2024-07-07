@@ -150,7 +150,7 @@ export const getNearestPosition=(lon:number, lat:number, links:Link[], )=>{
 
 export function computePath(roadJsonLst:any[], startCoordinate:[lat:number, lon:number], endCoordinate:[lat:number, lon:number]): [any[],[lat:number, lon:number][], [number, number]] {
   // jsonからのデータ成形
-  console.log("computing pathway")
+  // console.log("computing pathway")
   let links:Link[] = [];
   for(const roadJson of roadJsonLst){
     links = [...links, ...createLinksFromJson(roadJson)];

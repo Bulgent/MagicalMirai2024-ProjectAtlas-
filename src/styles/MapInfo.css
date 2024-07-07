@@ -4,7 +4,7 @@
     justify-content: top;
     width: 15vh;
     height: 70%;
-    color: #e0d8c3;
+    color: #ffeedd;
     position: absolute;
     z-index: 10000000;
     top: 0;
@@ -78,7 +78,7 @@
     transform: translateX(-50%);
     /* 正確に中央に配置 */
     background-color: #101010;
-    color: #e0d8c3;
+    color: #ffeedd;
     padding: 5px 10px;
     border-radius: 4px;
     white-space: nowrap;
@@ -159,8 +159,8 @@
 }
 
 .scale-line {
-    border-top: 1px solid #e0d8c3;
-    border-bottom: 1px solid #e0d8c3;
+    border-top: 1px solid #ffeedd;
+    border-bottom: 1px solid #ffeedd;
     width: 50%;
     margin: 0 auto;
     margin-top: 0vh;
@@ -179,19 +179,19 @@
     /* 端の線の幅 */
     height: 5px;
     /* 端の線の高さ */
-    background: #e0d8c3;
+    background: #ffeedd;
 }
 
 .scale-line::before {
     left: -2px;
     /* 左端に配置 */
-    border-top: 1px solid #e0d8c3;
-    border-bottom: 1px solid #e0d8c3;
+    border-top: 1px solid #ffeedd;
+    border-bottom: 1px solid #ffeedd;
 }
 
 .scale-line::after {
     right: -2px;
     /* 右端に配置 */
-    border-top: 1px solid #e0d8c3;
-    border-bottom: 1px solid #e0d8c3;
+    border-top: 1px solid #ffeedd;
+    border-bottom: 1px solid #ffeedd;
 }

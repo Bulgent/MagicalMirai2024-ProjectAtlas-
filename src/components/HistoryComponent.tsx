@@ -32,10 +32,10 @@ export const HistoryComponent = (props: any) => {
             return (
                 <>
                     <div className='nohoverhistory' data-tooltip="地図上のアイコンをクリック">
-                        <div className='historyname'>
+                        <div className='nohistoryname'>
                             No Waypoint Arrived
                         </div>
-                        <div className='historydetail'>
+                        <div className='nohistorydetail'>
                             Please click map icon
                         </div>
                     </div>
@@ -59,7 +59,7 @@ export const HistoryComponent = (props: any) => {
                                 <div className='historyname'>
                                     <span>{props.hoverHistory.length}</span>
                                     -
-                                    <span className='history-place'>インテックス大阪</span>
+                                    <span className='history-place'>インテックスオオサカ</span>
                                 </div>
                                 <div className='historytime'>
                                     {msToMs(props.player.data.song.length * 1000)}

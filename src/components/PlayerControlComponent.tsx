@@ -93,12 +93,12 @@ export const PlayerControl = (props: any) => {
       if (props.player) {
         if (isInitPlay.current) {
           props.player.timer.seek(0);
-          console.log("initialize playing")
+          // console.log("initialize playing")
           isInitPlay.current = false
         }
         props.player.requestPlay();
         props.handOverIsMapMove(true);
-        console.log("playing");
+        // console.log("playing");
       }
     },
     [props.player, props.handOverIsMapMove]
@@ -108,7 +108,7 @@ export const PlayerControl = (props: any) => {
       if (props.player) {
         props.player.requestPause();
         props.handOverIsMapMove(false);
-        console.log("pause");
+        // console.log("pause");
       }
     },
     [props.player, props.handOverIsMapMove]

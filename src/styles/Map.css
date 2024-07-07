@@ -45,6 +45,9 @@
 .sightseeing-tooltip{
   font-family: "Zen Maru Gothic", serif!important;
   z-index: 10000000!important;
+  font-size: 120%!important;
+  font-weight: normal!important;
+  color: black!important;
 }
 
 .car-lamp {
@@ -98,4 +101,8 @@
 .car-tail-lamp-right {
   top: 61px;
   left: 20px;
+}
+
+.emoji{
+  font-size: calc(45px - calc(calc(17 - var(--scale)) * 2px))!important;
 }

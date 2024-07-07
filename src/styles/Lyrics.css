@@ -4,54 +4,53 @@
   border: 0px !important;
   box-shadow: none !important;
   font-size: 200% !important;
+  opacity: 1 !important;
+}
+
+.tooltip-lyric{
+  scale: calc(1 - calc(17 - var(--scale)) / 6)!important;
 }
 
 /* 歌詞の縁色 */
 .miku,
 .len {
   font-family: "Kosugi", sans-serif;
-  /* font-family: "Mochiy Pop One", sans-serif; */
   text-shadow:
-    0 0 calc(1px * var(--weather)) white,
-    0 0 calc(1px * var(--weather)) white,
-    0 0 calc(1px * var(--weather)) white,
+    0 0 calc(1px * var(--weather)) #ffeedd,
+    0 0 calc(1px * var(--weather)) #ffeedd,
     0 0 2px black;
   /* フチの色と太さ */
+  opacity: 1 !important;
 }
 
 /* 歌詞の色（ミク） */
 .hiragana.miku {
   color: #373b3e !important;
-  font-weight: normal !important;
-  /* bold */
-  font-size: 100% !important;
+  font-weight: bold !important;
+  font-size: 150% !important;
 }
 
 .katakana.miku {
-  color: #137a7f !important;
-  font-weight: normal !important;
-  /* bold */
-  font-size: 110% !important;
+  color: #169297 !important;
+  font-weight: bold !important;
+  font-size: 160% !important;
 }
 
 .kanji.miku {
   color: #e12885 !important;
-  font-weight: normal !important;
-  /* bold */
-  font-size: 120% !important;
+  font-weight: bold !important;
+  font-size: 170% !important;
 }
 
 .english.miku {
-  color: #137a7f !important;
-  font-weight: normal !important;
-  /* bold */
-  font-size: 120% !important;
+  color: #169297 !important;
+  font-weight: bold !important;
+  font-size: 160% !important;
 }
 
 .number.miku {
-  color: #137a7f !important;
-  font-weight: normal !important;
-  /* bold */
+  color: #169297 !important;
+  font-weight: bold !important;
   font-size: 150% !important;
 }
 
@@ -67,48 +66,48 @@
 
 .other.miku {
   color: #373b3e !important;
-  font-weight: normal !important;
+  font-weight: bold !important;
   /* bold */
-  font-size: 100% !important;
+  font-size: 150% !important;
 }
 
 /* 歌詞の色（レン） */
 .hiragana.len {
-  color: #555658 !important;
-  font-weight: normal !important;
+  color: #373b3e !important;
+  font-weight: bold !important;
   /* bold */
-  font-size: 100% !important;
+  font-size: 150% !important;
 }
 
 .katakana.len {
-  color: #2b90a2 !important;
-  font-weight: normal !important;
+  color: #169297 !important;
+  font-weight: bold !important;
   /* bold */
-  font-size: 110% !important;
+  font-size: 160% !important;
 }
 
 .kanji.len {
-  color: #ffd98c !important;
+  color: #f2ac20 !important;
   text-shadow:
     0 0 4px black,
     0 0 calc(1px * var(--weather)) white,
     0 0 calc(1px * var(--weather)) white,
     0 0 calc(1px * var(--weather)) white !important;
-  font-weight: normal !important;
+  font-weight: bold !important;
   /* bold */
-  font-size: 120% !important;
+  font-size: 170% !important;
 }
 
 .english.len {
-  color: #2b90a2 !important;
-  font-weight: normal !important;
+  color: #169297 !important;
+  font-weight: bold !important;
   /* bold */
-  font-size: 120% !important;
+  font-size: 160% !important;
 }
 
 .number.len {
-  color: #2b90a2 !important;
-  font-weight: normal !important;
+  color: #169297 !important;
+  font-weight: bold !important;
   /* bold */
   font-size: 150% !important;
 }
@@ -124,8 +123,8 @@
 }
 
 .other.len {
-  color: #555658 !important;
-  font-weight: normal !important;
+  color: #373b3e !important;
+  font-weight: bold !important;
   /* bold */
-  font-size: 100% !important;
+  font-size: 150% !important;
 }

@@ -11,6 +11,7 @@ import { sightEmoji } from '../utils/utils';
 
 import { ResultIslandMapComponent } from '../components/ResultIslandMapComponent';
 import { ResultDetailMapComponent } from '../components/ResultDetailMapComponent';
+import { escape } from 'querystring';
 
 const enum sightType {
     sports = 0, // スポーツ
@@ -37,19 +38,28 @@ export const ResultPage = () => {
 
     const FanFunCount = ({ result }) => {
         const [count, setCount] = useState(0);
+        // 目標値に到達するまでのインターバルを計算
+        const fanfuncount = result.fanFun / 300; // 10秒で完了するように調整
 
         useEffect(() => {
-            if (count < result?.fanFun) {
-                const timer = setTimeout(() => 
-                    setCount(count + 1),
-                 0.0001); // 20ミリ秒ごとにカウントアップ
+            if (result?.fanFun > 0 && count < result.fanFun) {
+
+                const timer = setTimeout(() =>
+                    setCount(count + fanfuncount),
+                    1); // 計算したインターバルでカウントアップ
                 return () => clearTimeout(timer);
             }
         }, [count, result]);
 
+        if (count >= result.fanFun) {
+            return (
+                <>{result.fanFun.toFixed(0)}</>
+            );
+        }
+
         return (
             <>
-                {count}
+                {(count).toFixed(0)}
             </>
         );
     };
@@ -115,7 +125,13 @@ export const ResultPage = () => {
                 bestFanFun.type = history.properties.event_type;
             }
         });
-        console.log(sightCount)
+        // 一つも訪れていない場合を追加 
+        if (sightCount.every((count) => count === 0)) {
+            return (
+                '今回の旅は、どこも立ち寄らずに終わりました。' + encouragementWords[Math.floor(Math.random() * encouragementWords.length)]
+            );
+        } else {
+        // console.log(sightCount)
         // 最も訪れた場所（同率の場合は配列で）
         let mostVisited = [];
         let maxCount = Math.max(...sightCount);
@@ -135,7 +151,7 @@ export const ResultPage = () => {
             mostVisitedWord[mostVisited[0]]  : '';
         const overviewFanfun =
             '特に' + bestFanFun.name + 'では、' +
-            bestFanFunWord[bestFanFun.type] + '、楽しい思い出をたくさん作ることができました。';
+            bestFanFunWord[bestFanFun.type] + '旅の充実感を高めることができました。';
         const randomIndex = Math.floor(Math.random() * encouragementWords.length);
         const overviewEnd = encouragementWords[randomIndex];
 
@@ -148,9 +164,8 @@ export const ResultPage = () => {
                 {overviewEnd}
             </>
         );
+    }
     };
-
-
 
     const overviewHashtag = () => {
         // 施設の種類ごとのカウント
@@ -173,39 +188,43 @@ export const ResultPage = () => {
             // 施設の種類ごとにカウント
             sightCount[history.properties.event_type].count += 1;
         });
-        // 最も訪れた場所（同率の場合は配列で）
-        let mostVisited = [];
-        let maxCount = Math.max(...sightCount.map((sight) => sight.count));
-        sightCount.forEach((sight) => {
-            if (sight.count === maxCount) {
-                mostVisited.push(sight.type);
+        // 一つも訪れていない場合を追加 
+        if (sightCount.every((sight) => sight.count === 0)) {
+            return '# 猪突猛進 # ' + result?.player.data.song.name + ' #マジカルミライ';
+        } else {
+            // 最も訪れた場所（同率の場合は配列で）
+            let mostVisited = [];
+            let maxCount = Math.max(...sightCount.map((sight) => sight.count));
+            sightCount.forEach((sight) => {
+                if (sight.count === maxCount) {
+                    mostVisited.push(sight.type);
+                }
+            });
+            // sightcount のカウントが1以上のやつに対してハッシュタグをつける
+            let hashtag = '';
+            sightCount.forEach((sight) => {
+                if (sight.count > 0) {
+                    hashtag += sightEmoji(sight.type).hashtag + ' ';
+                }
+            });
+            const ufoHashtag = [
+                '#UFO',
+                '#遭遇',
+                '#エイリアン',
+                '#宇宙人',
+                '#未確認飛行物体',
+                '未知との遭遇',
+                'UMA発見!?',
+            ]
+
+            if (result?.encountUfo) {
+                hashtag += ufoHashtag[Math.floor(Math.random() * ufoHashtag.length)] + ' ';
             }
-        });
-        // sightcount のカウントが1以上のやつに対してハッシュタグをつける
-        let hashtag = '';
-        sightCount.forEach((sight) => {
-            if (sight.count > 0) {
-                hashtag += sightEmoji(sight.type).hashtag + ' ';
-            }
-        });
-
-
-        const ufoHashtag = [
-            '#UFO',
-            '#遭遇',
-            '#エイリアン',
-            '#宇宙人',
-            '#未確認飛行物体',
-            '#未知との遭遇',
-            '#UMA発見!?',
-        ]
-
-        if (result?.encountUfo) {
-            hashtag += ufoHashtag[Math.floor(Math.random() * ufoHashtag.length)] + ' ';
+            hashtag += '# ' + result?.player.data.song.name + ' #マジカルミライ';
+            return hashtag;
         }
-        hashtag += '# ' + result?.player.data.song.name + ' #マジカルミライ';
-        return hashtag;
     }
+
 
     useEffect(() =>{
         if (!phrase && !hashtag){
@@ -225,12 +244,10 @@ export const ResultPage = () => {
                                 pathway={result.pathway}
                             />
                         </div> */}
-                        <div className='detail-map'>
-                            <ResultDetailMapComponent
-                                pathway={result.pathway}
-                                hoverHistory={result.hoverHistory}
-                            />
-                        </div>
+                        <ResultDetailMapComponent
+                            pathway={result.pathway}
+                            hoverHistory={result.hoverHistory}
+                        />
                         {/* <div className='result-songtitle'>
                             {result?.player.data.song.name}
                         </div> */}
@@ -249,16 +266,17 @@ export const ResultPage = () => {
                             </div>
                             <div className='mm-waypoint'>
                                 <div className='mikumile-title'>
-                                    Drive:
+                                    {'Drive: '}
                                     <span className='mikumile-score'>
                                         {(result?.mikuMile[1] / 1000).toFixed(2)}
-                                        <span className='unit'>kMM</span>
+                                        <span className='unit'>{' kMM'}</span>
                                     </span>
                                 </div>
                                 <div className='waypoint-title'>
-                                    Waypoint:
+                                    {'Waypoint: '}
                                     <span className='waypoint-score'>
                                         {result?.hoverHistory.length}
+                                        <span className='unit'>{' spot'}</span>
                                     </span>
                                 </div>
                             </div>

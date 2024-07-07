@@ -393,7 +393,7 @@ export const calculateEachRoadLengthRatio = (nodes: any[]): number[] => {
     roadLengthSum += roadLength
     eachRoadLengthRatio.push(roadLengthSum)
   }
-  console.log("RoadSum:", roadLengthSum)
+  // console.log("RoadSum:", roadLengthSum)
   eachRoadLengthRatio = eachRoadLengthRatio.map(x => x / roadLengthSum)
   return eachRoadLengthRatio
 }

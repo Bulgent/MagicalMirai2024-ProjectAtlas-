@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, forwardRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, GeoJSON, useMap, Marker, FeatureGroup } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL, LatLngExpression } from 'leaflet';
+import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL, LatLngExpression, icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -131,6 +131,7 @@ export const MapComponent = (props: any) => {
     document.documentElement.style.setProperty('--weather', '40');
     document.documentElement.style.setProperty('--car-light', '0.0');
     document.documentElement.style.setProperty('--seek-color', '#ff7e5f');
+    document.documentElement.style.setProperty('--scale', '17');
     props.handOverScale(mapZoom)
     const [features, nodes, mapCenterRet] = computePath(roadJsonLst, songData[props.songnum].startPosition, endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
@@ -271,7 +272,7 @@ export const MapComponent = (props: any) => {
         routeEntireLength += distance;
       }
       // console.log("曲長さ:", props.player.video.duration, "道長さ:", routeEntireLength)
-      console.log(songData[props.songnum].note + "の数:", props.player.video.wordCount)
+      // console.log(songData[props.songnum].note + "の数:", props.player.video.wordCount)
       // 単語数
       const wordCount = props.player.video.wordCount;
       const noteGain = routeEntireLength / props.player.video.duration;
@@ -346,11 +347,11 @@ export const MapComponent = (props: any) => {
         lyricMarker.bindTooltip(wordTime[index].lyric, { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note " + wordTime[index].start }).closeTooltip();
 
         lyricMarker.on('click', function (e) {
-          console.log("click")
+          // console.log("click")
           // ツールチップの文字取得
           const tooltip = e.target.getTooltip();
           const content = tooltip.getContent();
-          console.log(content);
+          // console.log(content);
         });
         map.on('move', function () {
           // ツールチップのDOM要素を取得
@@ -381,7 +382,8 @@ export const MapComponent = (props: any) => {
         overlay.className = "inactive";
       }
       return () => {
-        console.log("unmount note")
+        null;
+        // console.log("unmount note")
       };
     }, [props.songnum, props.player?.video.wordCount, isInitMapPlayer, nodesRef.current]);
 
@@ -477,7 +479,7 @@ export const MapComponent = (props: any) => {
         } else {
           // HACK 曲の再生が終わったらここになる
           if (!executedRef.current) {
-            console.log("曲終了");
+            // console.log("曲終了");
             props.isSongEnd(true);
             cancelAnimationFrame(animationRef.current!);
             map.dragging.disable();
@@ -539,7 +541,6 @@ export const MapComponent = (props: any) => {
   };
 
 
-
   // 👽歌詞表示コンポーネント👽
   const addLyricTextToMap = (map: Map) => {
     // 歌詞が変わったら実行 ボカロによって色を変える
@@ -590,25 +591,21 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
-  // 👽ポイントにマウスが乗ったときに呼び出される関数👽
-  // const onPointHover = (e: LeafletMouseEvent) => {
-  //   console.log(e.sourceTarget.feature.properties.name, checkArchType(e.sourceTarget.feature.properties.type))
-  //   setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
-  //   props.handOverHover(e.sourceTarget.feature)
-  // }
-
   // 👽観光地をクリックしたときに呼び出される関数👽
   const onSightClick = (e: LeafletMouseEvent) => {
     // hoverhistoryに重複しないように追加
-    console.log("before clicked")
+    // console.log("before clicked")
     if (isMapMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
       const fanfunscore = e.sourceTarget.feature.properties.want_score * 10000 + Math.floor(Math.random() * 10000) // 1000倍してランダム値を加える
-      hoverHistory.current.push(e.sourceTarget.feature);
-      hoverHistory.current[hoverHistory.current.length - 1].properties.fanfun_score = fanfunscore
-      const historyProperty: historyProperties = e.sourceTarget.feature
-      historyProperty.properties.playerPosition = playerPositionRef.current
-      props.handOverHover(e.sourceTarget.feature)
-      props.handOverFanFun(e.sourceTarget.feature.properties.fanfun_score)
+      // 経由履歴に追加
+      const historyProperty: historyProperties = e.sourceTarget.feature;
+      historyProperty.properties.playerPosition = playerPositionRef.current;
+      historyProperty.properties.fanfun_score = fanfunscore;
+      hoverHistory.current.push(historyProperty);
+      // 最後に追加した要素にFanFun度を追加
+      // hoverHistory.current[hoverHistory.current.length - 1].properties.fanfun_score = fanfunscore;
+      props.handOverHover(historyProperty);
+      props.handOverFanFun(e.sourceTarget.feature.properties.fanfun_score);
     }
   }
 
@@ -657,7 +654,7 @@ export const MapComponent = (props: any) => {
         // 少し遅れて設定(これをしないと一番最初に再生した瞬間に終了処理に引っかかる)
         setTimeout(() => {
           isFirstPlayRef.current = false;
-        }, 10);
+        }, 100);
         overlayStyleRef.current = styleMorning;
         document.documentElement.style.setProperty('--weather', '40');
         document.documentElement.style.setProperty('--car-light', '0.0');
@@ -768,14 +765,39 @@ export const MapComponent = (props: any) => {
   // ゴールアイコン
   const SetGoalIcon = () => {
     const map = useMap();
-    useEffect(() => {
-      if (props.songnum === -1 || !isInitMapPlayer) {
-        return
-      }
-      marker([34.6376177629165, 135.4219243060005], { icon: mmIcon, pane: "waypoint" }).addTo(map);
-    }, [map, props.songnum, isInitMapPlayer]);
+    if (props.songnum === -1 || !isInitMapPlayer) {
+      return;
+    }
+    const iconSize = {
+      min: 50,
+      max: 250,
+      aspect: 0.37
+    }
+    const zoomSize = {
+      min: 14,
+      max: 17
+    }
+
+    // アイコンを作成
+    const mmIcon = icon({
+      iconUrl: 'src/assets/images/mm24_logo.png', // アイコンのURL
+      iconSize: [iconSize.max, iconSize.max * iconSize.aspect], // 初期サイズ
+    });
+
+    // マーカーを作成してマップに追加
+    const goalMarker = marker([34.63723295319705, 135.42051545927356], { icon: mmIcon, pane: "waypoint" }).addTo(map);
+    // ズームレベルに応じてアイコンのサイズを変更する関数
+    const updateIconSize = () => {
+      const newSize =
+        iconSize.min + (iconSize.max - iconSize.min) *
+        (map.getZoom() - zoomSize.min) /
+        (zoomSize.max - zoomSize.min); // ズームレベルに応じたサイズを計算
+      goalMarker.setIcon(icon({ iconUrl: 'src/assets/images/mm24_logo.png', iconSize: [newSize, newSize * iconSize.aspect] }));
+    };
+    // ズームイベントリスナーを登録
+    map.on('zoomend', updateIconSize);
     return null;
-  }
+  };
 
   // スケール変更時の処理
   const GetZoomLevel = () => {
@@ -783,28 +805,30 @@ export const MapComponent = (props: any) => {
     map.on('zoom', function () {
       // スケール変更時の処理をここに記述
       props.handOverScale(map.getZoom())
-      console.log('Tew zoom level: ' + map.getZoom());
+      // console.log('Tew zoom level: ' + map.getZoom());
+      document.documentElement.style.setProperty('--scale', map.getZoom().toString());
     });
     return null
   }
 
   const CreateEventPointsFunction = () => {
+    if (props?.songnum !== -1 && InitAddEventPoints.current) {
     if (props?.songnum!==-1 && InitAddEventPoints.current && !isInitInstruction.current)  {
       const map = useMap()
       const features = all_sight[`song${props?.songnum}`]['features'];
-      for (let feature of features){
-        const latlng:LatLngExpression = {lat:feature.geometry.coordinates[1], lng:feature.geometry.coordinates[0]}
+      for (let feature of features) {
+        const latlng: LatLngExpression = { lat: feature.geometry.coordinates[1], lng: feature.geometry.coordinates[0] }
         const lyricMarker = showDetail(feature, latlng).addTo(map);
         lyricMarker.feature = feature;
-        lyricMarker.on('click',onSightClick)
-        lyricMarker.on('mouseout',onSightHoverOut)
+        lyricMarker.on('click', onSightClick)
+        lyricMarker.on('mouseout', onSightHoverOut)
       }
       InitAddEventPoints.current = false;
       return null;
-  }else{
-    return null;
+    } else {
+      return null;
+    }
   }
-     }
 
   return (
     <>
@@ -872,8 +896,8 @@ export const MapComponent = (props: any) => {
           isMoving={props.isMoving || isFirstPlayRef.current}
           mapCenter={mapOffset}
           pane='mapcenter' />
-        <CreateEventPointsFunction/>
-        <InstructionComponent />
+        <CreateEventPointsFunction />
+        {/* <InstructionComponent /> */}
       </MapContainer>
     </>
   );

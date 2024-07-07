@@ -5,7 +5,7 @@
     background-color: #005edc;
     justify-content: space-between;
     border-radius: 2vw;
-    color: #fff;
+    color: #ffeedd;
     height: calc(100% - 4vw);
     width: calc(100% - 4vw);
     font-size: 1.5em;
@@ -28,7 +28,7 @@
     font-size: 2vw;
 }
 .btn{
-    background-color: #fff;
+    background-color: #ffeedd;
     color: #005edc;
     border-radius: 1vw;
     text-align: center;

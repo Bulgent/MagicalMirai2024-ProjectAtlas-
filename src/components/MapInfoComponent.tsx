@@ -15,7 +15,7 @@ export const MapInfoComponent = (props: any) => {
             // 乱数が0の場合（約10%の確率）、値を更新
             if (randomValue == 0 && props.player?.timer.position != 0) {
                 // 新しい値を状態に設定
-                console.log("update VICS")
+                // console.log("update VICS")
                 setVics(props.player?.timer.position);
             } else if (props.player?.timer.position == 0) {
                 setVics(0);
