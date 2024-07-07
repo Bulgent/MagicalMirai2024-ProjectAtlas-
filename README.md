@@ -1,3 +1,8 @@
+# Magical Car Navigation
+
+**Team AHEAD**
+---
+
 # 開発環境
 
 このプロジェクトは以下の環境で開発されました。
@@ -79,3 +84,8 @@ $ npm install && npm run dev
 - **Waypoint**:寄り道点の数を表示します。
 - **旅の振り返り**:画面右側では、寄り道した思い出による旅の振り返りが行われます。
 - **Go to Next trip...**: もう一度はじめから新たな旅を初めます。
+
+---
+
+# デモ動画
+[Magical Car Navigation](https://youtu.be/vfX5sz0QHfs)
