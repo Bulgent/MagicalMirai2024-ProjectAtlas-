@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, forwardRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, GeoJSON, useMap, Marker, FeatureGroup } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL, LatLngExpression, icon } from 'leaflet';
+import L, { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -30,9 +30,15 @@ import sky from '../assets/jsons/map_data/polygons.json'
 import restrictedArea from '../assets/jsons/map_data/restrictedArea.json'
 import UfoMarker from '../services/UfoMarker.tsx';
 import all_sight from '../assets/jsons/map_data/event-all.json'
-
+/* @ts-ignore */
+import icon from "leaflet/dist/images/marker-icon.png";
+/* @ts-ignore */
+import iconRetina from "leaflet/dist/images/marker-icon-2x.png";
+/* @ts-ignore */
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
 // songDataの導入
 import songData from '../utils/Song.ts';
+
 
 // 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
 // HACK: ファイル分割したい → services/RotateMarker.tsx に移動
@@ -123,6 +129,18 @@ export const MapComponent = (props: any) => {
 
   //ページ処理
   const navigate = useNavigate();
+
+  let DefaultIcon = L.icon({
+    iconUrl: icon,
+    iconRetinaUrl: iconRetina,
+    shadowUrl: iconShadow,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    tooltipAnchor: [16, -28],
+    shadowSize: [41, 41]
+  });
+  L.Marker.prototype.options.icon = DefaultIcon;
 
   // 初回だけ処理
   // mapの初期位置、経路の計算
@@ -779,7 +797,7 @@ export const MapComponent = (props: any) => {
     }
 
     // アイコンを作成
-    const mmIcon = icon({
+    const mmIcon = L.icon({
       iconUrl: '/images/mm24_logo.png', // アイコンのURL
       iconSize: [iconSize.max, iconSize.max * iconSize.aspect], // 初期サイズ
     });
