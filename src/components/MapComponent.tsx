@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, forwardRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL } from 'leaflet';
+import { MapContainer, GeoJSON, useMap, Marker, FeatureGroup } from 'react-leaflet';
+import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -49,6 +49,9 @@ const RotateCarLightMarker = forwardRef((props, ref) => (
   <RotateMarker {...props} icon={carLightIcon} pane="light" ref={ref} />
 ));
 
+
+
+
 export const MapComponent = (props: any) => {
   /**
    * 定数
@@ -70,7 +73,8 @@ export const MapComponent = (props: any) => {
   const isPaneInitRef = useRef<Boolean>(true)
 
   const executedRef = useRef(false);
-
+  const InitAddEventPoints = useRef<Boolean>(true)
+  const [jsonData, setJsonData] = useState(null)
 
   /**
    * React Hooks
@@ -524,27 +528,7 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
-  const EventPoints = () => {
-    console.log(props?.songnum)
-    if (props?.songnum!==-1){
-      const data = all_sight[`song${props?.songnum!}`]
-      return(
-        <GeoJSON
-        data={data as GeoJSON.GeoJsonObject}
-        pointToLayer={showDetail}
-        onEachFeature={(_, layer) => {
-          layer.on({
-            click: onSightClick,
-            // mouseover: onSightHover, // ポイントにマウスが乗っかったときに呼び出される関数
-            mouseout: onSightHoverOut
-          });
-        }}
-      /> 
-    )
-    }else{
-      return null
-    }
-  }
+
 
   // 👽歌詞表示コンポーネント👽
   const addLyricTextToMap = (map: Map) => {
@@ -610,16 +594,15 @@ export const MapComponent = (props: any) => {
   // 👽観光地をクリックしたときに呼び出される関数👽
   const onSightClick = (e: LeafletMouseEvent) => {
     // hoverhistoryに重複しないように追加
-    if (isMapMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
+    console.log("before clicked")
+    // if (isMapMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
+    if(true){
+      console.log("clicked")
       hoverHistory.current.push(e.sourceTarget.feature);
       const historyProperty: historyProperties = e.sourceTarget.feature
       historyProperty.properties.playerPosition = playerPositionRef.current
       props.handOverHover(e.sourceTarget.feature)
       props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
-    }
-    // オフ会0人かどうか
-    if (e.sourceTarget.feature.properties.event_place == "泉南イオン") {
-      console.log("オイイイッス！👽")
     }
   }
 
@@ -757,6 +740,50 @@ export const MapComponent = (props: any) => {
     return null
   }
 
+  const EventPoints = () => {
+        if (props?.songnum!==-1){
+        const renderGeoJSON = useMemo(() => {
+          const data = all_sight[`song${props?.songnum}`];
+          console.log("render", props?.songnum)
+          return (
+            <GeoJSON
+              key={`geojson-${props?.songnum}`}
+              data={data as GeoJSON.GeoJsonObject}
+              pointToLayer={showDetail}
+              onEachFeature={(_, layer) => {
+                layer.on({
+                  click: onSightClick,
+                  mouseout: onSightHoverOut,
+                });
+              }}
+            />
+          );
+        }, [props?.songnum]);
+        setJsonData(all_sight[`song${props?.songnum}`])
+        console.log({jsonData})
+        return <FeatureGroup>{renderGeoJSON}</FeatureGroup>;
+    }else{
+      return null
+    }
+  }
+
+  const CreateEventPointsFunction = () => {
+    if (props?.songnum!==-1 && InitAddEventPoints.current){
+      const map = useMap()
+      const features = all_sight[`song${props?.songnum}`]['features'];
+      for (let feature of features){
+        const latlng:LatLngExpression = {lat:feature.geometry.coordinates[1], lng:feature.geometry.coordinates[0]}
+        const lyricMarker = showDetail(feature, latlng).addTo(map);
+        lyricMarker.on('click',onSightClick)
+        lyricMarker.on('mouseout',onSightHoverOut)
+      }
+      InitAddEventPoints.current = false;
+      return null;
+  }else{
+    return null;
+  }
+     }
+
   return (
     <>
       {/* centerは[緯度, 経度] */}
@@ -821,7 +848,7 @@ export const MapComponent = (props: any) => {
           isMoving={props.isMoving || isFirstPlayRef.current}
           mapCenter={mapOffset}
           pane='mapcenter' />
-        <EventPoints/>
+        <CreateEventPointsFunction/>
       </MapContainer>
     </>
   );
