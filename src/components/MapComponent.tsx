@@ -119,6 +119,7 @@ export const MapComponent = (props: any) => {
   // 曲が終了したらplayerPosition=0になり天気リセットになるのを防ぐ
   // 2回目の再生をそのまましないことを仮定
   const isFirstPlayRef = useRef<Boolean>(true)
+  const isInitInstruction = useRef<Boolean>(true)
 
   //ページ処理
   const navigate = useNavigate();
@@ -173,6 +174,7 @@ export const MapComponent = (props: any) => {
       map.createPane('ufo');
       map.createPane('cross')
       map.createPane('mapcenter')
+      map.createPane('instruction')
       isPaneInitRef.current = false;
     }, [map])
   }
@@ -508,7 +510,10 @@ export const MapComponent = (props: any) => {
     );
 
     useEffect(() => {
-      if (props.isMoving) {
+      if (props.isMoving || isInitInstruction.current) {
+        if (props.isMoving){
+          isInitInstruction.current = false
+        }
         isMapMovingRef.current = true
         map.dragging.disable();
         map.touchZoom.disable();
@@ -728,49 +733,35 @@ export const MapComponent = (props: any) => {
       fillColor: 'black',
       fillOpacity: 0.8
     }
-    return (isFirstPlayRef.current && !isInitMapPlayer &&
-      (<>
+    if(isFirstPlayRef.current && !isInitMapPlayer && isInitInstruction.current){
+      return(
+      <>
         <GeoJSON
           data={sky as unknown as GeoJSON.GeoJsonObject}
           style={instructionStyle}
           pane="sky"
         >
           <div className="instruction-content">
-            <h2>インストラクション</h2>
-            <h3>目的地へは寄り道を楽しみながら。</h3>
-            <p>地図上のアイコンをクリックして寄り道し、<br />FanFun度をアップさせよう！</p>
-            <p>このゲームでは、たくさん寄り道して旅全体を楽しむことが目的です。<br/>
-            寄り道地点でのイベントに応じて、FanFun度が増加します。<br/>
-            くまなく探索し、高得点を目指してください。</p>
-            <p>再生ボタンで旅を開始し、目的地へ到達すると結果画面に進みます。</p>
+            <h3>この作品について</h3>
+            <p>この作品は、カーナビと音楽で旅を楽しむリリックアプリです。<br/>
+            曲の演出を楽しみながら、道中の寄り道で旅の思い出を沢山作りましょう。</p>
+            <h3>操作説明</h3>
+            <h4>旅の思い出を作ろう</h4>
+            <p>地図に表現されている様々なアイコン🐬をクリックすると右側画面のTrip Memoriesに旅の思い出が追記することができます。<br/>
+            </p>
+            <h4>地図を見渡そう</h4>
+            <p>曲の一時停止中にはカーナビ画面を動かすことができます。</p>
+            <h4>FanFun度</h4>
+            <p>旅の楽しさを表しています。<br/>思い出が増えていくと値も増えていきます。</p>
+            <h3>旅を始めよう！</h3>
+            <p>右下の再生ボタンを押すことで旅が始まります。</p>
           </div>
         </GeoJSON>
       </>
-    ))
-    // const map = useMap();
-    // useEffect(() => {
-    //   if (!isFirstPlayRef.current) {
-    //     return
-    //   }
-    //   // マップの中心に表示する
-    //   const instruction = L.control({ position: 'topleft' });
-    //   instruction.onAdd = function (map : Map) {
-    //     const div = L.DomUtil.create('div', 'instruction');
-    //     div.innerHTML = `
-    //       <div class="instruction-content">
-    //         <h2>インストラクション</h2>
-    //         <p>🎵を追いかけて、<br>🦄に到達しよう！</p>
-    //         <p>👽をクリックすると、<br>オフ会に参加できるかも！</p>
-    //       </div>
-    //     `;
-    //     return div;
-    //   };
-    //   instruction.addTo(map);
-    //   return () => {
-    //     instruction.remove();
-    //   }
-    // }, [map]);
-    // return null;
+      )
+    }else{
+      return null
+    }
   }
 
 
@@ -798,7 +789,7 @@ export const MapComponent = (props: any) => {
   }
 
   const CreateEventPointsFunction = () => {
-    if (props?.songnum!==-1 && InitAddEventPoints.current){
+    if (props?.songnum!==-1 && InitAddEventPoints.current && !isInitInstruction.current)  {
       const map = useMap()
       const features = all_sight[`song${props?.songnum}`]['features'];
       for (let feature of features){
