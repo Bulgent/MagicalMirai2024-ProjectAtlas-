@@ -9,7 +9,6 @@ import { useState, useRef, useEffect } from 'react';
 import { msToMs } from '../utils/utils';
 import { sightEmoji } from '../utils/utils';
 
-import { ResultIslandMapComponent } from '../components/ResultIslandMapComponent';
 import { ResultDetailMapComponent } from '../components/ResultDetailMapComponent';
 import { escape } from 'querystring';
 
