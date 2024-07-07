@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, forwardRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL } from 'leaflet';
+import { MapContainer, GeoJSON, useMap, Marker, FeatureGroup } from 'react-leaflet';
+import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -25,11 +25,11 @@ import { lyricProperties, historyProperties, noteProperties, noteCoordinatePrope
 import trunk from '../assets/jsons/map_data/trunk.json'
 import primary from '../assets/jsons/map_data/primary.json'
 import secondary from '../assets/jsons/map_data/secondary.json'
-import sight from '../assets/jsons/map_data/sightseeing.json'
 import areas from '../assets/jsons/map_data/area.json'
 import sky from '../assets/jsons/map_data/polygons.json'
 import restrictedArea from '../assets/jsons/map_data/restrictedArea.json'
 import UfoMarker from '../services/UfoMarker.tsx';
+import all_sight from '../assets/jsons/map_data/event-all.json'
 
 // songDataの導入
 import songData from '../utils/Song.ts';
@@ -48,6 +48,9 @@ const RotateCarLightMarker = forwardRef((props, ref) => (
   /* @ts-ignore */
   <RotateMarker {...props} icon={carLightIcon} pane="light" ref={ref} />
 ));
+
+
+
 
 export const MapComponent = (props: any) => {
   /**
@@ -70,6 +73,7 @@ export const MapComponent = (props: any) => {
   const isPaneInitRef = useRef<Boolean>(true)
 
   const executedRef = useRef(false);
+  const InitAddEventPoints = useRef<Boolean>(true)
 
   // UFOと會合したかどうか
   const [encounteredUfo, setEncounteredUfo] = useState(false);
@@ -392,6 +396,7 @@ export const MapComponent = (props: any) => {
     return null
   }
 
+
   // 通る道についての描画（デバッグ用）
   const PathWay: React.FC = () => {
     if (pathwayFeature) {
@@ -528,6 +533,8 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
+
+
   // 👽歌詞表示コンポーネント👽
   const addLyricTextToMap = (map: Map) => {
     // 歌詞が変わったら実行 ボカロによって色を変える
@@ -592,16 +599,14 @@ export const MapComponent = (props: any) => {
   // 👽観光地をクリックしたときに呼び出される関数👽
   const onSightClick = (e: LeafletMouseEvent) => {
     // hoverhistoryに重複しないように追加
+    console.log("before clicked")
     if (isMapMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
+      console.log(e.sourceTarget.feature)
       hoverHistory.current.push(e.sourceTarget.feature);
       const historyProperty: historyProperties = e.sourceTarget.feature
       historyProperty.properties.playerPosition = playerPositionRef.current
       props.handOverHover(e.sourceTarget.feature)
       props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
-    }
-    // オフ会0人かどうか
-    if (e.sourceTarget.feature.properties.event_place == "泉南イオン") {
-      console.log("オイイイッス！👽")
     }
   }
 
@@ -739,6 +744,24 @@ export const MapComponent = (props: any) => {
     return null
   }
 
+  const CreateEventPointsFunction = () => {
+    if (props?.songnum!==-1 && InitAddEventPoints.current){
+      const map = useMap()
+      const features = all_sight[`song${props?.songnum}`]['features'];
+      for (let feature of features){
+        const latlng:LatLngExpression = {lat:feature.geometry.coordinates[1], lng:feature.geometry.coordinates[0]}
+        const lyricMarker = showDetail(feature, latlng).addTo(map);
+        lyricMarker.feature = feature;
+        lyricMarker.on('click',onSightClick)
+        lyricMarker.on('mouseout',onSightHoverOut)
+      }
+      InitAddEventPoints.current = false;
+      return null;
+  }else{
+    return null;
+  }
+     }
+
   return (
     <>
       {/* centerは[緯度, 経度] */}
@@ -803,17 +826,7 @@ export const MapComponent = (props: any) => {
           isMoving={props.isMoving || isFirstPlayRef.current}
           mapCenter={mapOffset}
           pane='mapcenter' />
-        <GeoJSON
-          data={sight as GeoJSON.GeoJsonObject}
-          pointToLayer={showDetail}
-          onEachFeature={(_, layer) => {
-            layer.on({
-              click: onSightClick,
-              // mouseover: onSightHover, // ポイントにマウスが乗っかったときに呼び出される関数
-              mouseout: onSightHoverOut
-            });
-          }}
-        />
+        <CreateEventPointsFunction/>
       </MapContainer>
     </>
   );
