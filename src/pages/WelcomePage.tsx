@@ -44,7 +44,7 @@ export const WelcomePage = () => {
             }
         }
     });
-
+    console.log("node", process.env.NODE_VERSION)
     return (
         <div id="display" className="soft-gloss">
             <div id="navi" className="split">
