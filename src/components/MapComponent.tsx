@@ -791,7 +791,7 @@ export const MapComponent = (props: any) => {
     map.on('zoom', function () {
       // スケール変更時の処理をここに記述
       props.handOverScale(map.getZoom())
-      console.log('Tew zoom level: ' + map.getZoom());
+      // console.log('Tew zoom level: ' + map.getZoom());
       document.documentElement.style.setProperty('--scale', map.getZoom().toString());
     });
     return null
