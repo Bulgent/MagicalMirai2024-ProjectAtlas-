@@ -44,8 +44,7 @@ export const WelcomePage = () => {
             }
         }
     });
-    const apiKey = process.env.NPM_VERSION;
-    console.log("node", apiKey)
+
     return (
         <div id="display" className="soft-gloss">
             <div id="navi" className="split">
