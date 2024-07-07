@@ -536,7 +536,6 @@ export const MapComponent = (props: any) => {
   };
 
 
-
   // 👽歌詞表示コンポーネント👽
   const addLyricTextToMap = (map: Map) => {
     // 歌詞が変わったら実行 ボカロによって色を変える
@@ -768,7 +767,7 @@ export const MapComponent = (props: any) => {
     // アイコンを作成
     const mmIcon = icon({
       iconUrl: 'src/assets/images/mm24_logo.png', // アイコンのURL
-      iconSize: [iconSize.min, iconSize.min * iconSize.aspect], // 初期サイズ
+      iconSize: [iconSize.max, iconSize.max * iconSize.aspect], // 初期サイズ
     });
 
     // マーカーを作成してマップに追加
