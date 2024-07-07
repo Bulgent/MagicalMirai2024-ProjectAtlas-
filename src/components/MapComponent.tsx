@@ -25,11 +25,11 @@ import { lyricProperties, historyProperties, noteProperties, noteCoordinatePrope
 import trunk from '../assets/jsons/map_data/trunk.json'
 import primary from '../assets/jsons/map_data/primary.json'
 import secondary from '../assets/jsons/map_data/secondary.json'
-import sight from '../assets/jsons/map_data/sightsee1.json'
 import areas from '../assets/jsons/map_data/area.json'
 import sky from '../assets/jsons/map_data/polygons.json'
 import restrictedArea from '../assets/jsons/map_data/restrictedArea.json'
 import UfoMarker from '../services/UfoMarker.tsx';
+import all_sight from '../assets/jsons/map_data/event-all.json'
 
 // songDataの導入
 import songData from '../utils/Song.ts';
@@ -524,6 +524,28 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
+  const EventPoints = () => {
+    console.log(props?.songnum)
+    if (props?.songnum!==-1){
+      const data = all_sight[`song${props?.songnum!}`]
+      return(
+        <GeoJSON
+        data={data as GeoJSON.GeoJsonObject}
+        pointToLayer={showDetail}
+        onEachFeature={(_, layer) => {
+          layer.on({
+            click: onSightClick,
+            // mouseover: onSightHover, // ポイントにマウスが乗っかったときに呼び出される関数
+            mouseout: onSightHoverOut
+          });
+        }}
+      /> 
+    )
+    }else{
+      return null
+    }
+  }
+
   // 👽歌詞表示コンポーネント👽
   const addLyricTextToMap = (map: Map) => {
     // 歌詞が変わったら実行 ボカロによって色を変える
@@ -799,17 +821,7 @@ export const MapComponent = (props: any) => {
           isMoving={props.isMoving || isFirstPlayRef.current}
           mapCenter={mapOffset}
           pane='mapcenter' />
-        <GeoJSON
-          data={sight as GeoJSON.GeoJsonObject}
-          pointToLayer={showDetail}
-          onEachFeature={(_, layer) => {
-            layer.on({
-              click: onSightClick,
-              // mouseover: onSightHover, // ポイントにマウスが乗っかったときに呼び出される関数
-              mouseout: onSightHoverOut
-            });
-          }}
-        />
+        <EventPoints/>
       </MapContainer>
     </>
   );
