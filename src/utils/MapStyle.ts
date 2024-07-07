@@ -1,6 +1,8 @@
 import { StyleFunction, LatLngExpression,  divIcon, marker, Marker, PathOptions } from 'leaflet';
 import { emojiSight } from '../assets/marker/markerSVG.ts'
 
+
+
 // pointデータを図形として表現(固定式観光地)
 export const pointToLayer = (feature: any, latlng: LatLngExpression): Marker => {
     const builIcon = divIcon({
