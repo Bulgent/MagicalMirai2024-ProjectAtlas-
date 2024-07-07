@@ -12,8 +12,6 @@ import { sightEmoji } from '../utils/utils';
 import { ResultIslandMapComponent } from '../components/ResultIslandMapComponent';
 import { ResultDetailMapComponent } from '../components/ResultDetailMapComponent';
 
-// GamePageからのなんのデータがほしいかを書いといてください．
-
 const enum sightType {
     sports = 0, // スポーツ
     eat = 1, // 食事
@@ -183,8 +181,8 @@ export const ResultPage = () => {
             '#エイリアン',
             '#宇宙人',
             '#未確認飛行物体',
-            '未知との遭遇',
-            'UMA発見!?',
+            '#未知との遭遇',
+            '#UMA発見!?',
         ]
 
         if (result?.encountUfo) {
