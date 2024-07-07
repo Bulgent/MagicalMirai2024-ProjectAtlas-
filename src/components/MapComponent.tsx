@@ -739,33 +739,6 @@ export const MapComponent = (props: any) => {
     return null
   }
 
-  const EventPoints = () => {
-        if (props?.songnum!==-1){
-        const renderGeoJSON = useMemo(() => {
-          const data = all_sight[`song${props?.songnum}`];
-          console.log("render", props?.songnum)
-          return (
-            <GeoJSON
-              key={`geojson-${props?.songnum}`}
-              data={data as GeoJSON.GeoJsonObject}
-              pointToLayer={showDetail}
-              onEachFeature={(_, layer) => {
-                layer.on({
-                  click: onSightClick,
-                  mouseout: onSightHoverOut,
-                });
-              }}
-            />
-          );
-        }, [props?.songnum]);
-        setJsonData(all_sight[`song${props?.songnum}`])
-        console.log({jsonData})
-        return <FeatureGroup>{renderGeoJSON}</FeatureGroup>;
-    }else{
-      return null
-    }
-  }
-
   const CreateEventPointsFunction = () => {
     if (props?.songnum!==-1 && InitAddEventPoints.current){
       const map = useMap()
@@ -776,7 +749,6 @@ export const MapComponent = (props: any) => {
         lyricMarker.feature = feature;
         lyricMarker.on('click',onSightClick)
         lyricMarker.on('mouseout',onSightHoverOut)
-        console.log(lyricMarker)
       }
       InitAddEventPoints.current = false;
       return null;
