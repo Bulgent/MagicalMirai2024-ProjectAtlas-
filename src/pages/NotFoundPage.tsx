@@ -20,9 +20,6 @@ const NotFoundPage: React.FC = () => {
           <div className='btn'>
             <Link to="/">曲選択画面に戻る</Link>
           </div>
-          <div className='postscript'>
-            ニコニコ動画が一日でも早く復旧しますように．．． (*´人`*)
-          </div>
         </div>
       </div>
       <img id='logo' src='src/assets/images/logo.png' alt='' />
