@@ -39,7 +39,7 @@ $ npm install && npm run dev
 
 ## タイトル画面
 
-![title](https://github.com/Bulgent/ProjectAtlas/assets/88919409/ce11b61e-5620-45a8-b937-1c4a5e8b8209)
+![title](https://github.com/Bulgent/ProjectAtlas/assets/88919409/69ce1e41-56e6-4b4d-96c0-afa880f21dee)
 
 - **ホバー**：曲名ボタンにマウスカーソルを合わせると、その曲の情報が画面右側に表示されます。
 - **クリック**：曲名ボタンをクリックすると、選択した曲と共に、あなたの旅がスタートします。
