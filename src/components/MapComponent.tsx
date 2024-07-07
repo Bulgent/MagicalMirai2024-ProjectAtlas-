@@ -119,6 +119,7 @@ export const MapComponent = (props: any) => {
   // 曲が終了したらplayerPosition=0になり天気リセットになるのを防ぐ
   // 2回目の再生をそのまましないことを仮定
   const isFirstPlayRef = useRef<Boolean>(true)
+  const isInitInstruction = useRef<Boolean>(true)
 
   //ページ処理
   const navigate = useNavigate();
@@ -509,7 +510,10 @@ export const MapComponent = (props: any) => {
     );
 
     useEffect(() => {
-      if (props.isMoving) {
+      if (props.isMoving || isInitInstruction.current) {
+        if (props.isMoving){
+          isInitInstruction.current = false
+        }
         isMapMovingRef.current = true
         map.dragging.disable();
         map.touchZoom.disable();
@@ -729,19 +733,13 @@ export const MapComponent = (props: any) => {
       fillColor: 'black',
       fillOpacity: 0.8
     }
-    const map = useMap()
-    if(isFirstPlayRef.current && !isInitMapPlayer){
-      map.dragging.disable();
-      map.touchZoom.disable();
-      map.doubleClickZoom.disable();
-      map.scrollWheelZoom.disable();
-      map.boxZoom.disable();
+    if(isFirstPlayRef.current && !isInitMapPlayer && isInitInstruction.current){
       return(
       <>
         <GeoJSON
           data={sky as unknown as GeoJSON.GeoJsonObject}
           style={instructionStyle}
-          pane="instruction"
+          pane="sky"
         >
           <div className="instruction-content">
             <h3>この作品について</h3>
@@ -791,7 +789,7 @@ export const MapComponent = (props: any) => {
   }
 
   const CreateEventPointsFunction = () => {
-    if (props?.songnum!==-1 && InitAddEventPoints.current){
+    if (props?.songnum!==-1 && InitAddEventPoints.current && !isInitInstruction.current)  {
       const map = useMap()
       const features = all_sight[`song${props?.songnum}`]['features'];
       for (let feature of features){

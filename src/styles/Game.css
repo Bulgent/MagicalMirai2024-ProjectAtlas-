@@ -69,6 +69,6 @@
 .instruction-content p,
 .instruction-content h3,
 .instruction-content h4 {
-  line-height: 1.2; /* 行間を狭くする */
-  margin: 0.5em 0; /* 上下の余白を狭くする */
+  line-height: 1.1; /* 行間を狭くする */
+  margin: 0.4em 0; /* 上下の余白を狭くする */
 }
