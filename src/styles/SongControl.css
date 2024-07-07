@@ -115,7 +115,9 @@
     width: 100%;
     text-align: bottom;
     z-index: 10000;
-    color: #101010;
+    color: #fffedd;
+    text-shadow: 0 0 1vh #101010;
+    box-shadow: 0 0 1vh rgba(255, 255, 255, 0.2);
     mix-blend-mode: normal;
 }
 

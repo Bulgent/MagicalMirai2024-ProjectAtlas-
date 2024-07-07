@@ -5,7 +5,10 @@
   box-shadow: none !important;
   font-size: 200% !important;
   opacity: 1 !important;
+}
 
+.tooltip-lyric{
+  scale: calc(1 - calc(17 - var(--scale)) / 6)!important;
 }
 
 /* 歌詞の縁色 */
@@ -36,7 +39,7 @@
 .kanji.miku {
   color: #e12885 !important;
   font-weight: bold !important;
-  font-size: calc(100% + calc(calc(calc(var(--scale) * 1px) - 14px) * 23%)) !important;
+  font-size: 170% !important;
 }
 
 .english.miku {
