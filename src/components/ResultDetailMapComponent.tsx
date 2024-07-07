@@ -11,7 +11,7 @@ import { visitedPointsStyle } from '../utils/MapStyle.ts'
 
 export const ResultDetailMapComponent = (props: any) => {
     // マップのzoom
-    const mapZoom = 12.4;
+    const mapZoom = 13;
 
     // スタートとゴールの中間の座標をマップの中心座標とする
     const coordinates = props.pathway[0].geometry.coordinates[0]
@@ -160,7 +160,7 @@ export const ResultDetailMapComponent = (props: any) => {
     }, [isMapReady]);
 
     return (
-        <MapContainer className='detail-mapcomponent' style={{ backgroundColor: '#f5f3f3' }}
+        <MapContainer className='mapcomponent' style={{ backgroundColor: '#f5f3f3' }}
             center={mapCenter} zoom={mapZoom}
             minZoom={mapZoom} maxZoom={mapZoom}
             zoomSnap={0.1} zoomDelta={0.5} trackResize={true}

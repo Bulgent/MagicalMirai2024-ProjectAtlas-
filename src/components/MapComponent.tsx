@@ -130,6 +130,7 @@ export const MapComponent = (props: any) => {
     document.documentElement.style.setProperty('--weather', '40');
     document.documentElement.style.setProperty('--car-light', '0.0');
     document.documentElement.style.setProperty('--seek-color', '#ff7e5f');
+    document.documentElement.style.setProperty('--scale', '17');
     props.handOverScale(mapZoom)
     const [features, nodes, mapCenterRet] = computePath(roadJsonLst, songData[props.songnum].startPosition, endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)

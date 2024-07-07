@@ -11,6 +11,7 @@ import { sightEmoji } from '../utils/utils';
 
 import { ResultIslandMapComponent } from '../components/ResultIslandMapComponent';
 import { ResultDetailMapComponent } from '../components/ResultDetailMapComponent';
+import { escape } from 'querystring';
 
 // GamePageからのなんのデータがほしいかを書いといてください．
 
@@ -133,6 +134,12 @@ export const ResultPage = () => {
                 bestFanFun.type = history.properties.event_type;
             }
         });
+        // 一つも訪れていない場合を追加 
+        if (sightCount.every((count) => count === 0)) {
+            return (
+                '今回の旅は、どこも立ち寄らずに終わりました。' + encouragementWords[Math.floor(Math.random() * encouragementWords.length)]
+            );
+        } else {
         // console.log(sightCount)
         // 最も訪れた場所（同率の場合は配列で）
         let mostVisited = [];
@@ -166,9 +173,8 @@ export const ResultPage = () => {
                 {overviewEnd}
             </>
         );
+    }
     };
-
-
 
     const overviewHashtag = () => {
         // 施設の種類ごとのカウント
@@ -191,41 +197,42 @@ export const ResultPage = () => {
             // 施設の種類ごとにカウント
             sightCount[history.properties.event_type].count += 1;
         });
-        // 最も訪れた場所（同率の場合は配列で）
-        let mostVisited = [];
-        let maxCount = Math.max(...sightCount.map((sight) => sight.count));
-        sightCount.forEach((sight) => {
-            if (sight.count === maxCount) {
-                mostVisited.push(sight.type);
+        // 一つも訪れていない場合を追加 
+        if (sightCount.every((sight) => sight.count === 0)) {
+            return '# ' + result?.player.data.song.name + ' #マジカルミライ';;
+        } else {
+            // 最も訪れた場所（同率の場合は配列で）
+            let mostVisited = [];
+            let maxCount = Math.max(...sightCount.map((sight) => sight.count));
+            sightCount.forEach((sight) => {
+                if (sight.count === maxCount) {
+                    mostVisited.push(sight.type);
+                }
+            });
+            // sightcount のカウントが1以上のやつに対してハッシュタグをつける
+            let hashtag = '';
+            sightCount.forEach((sight) => {
+                if (sight.count > 0) {
+                    hashtag += sightEmoji(sight.type).hashtag + ' ';
+                }
+            });
+            const ufoHashtag = [
+                '#UFO',
+                '#遭遇',
+                '#エイリアン',
+                '#宇宙人',
+                '#未確認飛行物体',
+                '未知との遭遇',
+                'UMA発見!?',
+            ]
+
+            if (result?.encountUfo) {
+                hashtag += ufoHashtag[Math.floor(Math.random() * ufoHashtag.length)] + ' ';
             }
-        });
-        // sightcount のカウントが1以上のやつに対してハッシュタグをつける
-        let hashtag = '';
-        sightCount.forEach((sight) => {
-            if (sight.count > 0) {
-                hashtag += sightEmoji(sight.type).hashtag + ' ';
-            }
-        });
-
-
-        const ufoHashtag = [
-            '#UFO',
-            '#遭遇',
-            '#エイリアン',
-            '#宇宙人',
-            '#未確認飛行物体',
-            '未知との遭遇',
-            'UMA発見!?',
-        ]
-
-        if (result?.encountUfo) {
-            hashtag += ufoHashtag[Math.floor(Math.random() * ufoHashtag.length)] + ' ';
+            hashtag += '# ' + result?.player.data.song.name + ' #マジカルミライ';
+            return hashtag;
         }
-        hashtag += '# ' + result?.player.data.song.name + ' #マジカルミライ';
-        return hashtag;
     }
-
-    // 【#お祭り騒ぎ🎇 #食い倒れ #整い #爆買い #筋肉痛 #アクティビティ#お刺身三昧 #ノスタルジック #アトラクション #芸術鑑賞 #アニマルセラピー #UMA発見?】 #フューチャーノーツ #マジカルミライ #鬼リピ #コスパ旅
 
     return (
         <div id="display" className="soft-gloss">
@@ -238,12 +245,10 @@ export const ResultPage = () => {
                                 pathway={result.pathway}
                             />
                         </div> */}
-                        <div className='detail-map'>
-                            <ResultDetailMapComponent
-                                pathway={result.pathway}
-                                hoverHistory={result.hoverHistory}
-                            />
-                        </div>
+                        <ResultDetailMapComponent
+                            pathway={result.pathway}
+                            hoverHistory={result.hoverHistory}
+                        />
                         {/* <div className='result-songtitle'>
                             {result?.player.data.song.name}
                         </div> */}
