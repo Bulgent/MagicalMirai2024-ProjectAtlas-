@@ -1,5 +1,9 @@
 /* MapContainer内の順番固定 */
 
+.leaflet-instruction-pane {
+    z-index: 1300;
+}
+
 .leaflet-cross-pane {
     z-index: 1200;
 }

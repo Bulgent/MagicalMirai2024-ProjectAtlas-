@@ -70,12 +70,20 @@
 
     /* 半透明のダークオーバーレイ */
     color: #f4f4f4;
+    line-height: 1.2;
     z-index: 100000000000000;
     display: grid;
     place-items: left;
-    font-size: 1.5vw;
+    font-size: 1.3vw;
     /* フォントサイズを大きく */
     text-align: left;
     padding: 2vh;
     border-radius: 1vw;
+}
+
+.instruction-content p,
+.instruction-content h3,
+.instruction-content h4 {
+  line-height: 1.1; /* 行間を狭くする */
+  margin: 0.4em 0; /* 上下の余白を狭くする */
 }

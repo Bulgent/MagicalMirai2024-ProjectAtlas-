@@ -13,8 +13,6 @@ import { ResultIslandMapComponent } from '../components/ResultIslandMapComponent
 import { ResultDetailMapComponent } from '../components/ResultDetailMapComponent';
 import { escape } from 'querystring';
 
-// GamePageからのなんのデータがほしいかを書いといてください．
-
 const enum sightType {
     sports = 0, // スポーツ
     eat = 1, // 食事
@@ -35,7 +33,8 @@ export const ResultPage = () => {
     const location = useLocation();
     // GamePageからのデータを取得
     const result = location.state; // GamePageからのデータを取得
-    // console.log(result);
+    const [phrase, setPhrase] = useState<JSX.Element>(null)
+    const [hashtag, setHashtag] = useState<string>(null)
 
     const FanFunCount = ({ result }) => {
         const [count, setCount] = useState(0);
@@ -69,32 +68,32 @@ export const ResultPage = () => {
     const overviewPhrase = () => {
         // 一番多かった施設に対応する言葉
         const mostVisitedWord = [
-            '汗を書きながらも',
-            '美味しい食事を',
-            '迫力満点の映画',
-            '海の生き物に癒され',
-            '動物たちと触れ合い',
-            'お買い物三昧で',
-            '歴史を感じて',
-            'いい湯でリフレッシュし',
-            'アトラクションで大興奮し',
-            '地元の祭りに参加し',
-            '工場見学で新しい発見をし',
+            '健康的な汗を流しました。',
+            '美味しい食事を堪能しました。',
+            '迫力満点の映画に感動しました。',
+            '海の生き物に癒されました。',
+            '動物に癒されました。',
+            '買い物三昧を堪能しました。',
+            '歴史溢れる建築物を楽しみました。',
+            'いい湯でリフレッシュしました。',
+            'アトラクションで大興奮しました。',
+            '地元の祭りに参加し大興奮しました。',
+            '知的好奇心が刺激されました。',
             'その他の施設で'
         ];
         // 最高FanFunの施設に対応する言葉
         const bestFanFunWord = [
             'スポーツを楽しんで',
-            '美味しい食事を堪能して',
-            '映画を観て',
-            'お魚さんたちに癒され',
+            '美味しい食事に舌鼓を打ち',
+            '気になっていた映画を見ることができ',
+            '色とりどりの魚に圧倒され',
             '動物たちと触れ合い',
-            'お買い物三昧で',
-            '歴史を感じて',
-            'いい湯でリフレッシュし',
-            'アトラクションで大興奮し',
-            '地元の祭りに参加し',
-            '流れ行く製品に感動し',
+            'ウィンドウショッピングで',
+            '昔に思いを馳せ',
+            'サウナで整い',
+            '絶叫アトラクションでリフレッシュして',
+            '飛び入り参加で祭りを盛り上げ',
+            '多くの刺激的な知見を得ることができ',
             'その他の施設で'
         ];
         // UFOに遭遇した時の言葉
@@ -109,14 +108,6 @@ export const ResultPage = () => {
             '人生の旅路でも、わくわくするような新しい体験を大切にしたいですね!',
             'これからも、楽しい旅を続けていきましょう!',
             '次の旅も、楽しい思い出がたくさんできるといいですね!',
-            '旅の疲れは、新たな発見で癒されますね。',
-            '一歩一歩踏み出す勇気が、素晴らしい旅を作ります。',
-            '旅は心を豊かにし、新たな自分を発見させてくれます。',
-            'どんな旅も、あなたを成長させる貴重な経験です。',
-            '旅の終わりは、新たな始まりのサインです。',
-            '旅路での出会いと経験は、一生の宝物です。',
-            '旅を通じて、世界の広さと自分の可能性を知ることができます。',
-            '旅は、人生の冒険です。',
         ];
 
         // 施設の種類ごとのカウント
@@ -152,12 +143,12 @@ export const ResultPage = () => {
 
         // 概要文
         const overviewSong =
-            result?.player.data.song.name + 'を聴きながら、' +
-            result?.player.data.song.artist.name + 'の楽曲に合わせて旅を楽しむことができました。';
+            result?.player.data.song.artist.name + 'の'+
+            result?.player.data.song.name + 'を聴きながら旅を楽しみました。' 
         const overviewHistory = mostVisited.length > 0 ?
             '今回の旅では' + sightEmoji(mostVisited[0]).type
-            + 'によく立ち寄り、' +
-            mostVisitedWord[mostVisited[0]] + '堪能しました。' : '';
+            + 'へよく訪れ、' +
+            mostVisitedWord[mostVisited[0]]  : '';
         const overviewFanfun =
             '特に' + bestFanFun.name + 'では、' +
             bestFanFunWord[bestFanFun.type] + '旅の充実感を高めることができました。';
@@ -234,6 +225,14 @@ export const ResultPage = () => {
         }
     }
 
+
+    useEffect(() =>{
+        if (!phrase && !hashtag){
+            setPhrase(overviewPhrase())
+            setHashtag(overviewHashtag())
+        }
+    },[])
+
     return (
         <div id="display" className="soft-gloss">
             <div id="navi" className="split">
@@ -289,10 +288,10 @@ export const ResultPage = () => {
                                     Overview of Your Trip
                                 </div>
                                 <div className='overview-contents'>
-                                    {overviewPhrase()}
+                                    {phrase}
                                 </div>
                                 <div className='overview-hashtag'>
-                                    {overviewHashtag()}
+                                    {hashtag}
                                 </div>
                             </div>
                         </div>
