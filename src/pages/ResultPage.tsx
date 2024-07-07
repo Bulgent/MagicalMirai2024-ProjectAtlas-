@@ -199,7 +199,7 @@ export const ResultPage = () => {
         });
         // 一つも訪れていない場合を追加 
         if (sightCount.every((sight) => sight.count === 0)) {
-            return '# ' + result?.player.data.song.name + ' #マジカルミライ';;
+            return '# 猪突猛進 # ' + result?.player.data.song.name + ' #マジカルミライ';
         } else {
             // 最も訪れた場所（同率の場合は配列で）
             let mostVisited = [];
