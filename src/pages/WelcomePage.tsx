@@ -113,7 +113,7 @@ export const WelcomePage = () => {
                     </div>
                 </div>
             </div>
-            <img id='logo' src='src/assets/images/logo.png' alt='' />
+            <img id='logo' src='/images/logo.png' alt='' />
         </div>
     );
 };

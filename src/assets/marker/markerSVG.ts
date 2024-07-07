@@ -1,10 +1,10 @@
 import { divIcon } from 'leaflet';
 
 // 🚗
-export const pngCar = '<img src="src/assets/images/carIcon.png" alt="🛸">';
+export const pngCar = '<img src="/images/carIcon.png" alt="🛸">';
 
 // 🎸
-export const pngMM24 = '<img src="src/assets/images/mm24_logo.png" alt="🎸" style="width: 250px; height: 92.5px; object-fit: contain;">';
+export const pngMM24 = '<img src="/images/mm24_logo.png" alt="🎸" style="width: 250px; height: 92.5px; object-fit: contain;">';
 
 // 🔦
 export const lightCar = '\

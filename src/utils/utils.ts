@@ -493,7 +493,7 @@ export const changeStyle = (startStyle: PathOptions, endStyle: PathOptions, prog
  * @returns 曲の画像のURL
  */
 export const getImage = (songNumber: number): string => {
-  return new URL(`../assets/images/jacket/${songData[songNumber].jacketName}`, import.meta.url).href;
+  return new URL(`/images/jacket/${songData[songNumber].jacketName}`, import.meta.url).href;
 };
 
 // ミリ秒を分:秒に変換する関数

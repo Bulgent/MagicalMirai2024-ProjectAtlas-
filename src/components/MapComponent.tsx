@@ -780,7 +780,7 @@ export const MapComponent = (props: any) => {
 
     // アイコンを作成
     const mmIcon = icon({
-      iconUrl: 'src/assets/images/mm24_logo.png', // アイコンのURL
+      iconUrl: '/images/mm24_logo.png', // アイコンのURL
       iconSize: [iconSize.max, iconSize.max * iconSize.aspect], // 初期サイズ
     });
 
@@ -792,7 +792,7 @@ export const MapComponent = (props: any) => {
         iconSize.min + (iconSize.max - iconSize.min) *
         (map.getZoom() - zoomSize.min) /
         (zoomSize.max - zoomSize.min); // ズームレベルに応じたサイズを計算
-      goalMarker.setIcon(icon({ iconUrl: 'src/assets/images/mm24_logo.png', iconSize: [newSize, newSize * iconSize.aspect] }));
+      goalMarker.setIcon(icon({ iconUrl: '/images/mm24_logo.png', iconSize: [newSize, newSize * iconSize.aspect] }));
     };
     // ズームイベントリスナーを登録
     map.on('zoomend', updateIconSize);

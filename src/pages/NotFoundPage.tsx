@@ -9,7 +9,7 @@ const NotFoundPage: React.FC = () => {
         <div className='bsod'>
           <div className='face'>
             {":("} 
-            <img className='image-logo' src='src/assets/images/project.png' alt='' />
+            <img className='image-logo' src='/images/project.png' alt='' />
           </div>
           <div className='label'>
             404 Not Found
@@ -22,7 +22,7 @@ const NotFoundPage: React.FC = () => {
           </div>
         </div>
       </div>
-      <img id='logo' src='src/assets/images/logo.png' alt='' />
+      <img id='logo' src='/images/logo.png' alt='' />
     </div>
   );
 };
