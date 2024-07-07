@@ -11,6 +11,7 @@ export const pointToLayer = (feature: any, latlng: LatLngExpression): Marker => 
     });
     // const marker = circleMarker(latlng, circleMarkerOptions);
     const builMarker = marker(latlng, { icon: builIcon, opacity: 1 })
+    // featureプロパティを利用してマーカーにデータを設定
     // ホバー時のイベントハンドラ
     const onHover = (e: L.LeafletMouseEvent) => {
         const hoveredMarker = e.target;
