@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, forwardRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL } from 'leaflet';
+import { MapContainer, GeoJSON, useMap, Marker, FeatureGroup } from 'react-leaflet';
+import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL, LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -25,11 +25,11 @@ import { lyricProperties, historyProperties, noteProperties, noteCoordinatePrope
 import trunk from '../assets/jsons/map_data/trunk.json'
 import primary from '../assets/jsons/map_data/primary.json'
 import secondary from '../assets/jsons/map_data/secondary.json'
-import sight from '../assets/jsons/map_data/sightseeing.json'
 import areas from '../assets/jsons/map_data/area.json'
 import sky from '../assets/jsons/map_data/polygons.json'
 import restrictedArea from '../assets/jsons/map_data/restrictedArea.json'
 import UfoMarker from '../services/UfoMarker.tsx';
+import all_sight from '../assets/jsons/map_data/event-all.json'
 
 // songDataの導入
 import songData from '../utils/Song.ts';
@@ -48,6 +48,9 @@ const RotateCarLightMarker = forwardRef((props, ref) => (
   /* @ts-ignore */
   <RotateMarker {...props} icon={carLightIcon} pane="light" ref={ref} />
 ));
+
+
+
 
 export const MapComponent = (props: any) => {
   /**
@@ -70,6 +73,7 @@ export const MapComponent = (props: any) => {
   const isPaneInitRef = useRef<Boolean>(true)
 
   const executedRef = useRef(false);
+  const InitAddEventPoints = useRef<Boolean>(true)
 
   // UFOと會合したかどうか
   const [encounteredUfo, setEncounteredUfo] = useState(false);
@@ -392,6 +396,7 @@ export const MapComponent = (props: any) => {
     return null
   }
 
+
   // 通る道についての描画（デバッグ用）
   const PathWay: React.FC = () => {
     if (pathwayFeature) {
@@ -528,6 +533,8 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
+
+
   // 👽歌詞表示コンポーネント👽
   const addLyricTextToMap = (map: Map) => {
     // 歌詞が変わったら実行 ボカロによって色を変える
@@ -581,10 +588,6 @@ export const MapComponent = (props: any) => {
   // 👽ポイントにマウスが乗ったときに呼び出される関数👽
   // const onPointHover = (e: LeafletMouseEvent) => {
   //   console.log(e.sourceTarget.feature.properties.name, checkArchType(e.sourceTarget.feature.properties.type))
-  //   // オフ会0人かどうか
-  //   if (e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
-  //     console.log("オイイイッス！👽")
-  //   }
   //   setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
   //   props.handOverHover(e.sourceTarget.feature)
   // }
@@ -592,16 +595,15 @@ export const MapComponent = (props: any) => {
   // 👽観光地をクリックしたときに呼び出される関数👽
   const onSightClick = (e: LeafletMouseEvent) => {
     // hoverhistoryに重複しないように追加
+    console.log("before clicked")
     if (isMapMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
+      const fanfunscore = e.sourceTarget.feature.properties.want_score * 10000 + Math.floor(Math.random() * 10000) // 1000倍してランダム値を加える
       hoverHistory.current.push(e.sourceTarget.feature);
+      hoverHistory.current[hoverHistory.current.length - 1].properties.fanfun_score = fanfunscore
       const historyProperty: historyProperties = e.sourceTarget.feature
       historyProperty.properties.playerPosition = playerPositionRef.current
       props.handOverHover(e.sourceTarget.feature)
-      props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
-    }
-    // オフ会0人かどうか
-    if (e.sourceTarget.feature.properties.event_place == "泉南イオン") {
-      console.log("オイイイッス！👽")
+      props.handOverFanFun(e.sourceTarget.feature.properties.fanfun_score)
     }
   }
 
@@ -716,6 +718,62 @@ export const MapComponent = (props: any) => {
     )
   }
 
+  // インストラクションの表示
+  const InstructionComponent = () => {
+    // 操作説明をするオーバーレイのレイヤ
+    const instructionStyle: PathOptions = {
+      color: 'black',
+      weight: 1,
+      opacity: 1,
+      fillColor: 'black',
+      fillOpacity: 0.8
+    }
+    return (isFirstPlayRef.current && !isInitMapPlayer &&
+      (<>
+        <GeoJSON
+          data={sky as unknown as GeoJSON.GeoJsonObject}
+          style={instructionStyle}
+          pane="sky"
+        >
+          <div className="instruction-content">
+            <h2>インストラクション</h2>
+            <h3>目的地へは寄り道を楽しみながら。</h3>
+            <p>地図上のアイコンをクリックして寄り道し、<br />FanFun度をアップさせよう！</p>
+            <p>このゲームでは、たくさん寄り道して旅全体を楽しむことが目的です。<br/>
+            寄り道地点でのイベントに応じて、FanFun度が増加します。<br/>
+            くまなく探索し、高得点を目指してください。</p>
+            <p>再生ボタンで旅を開始し、目的地へ到達すると結果画面に進みます。</p>
+          </div>
+        </GeoJSON>
+      </>
+    ))
+    // const map = useMap();
+    // useEffect(() => {
+    //   if (!isFirstPlayRef.current) {
+    //     return
+    //   }
+    //   // マップの中心に表示する
+    //   const instruction = L.control({ position: 'topleft' });
+    //   instruction.onAdd = function (map : Map) {
+    //     const div = L.DomUtil.create('div', 'instruction');
+    //     div.innerHTML = `
+    //       <div class="instruction-content">
+    //         <h2>インストラクション</h2>
+    //         <p>🎵を追いかけて、<br>🦄に到達しよう！</p>
+    //         <p>👽をクリックすると、<br>オフ会に参加できるかも！</p>
+    //       </div>
+    //     `;
+    //     return div;
+    //   };
+    //   instruction.addTo(map);
+    //   return () => {
+    //     instruction.remove();
+    //   }
+    // }, [map]);
+    // return null;
+  }
+
+
   // ゴールアイコン
   const SetGoalIcon = () => {
     const map = useMap();
@@ -738,6 +796,24 @@ export const MapComponent = (props: any) => {
     });
     return null
   }
+
+  const CreateEventPointsFunction = () => {
+    if (props?.songnum!==-1 && InitAddEventPoints.current){
+      const map = useMap()
+      const features = all_sight[`song${props?.songnum}`]['features'];
+      for (let feature of features){
+        const latlng:LatLngExpression = {lat:feature.geometry.coordinates[1], lng:feature.geometry.coordinates[0]}
+        const lyricMarker = showDetail(feature, latlng).addTo(map);
+        lyricMarker.feature = feature;
+        lyricMarker.on('click',onSightClick)
+        lyricMarker.on('mouseout',onSightHoverOut)
+      }
+      InitAddEventPoints.current = false;
+      return null;
+  }else{
+    return null;
+  }
+     }
 
   return (
     <>
@@ -786,16 +862,18 @@ export const MapComponent = (props: any) => {
           position={carMapPosition}
           rotationAngle={heading}
           rotationOrigin="center"
-        >
-        </RotateCarMarker>
+        />
         <RotateCarLightMarker
           /* @ts-ignore */
           position={carMapPosition}
           rotationAngle={heading}
           rotationOrigin="center"
-        >
-        </RotateCarLightMarker>
-        <UfoMarker handOverFanFun={props.handOverFanFun} isMoving={props.isMoving} setEncounteredUfo={setEncounteredUfo} />
+        />
+        <UfoMarker
+          handOverFanFun={props.handOverFanFun}
+          isMoving={props.isMoving}
+          setEncounteredUfo={setEncounteredUfo}
+        />
         {/* 曲の開始まで表示するレイヤ */}
         <PathWay />
         <UpdatingOverlayLayer />
@@ -803,17 +881,8 @@ export const MapComponent = (props: any) => {
           isMoving={props.isMoving || isFirstPlayRef.current}
           mapCenter={mapOffset}
           pane='mapcenter' />
-        <GeoJSON
-          data={sight as GeoJSON.GeoJsonObject}
-          pointToLayer={showDetail}
-          onEachFeature={(_, layer) => {
-            layer.on({
-              click: onSightClick,
-              // mouseover: onSightHover, // ポイントにマウスが乗っかったときに呼び出される関数
-              mouseout: onSightHoverOut
-            });
-          }}
-        />
+        <CreateEventPointsFunction/>
+        <InstructionComponent />
       </MapContainer>
     </>
   );

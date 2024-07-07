@@ -7,10 +7,15 @@ const UfoMarker = (props: any) => {
     const map = useMap();
 
     // UFOの移動範囲を設定
-    const latMin = 34.55952;
-    const latMax = 34.55942;
-    const lngMin = 135.48521;
-    const lngMax = 135.48521;
+    const latMin = 34.37949176725383;
+    const latMax = 34.687383684988625;
+    const lngMin = 135.2666063096005;
+    const lngMax = 135.52594840607566;
+
+    // 大阪城 [34.687383684988625, 135.52594840607566]
+    // インテックス大阪 [34.63792356673598, 135.4196905335604]
+    // 仁徳天皇陵 [34.56443501090963, 135.48747433772283]
+    // イオンシネマりんくう泉南 [34.37949176725383, 135.2666063096005]
 
     // UFOの初期位置を設定
     const [ufoPosition, setUfoPosition] = useState<LatLngLiteral>({ lat: 34.38097037919402, lng: 135.26791339701882 });

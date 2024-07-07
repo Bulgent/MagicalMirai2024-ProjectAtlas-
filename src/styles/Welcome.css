@@ -46,12 +46,12 @@
   overflow: auto;
   /* Add overflow property to enable scrolling */
   scrollbar-width: thin;
-  scrollbar-color: #ff73a0 transparent;
+  scrollbar-color: #fffadd transparent;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background-color: #ff73a0;
+  background-color: #fffadd;
   border-radius: 10px;
   border: none;
 }
@@ -65,6 +65,7 @@
   margin-top: 1vh;
   margin-bottom: 1vh;
 }
+
 
 .select-song-button {
   font-family: "Zen Maru Gothic", serif;

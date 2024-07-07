@@ -90,7 +90,7 @@ export const HistoryComponent = (props: any) => {
                                     {hover.properties.event_title}
                                 </div>
                                 <div className='historypoint'>
-                                    +{hover.properties.want_score} FanFun
+                                    +{hover.properties.fanfun_score} FanFun
                                 </div>
                                 <div className='historyroad' />
                             </div>
