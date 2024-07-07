@@ -74,7 +74,7 @@ export const MapComponent = (props: any) => {
 
   const executedRef = useRef(false);
   const InitAddEventPoints = useRef<Boolean>(true)
-  const [jsonData, setJsonData] = useState(null)
+
 
   /**
    * React Hooks
