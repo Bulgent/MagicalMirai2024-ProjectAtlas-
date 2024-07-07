@@ -88,4 +88,7 @@ $ npm install && npm run dev
 ---
 
 # デモ動画
-[Magical Car Navigation](https://youtu.be/vfX5sz0QHfs)
+[Magical Car Navigation Demo Play](https://youtu.be/vfX5sz0QHfs)
+
+# Web Site URL
+[Magical Car Navigation](https://magical-car-navigation.netlify.app/)
