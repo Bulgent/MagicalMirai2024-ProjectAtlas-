@@ -73,7 +73,6 @@ export const ResultPage = () => {
             'UFOを見つけられたなんて、すごいです! ',
             'UFOを見つけられたなんて、不思議な体験でしたね! ',
             'UFOを見つけられたなんて、驚きです! ',
-            'UFOに乗っていたのは、まっ、まさかあの大物YouTubeｒ!? '
         ]
         // 励ましの言葉
         const encouragementWords = [
