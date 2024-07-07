@@ -595,9 +595,8 @@ export const MapComponent = (props: any) => {
   const onSightClick = (e: LeafletMouseEvent) => {
     // hoverhistoryに重複しないように追加
     console.log("before clicked")
-    // if (isMapMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
-    if(true){
-      console.log("clicked")
+    if (isMapMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
+      console.log(e.sourceTarget.feature)
       hoverHistory.current.push(e.sourceTarget.feature);
       const historyProperty: historyProperties = e.sourceTarget.feature
       historyProperty.properties.playerPosition = playerPositionRef.current
@@ -774,8 +773,10 @@ export const MapComponent = (props: any) => {
       for (let feature of features){
         const latlng:LatLngExpression = {lat:feature.geometry.coordinates[1], lng:feature.geometry.coordinates[0]}
         const lyricMarker = showDetail(feature, latlng).addTo(map);
+        lyricMarker.feature = feature;
         lyricMarker.on('click',onSightClick)
         lyricMarker.on('mouseout',onSightHoverOut)
+        console.log(lyricMarker)
       }
       InitAddEventPoints.current = false;
       return null;
