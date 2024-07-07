@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL } from 'leaflet';
+import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL, icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -578,24 +578,20 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
-  // 👽ポイントにマウスが乗ったときに呼び出される関数👽
-  // const onPointHover = (e: LeafletMouseEvent) => {
-  //   console.log(e.sourceTarget.feature.properties.name, checkArchType(e.sourceTarget.feature.properties.type))
-  //   setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
-  //   props.handOverHover(e.sourceTarget.feature)
-  // }
-
   // 👽観光地をクリックしたときに呼び出される関数👽
   const onSightClick = (e: LeafletMouseEvent) => {
     // hoverhistoryに重複しないように追加
     if (isMapMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
       const fanfunscore = e.sourceTarget.feature.properties.want_score * 10000 + Math.floor(Math.random() * 10000) // 1000倍してランダム値を加える
-      hoverHistory.current.push(e.sourceTarget.feature);
-      hoverHistory.current[hoverHistory.current.length - 1].properties.fanfun_score = fanfunscore
-      const historyProperty: historyProperties = e.sourceTarget.feature
-      historyProperty.properties.playerPosition = playerPositionRef.current
-      props.handOverHover(e.sourceTarget.feature)
-      props.handOverFanFun(e.sourceTarget.feature.properties.fanfun_score)
+      // 経由履歴に追加
+      const historyProperty: historyProperties = e.sourceTarget.feature;
+      historyProperty.properties.playerPosition = playerPositionRef.current;
+      historyProperty.properties.fanfun_score = fanfunscore;
+      hoverHistory.current.push(historyProperty);
+      // 最後に追加した要素にFanFun度を追加
+      // hoverHistory.current[hoverHistory.current.length - 1].properties.fanfun_score = fanfunscore;
+      props.handOverHover(historyProperty);
+      props.handOverFanFun(e.sourceTarget.feature.properties.fanfun_score);
     }
   }
 
@@ -731,14 +727,14 @@ export const MapComponent = (props: any) => {
             <h2>インストラクション</h2>
             <h3>目的地へは寄り道を楽しみながら。</h3>
             <p>地図上のアイコンをクリックして寄り道し、<br />FanFun度をアップさせよう！</p>
-            <p>このゲームでは、たくさん寄り道して旅全体を楽しむことが目的です。<br/>
-            寄り道地点でのイベントに応じて、FanFun度が増加します。<br/>
-            くまなく探索し、高得点を目指してください。</p>
+            <p>このゲームでは、たくさん寄り道して旅全体を楽しむことが目的です。<br />
+              寄り道地点でのイベントに応じて、FanFun度が増加します。<br />
+              くまなく探索し、高得点を目指してください。</p>
             <p>再生ボタンで旅を開始し、目的地へ到達すると結果画面に進みます。</p>
           </div>
         </GeoJSON>
       </>
-    ))
+      ))
     // const map = useMap();
     // useEffect(() => {
     //   if (!isFirstPlayRef.current) {
@@ -752,7 +748,6 @@ export const MapComponent = (props: any) => {
     //       <div class="instruction-content">
     //         <h2>インストラクション</h2>
     //         <p>🎵を追いかけて、<br>🦄に到達しよう！</p>
-    //         <p>👽をクリックすると、<br>オフ会に参加できるかも！</p>
     //       </div>
     //     `;
     //     return div;
@@ -769,14 +764,39 @@ export const MapComponent = (props: any) => {
   // ゴールアイコン
   const SetGoalIcon = () => {
     const map = useMap();
-    useEffect(() => {
-      if (props.songnum === -1 || !isInitMapPlayer) {
-        return
-      }
-      marker([34.6376177629165, 135.4219243060005], { icon: mmIcon, pane: "waypoint" }).addTo(map);
-    }, [map, props.songnum, isInitMapPlayer]);
+    if (props.songnum === -1 || !isInitMapPlayer) {
+      return;
+    }
+    const iconSize = {
+      min: 50,
+      max: 250,
+      aspect: 0.37
+    }
+    const zoomSize = {
+      min: 14,
+      max: 17
+    }
+
+    // アイコンを作成
+    const mmIcon = icon({
+      iconUrl: 'src/assets/images/mm24_logo.png', // アイコンのURL
+      iconSize: [iconSize.min, iconSize.min * iconSize.aspect], // 初期サイズ
+    });
+
+    // マーカーを作成してマップに追加
+    const goalMarker = marker([34.63723295319705, 135.42051545927356], { icon: mmIcon, pane: "waypoint" }).addTo(map);
+    // ズームレベルに応じてアイコンのサイズを変更する関数
+    const updateIconSize = () => {
+      const newSize =
+        iconSize.min + (iconSize.max - iconSize.min) *
+        (map.getZoom() - zoomSize.min) /
+        (zoomSize.max - zoomSize.min); // ズームレベルに応じたサイズを計算
+      goalMarker.setIcon(icon({ iconUrl: 'src/assets/images/mm24_logo.png', iconSize: [newSize, newSize * iconSize.aspect] }));
+    };
+    // ズームイベントリスナーを登録
+    map.on('zoomend', updateIconSize);
     return null;
-  }
+  };
 
   // スケール変更時の処理
   const GetZoomLevel = () => {
@@ -855,7 +875,7 @@ export const MapComponent = (props: any) => {
           isMoving={props.isMoving || isFirstPlayRef.current}
           mapCenter={mapOffset}
           pane='mapcenter' />
-        <InstructionComponent />
+        {/* <InstructionComponent /> */}
         <GeoJSON
           data={sight as GeoJSON.GeoJsonObject}
           pointToLayer={showDetail}

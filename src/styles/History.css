@@ -14,14 +14,14 @@
   text-align: center;
   font-size: 1.8vw;
   font-weight: bold;
-  color: #e0d8c3;
+  color: #ffeedd;
   text-align: center;
   user-select: none;
   position: relative;
 }
 
 .hoverline {
-  border-bottom: 0.5vh solid #e0d8c3;
+  border-bottom: 0.5vh solid #ffeedd;
   width: 100%;
 }
 
@@ -30,7 +30,7 @@
   overflow-y: scroll;
   /* Customize scrollbar */
   scrollbar-width: thin;
-  scrollbar-color: #e0d8c3 transparent;
+  scrollbar-color: #ffeedd transparent;
   height: 92%;
   width: 100%;
   margin: 1%;
@@ -43,7 +43,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background-color: #e0d8c3;
+  background-color: #ffeedd;
   border-radius: 10px;
   border: none;
 }
@@ -58,6 +58,16 @@
   width: 100%;
   user-select: none;
   position: relative;
+}
+
+.nohistoryname {
+  font-size: 1.8vw;
+  font-weight: bold;
+}
+
+.nohistorydetail {
+  font-size: 1.5vw;
+  text-align: left;
 }
 
 /* ツールチップの基本スタイル */
@@ -75,7 +85,7 @@
   transform: translateX(-50%);
   /* 正確に中央に配置 */
   background-color: #101010;
-  color: #e0d8c3;
+  color: #ffeedd;
   padding: 5px 10px;
   border-radius: 4px;
   white-space: nowrap;
@@ -95,6 +105,7 @@
   visibility: visible;
   /* ホバー時に表示 */
   opacity: 1;
+  z-index: 1000;
 }
 
 .historybox {
@@ -125,6 +136,7 @@
 
 .emoji-icon {
   position: relative;
+  font-size: 2.2vw;
 }
 
 .historyname {
@@ -155,7 +167,7 @@
 }
 
 .history-emoji {
-  width: 60%;
+  width: 90%;
   margin-top: 2vh;
   text-align: center;
   font-family: "Noto Color Emoji";
@@ -176,7 +188,7 @@
   font-size: 2vw;
   user-select: none;
   position: relative;
-  color: #e0d8c3;
+  color: #ffeedd;
 }
 
 .fanfununit {

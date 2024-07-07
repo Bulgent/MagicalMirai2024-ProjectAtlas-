@@ -36,7 +36,7 @@
 .song-title {
     text-align: center;
     font-size: 2vw;
-    color: #e0d8c3;
+    color: #ffeedd;
     position: absolute;
     width: 100%;
 }
@@ -44,7 +44,7 @@
 /* Song Artist */
 .song-artist {
     font-size: 1.5vw;
-    color: #e0d8c3;
+    color: #ffeedd;
     position: absolute;
     text-align: right;
     width: 100%;
@@ -56,7 +56,7 @@
     flex-direction: row;
     justify-content: space-between;
     font-size: 1vw;
-    color: #e0d8c3;
+    color: #ffeedd;
     text-align: center;
     width: 100%;
 }
@@ -72,10 +72,10 @@
 .seek-bar {
     align-items: center;
     font-size: 1.25vh;
-    color: #e0d8c3;
+    color: #ffeedd;
     text-align: center;
     width: 100%;
-    background-color: #e0d8c3;
+    background-color: #ffeedd;
 }
 
 .seek-bar-container {
@@ -115,7 +115,7 @@
     width: 100%;
     text-align: bottom;
     z-index: 10000;
-    color: #e0d8c3;
+    color: #101010;
     mix-blend-mode: normal;
 }
 
@@ -186,7 +186,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: flex-end;
-    color: #e0d8c3;
+    color: #ffeedd;
     text-align: center;
     height: 3.5vh;
 }
@@ -195,14 +195,14 @@
 .time-duration {
     font-size: 2.5vh;
     width: 2vw;
-    color: #e0d8c3;
+    color: #ffeedd;
     text-align: center;
 }
 
 /* Current Phrase */
 .phrase-current {
     font-size: 1.2vw;
-    color: #e0d8c3;
+    color: #ffeedd;
     text-align: center;
     margin: 0 auto;
     white-space: nowrap;
@@ -272,7 +272,7 @@
 }
 
 .ppbutton.material-symbols-outlined {
-    color: #e0d8c3;
+    color: #ffeedd;
     font-size: 7vh;
     font-weight: normal;
     text-shadow: 2px 2px 4px #101010;

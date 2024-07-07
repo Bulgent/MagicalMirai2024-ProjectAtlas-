@@ -32,10 +32,10 @@ export const HistoryComponent = (props: any) => {
             return (
                 <>
                     <div className='nohoverhistory' data-tooltip="地図上のアイコンをクリック">
-                        <div className='historyname'>
+                        <div className='nohistoryname'>
                             No Waypoint Arrived
                         </div>
-                        <div className='historydetail'>
+                        <div className='nohistorydetail'>
                             Please click map icon
                         </div>
                     </div>
