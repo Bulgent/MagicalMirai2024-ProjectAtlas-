@@ -812,7 +812,6 @@ export const MapComponent = (props: any) => {
   }
 
   const CreateEventPointsFunction = () => {
-    if (props?.songnum !== -1 && InitAddEventPoints.current) {
     if (props?.songnum!==-1 && InitAddEventPoints.current && !isInitInstruction.current)  {
       const map = useMap()
       const features = all_sight[`song${props?.songnum}`]['features'];
@@ -829,7 +828,7 @@ export const MapComponent = (props: any) => {
       return null;
     }
   }
-
+  // console.log(isInitInstruction.current)
   return (
     <>
       {/* centerは[緯度, 経度] */}
@@ -897,7 +896,7 @@ export const MapComponent = (props: any) => {
           mapCenter={mapOffset}
           pane='mapcenter' />
         <CreateEventPointsFunction />
-        {/* <InstructionComponent /> */}
+        <InstructionComponent />
       </MapContainer>
     </>
   );

@@ -104,5 +104,5 @@
 }
 
 .emoji{
-  font-size: calc(45px - calc(calc(17 - var(--scale)) * 2px))!important;
+  font-size: max(calc(45px - calc(calc(17 - var(--scale)) * 2px)), 39px)!important;
 }

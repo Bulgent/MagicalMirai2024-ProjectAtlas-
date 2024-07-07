@@ -29,6 +29,7 @@ const enum sightType {
 }
 
 export const ResultPage = () => {
+    document.documentElement.style.setProperty('--scale', '14');
     const navigate = useNavigate();
     const location = useLocation();
     // GamePageからのデータを取得

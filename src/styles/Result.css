@@ -16,9 +16,9 @@
   overflow: hidden;
 }
 
-.result-left.emoji {
+/* .result-left.emoji {
   font-size: calc(30px) !important;
-}
+} */
 
 .mapcomponent {
   width: 100%;
