@@ -581,10 +581,6 @@ export const MapComponent = (props: any) => {
   // 👽ポイントにマウスが乗ったときに呼び出される関数👽
   // const onPointHover = (e: LeafletMouseEvent) => {
   //   console.log(e.sourceTarget.feature.properties.name, checkArchType(e.sourceTarget.feature.properties.type))
-  //   // オフ会0人かどうか
-  //   if (e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
-  //     console.log("オイイイッス！👽")
-  //   }
   //   setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
   //   props.handOverHover(e.sourceTarget.feature)
   // }
@@ -600,10 +596,6 @@ export const MapComponent = (props: any) => {
       historyProperty.properties.playerPosition = playerPositionRef.current
       props.handOverHover(e.sourceTarget.feature)
       props.handOverFanFun(e.sourceTarget.feature.properties.fanfun_score)
-    }
-    // オフ会0人かどうか
-    if (e.sourceTarget.feature.properties.event_place == "泉南イオン") {
-      console.log("オイイイッス！👽")
     }
   }
 
