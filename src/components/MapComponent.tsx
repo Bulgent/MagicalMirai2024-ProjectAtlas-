@@ -780,7 +780,7 @@ export const MapComponent = (props: any) => {
 
     // アイコンを作成
     const mmIcon = icon({
-      iconUrl: 'src/assets/images/mm24_logo.png', // アイコンのURL
+      iconUrl: '/images/mm24_logo.png', // アイコンのURL
       iconSize: [iconSize.max, iconSize.max * iconSize.aspect], // 初期サイズ
     });
 
@@ -792,7 +792,7 @@ export const MapComponent = (props: any) => {
         iconSize.min + (iconSize.max - iconSize.min) *
         (map.getZoom() - zoomSize.min) /
         (zoomSize.max - zoomSize.min); // ズームレベルに応じたサイズを計算
-      goalMarker.setIcon(icon({ iconUrl: 'src/assets/images/mm24_logo.png', iconSize: [newSize, newSize * iconSize.aspect] }));
+      goalMarker.setIcon(icon({ iconUrl: '/images/mm24_logo.png', iconSize: [newSize, newSize * iconSize.aspect] }));
     };
     // ズームイベントリスナーを登録
     map.on('zoomend', updateIconSize);
@@ -860,7 +860,7 @@ export const MapComponent = (props: any) => {
         /> */}
         <MapLibreTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
-          url="https://tiles.stadiamaps.com/styles/stamen_terrain.json" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
+          url="https://tiles.stadiamaps.com/styles/stamen_terrain.json?api_key=1a4eedc0-5153-47ea-b4ab-3e93813e99b0" // https://docs.stadiamaps.com/map-styles/osm-bright/ より取得
           ref={OSMlayerRef}
           style={{ name: "Stadia Maps", version: 8, sources: {}, layers: [] }}
         />

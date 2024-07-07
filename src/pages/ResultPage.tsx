@@ -9,7 +9,6 @@ import { useState, useRef, useEffect } from 'react';
 import { msToMs } from '../utils/utils';
 import { sightEmoji } from '../utils/utils';
 
-import { ResultIslandMapComponent } from '../components/ResultIslandMapComponent';
 import { ResultDetailMapComponent } from '../components/ResultDetailMapComponent';
 import { escape } from 'querystring';
 
@@ -229,6 +228,7 @@ export const ResultPage = () => {
 
     useEffect(() =>{
         if (!phrase && !hashtag){
+            /*@ts-ignore */
             setPhrase(overviewPhrase())
             setHashtag(overviewHashtag())
         }
@@ -305,7 +305,7 @@ export const ResultPage = () => {
                     </div>
                 </div>
             </div>
-            <img id='logo' src='src/assets/images/logo.png' alt='' />
+            <img id='logo' src='/images/logo.png' alt='' />
         </div >
     );
 };
