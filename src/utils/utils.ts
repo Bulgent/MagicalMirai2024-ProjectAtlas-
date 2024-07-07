@@ -296,7 +296,7 @@ export const sightEmoji = (type: number): { type: string; emoji: string; hashtag
       return {
         type: "その他",
         emoji: '🏛',
-        hashtag: '#あれぇ丘people!?'
+        hashtag: ''
       };
   }
 }

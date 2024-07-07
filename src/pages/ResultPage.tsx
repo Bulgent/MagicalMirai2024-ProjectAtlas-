@@ -114,11 +114,11 @@ export const ResultPage = () => {
 
         // 概要文
         const overviewSong =
-            result?.player.data.song.name + 'を聴きながら、' +
-            result?.player.data.song.artist.name + 'の楽曲に合わせて旅を楽しむことができました。';
+            result?.player.data.song.artist.name + 'の'+
+            result?.player.data.song.name + 'を聴きながら旅を楽しみました。' 
         const overviewHistory = mostVisited.length > 0 ?
             '今回の旅では' + sightEmoji(mostVisited[0]).type
-            + 'によく立ち寄り、' +
+            + 'へよく訪れ、' +
             mostVisitedWord[mostVisited[0]] + '堪能しました。' : '';
         const overviewFanfun =
             '特に' + bestFanFun.name + 'では、' +
