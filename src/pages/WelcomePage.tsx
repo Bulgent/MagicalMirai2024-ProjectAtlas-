@@ -68,7 +68,7 @@ export const WelcomePage = () => {
                     </div>
                     <div className='selectSongInfo'>
                         <div className='game-title'>Magical Car Navigation</div>
-                        <img className='selectJacket' src={songIndex.current != -1 ? getImage(songIndex.current) : 'src/assets/images/mm24_welcome.png'} alt='jacket' />
+                        <img className='selectJacket' src={songIndex.current != -1 ? getImage(songIndex.current) : '/images/mm24_welcome.png'} alt='jacket' />
                         <div className='song-tavl'>
                             <div className='song-tag'>
                                 <div className='song-hole' />
