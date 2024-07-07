@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getImage } from '../utils/utils';
 import songData from '../utils/Song';
 import creditData from '../utils/credits';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { msToMs } from '../utils/utils';
 import { sightEmoji } from '../utils/utils';
 
@@ -35,6 +35,26 @@ export const ResultPage = () => {
     // GamePageからのデータを取得
     const result = location.state; // GamePageからのデータを取得
     console.log(result);
+
+    const FanFunCount = ({ result }) => {
+        const [count, setCount] = useState(0);
+
+        useEffect(() => {
+            if (count < result?.fanFun) {
+                const timer = setTimeout(() => 
+                    setCount(count + 1),
+                 0.0001); // 20ミリ秒ごとにカウントアップ
+                return () => clearTimeout(timer);
+            }
+        }, [count, result]);
+
+        return (
+            <>
+                {count}
+            </>
+        );
+    };
+
 
     const overviewPhrase = () => {
         // 一番多かった施設に対応する言葉
@@ -99,9 +119,9 @@ export const ResultPage = () => {
             // 施設の種類ごとにカウント
             sightCount[history.properties.event_type] += 1;
             // FanFunが最も高い場所を記録
-            if (bestFanFun.score < history.properties.want_score) {
+            if (bestFanFun.score < history.properties.fanfun_score) {
                 bestFanFun.name = history.properties.event_place;
-                bestFanFun.score = history.properties.want_score;
+                bestFanFun.score = history.properties.fanfun_score;
                 bestFanFun.type = history.properties.event_type;
             }
         });
@@ -139,6 +159,8 @@ export const ResultPage = () => {
             </>
         );
     };
+
+
 
     const overviewHashtag = () => {
         // 施設の種類ごとのカウント
@@ -226,7 +248,8 @@ export const ResultPage = () => {
                         <div className='fanfun-title'>
                             FanFun Score
                             <div className='fanfun-score'>
-                                {result?.fanFun}
+                                {/* {result?.fanFun} */}
+                                <FanFunCount result={result} />
                                 <span className='unit'>FF</span>
                             </div>
                             <div className='mm-waypoint'>

@@ -45,3 +45,22 @@
 #logo{
     user-select: none; /* ダブルクリックしてもテキストが選択されないようにする */
 }
+
+.instruction-content{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50vw;
+    height: 10vh;
+    
+    /* 半透明のダークオーバーレイ */
+    color: #f4f4f4;
+    z-index: 100000000000000;
+    display: grid;
+    place-items: left;
+    font-size: 1.5vw;
+    /* フォントサイズを大きく */
+    text-align: left;
+    padding: 2vh;
+    border-radius: 1vw;
+}

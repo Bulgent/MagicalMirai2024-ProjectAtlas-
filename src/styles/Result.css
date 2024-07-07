@@ -64,9 +64,9 @@
   /* 左上と左下の角を丸くする */
   justify-content:space-between;
   align-items: center;
-  height: calc(100% - 2vw);
+  height: calc(100% - 2vh);
   flex: 2;
-  padding: 1vw;
+  padding: 1vh;
   background: #21a2a6;
   position: relative;
   /* padding-top: 2vw; */
@@ -120,7 +120,7 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: left;
-  font-size: 4vh;
+  font-size: 2vw;
   color: #101010;
   background-color: #ffcd5a;
   padding: 0vh 1.5vh;
@@ -152,6 +152,17 @@
   background-color: #fffadd;
   border-radius: 1vh;
   font-family: "Zen Kaku Gothic", sans-serif;
+  overflow-y: scroll;
+  max-height: 22vw;
+  scrollbar-width: thin;
+  scrollbar-color: #e0d8c3 transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #e0d8c3;
+  border-radius: 10px;
+  border: none;
 }
 
 .overview-title {
@@ -159,7 +170,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-size: 4vh;
+  font-size: 1.8vw;
   color: #413831;
   padding-top: 0vh;
   padding-left: 1vh;
@@ -171,7 +182,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-size: 2vh;
+  font-size: 1vw;
   color: #413831;
   padding: 1vh;
 }
@@ -181,7 +192,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-size: 2vh;
+  font-size: 0.9vw;
   color: #005edc;
   padding: 1vh;
 }

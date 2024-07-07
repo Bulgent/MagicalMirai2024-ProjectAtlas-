@@ -588,10 +588,6 @@ export const MapComponent = (props: any) => {
   // 👽ポイントにマウスが乗ったときに呼び出される関数👽
   // const onPointHover = (e: LeafletMouseEvent) => {
   //   console.log(e.sourceTarget.feature.properties.name, checkArchType(e.sourceTarget.feature.properties.type))
-  //   // オフ会0人かどうか
-  //   if (e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
-  //     console.log("オイイイッス！👽")
-  //   }
   //   setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
   //   props.handOverHover(e.sourceTarget.feature)
   // }
@@ -601,12 +597,13 @@ export const MapComponent = (props: any) => {
     // hoverhistoryに重複しないように追加
     console.log("before clicked")
     if (isMapMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
-      console.log(e.sourceTarget.feature)
+      const fanfunscore = e.sourceTarget.feature.properties.want_score * 10000 + Math.floor(Math.random() * 10000) // 1000倍してランダム値を加える
       hoverHistory.current.push(e.sourceTarget.feature);
+      hoverHistory.current[hoverHistory.current.length - 1].properties.fanfun_score = fanfunscore
       const historyProperty: historyProperties = e.sourceTarget.feature
       historyProperty.properties.playerPosition = playerPositionRef.current
       props.handOverHover(e.sourceTarget.feature)
-      props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
+      props.handOverFanFun(e.sourceTarget.feature.properties.fanfun_score)
     }
   }
 
@@ -721,6 +718,62 @@ export const MapComponent = (props: any) => {
     )
   }
 
+  // インストラクションの表示
+  const InstructionComponent = () => {
+    // 操作説明をするオーバーレイのレイヤ
+    const instructionStyle: PathOptions = {
+      color: 'black',
+      weight: 1,
+      opacity: 1,
+      fillColor: 'black',
+      fillOpacity: 0.8
+    }
+    return (isFirstPlayRef.current && !isInitMapPlayer &&
+      (<>
+        <GeoJSON
+          data={sky as unknown as GeoJSON.GeoJsonObject}
+          style={instructionStyle}
+          pane="sky"
+        >
+          <div className="instruction-content">
+            <h2>インストラクション</h2>
+            <h3>目的地へは寄り道を楽しみながら。</h3>
+            <p>地図上のアイコンをクリックして寄り道し、<br />FanFun度をアップさせよう！</p>
+            <p>このゲームでは、たくさん寄り道して旅全体を楽しむことが目的です。<br/>
+            寄り道地点でのイベントに応じて、FanFun度が増加します。<br/>
+            くまなく探索し、高得点を目指してください。</p>
+            <p>再生ボタンで旅を開始し、目的地へ到達すると結果画面に進みます。</p>
+          </div>
+        </GeoJSON>
+      </>
+    ))
+    // const map = useMap();
+    // useEffect(() => {
+    //   if (!isFirstPlayRef.current) {
+    //     return
+    //   }
+    //   // マップの中心に表示する
+    //   const instruction = L.control({ position: 'topleft' });
+    //   instruction.onAdd = function (map : Map) {
+    //     const div = L.DomUtil.create('div', 'instruction');
+    //     div.innerHTML = `
+    //       <div class="instruction-content">
+    //         <h2>インストラクション</h2>
+    //         <p>🎵を追いかけて、<br>🦄に到達しよう！</p>
+    //         <p>👽をクリックすると、<br>オフ会に参加できるかも！</p>
+    //       </div>
+    //     `;
+    //     return div;
+    //   };
+    //   instruction.addTo(map);
+    //   return () => {
+    //     instruction.remove();
+    //   }
+    // }, [map]);
+    // return null;
+  }
+
+
   // ゴールアイコン
   const SetGoalIcon = () => {
     const map = useMap();
@@ -809,16 +862,18 @@ export const MapComponent = (props: any) => {
           position={carMapPosition}
           rotationAngle={heading}
           rotationOrigin="center"
-        >
-        </RotateCarMarker>
+        />
         <RotateCarLightMarker
           /* @ts-ignore */
           position={carMapPosition}
           rotationAngle={heading}
           rotationOrigin="center"
-        >
-        </RotateCarLightMarker>
-        <UfoMarker handOverFanFun={props.handOverFanFun} isMoving={props.isMoving} setEncounteredUfo={setEncounteredUfo} />
+        />
+        <UfoMarker
+          handOverFanFun={props.handOverFanFun}
+          isMoving={props.isMoving}
+          setEncounteredUfo={setEncounteredUfo}
+        />
         {/* 曲の開始まで表示するレイヤ */}
         <PathWay />
         <UpdatingOverlayLayer />
@@ -827,6 +882,7 @@ export const MapComponent = (props: any) => {
           mapCenter={mapOffset}
           pane='mapcenter' />
         <CreateEventPointsFunction/>
+        <InstructionComponent />
       </MapContainer>
     </>
   );
