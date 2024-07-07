@@ -1,12 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, forwardRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
-import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL, icon } from 'leaflet';
-=======
 import { MapContainer, GeoJSON, useMap, Marker, FeatureGroup } from 'react-leaflet';
-import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL, LatLngExpression } from 'leaflet';
->>>>>>> efb45e1ba372e5b968fb041e53bcadf007379f34
+import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL, LatLngExpression, icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -823,22 +818,22 @@ export const MapComponent = (props: any) => {
   }
 
   const CreateEventPointsFunction = () => {
-    if (props?.songnum!==-1 && InitAddEventPoints.current){
+    if (props?.songnum !== -1 && InitAddEventPoints.current) {
       const map = useMap()
       const features = all_sight[`song${props?.songnum}`]['features'];
-      for (let feature of features){
-        const latlng:LatLngExpression = {lat:feature.geometry.coordinates[1], lng:feature.geometry.coordinates[0]}
+      for (let feature of features) {
+        const latlng: LatLngExpression = { lat: feature.geometry.coordinates[1], lng: feature.geometry.coordinates[0] }
         const lyricMarker = showDetail(feature, latlng).addTo(map);
         lyricMarker.feature = feature;
-        lyricMarker.on('click',onSightClick)
-        lyricMarker.on('mouseout',onSightHoverOut)
+        lyricMarker.on('click', onSightClick)
+        lyricMarker.on('mouseout', onSightHoverOut)
       }
       InitAddEventPoints.current = false;
       return null;
-  }else{
-    return null;
+    } else {
+      return null;
+    }
   }
-     }
 
   return (
     <>
@@ -906,23 +901,8 @@ export const MapComponent = (props: any) => {
           isMoving={props.isMoving || isFirstPlayRef.current}
           mapCenter={mapOffset}
           pane='mapcenter' />
-<<<<<<< HEAD
+        <CreateEventPointsFunction />
         {/* <InstructionComponent /> */}
-        <GeoJSON
-          data={sight as GeoJSON.GeoJsonObject}
-          pointToLayer={showDetail}
-          onEachFeature={(_, layer) => {
-            layer.on({
-              click: onSightClick,
-              // mouseover: onSightHover, // ポイントにマウスが乗っかったときに呼び出される関数
-              mouseout: onSightHoverOut
-            });
-          }}
-        />
-=======
-        <CreateEventPointsFunction/>
-        <InstructionComponent />
->>>>>>> efb45e1ba372e5b968fb041e53bcadf007379f34
       </MapContainer>
     </>
   );
