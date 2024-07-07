@@ -1,27 +1,54 @@
 /* MapContainer内の順番固定 */
 
+.leaflet-instruction-pane {
+    z-index: 1300;
+}
+
+.leaflet-cross-pane {
+    z-index: 1200;
+}
+
+.leaflet-tooltip-pane {
+    z-index: 1000;
+}
+
+.leaflet-ufo-pane {
+    z-index: 1000;
+}
+
+/* 経由地レイヤ */
+.leaflet-waypoint-pane {
+    z-index: 900;
+}
+
+/* 歌詞レイヤ */
 .leaflet-lyric-pane {
     z-index: 800;
 }
 
-.leaflet-waypoint-pane {
+/* 車のライトレイヤ */
+.leaflet-light-pane {
     z-index: 700;
+    mix-blend-mode: overlay;
 }
 
+/* 空レイヤ */
 .leaflet-sky-pane {
     z-index: 600;
     mix-blend-mode: multiply;
-    /* mix-blend-mode: normal; */
 }
 
+/* 車レイヤ */
 .leaflet-car-pane {
     z-index: 500;
 }
 
+/* 音符レイヤ */
 .leaflet-note-pane {
     z-index: 400;
 }
 
+/* ルートレイヤ */
 .leaflet-pathway-pane {
     z-index: 300;
 }

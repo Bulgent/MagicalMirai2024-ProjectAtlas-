@@ -11,6 +11,8 @@
   text-align: center;
   padding-top: 50vh;
   z-index: 1000;
+  user-select: none;
+  /* ダブルクリックしてもテキストが選択されないようにする */
 }
 
 /* スマートフォンが縦向きのときにのみメッセージを表示 */
@@ -26,65 +28,63 @@
   border-radius: 2vh;
   justify-content: space-evenly;
   height: 100%;
-  background: linear-gradient(to bottom, #000023 0%, #004466 100%);
+  background-color: #71d1d4;
+  /* background: linear-gradient(to top, #0d3243 0%, #419cb7 100%); */
   /* カーナビ風のダークなグラデーション背景 */
+  user-select: none;
+  /* ダブルクリックしてもテキストが選択されないようにする */
 }
 
 .grid-song {
   font-family: "Zen Maru Gothic", serif;
-  flex: 3;
+  flex: 2;
   display: flex;
   flex-direction: column;
-  padding: 1vh;
-  gap: 1vh;
   place-items: center;
   align-items: center;
   overflow: auto;
   /* Add overflow property to enable scrolling */
   scrollbar-width: thin;
-  scrollbar-color: #7bcac9 transparent;
+  scrollbar-color: #fffadd transparent;
+  margin: 0.5vh;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background-color: #7bcac9;
+  background-color: #fffadd;
   border-radius: 10px;
   border: none;
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background-color: #5ca2a0;
-}
-
 .select-song-text {
-  font-size: 4vh;
+  font-size: 2.5vw;
   /* フォントサイズを大きく */
-  color: #ffffff;
+  color: #101010;
   /* 白色のテキスト */
   text-align: center;
-  margin-top: 2vh;
-  margin-bottom: 2vh;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
 }
+
 
 .select-song-button {
   font-family: "Zen Maru Gothic", serif;
-  background-color: #1a1a1a;
-  color: #ffffff;
-  padding: 2vh 5vw;
-  border: 0.3vh solid #007ACC;
+  background-color: #fcd77c;
+  color: #101010;
+  padding: 1vh 5vw;
+  font-weight: bold;
   cursor: pointer;
   border-radius: 2vh;
   transition: transform 0.3s ease-in-out;
   font-size: 2vw;
-  width: 60%;
+  width: 70%;
   height: 100%;
   margin: 0.5vh;
   text-align: left;
 }
 
 .select-song-button:hover {
-  background-color: #333;
+  background-color: #f2ac20;
   transform: scale(1.05);
 }
 
@@ -93,34 +93,87 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   text-align: center;
-  background-color: #2a2a2a;
-  color: #ffffff;
-  padding: 2vh;
-  gap: 3vh;
+  background-color: #21a2a6;
+  color: #f8f6f1;
+  padding: 0.5vh 0;
+  border-radius: 0 2vh 2vh 0;
+  /* 左上と左下の角を丸くする */
+}
+
+.game-title {
+  font-size: 2.5vw;
+  font-weight: bold;
+  color: #ffeedd;
+  text-align: center;
 }
 
 .selectJacket {
-  width: 16vw;
-  height: 9vw;
+  width: 24vw;
+  height: 13.5vw;
   object-fit: cover;
   border-radius: 2vh;
+}
+
+.song-tavl {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: calc(24vw - 3.5vw);
+  justify-content: space-evenly;
+  align-items: left;
+  font-size: 4vh;
+  background-color: #ffcd5a;
+  padding: 0vh 1.5vh;
+  clip-path: polygon(2vw 0, 100% 0, 100% 100%, 2vw 100%, 0 calc(100% - 2vw), 0 2vw);
+  border-radius: 1vh;
+  position: relative;
+  padding: 1vw;
+  padding-left: 2.5vw;
+}
+
+.song-hole {
+  position: absolute;
+  width: 1vw;
+  /* 円の幅 */
+  height: 1vw;
+  /* 円の高さ */
+  background-color: #21a2a6;
+  /* 円の背景色 */
+  border-radius: 50%;
+  /* 角を丸くして円を作成 */
+  top: 50%;
+  /* 上から50%の位置に */
+  left: 1vw;
+  transform: translateY(-50%);
+  /* 上下中央に配置 */
+}
+
+.song-tag {
+  width: calc(100% - 2vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+  background-color: #fffadd;
+  border-radius: 1vh;
+  gap: 0.5vh;
+  padding: 1vh;
 }
 
 .selectTitle,
 .selectArtist,
 .selectVocaloid,
 .selectLength {
-  /* フォントサイズを大きく */
-  color: #007ACC;
-  /* カーナビ風の青色のテキストに変更 */
-  text-align: center;
+  color: #101010;
+  text-align: left;
+  width: 100%;
 }
 
 .selectTitle,
 .title {
-  font-size: 1.55vw;
+  font-size: 1.4vw;
   font-weight: bold;
   /* タイトルを太字に */
 }
@@ -129,16 +182,19 @@
 .selectArtist,
 .selectVocaloid,
 .artist,
-.vocaloid {
-  font-size: 1.5vw;
+.vocaloid,
+.length {
+  color: #101010;
+  font-size: 1.35vw;
   /* アーティストとボーカロイドのフォントサイズを少し小さく */
 }
 
+
 .selectLength,
 .length {
-  font-size: 1.4vw;
+  font-size: 1.3vw;
   /* 再生時間のフォントサイズを標準に */
-  color: #ffffff;
+  color: #101010;
   /* 再生時間のテキスト色を白に */
 }
 
@@ -156,23 +212,22 @@ a:visited {
 }
 
 .tooltip-credit {
-  position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   bottom: 0;
   font-size: 0.9vw;
-  color: #999;
+  color: #ffeedd;
   text-align: center;
   margin-top: 2em;
-  width: 25%;
+  position: relative;
 }
 
 .tooltip-credit .tooltiptext {
   visibility: hidden;
   width: 100%;
-  background-color: black;
-  color: #fff;
+  background-color: #101010;
+  color: #ffeedd;
   text-align: center;
   border-radius: 6px;
   padding: 5px 0;

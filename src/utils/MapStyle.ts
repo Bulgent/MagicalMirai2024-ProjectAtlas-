@@ -11,6 +11,7 @@ export const pointToLayer = (feature: any, latlng: LatLngExpression): Marker => 
     });
     // const marker = circleMarker(latlng, circleMarkerOptions);
     const builMarker = marker(latlng, { icon: builIcon, opacity: 1 })
+    // featureプロパティを利用してマーカーにデータを設定
     // ホバー時のイベントハンドラ
     const onHover = (e: L.LeafletMouseEvent) => {
         const hoveredMarker = e.target;
@@ -49,7 +50,7 @@ export const showDetail = (feature: any, latlng: LatLngExpression): Marker => {
         const hoveredMarker = e.target;
         // console.log(feature)
         // ツールチップ表示
-        hoveredMarker.bindTooltip(feature.properties.event_place, { permanent: true, direction: 'top' }).openTooltip();
+        hoveredMarker.bindTooltip(feature.properties.event_place, { permanent: true, direction: 'top' , className: 'sightseeing-tooltip'}).openTooltip();
     };
 
     // ホバーが解除された時のイベントハンドラ
@@ -62,6 +63,43 @@ export const showDetail = (feature: any, latlng: LatLngExpression): Marker => {
     // イベントリスナーを追加
     builMarker.on('mouseover', onHover);
     // builMarker.on('mouseout', onHoverOut);
+    return builMarker;
+};
+
+/**
+ * リザルト画面用のアイコンのスタイル
+ * pane不要のため新たに設定
+ */
+export const visitedPointsStyle = (feature: any, latlng: LatLngExpression): Marker => {
+    // console.log(latlng, feature)
+    const builIcon = divIcon({
+        className: 'buil-icon', // カスタムクラス名
+        html: emojiSight[feature.properties.event_type],  // ここにビルのアイコンを挿入する
+        iconSize: [50, 50], // アイコンのサイズ
+        iconAnchor: [25, 25], // アイコンのアンカーポイント
+    });
+    // const marker = circleMarker(latlng, circleMarkerOptions);
+    const builMarker = marker(latlng, { icon: builIcon, opacity: 1})
+    // ホバー時のイベントハンドラ
+    const onHover = (e: L.LeafletMouseEvent) => {
+        const hoveredMarker = e.target;
+        // console.log(feature)
+        // ツールチップ表示
+        hoveredMarker.bindTooltip(feature.properties.event_place +
+             ' (+' + feature.properties.fanfun_score + 'FF)',
+              { permanent: true, direction: 'top' , className: 'sightseeing-tooltip'}).openTooltip();
+    };
+
+    // ホバーが解除された時のイベントハンドラ
+    const onHoverOut = (e: L.LeafletMouseEvent) => {
+      const hoveredMarker = e.target;
+      // ツールチップ閉じる
+      hoveredMarker.unbindTooltip();
+    };
+
+    // イベントリスナーを追加
+    builMarker.on('mouseover', onHover);
+    builMarker.on('mouseout', onHoverOut);
     return builMarker;
 };
 
@@ -223,9 +261,9 @@ export const mapStylePathWay: StyleFunction = (feature): PathOptions => {
     switch (feature?.geometry?.type) {
         case 'MultiLineString':
             return {
-                color: 'blue',
+                color: '#2f79dc',
                 weight: 5,
-                opacity: 0.5,
+                opacity: 1,
             };
         default:
             return {};

@@ -1,9 +1,215 @@
-.apologize {
-    display: flex;
-    flex-direction: row;
-    border-radius: 2vh;
-    justify-content: space-evenly;
-    height: 100%;
-    background: linear-gradient(to bottom, #000023 0%, #004466 100%);
-    /* カーナビ風のダークなグラデーション背景 */
-  }
+.result-split {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 100%;
+  user-select: none;
+}
+
+.result-left {
+  display: flex;
+  flex: 3;
+  height: 100%;
+  position: relative;
+  border-radius: 2vh 0 0 2vh;
+  /* 左上と左下の角を丸くする */
+  overflow: hidden;
+}
+
+/* .result-left.emoji {
+  font-size: calc(30px) !important;
+} */
+
+.mapcomponent {
+  width: 100%;
+  height: 100%;
+}
+
+.result-songtitle {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 4vh;
+  height: 15vh;
+  width: 90%;
+  border: 0vw solid;
+  border-radius: 1vw;
+  box-shadow: 0 0 10px rgba(16, 16, 16, 1);
+  position: absolute;
+  z-index: 100000;
+  bottom: 1%;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  background-color: rgba(16, 16, 16, 0.8);
+}
+
+.result-right {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0 2vh 2vh 0;
+  /* 左上と左下の角を丸くする */
+  justify-content:space-between;
+  align-items: center;
+  height: calc(100% - 2vh);
+  flex: 2;
+  padding: 1vh;
+  background: #21a2a6;
+  position: relative;
+  /* padding-top: 2vw; */
+}
+
+.result-title {
+  position: absolute;
+  color: #ffeedd;
+  font-size: 2.5vw;
+  font-family: "Zen Maru Gothic", serif;
+  text-align: center;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+.fanfun-title {
+  width: 90%;
+  color: #ffeedd;
+  font-size: 4vh;
+  font-family: "Zen Maru Gothic", serif;
+  text-align: left;
+  margin: 1vh;
+}
+
+.fanfun-score {
+  color: #f7d26e;
+  font-size: 4vw;
+  font-family: "Hachi Maru Pop", cursive;
+  text-align: center;
+  margin: 1vh;
+  margin-top: 0vh;
+  text-shadow: 0.1vh 0.1vh 0.2vh #0d3243;
+}
+
+
+.mm-waypoint {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+  font-size: 4vh;
+}
+
+.result-overview {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: left;
+  font-size: 2vw;
+  color: #101010;
+  background-color: #ffcd5a;
+  padding: 0vh 1.5vh;
+  clip-path: polygon(5vh 0, 100% 0, 100% 100%, 5vh 100%, 0 calc(100% - 4vh), 0 4vh);
+  border-radius: 1vh;
+  position: relative;
+}
+
+.result-hole{
+  position: absolute;
+  width: 3vh; /* 円の幅 */
+  height: 3vh; /* 円の高さ */
+  background-color: #21a2a6; /* 円の背景色 */
+  border-radius: 50%; /* 角を丸くして円を作成 */
+  top: 50%; /* 上から50%の位置に */
+  left: 1.5vh;
+  transform: translateY(-50%); /* 上下中央に配置 */
+}
+
+.overview-tag {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+  font-size: 2vh;
+  color: #101010;
+  margin: 2vh;
+  margin-left: 5vh;
+  background-color: #fffadd;
+  border-radius: 1vh;
+  font-family: "Zen Kaku Gothic", sans-serif;
+  overflow-y: scroll;
+  max-height: 22vw;
+  scrollbar-width: thin;
+  scrollbar-color: #e0d8c3 transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #e0d8c3;
+  border-radius: 10px;
+  border: none;
+}
+
+.overview-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.8vw;
+  color: #413831;
+  padding-top: 0vh;
+  padding-left: 1vh;
+}
+
+
+.overview-contents {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1vw;
+  color: #413831;
+  padding: 1vh;
+}
+
+.overview-hashtag {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9vw;
+  color: #005edc;
+  padding: 1vh;
+}
+
+
+.result-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2vh;
+  border: none;
+  background-color: #f79db1;
+  color: #101010;
+  cursor: pointer;
+  border-radius: 1.25vh;
+  font-size: 1.25vw;
+  transition: transform 0.2s ease, background-color 0.2s ease; /* 背景色の変化も滑らかに */
+}
+
+.result-button:hover {
+  background-color: #e65f7d; /* ホバー時の背景色を少し明るく */
+  transform: scale(1.05); /* ホバー時に少し大きく */
+}
+
+.result-button:active {
+  transform: scale(0.95); /* ボタンが押されたときに少し縮小 */
+}
+
+.material-symbols-outlined {
+  margin-left: 0.1vhpx; /* アイコンとテキストの間隔 */
+}
+

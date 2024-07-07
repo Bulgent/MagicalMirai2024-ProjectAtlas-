@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, forwardRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, GeoJSON, useMap, Marker } from 'react-leaflet';
-import  { LeafletMouseEvent, marker, Map, point, divIcon, polyline,} from 'leaflet';
+import { MapContainer, GeoJSON, useMap, Marker, FeatureGroup } from 'react-leaflet';
+import { LeafletMouseEvent, marker, Map, point, divIcon, polyline, GeoJSONOptions, PathOptions, Polyline, LatLngLiteral, MaplibreGL, LatLngExpression, icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/App.css';
 import '../styles/Lyrics.css';
@@ -9,70 +9,49 @@ import '../styles/leaflet.css';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import { computePath } from '../services/ComputePath.ts'
 import { ComputeAhead } from '../services/ComputeAhead.ts'
+import { RotateMarker } from '../services/RotateMarker.tsx';
+import MapCenterCrosshair from '../services/MapCenter.tsx';
 import { seasonType, weatherType, timeType, mapStyle, polygonStyle, mapStylePathWay, showDetail } from '../utils/MapStyle.ts'
 import {
   calculateDistance,
   calculateEachRoadLengthRatio, getRationalPositonIndex, cssSlide,
-  createLatLngBounds, calculateMikuMile, calculateRoadLengthSum, changeStyle
+  createLatLngBounds, calculateMikuMile, calculateRoadLengthSum, changeStyle, formatKashi
 } from '../utils/utils.ts'
 import "leaflet-rotatedmarker";
-import { pngCar, emojiNote, emojiStart, emojiGoal } from '../assets/marker/markerSVG.ts'
+import { emojiNote, emojiStart, emojiGoal, carIcon, carLightIcon, pngMM24, mmIcon } from '../assets/marker/markerSVG.ts'
 // 型データの導入
 import { lyricProperties, historyProperties, noteProperties, noteCoordinateProperties, wordTimeProperties } from '../types/types';
 // 地図データの導入
 import trunk from '../assets/jsons/map_data/trunk.json'
 import primary from '../assets/jsons/map_data/primary.json'
 import secondary from '../assets/jsons/map_data/secondary.json'
-import sight from '../assets/jsons/map_data/sightseeing.json'
 import areas from '../assets/jsons/map_data/area.json'
 import sky from '../assets/jsons/map_data/polygons.json'
 import restrictedArea from '../assets/jsons/map_data/restrictedArea.json'
+import UfoMarker from '../services/UfoMarker.tsx';
+import all_sight from '../assets/jsons/map_data/event-all.json'
 
 // songDataの導入
 import songData from '../utils/Song.ts';
 
-const carIcon = divIcon({ // 31x65px
-  className: 'car-icon', // カスタムクラス名
-  html: pngCar,  // ここに車のアイコンを挿入する
-  iconSize: [31, 65], // アイコンのサイズ
-  iconAnchor: [31 / 2, 65 / 2] // アイコンのアンカーポイント（原点をアイコンの中心に設定）
-});
-
 // 車アイコンコンポーネント（回転対応）、変数共有のためファイル分離できてない
-// HACK: ファイル分割したい
+// HACK: ファイル分割したい → services/RotateMarker.tsx に移動
 
-/* @ts-ignore */
-const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
-  const markerRef = useRef(null);
-/* @ts-ignore */
-  const { rotationAngle, rotationOrigin } = props;
-  useEffect(() => {
-    const marker = markerRef.current;
-    if (marker) {
-      marker.setRotationAngle(-rotationAngle);
-      marker.setRotationOrigin(-rotationOrigin);
-    }
-  }, [rotationAngle, rotationOrigin]);
+// 車のアイコン
+const RotateCarMarker = forwardRef((props, ref) => (
+  /* @ts-ignore */
+  <RotateMarker {...props} icon={carIcon} pane="car" ref={ref} />
+));
 
-  return (
-    /* @ts-ignore */
-    <Marker
-      ref={(ref) => {
-        markerRef.current = ref;
-        if (forwardRef) {
-          /* @ts-ignore */
-          forwardRef.current = ref;
-        }
-      }}
-      icon={carIcon}
-      {...props}
-      pane="car"
-    >
-      {children}
-    </Marker>
-  );
-});
-/* eslint-enable */
+// 車のライトのアイコン
+const RotateCarLightMarker = forwardRef((props, ref) => (
+  /* @ts-ignore */
+  <RotateMarker {...props} icon={carLightIcon} pane="light" ref={ref} />
+));
+
+
+
+
 export const MapComponent = (props: any) => {
   /**
    * 定数
@@ -81,8 +60,8 @@ export const MapComponent = (props: any) => {
   const endCoordinate: [number, number] = [34.6379271092576, 135.4196972135114];
   const mapZoom: number = 17; // Mapのzoomについて1が一番ズームアウト
   const roadJsonLst = [trunk, primary, secondary] // 表示する道路について
-  const mapCenterRef = useRef<[number, number]>([-1, -1]);
-  const [latOffset, lonOffset]: [number, number] = [-0.0006, 0] // Mapの中心位置を補正
+  const mapCenterRef = useRef<LatLngLiteral>({ lat: -1, lng: -1 });
+  const mapOffset: LatLngLiteral = { lat: -0.0006, lng: 0 } // Mapの中心位置を補正
   // 色情報の設定(季節, 時間, 天気, 透過度)
   const styleMorning = polygonStyle(seasonType.SUMMER, timeType.MORNING, weatherType.SUNNY, 1);
   const styleNoon = polygonStyle(seasonType.SUMMER, timeType.NOON, weatherType.SUNNY, 1);
@@ -90,6 +69,16 @@ export const MapComponent = (props: any) => {
   // 天気の状態保持
   /* @ts-ignore */
   const overlayStyleRef = useRef<PathOptions>(styleMorning)
+  // paneを一度しか行わないようにするフラグ
+  const isPaneInitRef = useRef<Boolean>(true)
+
+  const executedRef = useRef(false);
+  const InitAddEventPoints = useRef<Boolean>(true)
+
+  // UFOと會合したかどうか
+  const [encounteredUfo, setEncounteredUfo] = useState(false);
+
+
 
   /**
    * React Hooks
@@ -103,12 +92,12 @@ export const MapComponent = (props: any) => {
   // TextAliveより得たデータ
   const songKashi = useRef<lyricProperties>({ text: "", startTime: 0, endTime: 0 });
   // OpenStreetMapレイヤー
-  const OSMlayerRef = useRef(null);
+  const OSMlayerRef = useRef<MaplibreGL | null>(null);
   // 初期化処理のフラグ
   const [isInitMapPlayer, setIsInitMap] = useState<Boolean>(true);
-  const isInitMap = useRef(true)
+  const isInitMap = useRef<boolean>(true)
   // 車アイコン
-  const [carMapPosition, setCarMapPosition] = useState<[lat: number, lon: number]>([-1, -1])
+  const [carMapPosition, setCarMapPosition] = useState<LatLngLiteral>({ lat: -1, lng: -1 })
   const [heading, setHeading] = useState(180);
   // 音符配置
   const noteCoordinates = useRef<noteCoordinateProperties[]>([]);
@@ -116,8 +105,7 @@ export const MapComponent = (props: any) => {
   const eachRoadLengthRatioRef = useRef<number[]>([])
   const degreeAnglesRef = useRef<number[]>([])
   const cumulativeAheadRatioRef = useRef<number[]>([])
-  /* @ts-ignore */
-  const goallineRef = useRef<lineString>(null); // goallineをuseRefで保持
+  const goallineRef = useRef<Polyline | null>(null); // goallineをuseRefで保持
   const lyricCount = useRef<number>(0) // 触れた音符の数
 
   // MikuMile計算
@@ -125,21 +113,25 @@ export const MapComponent = (props: any) => {
   const playerPositionRef = useRef<number>(0);
   const playerDurationRef = useRef<number>(0);
 
-  const mapIsMovingRef = useRef<Boolean>(false)
-
+  const isMapMovingRef = useRef<Boolean>(false)
 
   const isInitPlayRef = useRef<Boolean>(true) // 曲を再生したら止まらないように
   // 曲が終了したらplayerPosition=0になり天気リセットになるのを防ぐ
   // 2回目の再生をそのまましないことを仮定
   const isFirstPlayRef = useRef<Boolean>(true)
+  const isInitInstruction = useRef<Boolean>(true)
 
   //ページ処理
   const navigate = useNavigate();
 
-
   // 初回だけ処理
   // mapの初期位置、経路の計算
   const computePathway = () => {
+    // CSS変数の設定
+    document.documentElement.style.setProperty('--weather', '40');
+    document.documentElement.style.setProperty('--car-light', '0.0');
+    document.documentElement.style.setProperty('--seek-color', '#ff7e5f');
+    document.documentElement.style.setProperty('--scale', '17');
     props.handOverScale(mapZoom)
     const [features, nodes, mapCenterRet] = computePath(roadJsonLst, songData[props.songnum].startPosition, endCoordinate);
     eachRoadLengthRatioRef.current = calculateEachRoadLengthRatio(nodes)
@@ -149,8 +141,14 @@ export const MapComponent = (props: any) => {
     cumulativeAheadRatioRef.current = cumulativeAheadRatio
     nodesRef.current = nodes
     setPathwayFeature(features);
-    mapCenterRef.current = [mapCenterRet[1] + latOffset, mapCenterRet[0] + lonOffset];
-    setCarMapPosition([mapCenterRet[1], mapCenterRet[0]])
+    mapCenterRef.current = {
+      lat: mapCenterRet[1] + mapOffset.lat,
+      lng: mapCenterRet[0] + mapOffset.lng
+    };
+    setCarMapPosition({
+      lat: mapCenterRet[1],
+      lng: mapCenterRet[0]
+    })
     setHeading(degreeAnglesRef.current[0])
     // MikuMikuMile初期化
     props.handOverMikuMile([
@@ -158,6 +156,29 @@ export const MapComponent = (props: any) => {
       calculateMikuMile(props.player.video.duration, props.player.video.duration, roadLengthSumRef.current)
     ])
   };
+
+
+  const CreatePane = () => {
+    const map = useMap()
+    useEffect(() => {
+      if (!isPaneInitRef.current) {
+        return
+      }
+      // paneの作成
+      map.createPane('lyric');
+      map.createPane('waypoint');
+      map.createPane('sky');
+      map.createPane('car');
+      map.createPane('light')
+      map.createPane('note');
+      map.createPane('pathway');
+      map.createPane('ufo');
+      map.createPane('cross')
+      map.createPane('mapcenter')
+      map.createPane('instruction')
+      isPaneInitRef.current = false;
+    }, [map])
+  }
 
   /**
    * Mapから文字を消す処理  
@@ -168,13 +189,6 @@ export const MapComponent = (props: any) => {
       if (!isInitMap.current) {
         return
       }
-      // paneの作成
-      map.createPane('lyric');
-      map.createPane('waypoint');
-      map.createPane('sky');
-      map.createPane('car');
-      map.createPane('note');
-      map.createPane('pathway');
       // mapの初期中心座標の決定
       map.setView(mapCenterRef.current)
       map.setMaxBounds(createLatLngBounds(restrictedArea))
@@ -183,17 +197,17 @@ export const MapComponent = (props: any) => {
         if (OSMlayerRef.current.getMaplibreMap().getStyle() === undefined) {
           return
         }
-        const map = OSMlayerRef.current.getMaplibreMap();
+        const osmMap = OSMlayerRef.current.getMaplibreMap();
         // ここでスタイルを変更
-        map.getStyle().layers.forEach(l => {
-          if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none") // 文字を消す
+        osmMap.getStyle().layers.forEach((l: any) => {
+          if (l.type === "symbol") osmMap.setLayoutProperty(l.id, "visibility", "none"); // 文字を消す
           // 水の色を変更
           if (["waterway", "water"].includes(l.id) && l.type === "fill") {
-            map.setPaintProperty(l.id, "fill-color", "#90dbee")
+            osmMap.setPaintProperty(l.id, "fill-color", "#90dbee");
           }
           // 道路の色を変更
           if (l["source-layer"] === "transportation" && l.type === "line") {
-            map.setPaintProperty(l.id, "line-color", "#8995a2")
+            osmMap.setPaintProperty(l.id, "line-color", "#8995a2");
           }
         });
         isInitMap.current = false
@@ -258,7 +272,7 @@ export const MapComponent = (props: any) => {
         routeEntireLength += distance;
       }
       // console.log("曲長さ:", props.player.video.duration, "道長さ:", routeEntireLength)
-      console.log(songData[props.songnum].note + "の数:", props.player.video.wordCount)
+      // console.log(songData[props.songnum].note + "の数:", props.player.video.wordCount)
       // 単語数
       const wordCount = props.player.video.wordCount;
       const noteGain = routeEntireLength / props.player.video.duration;
@@ -284,21 +298,29 @@ export const MapComponent = (props: any) => {
         let markerString: string = "🎵" // 表示する文字
         let markerSVG: string = emojiNote // 表示するSVG
         let markerClass: string = "icon-note" // 表示するクラス
+        let markerSize: [number, number] = [50, 50]
+        let markerAnchor: [number, number] = [25, 25]
         switch (index) {
           case 0: // 最初
             markerString = "👽"
             markerSVG = emojiStart
             markerClass = "icon-start"
+            markerSize = [50, 50]
+            markerAnchor = [7, 43]
             break;
           case wordCount + 1: // 最後
             markerString = "🦄"
             markerSVG = emojiGoal
             markerClass = "icon-goal"
+            markerSize = [50, 50]
+            markerAnchor = [8, 38]
             break;
           default: // それ以外
             markerString = songData[props.songnum].note
-            markerSVG = emojiNote, // 絵文字を表示 // svgNote
-              markerClass = "icon-note"
+            markerSVG = emojiNote // 絵文字を表示 // svgNote
+            markerClass = "icon-note"
+            markerSize = [50, 50]
+            markerAnchor = [25, 25]
             break;
         }
         noteCd.push({
@@ -314,8 +336,8 @@ export const MapComponent = (props: any) => {
         const noteIcon = divIcon({
           className: markerClass, // カスタムクラス名
           html: markerSVG, // SVG アイコンの HTML
-          iconSize: [50, 50], // アイコンのサイズ
-          iconAnchor: [25, 25] // アイコンのアンカーポイント
+          iconSize: markerSize, // アイコンのサイズ
+          iconAnchor: markerAnchor // アイコンのアンカーポイント
         });
 
         // 歌詞の座標に🎵を表示
@@ -325,20 +347,20 @@ export const MapComponent = (props: any) => {
         lyricMarker.bindTooltip(wordTime[index].lyric, { permanent: true, direction: 'center', interactive: true, offset: point(30, 0), className: "label-note " + wordTime[index].start }).closeTooltip();
 
         lyricMarker.on('click', function (e) {
-          console.log("click")
+          // console.log("click")
           // ツールチップの文字取得
           const tooltip = e.target.getTooltip();
           const content = tooltip.getContent();
-          console.log(content);
+          // console.log(content);
         });
         map.on('move', function () {
           // ツールチップのDOM要素を取得
-          /* @ts-ignore */
-          const noteClass = lyricMarker.getTooltip()._container.className;
+          const noteClass = lyricMarker.getTooltip()?.getElement()?.className ?? '';
           // 正規表現を使用して数字を抽出
-          const noteTime = noteClass.match(/\d+/g);
+          const matchResult = noteClass.match(/\d+/g);
+          const noteTime = matchResult ? parseInt(matchResult[0], 10) : 0; // matchResultがnullでない場合は最初の数値を解析、そうでなければ0を返す
           // マーカーの時間が現在の再生時間よりも前である場合、マーカーを削除します。
-          if (noteTime && noteTime[0] != 0 && noteTime[0] != props.player.video.duration && noteTime[0] <= props.player.timer?.position) {
+          if (noteTime && noteTime != 0 && noteTime != props.player.video.duration && noteTime <= props.player.timer?.position) {
             map.removeLayer(lyricMarker);
           }
           // mikuMile計算
@@ -346,8 +368,11 @@ export const MapComponent = (props: any) => {
             calculateMikuMile(playerPositionRef.current, playerDurationRef.current, roadLengthSumRef.current),
             calculateMikuMile(playerDurationRef.current, playerDurationRef.current, roadLengthSumRef.current)
           ])
-          // console.log("MikuMile (MM): ", calculateMikuMile(playerPositionRef.current, playerDurationRef.current, roadLengthSumRef.current))
-        }); // 250ミリ秒ごとに実行
+          props.handOverMapCenter({
+            lat: map.getCenter().lat + mapOffset.lat,
+            lng: map.getCenter().lng + mapOffset.lng
+          })
+        });
       });
       noteCoordinates.current = noteCd;
       setIsInitMap(false)
@@ -357,7 +382,8 @@ export const MapComponent = (props: any) => {
         overlay.className = "inactive";
       }
       return () => {
-        console.log("unmount note")
+        null;
+        // console.log("unmount note")
       };
     }, [props.songnum, props.player?.video.wordCount, isInitMapPlayer, nodesRef.current]);
 
@@ -370,8 +396,10 @@ export const MapComponent = (props: any) => {
   const MapFunctionUpdate = () => {
     const map = useMap(); // MapContainerの中でしか取得できない
     addLyricTextToMap(map)
+
     return null
   }
+
 
   // 通る道についての描画（デバッグ用）
   const PathWay: React.FC = () => {
@@ -396,7 +424,7 @@ export const MapComponent = (props: any) => {
   const MoveMapByRoute = () => {
     const map = useMap();
 
-    const updatePolyline = useCallback((coordinates: [number, number][]) => {
+    const updatePolyline = useCallback((coordinates: LatLngLiteral[]) => {
       // 以前の線があれば座標更新
       if (goallineRef.current) {
         goallineRef.current.setLatLngs(coordinates);
@@ -415,7 +443,6 @@ export const MapComponent = (props: any) => {
     const loop = useCallback(
       () => {
         if (!props.isMoving || (props.player.timer.position === 0 && !isFirstPlayRef.current)) {
-
           return;
         }
 
@@ -426,38 +453,70 @@ export const MapComponent = (props: any) => {
         if (timerDuration < 1) {
           const [startNodeIndex, nodeResidue] = getRationalPositonIndex(timerDuration, eachRoadLengthRatioRef.current);
           // 中心にセットする座標を計算
-          const updatedLat = nodesRef.current[startNodeIndex][0] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][0] * nodeResidue;
-          const updatedLon = nodesRef.current[startNodeIndex][1] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][1] * nodeResidue;
-          map.setView([updatedLat + latOffset, updatedLon + lonOffset], mapZoom);
+          const updatedLatLng: LatLngLiteral = {
+            lat: nodesRef.current[startNodeIndex][0] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][0] * nodeResidue,
+            lng: nodesRef.current[startNodeIndex][1] * (1 - nodeResidue) + nodesRef.current[startNodeIndex + 1][1] * nodeResidue
+          }
+          map.setView({ lat: updatedLatLng.lat + mapOffset.lat, lng: updatedLatLng.lng + mapOffset.lng }, mapZoom);
 
           // 車が移動したらポリラインの座標を変化させる
-          updatePolyline([
-            [updatedLat, updatedLon],
-            [nodesRef.current[nodesRef.current.length - 1][0], nodesRef.current[nodesRef.current.length - 1][1]]
-          ]);
+          updatePolyline(
+            [
+              updatedLatLng,
+              {
+                lat: nodesRef.current[nodesRef.current.length - 1][0],
+                lng: nodesRef.current[nodesRef.current.length - 1][1]
+              }
+            ]
+          );
 
           // ここにアイコンの情報を入れる
           const [startAheadIndex, aheadResidue] = getRationalPositonIndex(timerDuration, cumulativeAheadRatioRef.current);
-          setCarMapPosition([updatedLat, updatedLon])
+          setCarMapPosition(updatedLatLng)
           setHeading(degreeAnglesRef.current[startAheadIndex])
 
           animationRef.current = requestAnimationFrame(loop);
         } else {
-          // 曲の再生が終わったらここになる
-          console.log("曲終了")
-          cancelAnimationFrame(animationRef.current!);
-          // 2秒後にresult画面へ遷移
-          setTimeout(() => {
-            navigate('/result');
-          }, 2000);
+          // HACK 曲の再生が終わったらここになる
+          if (!executedRef.current) {
+            // console.log("曲終了");
+            props.isSongEnd(true);
+            cancelAnimationFrame(animationRef.current!);
+            map.dragging.disable();
+            map.touchZoom.disable();
+            map.doubleClickZoom.disable();
+            map.scrollWheelZoom.disable();
+            map.boxZoom.disable();
+            map.keyboard.disable();
+            const resultState = {
+              fanFun: props.fanFun, // FanFun度
+              hoverHistory: hoverHistory.current, // 経由地の情報
+              mikuMile: props.mikuMile, // MikuMile
+              player: { data: { song: props?.player?.data?.song } }, // 楽曲情報
+              pathway: pathwayFeature,
+              // HACK (props.player自体はmediaElementにdiv要素があるためResultに渡せない)
+              encountUfo: encounteredUfo, // UFOと遭遇したかどうか
+            }
+            // 2秒後にresult画面へ遷移
+            setTimeout(() => {
+              navigate('/result', {
+                // ResultPageに渡すデータをここに書く
+                state: resultState
+              });
+            }, 2000);
+            executedRef.current = true; // 実行済みフラグをtrueに設定
+          }
         }
       },
       [props.isMoving, props.player]
     );
 
     useEffect(() => {
-      if (props.isMoving) {
-        mapIsMovingRef.current = true
+      if (props.isMoving || isInitInstruction.current) {
+        if (props.isMoving){
+          isInitInstruction.current = false
+        }
+        isMapMovingRef.current = true
         map.dragging.disable();
         map.touchZoom.disable();
         map.doubleClickZoom.disable();
@@ -465,7 +524,7 @@ export const MapComponent = (props: any) => {
         map.boxZoom.disable();
         animationRef.current = requestAnimationFrame(loop);
       } else {
-        mapIsMovingRef.current = false
+        isMapMovingRef.current = false
         map.dragging.enable();
         map.touchZoom.enable();
         map.doubleClickZoom.enable();
@@ -481,6 +540,7 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
+
   // 👽歌詞表示コンポーネント👽
   const addLyricTextToMap = (map: Map) => {
     // 歌詞が変わったら実行 ボカロによって色を変える
@@ -489,7 +549,6 @@ export const MapComponent = (props: any) => {
         return
       }
       lyricCount.current += 1;
-      // TODO ナビゲーションの移動方向によってスライド方向を変える
       songKashi.current = props.kashi
       const slideClass = 'slide' + lyricCount.current
       let printLyrics: string = "<div class = 'tooltip-lyric " + slideClass + "'>";
@@ -501,7 +560,7 @@ export const MapComponent = (props: any) => {
       });
       printLyrics += "</div>";
 
-      const mapCoordinate: [number, number] = [map.getCenter().lat - latOffset, map.getCenter().lng - lonOffset]
+      const mapCoordinate: [number, number] = [map.getCenter().lat - mapOffset.lat, map.getCenter().lng - mapOffset.lng]
       const fadeInSlideRightKeyframes = cssSlide(lyricCount.current, props.kashi.text);
       // <style>タグを生成して、生成した@keyframes定義を追加
       const styleTag = document.createElement('style');
@@ -516,7 +575,7 @@ export const MapComponent = (props: any) => {
       // 地図に追加
       markertext.addTo(map);
       // アニメーション
-      const slideElement = document.querySelector('.' + slideClass);
+      const slideElement = document.querySelector('.' + slideClass) as HTMLElement;
       if (slideElement) {
         /* @ts-ignore */
         slideElement.style.animation = 'fadeInSlideXY' + lyricCount.current + ' 0.5s ease forwards';
@@ -532,39 +591,30 @@ export const MapComponent = (props: any) => {
     return null;
   };
 
-  // 👽ポイントにマウスが乗ったときに呼び出される関数👽
-  // const onPointHover = (e: LeafletMouseEvent) => {
-  //   console.log(e.sourceTarget.feature.properties.name, checkArchType(e.sourceTarget.feature.properties.type))
-  //   // オフ会0人かどうか
-  //   if (e.sourceTarget.feature.properties.name == "イオンシネマりんくう泉南") {
-  //     console.log("オイイイッス！👽")
-  //   }
-  //   setHoverHistory((prev) => [...new Set([...prev, e.sourceTarget.feature])]);
-  //   props.handOverHover(e.sourceTarget.feature)
-  // }
-
-  // 👽観光地にマウスが乗ったときに呼び出される関数👽
-  const onSightHover = (e: LeafletMouseEvent) => {
+  // 👽観光地をクリックしたときに呼び出される関数👽
+  const onSightClick = (e: LeafletMouseEvent) => {
     // hoverhistoryに重複しないように追加
-    if (mapIsMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
-      hoverHistory.current.push(e.sourceTarget.feature);
-      const historyProperty: historyProperties = e.sourceTarget.feature
-      historyProperty.properties.playerPosition = playerPositionRef.current
-      props.handOverHover(e.sourceTarget.feature)
-      props.handOverFanFun(e.sourceTarget.feature.properties.want_score)
-    }
-    // オフ会0人かどうか
-    if (e.sourceTarget.feature.properties.event_place == "泉南イオン") {
-      console.log("オイイイッス！👽")
+    // console.log("before clicked")
+    if (isMapMovingRef.current && (hoverHistory.current.length == 0 || !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index))) {
+      const fanfunscore = e.sourceTarget.feature.properties.want_score * 10000 + Math.floor(Math.random() * 10000) // 1000倍してランダム値を加える
+      // 経由履歴に追加
+      const historyProperty: historyProperties = e.sourceTarget.feature;
+      historyProperty.properties.playerPosition = playerPositionRef.current;
+      historyProperty.properties.fanfun_score = fanfunscore;
+      hoverHistory.current.push(historyProperty);
+      // 最後に追加した要素にFanFun度を追加
+      // hoverHistory.current[hoverHistory.current.length - 1].properties.fanfun_score = fanfunscore;
+      props.handOverHover(historyProperty);
+      props.handOverFanFun(e.sourceTarget.feature.properties.fanfun_score);
     }
   }
 
   const onSightHoverOut = (e: LeafletMouseEvent) => {
-    // 動いてない時かつ未訪問の時
-    if (!mapIsMovingRef.current && !hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index)) {
+    // 未訪問の時
+    if (!hoverHistory.current.some(history => history.properties.index == e.sourceTarget.feature.properties.index)) {
       const hoveredMarker = e.target;
       // ツールチップ閉じる
-      hoveredMarker.unbindTooltip();
+      hoveredMarker.closeTooltip();
     }
   };
 
@@ -586,28 +636,59 @@ export const MapComponent = (props: any) => {
         end: songData[props.songnum].turningPoint2![1]
       }
 
+      // 遷移時間を流す
+      document.documentElement.style.setProperty('--mtonstart', (100 * morningToNoon.start / (props.player.data.song.length * 1000)).toString());
+      document.documentElement.style.setProperty('--mtonend', (100 * morningToNoon.end / (props.player.data.song.length * 1000)).toString());
+      document.documentElement.style.setProperty('--ntonstart', (100 * noonToNight.start / (props.player.data.song.length * 1000)).toString());
+      document.documentElement.style.setProperty('--ntonend', (100 * noonToNight.end / (props.player.data.song.length * 1000)).toString());
+
       if (timerDuration === 0 && !isFirstPlayRef.current) {
+        // 曲終了時
         // 曲が終了した後にtimerDuration=0となり、天気がリセットされることを防ぐ
         overlayStyleRef.current = styleNight;
         document.documentElement.style.setProperty('--weather', '10');
+        document.documentElement.style.setProperty('--car-light', '1.0');
+        document.documentElement.style.setProperty('--seek-color', '#030c1b');
       } else if (timerDuration < morningToNoon.start) {
-        isFirstPlayRef.current = false
+        // 朝
+        // 少し遅れて設定(これをしないと一番最初に再生した瞬間に終了処理に引っかかる)
+        setTimeout(() => {
+          isFirstPlayRef.current = false;
+        }, 100);
         overlayStyleRef.current = styleMorning;
         document.documentElement.style.setProperty('--weather', '40');
+        document.documentElement.style.setProperty('--car-light', '0.0');
+        document.documentElement.style.setProperty('--seek-color', '#ff7e5f');
       } else if (timerDuration < morningToNoon.end) {
+        // 朝から昼への遷移時
         const progress = (timerDuration - morningToNoon.start) / (morningToNoon.end - morningToNoon.start);
         overlayStyleRef.current = changeStyle(styleMorning, styleNoon, progress);
         document.documentElement.style.setProperty('--weather', (40 + (50 - 40) * progress).toString());
+        document.documentElement.style.setProperty('--car-light', (0.0 * (1.0 - progress)).toString());
       } else if (timerDuration < noonToNight.start) {
-        document.documentElement.style.setProperty('--weather', '50');
+        // 昼
         overlayStyleRef.current = styleNoon;
+        document.documentElement.style.setProperty('--weather', '50');
+        document.documentElement.style.setProperty('--car-light', '0.0');
+        document.documentElement.style.setProperty('--seek-color', '#0083B0');
       } else if (timerDuration < noonToNight.end) {
+        // 昼から夜への遷移時
         const progress = (timerDuration - noonToNight.start) / (noonToNight.end - noonToNight.start);
         overlayStyleRef.current = changeStyle(styleNoon, styleNight, progress)
         document.documentElement.style.setProperty('--weather', (50 - (50 - 10) * progress).toString());
+        document.documentElement.style.setProperty('--car-light', (progress).toString());
       } else if (timerDuration >= noonToNight.end) {
+        // 夜
         overlayStyleRef.current = styleNight;
         document.documentElement.style.setProperty('--weather', '10');
+        document.documentElement.style.setProperty('--car-light', '1.0');
+        document.documentElement.style.setProperty('--seek-color', '#030c1b');
+      } else {
+        // その他 (一応, 朝)
+        overlayStyleRef.current = styleMorning;
+        document.documentElement.style.setProperty('--weather', '40');
+        document.documentElement.style.setProperty('--car-light', '0.4');
+        document.documentElement.style.setProperty('--seek-color', '#ff7e5f');
       }
 
       turnOverlayAnimationRef.current = requestAnimationFrame(turnOverlayAnimation);
@@ -628,13 +709,95 @@ export const MapComponent = (props: any) => {
     }, [props.isMoving]);
 
     return (
-      <GeoJSON
-        data={sky as unknown as GeoJSON.GeoJsonObject}
-        style={overlayStyleRef.current}
-        pane="sky"
-      />
+      <>
+        <GeoJSON
+          data={sky as unknown as GeoJSON.GeoJsonObject}
+          // Cast overlayStyleRef.current to PathOptions
+          style={overlayStyleRef.current as PathOptions}
+          pane="sky"
+        />
+      </>
     )
   }
+
+  // インストラクションの表示
+  const InstructionComponent = () => {
+    // 操作説明をするオーバーレイのレイヤ
+    const instructionStyle: PathOptions = {
+      color: 'black',
+      weight: 1,
+      opacity: 1,
+      fillColor: 'black',
+      fillOpacity: 0.8
+    }
+    if(isFirstPlayRef.current && !isInitMapPlayer && isInitInstruction.current){
+      return(
+      <>
+        <GeoJSON
+          data={sky as unknown as GeoJSON.GeoJsonObject}
+          style={instructionStyle}
+          pane="sky"
+        >
+          <div className="instruction-content">
+            <h3>この作品について</h3>
+            <p>この作品は、カーナビと音楽で旅を楽しむリリックアプリです。<br/>
+            曲の演出を楽しみながら、道中の寄り道で旅の思い出を沢山作りましょう。</p>
+            <h3>操作説明</h3>
+            <h4>旅の思い出を作ろう</h4>
+            <p>地図に表現されている様々なアイコン🐬をクリックすると右側画面のTrip Memoriesに旅の思い出が追記することができます。<br/>
+            </p>
+            <h4>地図を見渡そう</h4>
+            <p>曲の一時停止中にはカーナビ画面を動かすことができます。</p>
+            <h4>FanFun度</h4>
+            <p>旅の楽しさを表しています。<br/>思い出が増えていくと値も増えていきます。</p>
+            <h3>旅を始めよう！</h3>
+            <p>右下の再生ボタンを押すことで旅が始まります。</p>
+          </div>
+        </GeoJSON>
+      </>
+      )
+    }else{
+      return null
+    }
+  }
+
+
+  // ゴールアイコン
+  const SetGoalIcon = () => {
+    const map = useMap();
+    if (props.songnum === -1 || !isInitMapPlayer) {
+      return;
+    }
+    const iconSize = {
+      min: 50,
+      max: 250,
+      aspect: 0.37
+    }
+    const zoomSize = {
+      min: 14,
+      max: 17
+    }
+
+    // アイコンを作成
+    const mmIcon = icon({
+      iconUrl: '/images/mm24_logo.png', // アイコンのURL
+      iconSize: [iconSize.max, iconSize.max * iconSize.aspect], // 初期サイズ
+    });
+
+    // マーカーを作成してマップに追加
+    const goalMarker = marker([34.63723295319705, 135.42051545927356], { icon: mmIcon, pane: "waypoint" }).addTo(map);
+    // ズームレベルに応じてアイコンのサイズを変更する関数
+    const updateIconSize = () => {
+      const newSize =
+        iconSize.min + (iconSize.max - iconSize.min) *
+        (map.getZoom() - zoomSize.min) /
+        (zoomSize.max - zoomSize.min); // ズームレベルに応じたサイズを計算
+      goalMarker.setIcon(icon({ iconUrl: '/images/mm24_logo.png', iconSize: [newSize, newSize * iconSize.aspect] }));
+    };
+    // ズームイベントリスナーを登録
+    map.on('zoomend', updateIconSize);
+    return null;
+  };
 
   // スケール変更時の処理
   const GetZoomLevel = () => {
@@ -642,22 +805,42 @@ export const MapComponent = (props: any) => {
     map.on('zoom', function () {
       // スケール変更時の処理をここに記述
       props.handOverScale(map.getZoom())
-      console.log('Tew zoom level: ' + map.getZoom());
+      // console.log('Tew zoom level: ' + map.getZoom());
+      document.documentElement.style.setProperty('--scale', map.getZoom().toString());
     });
     return null
   }
 
+  const CreateEventPointsFunction = () => {
+    if (props?.songnum!==-1 && InitAddEventPoints.current && !isInitInstruction.current)  {
+      const map = useMap()
+      const features = all_sight[`song${props?.songnum}`]['features'];
+      for (let feature of features) {
+        const latlng: LatLngExpression = { lat: feature.geometry.coordinates[1], lng: feature.geometry.coordinates[0] }
+        const lyricMarker = showDetail(feature, latlng).addTo(map);
+        lyricMarker.feature = feature;
+        lyricMarker.on('click', onSightClick)
+        lyricMarker.on('mouseout', onSightHoverOut)
+      }
+      InitAddEventPoints.current = false;
+      return null;
+    } else {
+      return null;
+    }
+  }
+  // console.log(isInitInstruction.current)
   return (
     <>
       <MapContainer className='mapcomponent' style={{ backgroundColor: '#f5f3f3' }}
         center={[-1, -1]} zoom={mapZoom}
         minZoom={14} maxZoom={17}
-        zoomSnap={0.1} zoomDelta={0.5} trackResize={false}
+        zoomSnap={0.1} zoomDelta={0.5} trackResize={true}
         inertiaMaxSpeed={500} inertiaDeceleration={1000}
         zoomControl={false} attributionControl={false}
         maxBoundsViscosity={1.0}
         preferCanvas={true}
         boxZoom={false} doubleClickZoom={false}
+        inertia={false}
       >
         <GetZoomLevel />
         <GeoJSON
@@ -681,28 +864,37 @@ export const MapComponent = (props: any) => {
         />
         <MoveMapByRoute />
         <AddNotesToMap />
+        <SetGoalIcon />
         <MapFunctionUpdate />
         <RemoveMapTextFunction />
-        <RotatedMarker
-        /* @ts-ignore */
+        {/* @ts-ignore */}
+        <CreatePane />
+        <RotateCarMarker
+          /* @ts-ignore */
           position={carMapPosition}
           rotationAngle={heading}
           rotationOrigin="center"
-        >
-        </RotatedMarker>
+        />
+        <RotateCarLightMarker
+          /* @ts-ignore */
+          position={carMapPosition}
+          rotationAngle={heading}
+          rotationOrigin="center"
+        />
+        <UfoMarker
+          handOverFanFun={props.handOverFanFun}
+          isMoving={props.isMoving}
+          setEncounteredUfo={setEncounteredUfo}
+        />
         {/* 曲の開始まで表示するレイヤ */}
         <PathWay />
         <UpdatingOverlayLayer />
-        <GeoJSON
-          data={sight as GeoJSON.GeoJsonObject}
-          pointToLayer={showDetail}
-          onEachFeature={(_, layer) => {
-            layer.on({
-              mouseover: onSightHover, // ポイントにマウスが乗っかったときに呼び出される関数
-              mouseout: onSightHoverOut
-            });
-          }}
-        />
+        <MapCenterCrosshair
+          isMoving={props.isMoving || isFirstPlayRef.current}
+          mapCenter={mapOffset}
+          pane='mapcenter' />
+        <CreateEventPointsFunction />
+        <InstructionComponent />
       </MapContainer>
     </>
   );

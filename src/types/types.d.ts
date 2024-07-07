@@ -1,5 +1,12 @@
 import { Player } from 'textalive-app-api';
 
+type animationProperties = {
+    id: number;
+    value: number;
+    display: boolean;
+    change: string;
+};
+
 type noteProperties = {
     fwdLength: number; // 前方の距離
     crtLength: number; // 現在の距離
@@ -48,6 +55,7 @@ type historyProperties = {
         event_title: string
         event_detail: string
         want_score: number
+        fanfun_score?: number
         cost: number
         weather: number
         season: number

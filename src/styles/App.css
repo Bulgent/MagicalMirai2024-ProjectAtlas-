@@ -1,19 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Hachi+Maru+Pop&family=Noto+Color+Emoji&family=Noto+Emoji&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Zen+Maru+Gothic&family=BIZ+UDPGothic&family=Kosugi&family=Mochiy+Pop+One&family=Zen+Kaku+Gothic+New&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Noto+Emoji&family=Zen+Maru+Gothic&family=Zen+Kaku+Gothic&family=Kosugi&family=Hachi+Maru+Pop&display=swap');
 
 :root {
   --min-font-size: 16px;
   --max-font-size: 24px;
 }
 
-.noto-sans {
-  font-family: "Noto Sans", sans-serif;
-  font-optical-sizing: auto;
+/* その他絵文字に使用 */
+.notoemoji-color {
+  font-family: "Noto Color Emoji", sans-serif;
   font-weight: 400;
   font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
 }
 
+/* 音符に使用 */
 .notoemoji-mono {
   font-family: "Noto Emoji", sans-serif;
   font-optical-sizing: auto;
@@ -21,50 +20,30 @@
   font-style: normal;
 }
 
-.notoemoji-color {
-  font-family: "Noto Color Emoji", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.hachimaru-pop {
+/* FanFun度の表示に使用 */
+.hachi-maru-pop {
   font-family: "Hachi Maru Pop", cursive;
   font-weight: 400;
   font-style: normal;
 }
 
-.dotgothic16 {
-  font-family: "DotGothic16", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.zenmaru-gothic {
-  font-family: "Zen Maru Gothic", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.zen-kaku-gothic-new-regular {
-  font-family: "Zen Kaku Gothic New", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.biz-udpgothic-regular {
-  font-family: "BIZ UDPGothic", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.mochiy-pop-one-regular {
-  font-family: "Mochiy Pop One", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
+/* 地図の歌詞に使用 */
 .kosugi-regular {
   font-family: "Kosugi", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* リザルト画面の総評で使用 */
+.zenkaku-gothic {
+  font-family: "Zen Kaku Gothic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* アプリ全体に使用 */
+.zenmaru-gothic {
+  font-family: "Zen Maru Gothic", serif;
   font-weight: 400;
   font-style: normal;
 }
@@ -72,14 +51,14 @@
 /* Responsive */
 html,
 body {
+  font-family: "Zen Maru Gothic", serif;
   height: 100%;
   display: grid;
   place-items: center;
-  font-family: "Zen Maru Gothic", serif;
 }
 
 body {
-  background: gray;
+  background: #a8a8a8;
 }
 
 #display {
@@ -96,7 +75,7 @@ body {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  background-color: black;
+  background-color: #101010;
   position: relative;
 }
 
@@ -119,8 +98,8 @@ body {
   position: relative;
   border-radius: 2vw;
   display: block;
-  background-color: black;
-  color: white;
+  background-color: #101010;
+  color: #ffeedd;
   height: 100%;
   width: 100%;
   -webkit-flex: 3;
@@ -128,22 +107,11 @@ body {
   border-radius: 0.1vw;
 }
 
-#history {
-  height: 100%;
-  -webkit-flex: 1;
-  flex: 1;
-  border-radius: 0vw;
-  background-color: #2a2a2a;
-  color: #ffffff;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 
 .soft-gloss {
-  border-image: -webkit-linear-gradient(transparent 0%, rgba(255, 255, 255, .3) 50%, transparent 50%, rgba(0, 0, 0, .1) 100%);
-  border-image: linear-gradient(transparent 0%, rgba(255, 255, 255, .3) 50%, transparent 50%, rgba(0, 0, 0, .1) 100%);
-  box-shadow: 0 2px 2px 0 rgba(255, 255, 255, .2) inset, 0 2px 10px 0 rgba(255, 255, 255, .5) inset, 0 -2px 2px 0 rgba(0, 0, 0, .1) inset;
-  border: 1px solid rgba(0, 0, 0, .2);
+  border-image: -webkit-linear-gradient(transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 50%, rgba(16, 16, 16, 0.1) 100%);
+  border-image: linear-gradient(transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 50%, rgba(016, 16, 1, 0.1) 100%);
+  /* box-shadow: 0 2px 2px 0 rgba(255, 255, 255, .2) inset, 0 2px 10px 0 rgba(255, 255, 255, .5) inset, 0 -2px 2px 0 rgba(0, 0, 0, .1) inset; */
+  border: 1px solid rgba(16, 16, 16, 0.2);
 }

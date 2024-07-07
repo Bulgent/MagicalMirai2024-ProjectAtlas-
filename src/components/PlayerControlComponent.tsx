@@ -1,14 +1,16 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { PlayerSeekbar } from 'textalive-react-api';
 import '../styles/SongControl.css';
-import { msToMs, sightType } from '../utils/utils';
+import { msToMs, sightType, sightEmoji } from '../utils/utils';
 import songData from '../utils/Song';
 
 export const PlayerControl = (props: any) => {
   const [status, setStatus] = useState('stop');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
   const isInitPlay = useRef(true);
 
-  // 仮の曲の長さと現在の再生位置
+  // 曲の長さと現在の再生位置
   const songLength = props.player.data.song.length * 1000; // 5分 = 300秒
   const currentPosition = useRef(0); // 初期位置
 
@@ -16,7 +18,7 @@ export const PlayerControl = (props: any) => {
   function updateProgressBar() {
     const progressBar = document.getElementsByClassName('progress-bar')[0];
     // console.log(progressBar)
-    const percentage = (currentPosition.current / songLength) * 100;
+    const percentage = 100 - (currentPosition.current / songLength) * 100;
     if (progressBar) {
       /* @ts-ignore */
       progressBar.style.width = `${percentage}%`;
@@ -30,46 +32,8 @@ export const PlayerControl = (props: any) => {
 
   const FlagComponent = props.hoverHistory ? props.hoverHistory.map((hover: any, index: number) => {
     // console.log(hover.properties.playerPosition, hover.properties.event_type)
-    let showSVG = ''
     const percentage = (hover.properties.playerPosition / songLength) * 100;
-    switch (hover.properties.event_type) {
-      case sightType.sports:
-        showSVG = '🏟️'
-        break;
-      case sightType.eat:
-        showSVG = '🍽'
-        break;
-      case sightType.movie:
-        showSVG = '📽️'
-        break;
-      case sightType.aqua:
-        showSVG = '🐬'
-        break;
-      case sightType.zoo:
-        showSVG = '🦁'
-        break;
-      case sightType.depart:
-        showSVG = '🏬'
-        break;
-      case sightType.castle:
-        showSVG = '🏯'
-        break;
-      case sightType.hotspring:
-        showSVG = '♨'
-        break;
-      case sightType.amusement:
-        showSVG = '🎡'
-        break;
-      case sightType.festival:
-        showSVG = '🎆'
-        break;
-      case sightType.factory:
-        showSVG = '🏭'
-        break;
-      default:
-        showSVG = '🏛'
-    }
-
+    const showSVG = sightEmoji(hover.properties.event_type).emoji;
     return (
       <div key={index} className='flag-waypoint' style={{ width: `${percentage}%` }}>
         {showSVG}
@@ -80,41 +44,39 @@ export const PlayerControl = (props: any) => {
   const GetWeather = () => {
     // morning{songData[props.songnum].turningPoint1![0]}
     const morningToNoon = {
-      start: songData[props.songnum].turningPoint1![0] / props.player.video.duration,
-      end: songData[props.songnum].turningPoint1![1] / props.player.video.duration
+      start: songData[props.songnum].turningPoint1![0],
+      end: songData[props.songnum].turningPoint1![1]
     }
     const noonToNight = {
-      start: songData[props.songnum].turningPoint2![0] / props.player.video.duration,
-      end: songData[props.songnum].turningPoint2![1] / props.player.video.duration
+      start: songData[props.songnum].turningPoint2![0],
+      end: songData[props.songnum].turningPoint2![1]
     }
-    const current = props.player.timer.position / props.player.video.duration
+    const current = props.player.timer.position
     // console.log(current, props.player.timer.position, props.player.video.duration)
-    if (current < morningToNoon.start) {
-      return ('🌅 Morning') // 朝
-    } else if (current < morningToNoon.end) {
+    if (current < morningToNoon.start && !props.songEnd) {
+      return ('Morning') // 朝
+    } else if (current < morningToNoon.end && !props.songEnd) {
       return (<>
-        🌅Morning
-        <span className="material-symbols-outlined weather-arrow">
+        Morning
+        {/* <span className="material-symbols-outlined weather-arrow">
           double_arrow
         </span>
-        🌞Noon
+        🌞Noon */}
       </>) // 朝から昼
-    } else if (current < noonToNight.start) {
-      return ('🌞 Noon') // 昼
-    } else if (current < noonToNight.end) {
+    } else if (current < noonToNight.start && !props.songEnd) {
+      return ('Noon') // 昼
+    } else if (current < noonToNight.end && !props.songEnd) {
       return (<>
-        🌆Noon
-        <span className="material-symbols-outlined weather-arrow">
+        Noon
+        {/* <span className="material-symbols-outlined weather-arrow">
           double_arrow
         </span>
-        🌇Night
+        🌆🌇Night */}
       </>) // 昼から夜
     } else {
-      return ('🌕️ Night') // 夜
-      // TODO 曲最後まで行くと朝に戻ってしまう
+      return ('Night') // 夜
     }
   }
-
 
   useEffect(() => {
     const listener = {
@@ -131,12 +93,12 @@ export const PlayerControl = (props: any) => {
       if (props.player) {
         if (isInitPlay.current) {
           props.player.timer.seek(0);
-          console.log("initialize playing")
+          // console.log("initialize playing")
           isInitPlay.current = false
         }
         props.player.requestPlay();
         props.handOverIsMapMove(true);
-        console.log("playing");
+        // console.log("playing");
       }
     },
     [props.player, props.handOverIsMapMove]
@@ -146,11 +108,21 @@ export const PlayerControl = (props: any) => {
       if (props.player) {
         props.player.requestPause();
         props.handOverIsMapMove(false);
-        console.log("pause");
+        // console.log("pause");
       }
     },
     [props.player, props.handOverIsMapMove]
   );
+
+  const handleClick = () => {
+    if (status !== 'play') {
+      handlePlay();
+    } else {
+      handlePause();
+    }
+    setIsButtonDisabled(true);
+    setTimeout(() => setIsButtonDisabled(false), 300); // 300ミリ秒後にボタンを再度有効にする
+  };
 
   return (
     <div className="songcontrol">
@@ -166,6 +138,10 @@ export const PlayerControl = (props: any) => {
         <div className='seek'>
           {/* 元パステルにミクいろ */}
           <div className='seek-bar-container'>
+            <div className='running-mm'>
+              {(props.mikuMile[0] / 1000).toFixed(1)}
+              <span className="unit">kMM</span>
+            </div>
             <div className='progress-weather'>
               <GetWeather />
             </div>
@@ -174,13 +150,8 @@ export const PlayerControl = (props: any) => {
               {FlagComponent}
               <div className='flag-end'>🏁</div>
             </div>
-            <div className='progress-bar' style={{ width: '0%' }}>
-              <div className='running-mm'>
-                {(props.mikuMile[0]/1000).toFixed(1)}
-                <span className="unit">kMM</span>
-              </div>
-
-              <img className='progress-handle' src='src\assets\images\carIcon.png' />
+            <div className='progress-bar' style={{ width: '100%' }}>
+              <img className='progress-handle' src='\images\carIcon.png' />
             </div>
           </div>
           {/* <PlayerSeekbar player={!props.disabled && props.player} /> */}
@@ -199,10 +170,9 @@ export const PlayerControl = (props: any) => {
             </div>
           </div>
         </div>
-
       </div>
       <div className='right'>
-        <button className='pausebutton' onClick={status !== 'play' ? handlePlay : handlePause} disabled={props.disabled}>
+        <button className='pausebutton' onClick={handleClick} disabled={props.disabled || isButtonDisabled || props.songEnd}>
           <img className='jacketbutton' src={props.jacketPic} alt={status !== 'play' ? 'Play' : 'Pause'} />
           <div className='textbutton'>
             <span className="material-symbols-outlined ppbutton">

@@ -13,6 +13,7 @@ import { MapInfoComponent } from '../components/MapInfoComponent'
 import { createPlayerContent, lyricProperties, historyProperties } from '../types/types';
 import { createPlayer } from "../services/TextAlive.ts"
 import { createHandOverFunction } from "../utils/utils.ts"
+import { LatLngLiteral } from 'leaflet';
 import songData from '../utils/Song.ts';
 
 
@@ -56,7 +57,9 @@ export const GamePage = () => {
   const [fanFun, setFanFun] = useState<number>(0);
   const [mikuMile, setMikuMile] = useState<[number, number]>([0, 0]);
   const [scale, setScale] = useState<number>(0);
+  const [mapCenter, setMapCenter] = useState<LatLngLiteral>({ lat: -1, lng: -1 });
   const handOverIsMapMove = createHandOverFunction(setIsMapMove);
+  const [isSongEnd, setIsSongEnd] = useState<boolean>(false)
 
   // const [songNumber, setSongNumber] = useState(isDevelopment ? 3 : buttonInfo ? parseInt(buttonInfo) : -1);
   const [songNumber, setSongNumber] = useState(buttonInfo ? parseInt(buttonInfo) : -1);
@@ -64,6 +67,8 @@ export const GamePage = () => {
   const handOverMediaElement = createHandOverFunction(setMediaElement)
   const handOverMikuMile = createHandOverFunction(setMikuMile)
   const handOverScale = createHandOverFunction(setScale)
+  const handOverMapCenter = createHandOverFunction(setMapCenter)
+  const handOverSongEnd = createHandOverFunction(setIsSongEnd)
 
   // Map移動に関しての変数宣言
   const [hoverHistory, setHoverHistory] = useState<historyProperties[]>([])
@@ -106,7 +111,7 @@ export const GamePage = () => {
     const { playerListener } = createPlayer(createPlayerContent)
     // 再生終了時
     return () => {
-      console.log('--- [app] shutdown ---');
+      // console.log('--- [app] shutdown ---');
       player?.removeListener(playerListener);
       player?.dispose();
     };
@@ -127,20 +132,24 @@ export const GamePage = () => {
               songnum={songInfo}
               isMoving={isMapMove}
               player={player}
+              fanFun={fanFun}
+              mikuMile={mikuMile}
               handOverHover={handOverHoverHistory}
               handOverFanFun={handOverFanFun}
               handOverMikuMile={handOverMikuMile}
               handOverScale={handOverScale}
+              handOverMapCenter={handOverMapCenter}
+              isSongEnd={handOverSongEnd}
             />
           </div>
           <div id="mapinfo">
             <MapInfoComponent
               mikuMile={mikuMile}
-
+              mapCenter={mapCenter}
+              isMoving={isMapMove}
               scale={scale}
-
               player={player}
-
+              songEnd={isSongEnd}
             />
           </div>
           <div id="song">
@@ -159,6 +168,7 @@ export const GamePage = () => {
               handOverSongNumber={handOverSongNumber}
               handOverMediaElement={handOverMediaElement}
               handOverIsMapMove={handOverIsMapMove}
+              songEnd={isSongEnd}
             />
           </div>
         </div>
@@ -174,9 +184,10 @@ export const GamePage = () => {
             player={player}
             hoverHistory={hoverHistory}
             fanfun={fanFun}
+            songEnd={isSongEnd}
           />
         </div>
-        <img id='logo' src='src/assets/images/logo.png' alt='' />
+        <img id='logo' src='/images/logo.png' alt='' />
       </div>
     </React.Fragment>
   );

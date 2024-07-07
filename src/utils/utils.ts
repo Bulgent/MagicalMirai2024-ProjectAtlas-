@@ -45,7 +45,7 @@ const katakanaRegex: RegExp = /^[ァ-ン]+$/;
 const kanjiRegex: RegExp = /^[一-龥]+$/;
 const englishRegex: RegExp = /^[a-zA-Z]+$/;
 const numberRegex: RegExp = /^[0-9]+$/;
-const symbolRegex: RegExp = /^[!-/:-@[-`{-~、。！？「」]+$/;
+const symbolRegex: RegExp = /^[!-/:-@[-`{-~、。！？「」”“"・･’]+$/;
 const spaceRegex: RegExp = /^\s+$/;
 
 // 👽歌詞の種類👽
@@ -224,6 +224,83 @@ export const checkPartOfSpeech = (PoS: string) => {
   }
 }
 
+export const sightEmoji = (type: number): { type: string; emoji: string; hashtag: string } => {
+  switch (type) {
+    case sightType.sports:
+      return {
+        type: "スポーツ施設",
+        emoji: '🏟️',
+        hashtag: '#筋肉痛'
+      };
+    case sightType.eat:
+      return {
+        type: "食事処",
+        emoji: '🍽',
+        hashtag: '#食い倒れ'
+      };
+    case sightType.movie:
+      return {
+        type: "映画館",
+        emoji: '📽️',
+        hashtag: '#ノスタルジック'
+      };
+    case sightType.aqua:
+      return {
+        type: "水族館",
+        emoji: '🐬',
+        hashtag: '#イルカショー'
+      };
+    case sightType.zoo:
+      return {
+        type: "動物園",
+        emoji: '🦁',
+        hashtag: '#アニマルセラピー'
+      };
+    case sightType.depart:
+      return {
+        type: "ショッピングモール",
+        emoji: '🏬',
+        hashtag: '#爆買い'
+      };
+    case sightType.castle:
+      return {
+        type: "史跡名勝",
+        emoji: '🏯',
+        hashtag: '#パワースポット'
+      };
+    case sightType.hotspring:
+      return {
+        type: "温泉",
+        emoji: '♨',
+        hashtag: '#サウナで整う'
+      };
+    case sightType.amusement:
+      return {
+        type: "遊園地",
+        emoji: '🎡',
+        hashtag: '#絶叫コースター'
+      };
+    case sightType.festival:
+      return {
+        type: "お祭り",
+        emoji: '🎆',
+        hashtag: '#お祭り騒ぎ'
+      };
+    case sightType.factory:
+      return {
+        type: "工場見学",
+        emoji: '🏭',
+        hashtag: '#工場見学'
+      };
+    default:
+      return {
+        type: "その他",
+        emoji: '🏛',
+        hashtag: ''
+      };
+  }
+}
+
 // 歌詞の移動方向を乱数で作成
 export const cssSlide = (animationNum: number, printKashi: string): string => {
   let randomX: number;
@@ -316,7 +393,7 @@ export const calculateEachRoadLengthRatio = (nodes: any[]): number[] => {
     roadLengthSum += roadLength
     eachRoadLengthRatio.push(roadLengthSum)
   }
-  console.log("RoadSum:", roadLengthSum)
+  // console.log("RoadSum:", roadLengthSum)
   eachRoadLengthRatio = eachRoadLengthRatio.map(x => x / roadLengthSum)
   return eachRoadLengthRatio
 }
@@ -416,7 +493,7 @@ export const changeStyle = (startStyle: PathOptions, endStyle: PathOptions, prog
  * @returns 曲の画像のURL
  */
 export const getImage = (songNumber: number): string => {
-  return new URL(`../assets/images/jacket/${songData[songNumber].jacketName}`, import.meta.url).href;
+  return new URL(`/images/jacket/${songData[songNumber].jacketName}`, import.meta.url).href;
 };
 
 // ミリ秒を分:秒に変換する関数

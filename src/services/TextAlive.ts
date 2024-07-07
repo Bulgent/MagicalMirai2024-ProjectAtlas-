@@ -43,8 +43,8 @@ export const createPlayer = (createPlayerContent: createPlayerContent) => {
     });
 
     const onAppReady = (app: any) => {
-        console.log('--- [app] initialized as TextAlive app ---');
-        console.log('managed:', app.managed);
+        // console.log('--- [app] initialized as TextAlive app ---');
+        // console.log('managed:', app.managed);
         player.createFromSongUrl(songData[createPlayerContent.songNumber].songURL, {
             video: {
                 // 音楽地図訂正履歴
@@ -61,11 +61,11 @@ export const createPlayer = (createPlayerContent: createPlayerContent) => {
 
     const onVideoReady = () => {
         document.documentElement.style.setProperty('--beat', '0');
-        console.log('--- [app] video is ready ---');
-        console.log('player:', player);
-        console.log('player.data.song:', player.data.song);
-        console.log('読込曲:', player.data.song.name, " / ", player.data.song.artist.name);
-        console.log('player.data.songMap:', player.data.songMap);
+        // console.log('--- [app] video is ready ---');
+        // console.log('player:', player);
+        // console.log('player.data.song:', player.data.song);
+        // console.log('読込曲:', player.data.song.name, " / ", player.data.song.artist.name);
+        // console.log('player.data.songMap:', player.data.songMap);
         createPlayerContent.handOverSongTitle(player.data.song.name)
         createPlayerContent.handOverSongArtist(player.data.song.artist.name)
         createPlayerContent.handOverSongLength(player.data.song.length)
@@ -76,7 +76,7 @@ export const createPlayer = (createPlayerContent: createPlayerContent) => {
         let kashiChar = player.video.firstChar; // 最初の文字(好)
         let kashiWord = player.video.firstWord; // 最初の熟語(好き)
         let kashiPhrase = player.video.firstPhrase; // 最初の歌詞(好きの伝え方は一つじゃないから)
-        console.log(player, kashiChar.text, kashiWord.text, kashiPhrase.text)
+        // console.log(player, kashiChar.text, kashiWord.text, kashiPhrase.text)
         // 音楽が流れている間のそれぞれの歌詞情報取得処理
         // Char: 文字, Word: 単語, Phrase: 歌詞
         getLyricElement(kashiChar, player, createPlayerContent.handOverChar)
