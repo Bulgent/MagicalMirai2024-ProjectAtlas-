@@ -25,7 +25,7 @@ import { lyricProperties, historyProperties, noteProperties, noteCoordinatePrope
 import trunk from '../assets/jsons/map_data/trunk.json'
 import primary from '../assets/jsons/map_data/primary.json'
 import secondary from '../assets/jsons/map_data/secondary.json'
-import sight from '../assets/jsons/map_data/sightseeing.json'
+import sight from '../assets/jsons/map_data/sightsee1.json'
 import areas from '../assets/jsons/map_data/area.json'
 import sky from '../assets/jsons/map_data/polygons.json'
 import restrictedArea from '../assets/jsons/map_data/restrictedArea.json'
@@ -387,6 +387,7 @@ export const MapComponent = (props: any) => {
 
     return null
   }
+
 
   // 通る道についての描画（デバッグ用）
   const PathWay: React.FC = () => {

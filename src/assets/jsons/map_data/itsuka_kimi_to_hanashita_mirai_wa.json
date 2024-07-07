@@ -1,0 +1,2432 @@
+{
+    "type": "FeatureCollection",
+    "name": "points-sample",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 53,
+                "event_type": 8,
+                "event_place": "ジョイフルランド",
+                "event_title": "ティーカップに乗りっぱなし。心の底から楽しかった！",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 6000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.42202513239596,
+                    34.637407630947024
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 15,
+                "event_type": 0,
+                "event_place": "スポーツガーデン",
+                "event_title": "汗をたっぷり流してリフレッシュ！気持ちよく運動できました。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.51446888814155,
+                    34.540869401460114
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 69,
+                "event_type": 9,
+                "event_place": "夢幻祭",
+                "event_title": "カラフルな屋台が輝く！太鼓の音に心躍る一日。",
+                "event_detail": "none",
+                "want_score": 77,
+                "cost": 3000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.49288725961648,
+                    34.58729518738775
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 5,
+                "event_type": 1,
+                "event_place": "幸せ膳",
+                "event_title": "口の中で舞う絶妙な旨味。その味わいは忘れられない。",
+                "event_detail": "none",
+                "want_score": 80,
+                "cost": 4500,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.50593737512673,
+                    34.552679755996856
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 67,
+                "event_type": 3,
+                "event_place": "オーシャンシティ",
+                "event_title": "カラフルな魚たちが泳ぐ水槽を見て、心が癒されました。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 3000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.46587352051029,
+                    34.6188764669225
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 24,
+                "event_type": 2,
+                "event_place": "ムービーシアター",
+                "event_title": "感動のラブストーリーに涙しました。素敵な映画館で楽しい時間を過ごしました。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 1800,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.4909949928675,
+                    34.59166697608368
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 14,
+                "event_type": 0,
+                "event_place": "nose ジャングルパーク",
+                "event_title": "汗をタラタラかいてスッキリ！最高のエクササイズができました。",
+                "event_detail": "none",
+                "want_score": 75,
+                "cost": 4000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.5007825795002,
+                    34.5733315637918
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 10,
+                "event_type": 1,
+                "event_place": "食事処花鳥風月",
+                "event_title": "季節の味覚を堪能しました。至福の時間が流れる。",
+                "event_detail": "none",
+                "want_score": 85,
+                "cost": 5000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.5034578531798,
+                    34.5793346169265
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 3,
+                "event_type": 8,
+                "event_place": "アベノＶＲパーク",
+                "event_title": "最近話題のＶＲを体験！！ 世界観もさることながら映像美と音の迫力に鳥肌！！",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 4500,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.5123645570155,
+                    34.54312054638562
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 34,
+                "event_type": 9,
+                "event_place": "天神モール",
+                "event_title": "屋台の焼きそばの香りが漂う中、縁日の景品をGET！",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 3000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.48681895590423,
+                    34.599692797122465
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 50,
+                "event_type": 9,
+                "event_place": "なには花火大会",
+                "event_title": "はたまたよいしよ！浴衣姿が映える夏の夜。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 3000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.44897362092456,
+                    34.622661000420464
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 60,
+                "event_type": 3,
+                "event_place": "シーワールドオオサカ",
+                "event_title": "サメの水槽に向かってドキドキ。迫力に圧倒されました！",
+                "event_detail": "none",
+                "want_score": 75,
+                "cost": 4500,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.4971285471573,
+                    34.583053899846924
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 68,
+                "event_type": 9,
+                "event_place": "桃太郎祭り",
+                "event_title": "カラフルな屋台や太鼓の音、賑やかなお祭りに参加して心も身体もリフレッシュ！",
+                "event_detail": "none",
+                "want_score": 76,
+                "cost": 2000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.44068679757555,
+                    34.62044248078372
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 17,
+                "event_type": 0,
+                "event_place": "ビッグウェーブ",
+                "event_title": "汗だくになってランニングマシーンで一人競争。気持ちいい疲れを感じた。",
+                "event_detail": "none",
+                "want_score": 65,
+                "cost": 4000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.51471357780736,
+                    34.53778631167082
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 27,
+                "event_type": 2,
+                "event_place": "シネマズ鷹百舌",
+                "event_title": "感動のストーリーに涙が止まらない。心を揺さぶられる2時間でした。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 1800,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.50260959567163,
+                    34.55493090092238
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 22,
+                "event_type": 2,
+                "event_place": "Theatre Marriage",
+                "event_title": "感動の最終シーン、涙が止まらない。心に残る素晴らしい作品だった。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 1800,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.47246382884296,
+                    34.61959422327556
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 65,
+                "event_type": 4,
+                "event_place": "都留端アニマルパーク",
+                "event_title": "キュートなパンダに癒やされた。幸せな気持ちが満ちてきた。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 3200,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.47814062908992,
+                    34.61946372212046
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 42,
+                "event_type": 0,
+                "event_place": "小坂山カントリ―",
+                "event_title": "ランニングをしてすっきり。気分爽快！",
+                "event_detail": "none",
+                "want_score": 65,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.45510717521435,
+                    34.61978997500822
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 39,
+                "event_type": 10,
+                "event_place": "テクノファクトリー",
+                "event_title": "ロボットが作業をしている様子に感動！未来の技術に触れることができて興奮しました。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 1000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.44832111514904,
+                    34.620311979628624
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 25,
+                "event_type": 2,
+                "event_place": "日本映画記念劇場",
+                "event_title": "感動のラブストーリーに涙が止まらない。心温まるひと時を過ごしました。",
+                "event_detail": "none",
+                "want_score": 88,
+                "cost": 1800,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.4880587168777,
+                    34.601650314449
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 44,
+                "event_type": 4,
+                "event_place": "ワイルドキングダム",
+                "event_title": "ライオンの咆哮が響く中、子ライオンが遊んでいました。幸せな気持ちが溢れました。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 3000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.5033273520247,
+                    34.56935127856118
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 61,
+                "event_type": 3,
+                "event_place": "シーワールド",
+                "event_title": "サメと目が合った瞬間、ドキドキが止まらない！",
+                "event_detail": "none",
+                "want_score": 68,
+                "cost": 3800,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.50274009682673,
+                    34.564457485244844
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 76,
+                "event_type": 1,
+                "event_place": "グルメ天国",
+                "event_title": "おいしすぎて幸せが溢れる！",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 5000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.5060026257043,
+                    34.56028144828157
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 33,
+                "event_type": 9,
+                "event_place": "夏宵祭り会場",
+                "event_title": "屋台の美味しい香りと太鼓の音色。心が踊るような一夜だった。",
+                "event_detail": "none",
+                "want_score": 80,
+                "cost": 3000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.47318158519602,
+                    34.62279150157557
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 9,
+                "event_type": 3,
+                "event_place": "海王水族館",
+                "event_title": "巨大なサメに圧倒された。海の神秘に触れた気がする。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 3000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.51892224005942,
+                    34.53564935525602
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 71,
+                "event_type": 3,
+                "event_place": "海遊シーパラダイス",
+                "event_title": "カラフルなサカナたちに癒された。特にクラゲの美しさにうっとり。",
+                "event_detail": "none",
+                "want_score": 75,
+                "cost": 3000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.51246243288185,
+                    34.54723133277133
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 32,
+                "event_type": 9,
+                "event_place": "オオサカ花火祭",
+                "event_title": "夏を代表するイベント。花火の美しさに魅了されました。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.43337873288982,
+                    34.62050773136128
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 23,
+                "event_type": 2,
+                "event_place": "シネマザワールド",
+                "event_title": "感動の映画に涙。心に残るひと時。",
+                "event_detail": "none",
+                "want_score": 88,
+                "cost": 1800,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.5039798578002,
+                    34.55091799040297
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 37,
+                "event_type": 5,
+                "event_place": "ワクワクモール",
+                "event_title": "一日中ショッピング！新しい服や小物がいっぱい手に入った。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 15000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.44205705970413,
+                    34.618680715189846
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 59,
+                "event_type": 4,
+                "event_place": "ジャングルゾーン",
+                "event_title": "サルたちが一斉にジャングルジムで遊ぶ姿に感動！可愛さと活発さに癒されました。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 1800,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.48466568684503,
+                    34.60373833293064
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 7,
+                "event_type": 5,
+                "event_place": "センターMALL",
+                "event_title": "見つけたお気に入りの洋服！思わず買ってしまいました。",
+                "event_detail": "none",
+                "want_score": 65,
+                "cost": 8000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.47513910252255,
+                    34.61541818631229
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 57,
+                "event_type": 5,
+                "event_place": "ビレッジザオオサカ",
+                "event_title": "たくさんのお土産を購入！大満足の買い物体験でした。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 8000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.50133720940937,
+                    34.553560638793805
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 72,
+                "event_type": 10,
+                "event_place": "広角寺かまぼこパーク",
+                "event_title": "かまぼこ美味しい！",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.47572635772053,
+                    34.60576110083473
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 30,
+                "event_type": 9,
+                "event_place": "夏祭り広場",
+                "event_title": "花火大会はまるで夢の中。夜空に咲く華やかな色彩に酔いしれる。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.50192446460733,
+                    34.56002044597137
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 35,
+                "event_type": 9,
+                "event_place": "煌めく祭り広場",
+                "event_title": "屋台の香りが漂う中、太鼓の音に合わせて踊りまくった！",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 2000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.50936303044818,
+                    34.54975979265144
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 43,
+                "event_type": 4,
+                "event_place": "動物王国",
+                "event_title": "ライオンの咆哮が迫力満点。子どもたちと一緒に大はしゃぎ！",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 3200,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.49947756794919,
+                    34.5649142392877
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 16,
+                "event_type": 0,
+                "event_place": "関西バレーパーク",
+                "event_title": "汗だくになってランニングマシンを駆け抜けた！",
+                "event_detail": "none",
+                "want_score": 65,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.46796153899194,
+                    34.61894171750005
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 73,
+                "event_type": 5,
+                "event_place": "キューズモール南都",
+                "event_title": "お買い物三昧！可愛い服やお土産がたくさん！",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 12000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.46052297315111,
+                    34.6218127429123
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 12,
+                "event_type": 0,
+                "event_place": "フィットネススタジオ",
+                "event_title": "汗を流す最高の時間。心も体もスッキリした気分。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 4000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.50662250619104,
+                    34.55604016074075
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 77,
+                "event_type": 10,
+                "event_place": "モントリーウイスキー工場",
+                "event_title": "ウイスキー発祥の地！こだわりの匠の技で変わらないクオリティ！ ",
+                "event_detail": "none",
+                "want_score": 65,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.51256030874816,
+                    34.54152190723562
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 26,
+                "event_type": 10,
+                "event_place": "テクノロジー工場",
+                "event_title": "未来の技術がこの目で見れる！とても興味深い体験ができました。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.4315190914294,
+                    34.569082119928765
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 32,
+                "event_type": 2,
+                "event_place": "シネマ・ワンダーランド",
+                "event_title": "大ヒット映画が満載！感動の涙をこらえきれなかった。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 1800,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.50923252929292,
+                    34.61815055424723
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 4,
+                "event_type": 7,
+                "event_place": "湯けむり温泉郷",
+                "event_title": "贅沢なひと時。心も体もぽかぽかに温まった。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 6000,
+                "weather": "あめ☂",
+                "season": "春🌸",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.2787674893822,
+                    34.37463539882636
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 1,
+                "event_type": 7,
+                "event_place": "みのう健康パーク",
+                "event_title": "贅沢な露天風呂。湯船に浸かると全身が温まる。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 6000,
+                "weather": "くもり☁️",
+                "season": "春🌸",
+                "time": "夜"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.53976979958685,
+                    34.55655400903895
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 60,
+                "event_type": 2,
+                "event_place": "スクリーンパラダイス",
+                "event_title": "寂れた映画館。 ふと覗いてみると、昔みた懐かしい映画が。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 1800,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.39830654745595,
+                    34.4223988215938
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 19,
+                "event_type": 5,
+                "event_place": "低槻センター",
+                "event_title": "欲しかったバッグをGET！とっても満足の買い物デー！",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 12000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.64886876525236,
+                    34.69384122420656
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 20,
+                "event_type": 5,
+                "event_place": "通天タワー",
+                "event_title": "欲しかっtたアイテムが見つかって大満足！",
+                "event_detail": "none",
+                "want_score": 65,
+                "cost": 12000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.59823431707267,
+                    34.759613806378105
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 35,
+                "event_type": 3,
+                "event_place": "サンゴ海洋館",
+                "event_title": "壮大な水槽を見て圧倒された！海の奥深さを感じたひととき。",
+                "event_detail": "none",
+                "want_score": 65,
+                "cost": 3000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.6080219037053,
+                    34.77396893343936
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 49,
+                "event_type": 6,
+                "event_place": "古城ロマネスク",
+                "event_title": "石畳を歩いて過去の風を感じる。歴史のロマンに触れることができて感動した。",
+                "event_detail": "none",
+                "want_score": 76,
+                "cost": 1200,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.32992394218235,
+                    34.415612761528486
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 39,
+                "event_type": 1,
+                "event_place": "西乃スカイテラス",
+                "event_title": "絶品グルメを堪能。満腹で幸せいっぱい。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 4000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.41501069530906,
+                    34.491825436108215
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 13,
+                "event_type": 6,
+                "event_place": "煌めく遺跡庭園",
+                "event_title": "歴史の重みを感じる。昔の人々の暮らしに思いを馳せる。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 1000,
+                "weather": "あめ☂",
+                "season": "秋🍁",
+                "time": "夜"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.4729532081745,
+                    34.64085775523503
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 15,
+                "event_type": 6,
+                "event_place": "時空の城",
+                "event_title": "歴史の香り漂う、素敵な史跡。過去へのタイムスリップを感じました。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 1500,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.43693488936623,
+                    34.48660538990413
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 51,
+                "event_type": 10,
+                "event_place": "クラフトワールド",
+                "event_title": "製品が一つずつ丁寧に作られていく様子に感動！",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 1000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.30016967881903,
+                    34.39316656285089
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 10,
+                "event_type": 6,
+                "event_place": "古代遺跡ミステリア",
+                "event_title": "歴史の中を歩く感覚。遠くに古代の面影が見える。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 1000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.4824145419193,
+                    34.61606253576559
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 43,
+                "event_type": 8,
+                "event_place": "ジョイフルランド",
+                "event_title": "絶叫マシンに乗りまくり！もう一度乗りたいと叫びながら、大興奮！",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 6000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.3095657619864,
+                    34.38168246120189
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 30,
+                "event_type": 9,
+                "event_place": "夢幻祭り広場",
+                "event_title": "賑やかな音楽と花火が華を添える祭りの夜。心が躍り、幸せいっぱいだった。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 3000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.51210355470516,
+                    34.58056622157777
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 11,
+                "event_type": 6,
+                "event_place": "古代遺跡パラダイス",
+                "event_title": "歴史の足跡を感じる。過去へタイムスリップした気分。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 1500,
+                "weather": "くもり☁️",
+                "season": "夏🦋",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.4605555984397,
+                    34.49052042455722
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 37,
+                "event_type": 1,
+                "event_place": "美味しんぼ亭",
+                "event_title": "絶品の肉料理に舌鼓。幸せな時間を過ごしました。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 5000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.5549079335787,
+                    34.56960412454918
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 33,
+                "event_type": 0,
+                "event_place": "スポーツキングダム",
+                "event_title": "体を動かすのは楽しい！新しいスポーツを体験して心地よい汗を流した。",
+                "event_detail": "none",
+                "want_score": 65,
+                "cost": 2000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.4635571250071,
+                    34.69018719186369
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 9,
+                "event_type": 6,
+                "event_place": "大和古都パレス",
+                "event_title": "歴史の風を感じる。遠い昔にタイムスリップした気分。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 1000,
+                "weather": "はれ☀",
+                "season": "秋🍁",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.60763040024003,
+                    34.692797214965736
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 57,
+                "event_type": 3,
+                "event_place": "ＫＥＩＨＡＮＮ水族館",
+                "event_title": "色とりどりの魚たちに癒された。太陽を浴びながらのんびりと楽しいひととき。",
+                "event_detail": "none",
+                "want_score": 75,
+                "cost": 3000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.43308510529064,
+                    34.59452984517371
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 45,
+                "event_type": 8,
+                "event_place": "ワクワクランド",
+                "event_title": "絶叫マシンに乗りすぎて頭から足の先までジワジワ震える。",
+                "event_detail": "none",
+                "want_score": 75,
+                "cost": 6000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.47034318507244,
+                    34.45006506647548
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 25,
+                "event_type": 9,
+                "event_place": "花火祭り会場",
+                "event_title": "夜空が彩られ、幻想的な世界に。心が満たされた瞬間。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.4409804251744,
+                    34.468074225879604
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 46,
+                "event_type": 8,
+                "event_place": "夢ワクテーマパーク",
+                "event_title": "絶叫マシンに乗って、髪が逆立ちっぱなし！",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 6000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.45318228317637,
+                    34.54898494204303
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 36,
+                "event_type": 10,
+                "event_place": "ヌードルミュージアム",
+                "event_title": "全世界で愛されるファストフード博物館！ 隣接する工場では自分だけのオリジナルヌードルを作りました！",
+                "event_detail": "none",
+                "want_score": 68,
+                "cost": 1000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.52463166559497,
+                    34.44745504337344
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 21,
+                "event_type": 5,
+                "event_place": "ショッピングモール",
+                "event_title": "欲しいものが全て揃っていて、ついつい買いすぎてしまった！",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 12000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.5194116193909,
+                    34.605100438737004
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 27,
+                "event_type": 1,
+                "event_place": "食事処蛸壺",
+                "event_title": "粉ものパラダイス。今にもお腹ははちきれそう。",
+                "event_detail": "none",
+                "want_score": 70,
+                "cost": 3500,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.51680159628884,
+                    34.48190734832044
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 12,
+                "event_type": 6,
+                "event_place": "オオサカ古代遺跡",
+                "event_title": "歴史の重みを感じる空間。過去と現在が交差する不思議な時間旅行。",
+                "event_detail": "none",
+                "want_score": 65,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夜"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.4912233698888,
+                    34.475121288255124
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 54,
+                "event_type": 3,
+                "event_place": "深海パラダイス",
+                "event_title": "深海の生物たちの神秘に魅了された。静寂な空間に心が洗われた。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 3200,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.53559376262356,
+                    34.651036845333
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 28,
+                "event_type": 10,
+                "event_place": "ユウヒビール工場",
+                "event_title": "麦の香りを堪能！ 試飲コーナーで飲み過ぎて 酔っ払いました！",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.38369041808448,
+                    34.48112434138984
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 63,
+                "event_type": 8,
+                "event_place": "ＫＡＮＳＡＩ元気ランド",
+                "event_title": "子供視点に作られたミニマムな遊園地！！ 非日常的なひと時を過ごせました！",
+                "event_detail": "none",
+                "want_score": 95,
+                "cost": 6000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.54759986889297,
+                    34.705325325855554
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 50,
+                "event_type": 6,
+                "event_place": "史範公園",
+                "event_title": "静かな雰囲気が漂う石碑の前で、歴史の重みを感じた。",
+                "event_detail": "none",
+                "want_score": 75,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.56795804908893,
+                    34.62389260507173
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 41,
+                "event_type": 8,
+                "event_place": "ドリームランド",
+                "event_title": "絶叫マシンに乗ることに挑戦した！お腹がすーっとなりました。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 4800,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.48234929134185,
+                    34.5424598842879
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 8,
+                "event_type": 7,
+                "event_place": "岩橋滝壺温泉",
+                "event_title": "露天風呂からの景色は最高！1／Ｆゆらぎ効果で心地よさ倍増！",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 6000,
+                "weather": "はれ☀",
+                "season": "春🌸",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.52985171179907,
+                    34.565950092206315
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 24,
+                "event_type": 9,
+                "event_place": "紅葉祭り",
+                "event_title": "夜空に煌めく花火が美しい。幻想的な空間に心躍る。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.58048615997876,
+                    34.56334006910427
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 62,
+                "event_type": 6,
+                "event_place": "歴史ワールド",
+                "event_title": "時を越えた感動。歴史の息吹を感じることができました。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 1000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.55647394743994,
+                    34.603534424875775
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 53,
+                "event_type": 0,
+                "event_place": "スポーツランド後鳥羽",
+                "event_title": "清々しい朝のジョギング。気持ちがスッキリした！",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.6300765989176,
+                    34.651036845333
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 22,
+                "event_type": 10,
+                "event_place": "梅酒ファクトリー",
+                "event_title": "有機栽培の梅、秘伝のノウハウでつくられたこだわりの梅酒！ お土産用に思わず衝動買い！",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.504273485399,
+                    34.46050515888367
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 55,
+                "event_type": 1,
+                "event_place": "しゃぶしゃぶ天国",
+                "event_title": "新鮮なお肉をたっぷり食べて満足♪",
+                "event_detail": "none",
+                "want_score": 80,
+                "cost": 4000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.35811219168446,
+                    34.39577658595294
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 31,
+                "event_type": 1,
+                "event_place": "グルメパラダイス",
+                "event_title": "地元の名店で豪華な食事を堪能。舌が幸福を感じている。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 5000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.38121089613753,
+                    34.42944588396933
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 6,
+                "event_type": 7,
+                "event_place": "湯楽苑",
+                "event_title": "露天風呂に浸かりながら星を眺める贅沢。至福のひとときを過ごしました。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 4000,
+                "weather": "あめ☂",
+                "season": "秋🍁",
+                "time": "夜"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.56952406295017,
+                    34.71576541826374
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 2,
+                "event_type": 1,
+                "event_place": "食事処幸せ亭",
+                "event_title": "贅沢な食事を堪能。幸せなひとときを過ごした。",
+                "event_detail": "none",
+                "want_score": 80,
+                "cost": 5000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.6118064372033,
+                    34.63903073906359
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 40,
+                "event_type": 8,
+                "event_place": "夢のシンデレラパーク",
+                "event_title": "絶叫系アトラクションに挑戦！スリルと爽快感で心が満たされた。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 6800,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.56952406295017,
+                    34.68131311331673
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 23,
+                "event_type": 9,
+                "event_place": "夢の浮島祭",
+                "event_title": "夜空を照らす花火が美しい。地元の人々と一緒に盛り上がれて楽しかった。",
+                "event_detail": "none",
+                "want_score": 75,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.55699595206033,
+                    34.529409768777676
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 42,
+                "event_type": 8,
+                "event_place": "夢幻ランド",
+                "event_title": "絶叫マシンに乗り切った！もう一度乗りたいと叫びたくなるスリル！",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 4800,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.46388337789477,
+                    34.60771046183905
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 17,
+                "event_type": 5,
+                "event_place": "ハピネスモール",
+                "event_title": "欲しかった服を見つけて大喜び！新しい服で気分爽快！",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 8000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.50257697038268,
+                    34.49965550541437
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 59,
+                "event_type": 10,
+                "event_place": "クラフト工房",
+                "event_title": "手作り体験！自分だけのオリジナル商品を作成して大満足。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 3000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.45618380974375,
+                    34.60157690754924
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 29,
+                "event_type": 10,
+                "event_place": "メタルワークス",
+                "event_title": "迫力満点の巨大機械に圧倒された。技術の進化に感動した一日。",
+                "event_detail": "none",
+                "want_score": 76,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.67483849511768,
+                    34.83191144630478
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 38,
+                "event_type": 1,
+                "event_place": "鳥王家",
+                "event_title": "絶品のお好み焼きを食べたら、幸せすぎて笑顔が止まらない！",
+                "event_detail": "none",
+                "want_score": 80,
+                "cost": 2000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.47334471163967,
+                    34.577825697320634
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 48,
+                "event_type": 10,
+                "event_place": "Naifuファクトリー",
+                "event_title": "切れ味抜群！ 品質管理も徹底、職人肌を身近に感じる。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.48341776954913,
+                    34.67274897501315
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 64,
+                "event_type": 2,
+                "event_place": "ムービーハウス",
+                "event_title": "最新作のアクション映画を鑑賞。迫力のシーンに思わず息をのんだ。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 1800,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.64469272828907,
+                    34.63433269747991
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 58,
+                "event_type": 3,
+                "event_place": "海王丸水族館",
+                "event_title": "色とりどりの海の生物にうっとり。幸せな気持ちでいっぱいになった。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 3000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.55803996130115,
+                    34.64268477140646
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 61,
+                "event_type": 10,
+                "event_place": "未来工業園",
+                "event_title": "自動車の組み立てラインを見学。技術の進化に驚き、感動を覚えた。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.62537855733393,
+                    34.754915764794426
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 44,
+                "event_type": 8,
+                "event_place": "夢のランド",
+                "event_title": "絶叫マシンに乗りまくり！まさにアトラクションの楽園だった。",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 6000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.59666830321143,
+                    34.55133396283486
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 3,
+                "event_type": 1,
+                "event_place": "美食亭",
+                "event_title": "贅沢なランチ。舌が幸福で震えている。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 4500,
+                "weather": "はれ☀",
+                "season": "冬☃",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.41253117336208,
+                    34.45763413347143
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 47,
+                "event_type": 8,
+                "event_place": "ラブリー・ワンダーランド",
+                "event_title": "絶叫マシンに乗ったら、怖さよりも楽しさが勝った！",
+                "event_detail": "none",
+                "want_score": 88,
+                "cost": 6000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.5945802847298,
+                    34.5137496301654
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 34,
+                "event_type": 1,
+                "event_place": "屋台村",
+                "event_title": "太っ腹な焼きそば！オオサカ名物を満喫して幸せいっぱい。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 800,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.56952406295017,
+                    34.48660538990413
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 16,
+                "event_type": 2,
+                "event_place": "シネマジョーズ",
+                "event_title": "立体音響による迫力による最新設備にも驚き！ 衝撃の展開に目が離せません！",
+                "event_detail": "none",
+                "want_score": 88,
+                "cost": 1800,
+                "weather": "はれ☀",
+                "season": "春🌸",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.46708065619475,
+                    34.64659980605953
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 14,
+                "event_type": 6,
+                "event_place": "古都古城",
+                "event_title": "歴史の重みを感じる。遠い昔の人々の生活に思いを馳せる。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 1000,
+                "weather": "あめ☂",
+                "season": "夏🦋",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.69467467069322,
+                    34.81833932617414
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 56,
+                "event_type": 0,
+                "event_place": "ランニングパーク",
+                "event_title": "心地よい風を感じながらランニング。気分爽快、最高のリフレッシュタイム。",
+                "event_detail": "none",
+                "want_score": 78,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.5152355824276,
+                    34.6734830440106
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 1,
+                "event_type": 2,
+                "event_place": "ナニワグランド花月",
+                "event_title": "伝統的なコメディ映画に捧腹絶倒",
+                "event_detail": "none",
+                "want_score": 90,
+                "cost": 2000,
+                "weather": "くもり☁️",
+                "season": "春🌸",
+                "time": "夜"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.503660961254,
+                    34.6650133460709
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 2,
+                "event_type": 5,
+                "event_place": "櫻田スカイビル",
+                "event_title": "空中庭園でのウィンドウショッピング。めっちゃお金使っちゃった。",
+                "event_detail": "none",
+                "want_score": 60,
+                "cost": 30000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.490557354508,
+                    34.7053812536344
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 3,
+                "event_type": 6,
+                "event_place": "オオサカ天満宮",
+                "event_title": "有名な神社。満願成就を願った。",
+                "event_detail": "none",
+                "want_score": 80,
+                "cost": 200,
+                "weather": "はれ☀",
+                "season": "冬☃",
+                "time": "夕"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.512687783343,
+                    34.6960399307871
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 4,
+                "event_type": 3,
+                "event_place": "海遊水族園",
+                "event_title": "ジンベイザメが有名な水族館。大きな水槽に圧倒された。",
+                "event_detail": "none",
+                "want_score": 77,
+                "cost": 3000,
+                "weather": "あめ☂",
+                "season": "春🌸",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.428943039164,
+                    34.6545446494191
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 5,
+                "event_type": 6,
+                "event_place": "ナニワ城",
+                "event_title": "天守閣からの景色は絶景でした。",
+                "event_detail": "none",
+                "want_score": 77,
+                "cost": 500,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.525849768001,
+                    34.6872697069179
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 6,
+                "event_type": 1,
+                "event_place": "通天タワー",
+                "event_title": "街を一望しながら食べるタコ焼きは美味でした。",
+                "event_detail": "none",
+                "want_score": 87,
+                "cost": 2000,
+                "weather": "あめ☂",
+                "season": "秋🍁",
+                "time": "夜"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.506305796836,
+                    34.6525256500648
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 7,
+                "event_type": 4,
+                "event_place": "天王山動物園",
+                "event_title": "象に乗って園内一周！初めての体験でした。",
+                "event_detail": "none",
+                "want_score": 75,
+                "cost": 2000,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.508355004421,
+                    34.6510782216144
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 8,
+                "event_type": 5,
+                "event_place": "ハルカス830",
+                "event_title": "お土産を爆買いした。どうやって持って帰ろう…",
+                "event_detail": "none",
+                "want_score": 57,
+                "cost": 35000,
+                "weather": "はれ☀",
+                "season": "春🌸",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.513287639164,
+                    34.6462973465752
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 9,
+                "event_type": 6,
+                "event_place": "億博記念公園",
+                "event_title": "園内の有名なオブジェ「月の塔」と写真を撮った。",
+                "event_detail": "none",
+                "want_score": 50,
+                "cost": 0,
+                "weather": "はれ☀",
+                "season": "秋🍁",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.528842741018,
+                    34.8060146448951
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "index": 10,
+                "event_type": 6,
+                "event_place": "仙石古墳",
+                "event_title": "昔の偉い人のお墓。濠の鯉に餌やりをした。",
+                "event_detail": "none",
+                "want_score": 46,
+                "cost": 50,
+                "weather": "はれ☀",
+                "season": "夏🦋",
+                "time": "昼"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    135.487476396833,
+                    34.5638851446268
+                ]
+            }
+        }
+    ]
+}
