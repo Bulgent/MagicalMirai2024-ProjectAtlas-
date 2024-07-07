@@ -3,15 +3,15 @@ import { MapContainer, GeoJSON, useMap } from 'react-leaflet';
 import { MapLibreTileLayer } from '../utils/MapLibraTileLayer.ts'
 import areas from '../assets/jsons/map_data/area.json'
 import { mapStyle} from '../utils/MapStyle.ts'
-import { LatLngLiteral, MaplibreGL, point, divIcon, marker, LeafletMouseEvent } from 'leaflet';
+import { LatLngLiteral, MaplibreGL, point, divIcon, marker, LeafletMouseEvent, StyleFunction, PathOptions } from 'leaflet';
 import { useEffect, useRef, useState } from 'react';
-import { mapStylePathWay } from '../utils/MapStyle.ts'
+
 import { emojiStart, emojiGoal } from '../assets/marker/markerSVG.ts'
 import { visitedPointsStyle } from '../utils/MapStyle.ts'
 
 export const ResultDetailMapComponent = (props: any) => {
     // マップのzoom
-    const mapZoom = 12.4;
+    const mapZoom = 13.0;
 
     // スタートとゴールの中間の座標をマップの中心座標とする
     const coordinates = props.pathway[0].geometry.coordinates[0]
@@ -24,6 +24,20 @@ export const ResultDetailMapComponent = (props: any) => {
     const OSMlayerRef = useRef<MaplibreGL | null>(null);
     const isInitMapRef = useRef<Boolean>(true);
     const [isMapReady, setIsMapReady] = useState(false);
+
+
+    const mapStylePathWay: StyleFunction = (feature): PathOptions => {
+        switch (feature?.geometry?.type) {
+            case 'MultiLineString':
+                return {
+                    color: '#2f79dc',
+                    weight: 8,
+                    opacity: 1,
+                };
+            default:
+                return {};
+        }
+    };
 
     // 通る道についての描画
     const PathWay: React.FC = () => {
@@ -153,6 +167,25 @@ export const ResultDetailMapComponent = (props: any) => {
               // 道路の色を変更
               if (l["source-layer"] === "transportation" && l.type === "line") {
                 osmMap.setPaintProperty(l.id, "line-color", "#8995a2");
+                const widthStyle = [
+                    "interpolate",
+                    [
+                        "exponential",
+                        1.0
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    13,
+                    0.4,
+                    14,
+                    0.4,
+                    15,
+                    0.4,
+                    18,
+                    3
+                ]
+                osmMap.setPaintProperty(l.id, "line-width", widthStyle);
               }
             });
             isInitMapRef.current = false
