@@ -142,25 +142,25 @@ $ npm install && npm run dev
 ├── package.json # プロジェクトのメタデータと依存関係を管理。
 ├── public
 │   └── images # ウェブサイトで使用される画像ファイルを格納。
-│       ├── banner.png # プロジェクトのバナー画像。
-│       ├── carIcon.png # 車のアイコン画像。
-│       ├── jacket # アルバムや曲のジャケット画像を格納。
-│       │   ├── future_notes.png
-│       │   ├── itsuka_kimi_to_hanashita_mirai_wa.png
-│       │   ├── mirai_koukyoukyoku.png
-│       │   ├── reality.png
-│       │   ├── superhero.png
-│       │   ├── the_marks.png
-│       │   └── the_marks_original.png
+│       ├── banner.png # プロジェクトのバナー。
+│       ├── carIcon.png # 車のアイコン。
+│       ├── jacket # アルバムや曲のジャケットを格納。
+│       │   ├── future_notes.png # フューチャーノーツ
+│       │   ├── itsuka_kimi_to_hanashita_mirai_wa.png # いつか君と話したミライは
+│       │   ├── mirai_koukyoukyoku.png # 未来交響曲
+│       │   ├── reality.png # リアリティ
+│       │   ├── superhero.png # SUPERHERO
+│       │   ├── the_marks.png # The Marks (余白カット)
+│       │   └── the_marks_original.png # The Marks
 │       ├── logo.png # チームのロゴ画像。
-│       ├── mm24_logo.png # マジカルミライのロゴ画像。
-│       ├── mm24_welcome.png # ウェルカム画面用のマジカルミライロゴ画像。
-│       └── project.png # プロジェクトのロゴ画像。
+│       ├── mm24_logo.png # マジカルミライのロゴ。
+│       ├── mm24_welcome.png # ウェルカム画面用のマジカルミライのロゴ。
+│       └── project.png # プロジェクトのロゴ。
 ├── src
 │   ├── App.tsx # アプリケーションのルートコンポーネント。
 │   ├── assets
 │   │   ├── jsons # JSON形式のデータファイルを格納。
-│   │   │   └── map_data # 地図データ関連のJSONファイル。
+│   │   │   └── map_data # 地図データ関連
 │   │   │       ├── area.json
 │   │   │       ├── buildings.json
 │   │   │       ├── event-all.json
@@ -173,18 +173,18 @@ $ npm install && npm run dev
 │   │   │       ├── sightseeing.json
 │   │   │       └── trunk.json
 │   │   └── marker # マーカー関連のファイルを格納。
-│   │       └── markerSVG.ts # SVG 形式のマーカーと、 PNG 形式の車を定義。
+│   │       └── markerSVG.ts # SVG 形式のマーカーと、PNG 形式の車
 │   ├── components # Reactコンポーネントを格納。
-│   │   ├── HistoryComponent.tsx # マップページの履歴記録コンポーネント
-│   │   ├── LyricComponent.tsx # マップページの歌詞表示コンポーネント
-│   │   ├── MapComponent.tsx # マップページの地図表示コンポーネント
-│   │   ├── MapInfoComponent.tsx # マップページの地図情報表示コンポーネント
-│   │   ├── PlayerControlComponent.tsx # マップページの曲情報表示コンポーネント
-│   │   ├── ResultDetailMapComponent.tsx # リザルトページの地図表示コンポーネント
+│   │   ├── HistoryComponent.tsx # マップページの履歴記録
+│   │   ├── LyricComponent.tsx # マップページの歌詞表示
+│   │   ├── MapComponent.tsx # マップページの地図表示
+│   │   ├── MapInfoComponent.tsx # マップページの地図情報表示
+│   │   ├── PlayerControlComponent.tsx # マップページの曲情報表示
+│   │   ├── ResultDetailMapComponent.tsx # リザルトページの地図表示
 │   │   └── RotatedMarker.tsx # 
 │   ├── pages # ページコンポーネントを格納。各ルートに対応するビュー。
 │   │   ├── GamePage.tsx # マップページ
-│   │   ├── NotFoundPage.tsx # 404エラーページ。
+│   │   ├── NotFoundPage.tsx # 404エラーページ
 │   │   ├── ResultPage.tsx # リザルトページ
 │   │   └── WelcomePage.tsx # ウェルカムページ
 │   ├── services # アプリケーションのロジックやAPI呼び出しを処理。
@@ -192,23 +192,23 @@ $ npm install && npm run dev
 │   │   ├── ComputePath.ts #
 │   │   ├── MapCenter.tsx # 
 │   │   ├── RotateMarker.tsx # 
-│   │   ├── TextAlive.ts # TextAlive の初期化処理。
-│   │   └── UfoMarker.tsx # 地図上をランダムに動く UFO の処理。
+│   │   ├── TextAlive.ts # TextAlive の初期化処理
+│   │   └── UfoMarker.tsx # 地図上をランダムに動く UFO の処理
 │   ├── styles # CSSファイルを格納。スタイリングに使用。
-│   │   ├── App.css # アプリ全体のスタイル。
-│   │   ├── Game.css # マップページのスタイル。
-│   │   ├── History.css # マップページの履歴のスタイル。
-│   │   ├── Lyrics.css # マップページに表示される歌詞のスタイル。
-│   │   ├── Map.css # マップページのマップのスタイル。
-│   │   ├── MapInfo.css # マップページの地図情報のスタイル。
-│   │   ├── NotFound.css # 404 ページのスタイル。
-│   │   ├── Result.css # リザルトページのスタイル。
-│   │   ├── SongControl.css # マップページの曲情報のスタイル。
-│   │   ├── Welcome.css # ウェルカムページのスタイル。
-│   │   └── leaflet.css # Leaflet ライブラリのスタイル。
+│   │   ├── App.css # アプリ全体
+│   │   ├── Game.css # マップページ
+│   │   ├── History.css # マップページの履歴
+│   │   ├── Lyrics.css # マップページに表示される歌詞
+│   │   ├── Map.css # マップページの地図
+│   │   ├── MapInfo.css # マップページの地図情報
+│   │   ├── NotFound.css # 404 ページ
+│   │   ├── Result.css # リザルトページ
+│   │   ├── SongControl.css # マップページの曲情報
+│   │   ├── Welcome.css # ウェルカムページ
+│   │   └── leaflet.css # Leaflet ライブラリ
 │   ├── types # TypeScriptの型定義ファイルを格納。
-│   │   ├── map_data.d.ts # マップデータの型。
-│   │   └── types.d.ts # 変数や関数の型。
+│   │   ├── map_data.d.ts # マップデータ
+│   │   └── types.d.ts # 変数や関数
 │   └── utils # ユーティリティ関数や共通のヘルパー関数を格納。
 │       ├── MapLibraTileLayer.ts # 
 │       ├── MapStyle.ts #
