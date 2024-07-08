@@ -183,19 +183,19 @@ $ npm install && npm run dev
 │   │   ├── MapInfoComponent.tsx # マップページの地図情報表示
 │   │   ├── PlayerControlComponent.tsx # マップページの曲情報表示
 │   │   ├── ResultDetailMapComponent.tsx # リザルトページの地図表示
-│   │   └── RotatedMarker.tsx # 
+│   │   └── RotatedMarker.tsx # 回転するアイコンを表示
 │   ├── pages # ページコンポーネントを格納。各ルートに対応するビュー。
 │   │   ├── GamePage.tsx # マップページ
 │   │   ├── NotFoundPage.tsx # 404エラーページ
 │   │   ├── ResultPage.tsx # リザルトページ
 │   │   └── WelcomePage.tsx # ウェルカムページ
 │   ├── services # アプリケーションのロジックやAPI呼び出しを処理。
-│   │   ├── ComputeAhead.ts # 
-│   │   ├── ComputePath.ts #
-│   │   ├── MapCenter.tsx # 
-│   │   ├── RotateMarker.tsx # 
+│   │   ├── ComputeAhead.ts # 道中の車の方向を計算
+│   │   ├── ComputePath.ts # スタート地点からゴール地点までの最短経路を計算
+│   │   ├── MapCenter.tsx # componentsに移動, 地図の照準を表示
+│   │   ├── RotateMarker.tsx # componentsに移動
 │   │   ├── TextAlive.ts # TextAlive の初期化処理
-│   │   └── UfoMarker.tsx # 地図上をランダムに動く UFO の処理
+│   │   └── UfoMarker.tsx # 地図上をランダムに動く UFO の処理, componentsに移動
 │   ├── styles # CSSファイルを格納。スタイリングに使用。
 │   │   ├── App.css # アプリ全体
 │   │   ├── Game.css # マップページ
@@ -212,8 +212,8 @@ $ npm install && npm run dev
 │   │   ├── map_data.d.ts # マップデータ
 │   │   └── types.d.ts # 変数や関数
 │   └── utils # ユーティリティ関数や共通のヘルパー関数を格納。
-│       ├── MapLibraTileLayer.ts # 
-│       ├── MapStyle.ts #
+│       ├── MapLibraTileLayer.ts # maplibraをreact-lreafletで使用するためのレイヤー
+│       ├── MapStyle.ts # 地図に表示するポリゴンやアイコンの表示調整
 │       ├── Song.ts # 読み込む楽曲情報の関数
 │       ├── credits.ts # アプリで使用したライブラリのクレジット
 │       └── utils.ts # 地図や歌詞に関するヘルパー関数
