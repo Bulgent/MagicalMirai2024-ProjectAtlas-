@@ -129,19 +129,20 @@ $ npm install && npm run dev
 # ディレクトリ構成
 
 本プロジェクトのディレクトリ構成は以下のようになっています．
+
 <pre>
 .
-├── LICENSE 
-├── README.md
-├── fabicon.svg
-├── index.html
-├── package-lock.json
-├── package.json
+├── LICENSE # ライセンスに関するファイル。プロジェクトのライセンス情報を記載。
+├── README.md # Readme。プロジェクトの概要やセットアップ方法などを記載。
+├── fabicon.svg # ファビコン。ウェブサイトのタブに表示される小さなアイコン。
+├── index.html # エントリーポイントのHTMLファイル。ウェブアプリケーションの基盤。
+├── package-lock.json # npmでインストールされたパッケージの正確なバージョンを記録。
+├── package.json # プロジェクトのメタデータと依存関係を管理。
 ├── public
-│   └── images
-│       ├── banner.png
-│       ├── carIcon.png
-│       ├── jacket
+│   └── images # ウェブサイトで使用される画像ファイルを格納。
+│       ├── banner.png # バナー画像。
+│       ├── carIcon.png # 車のアイコン画像。
+│       ├── jacket # アルバムや曲のジャケット画像を格納。
 │       │   ├── future_notes.png
 │       │   ├── itsuka_kimi_to_hanashita_mirai_wa.png
 │       │   ├── mirai_koukyoukyoku.png
@@ -149,16 +150,16 @@ $ npm install && npm run dev
 │       │   ├── superhero.png
 │       │   ├── the_marks.png
 │       │   └── the_marks_original.png
-│       ├── logo.png
-│       ├── mm24_logo.png
-│       ├── mm24_welcome.png
-│       ├── project.png
-│       └── right_arrow.svg
+│       ├── logo.png # ロゴ画像。
+│       ├── mm24_logo.png # イベントのロゴ画像。
+│       ├── mm24_welcome.png # ウェルカム画面用のイベントロゴ画像。
+│       ├── project.png # プロジェクト関連の画像。
+│       └── right_arrow.svg # 右矢印のアイコン。
 ├── src
-│   ├── App.tsx
+│   ├── App.tsx # アプリケーションのルートコンポーネント。
 │   ├── assets
-│   │   ├── jsons
-│   │   │   └── map_data
+│   │   ├── jsons # JSON形式のデータファイルを格納。
+│   │   │   └── map_data # 地図データ関連のJSONファイル。
 │   │   │       ├── area.json
 │   │   │       ├── buildings.json
 │   │   │       ├── event-all.json
@@ -170,9 +171,9 @@ $ npm install && npm run dev
 │   │   │       ├── secondary.json
 │   │   │       ├── sightseeing.json
 │   │   │       └── trunk.json
-│   │   └── marker
-│   │       └── markerSVG.ts
-│   ├── components
+│   │   └── marker # マーカー関連のファイルを格納。
+│   │       └── markerSVG.ts # SVG形式のマーカーを定義。
+│   ├── components # Reactコンポーネントを格納。
 │   │   ├── HistoryComponent.tsx
 │   │   ├── LyricComponent.tsx
 │   │   ├── MapComponent.tsx
@@ -180,19 +181,19 @@ $ npm install && npm run dev
 │   │   ├── PlayerControlComponent.tsx
 │   │   ├── ResultDetailMapComponent.tsx
 │   │   └── RotatedMarker.tsx
-│   ├── pages
+│   ├── pages # ページコンポーネントを格納。各ルートに対応するビュー。
 │   │   ├── GamePage.tsx
-│   │   ├── NotFoundPage.tsx
+│   │   ├── NotFoundPage.tsx # 404エラーページ。
 │   │   ├── ResultPage.tsx
 │   │   └── WelcomePage.tsx
-│   ├── services
+│   ├── services # アプリケーションのロジックやAPI呼び出しを処理。
 │   │   ├── ComputeAhead.ts
 │   │   ├── ComputePath.ts
 │   │   ├── MapCenter.tsx
 │   │   ├── RotateMarker.tsx
 │   │   ├── TextAlive.ts
 │   │   └── UfoMarker.tsx
-│   ├── styles
+│   ├── styles # CSSファイルを格納。スタイリングに使用。
 │   │   ├── App.css
 │   │   ├── Game.css
 │   │   ├── History.css
@@ -203,18 +204,17 @@ $ npm install && npm run dev
 │   │   ├── Result.css
 │   │   ├── SongControl.css
 │   │   ├── Welcome.css
-│   │   └── leaflet.css
-│   ├── types
+│   │   └── leaflet.css # Leafletライブラリのスタイル。
+│   ├── types # TypeScriptの型定義ファイルを格納。
 │   │   ├── map_data.d.ts
 │   │   └── types.d.ts
-│   └── utils
+│   └── utils # ユーティリティ関数や共通のヘルパー関数を格納。
 │       ├── MapLibraTileLayer.ts
 │       ├── MapStyle.ts
 │       ├── Song.ts
 │       ├── credits.ts
 │       └── utils.ts
-├── tash apply stash@{0}
-├── tsconfig.json
-├── tsconfig.node.json
-└── vite.config.ts
+├── tsconfig.json # TypeScriptのコンパイラオプションを設定。
+├── tsconfig.node.json # Node.js環境用のTypeScript設定。
+└── vite.config.ts # Viteの設定ファイル。ビルドや開発サーバの設定を記述。
 </pre>
