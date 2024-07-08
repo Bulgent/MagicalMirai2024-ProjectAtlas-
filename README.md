@@ -1,5 +1,5 @@
 # Magical Car Navigation
-
+![Project Atras](https://github.com/Bulgent/ProjectAtlas/blob/dev/public/images/banner.png?raw=true)
 - **チーム名** : Team AHEAD
 - **制作者** : Sarashina & Argynnini
 
@@ -140,7 +140,7 @@ $ npm install && npm run dev
 ├── package.json # プロジェクトのメタデータと依存関係を管理。
 ├── public
 │   └── images # ウェブサイトで使用される画像ファイルを格納。
-│       ├── banner.png # バナー画像。
+│       ├── banner.png # プロジェクトのバナー画像。
 │       ├── carIcon.png # 車のアイコン画像。
 │       ├── jacket # アルバムや曲のジャケット画像を格納。
 │       │   ├── future_notes.png
