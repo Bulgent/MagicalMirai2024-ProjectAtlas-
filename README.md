@@ -110,10 +110,9 @@ $ npm install && npm run dev
 - **ホバー**:アイコンにマウスを合わせると、施設名やイベント名が表示されます。
 - **クリック**: アイコンをクリックして寄り道します。Hover Historiesにイベント詳細が記録されます。
 
-## 結果画面
+## リザルト画面
 
 ![result](https://github.com/Bulgent/ProjectAtlas/assets/88919409/90c586c5-7c4e-4661-b9c8-afa99f98fa95)
-
 
 - **地図**: 訪れた地点の履歴を地図上に表示します。
 - **FanFun度**:今回の旅のFanFun度を表示します。
