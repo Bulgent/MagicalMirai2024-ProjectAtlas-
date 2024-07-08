@@ -1,6 +1,8 @@
-# Magical Car Navigation
+# Magical Mirai 2024 Programming Contest 応募作品
 ![Project Atras](https://github.com/Bulgent/ProjectAtlas/blob/dev/public/images/banner.png?raw=true)
 - **チーム名** : Team AHEAD
+- **プロジェクト名** : Project Atlas
+- **作品名**: Magical Car Navigation
 - **制作者** : Sarashina & Argynnini
 
 # 開発環境
