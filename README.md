@@ -152,11 +152,10 @@ $ npm install && npm run dev
 │       │   ├── superhero.png
 │       │   ├── the_marks.png
 │       │   └── the_marks_original.png
-│       ├── logo.png # ロゴ画像。
-│       ├── mm24_logo.png # イベントのロゴ画像。
-│       ├── mm24_welcome.png # ウェルカム画面用のイベントロゴ画像。
-│       ├── project.png # プロジェクト関連の画像。
-│       └── right_arrow.svg # 右矢印のアイコン。
+│       ├── logo.png # チームのロゴ画像。
+│       ├── mm24_logo.png # マジカルミライのロゴ画像。
+│       ├── mm24_welcome.png # ウェルカム画面用のマジカルミライロゴ画像。
+│       └── project.png # プロジェクトのロゴ画像。
 ├── src
 │   ├── App.tsx # アプリケーションのルートコンポーネント。
 │   ├── assets
@@ -174,48 +173,48 @@ $ npm install && npm run dev
 │   │   │       ├── sightseeing.json
 │   │   │       └── trunk.json
 │   │   └── marker # マーカー関連のファイルを格納。
-│   │       └── markerSVG.ts # SVG形式のマーカーを定義。
+│   │       └── markerSVG.ts # SVG 形式のマーカーと、 PNG 形式の車を定義。
 │   ├── components # Reactコンポーネントを格納。
-│   │   ├── HistoryComponent.tsx
-│   │   ├── LyricComponent.tsx
-│   │   ├── MapComponent.tsx
-│   │   ├── MapInfoComponent.tsx
-│   │   ├── PlayerControlComponent.tsx
-│   │   ├── ResultDetailMapComponent.tsx
-│   │   └── RotatedMarker.tsx
+│   │   ├── HistoryComponent.tsx # マップページの履歴記録コンポーネント
+│   │   ├── LyricComponent.tsx # マップページの歌詞表示コンポーネント
+│   │   ├── MapComponent.tsx # マップページの地図表示コンポーネント
+│   │   ├── MapInfoComponent.tsx # マップページの地図情報表示コンポーネント
+│   │   ├── PlayerControlComponent.tsx # マップページの曲情報表示コンポーネント
+│   │   ├── ResultDetailMapComponent.tsx # リザルトページの地図表示コンポーネント
+│   │   └── RotatedMarker.tsx # 
 │   ├── pages # ページコンポーネントを格納。各ルートに対応するビュー。
-│   │   ├── GamePage.tsx
+│   │   ├── GamePage.tsx # マップページ
 │   │   ├── NotFoundPage.tsx # 404エラーページ。
-│   │   ├── ResultPage.tsx
-│   │   └── WelcomePage.tsx
+│   │   ├── ResultPage.tsx # リザルトページ
+│   │   └── WelcomePage.tsx # ウェルカムページ
 │   ├── services # アプリケーションのロジックやAPI呼び出しを処理。
-│   │   ├── ComputeAhead.ts
-│   │   ├── ComputePath.ts
-│   │   ├── MapCenter.tsx
-│   │   ├── RotateMarker.tsx
-│   │   ├── TextAlive.ts
-│   │   └── UfoMarker.tsx
+│   │   ├── ComputeAhead.ts # 
+│   │   ├── ComputePath.ts #
+│   │   ├── MapCenter.tsx # 
+│   │   ├── RotateMarker.tsx # 
+│   │   ├── TextAlive.ts # TextAlive の初期化処理。
+│   │   └── UfoMarker.tsx # 地図上をランダムに動く UFO の処理。
 │   ├── styles # CSSファイルを格納。スタイリングに使用。
-│   │   ├── App.css
-│   │   ├── Game.css
-│   │   ├── History.css
-│   │   ├── Lyrics.css
-│   │   ├── Map.css
-│   │   ├── MapInfo.css
-│   │   ├── NotFound.css
-│   │   ├── Result.css
-│   │   ├── SongControl.css
-│   │   ├── Welcome.css
-│   │   └── leaflet.css # Leafletライブラリのスタイル。
+│   │   ├── App.css # アプリ全体のスタイル。
+│   │   ├── Game.css # マップページのスタイル。
+│   │   ├── History.css # マップページの履歴のスタイル。
+│   │   ├── Lyrics.css # マップページに表示される歌詞のスタイル。
+│   │   ├── Map.css # マップページのマップのスタイル。
+│   │   ├── MapInfo.css # マップページの地図情報のスタイル。
+│   │   ├── NotFound.css # 404 ページのスタイル。
+│   │   ├── Result.css # リザルトページのスタイル。
+│   │   ├── SongControl.css # マップページの曲情報のスタイル。
+│   │   ├── Welcome.css # ウェルカムページのスタイル。
+│   │   └── leaflet.css # Leaflet ライブラリのスタイル。
 │   ├── types # TypeScriptの型定義ファイルを格納。
-│   │   ├── map_data.d.ts
-│   │   └── types.d.ts
+│   │   ├── map_data.d.ts # マップデータの型。
+│   │   └── types.d.ts # 変数や関数の型。
 │   └── utils # ユーティリティ関数や共通のヘルパー関数を格納。
-│       ├── MapLibraTileLayer.ts
-│       ├── MapStyle.ts
-│       ├── Song.ts
-│       ├── credits.ts
-│       └── utils.ts
+│       ├── MapLibraTileLayer.ts # 
+│       ├── MapStyle.ts #
+│       ├── Song.ts # 読み込む楽曲情報の関数
+│       ├── credits.ts # アプリで使用したライブラリのクレジット
+│       └── utils.ts # 地図や歌詞に関するヘルパー関数
 ├── tsconfig.json # TypeScriptのコンパイラオプションを設定。
 ├── tsconfig.node.json # Node.js環境用のTypeScript設定。
 └── vite.config.ts # Viteの設定ファイル。ビルドや開発サーバの設定を記述。
