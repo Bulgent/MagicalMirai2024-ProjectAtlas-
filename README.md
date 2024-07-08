@@ -184,7 +184,9 @@ $ npm install && npm run dev
 │   │   ├── MapInfoComponent.tsx # マップページの地図情報表示
 │   │   ├── PlayerControlComponent.tsx # マップページの曲情報表示
 │   │   ├── ResultDetailMapComponent.tsx # リザルトページの地図表示
-│   │   └── RotatedMarker.tsx # 回転するアイコンを表示
+│   │   ├── MapCenter.tsx # 地図の照準を表示
+│   │   ├── UfoMarker.tsx # 地図上をランダムに動く UFO の処理
+│   │   └── RotateMarker.tsx # 回転するアイコンを表示
 │   ├── pages # ページコンポーネントを格納。各ルートに対応するビュー。
 │   │   ├── GamePage.tsx # マップページ
 │   │   ├── NotFoundPage.tsx # 404エラーページ
@@ -193,10 +195,7 @@ $ npm install && npm run dev
 │   ├── services # アプリケーションのロジックやAPI呼び出しを処理。
 │   │   ├── ComputeAhead.ts # 道中の車の方向を計算
 │   │   ├── ComputePath.ts # スタート地点からゴール地点までの最短経路を計算
-│   │   ├── MapCenter.tsx # componentsに移動, 地図の照準を表示
-│   │   ├── RotateMarker.tsx # componentsに移動
-│   │   ├── TextAlive.ts # TextAlive の初期化処理
-│   │   └── UfoMarker.tsx # 地図上をランダムに動く UFO の処理, componentsに移動
+│   │   └── TextAlive.ts # TextAlive の初期化処理
 │   ├── styles # CSSファイルを格納。スタイリングに使用。
 │   │   ├── App.css # アプリ全体
 │   │   ├── Game.css # マップページ
