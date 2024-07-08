@@ -38,7 +38,7 @@
         <img src="https://img.shields.io/badge/-TypeScript-555.svg?logo=typescript&style=flat">
         <img src="https://img.shields.io/badge/-JavaScript-555.svg?logo=javascript&style=flat">
         <br>
-        <img src="https://img.shields.io/badge/-HTML5-333.svg?logo=html5&style=flat">
+        <img src="https://img.shields.io/badge/-HTML5-555.svg?logo=html5&style=flat">
         <img src="https://img.shields.io/badge/-CSS3-555.svg?logo=css3&style=flat">
     </td>
   </tr>
